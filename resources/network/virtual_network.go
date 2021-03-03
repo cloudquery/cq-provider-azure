@@ -320,8 +320,6 @@ func VirtualNetworks(subscriptionID string, auth autorest.Authorizer, db *databa
 		output.Next()
 	}
 
-	if resourceCount != 0 {
-		log.Info("Fetched resources", "count", resourceCount)
-	}
+	log.Info("Fetched resources", "count", resourceCount)
 	return nil
 }
