@@ -283,7 +283,13 @@ type VirtualNetworkConfig struct {
 
 var VirtualNetworkTables = []interface{}{
 	&VirtualNetwork{},
+	&VirtualNetworkDNSServer{},
+	&VirtualNetworkAddressPrefix{},
+	&VirtualNetworkIPAllocation{},
 	&VirtualNetworkTag{},
+	&VirtualNetworkPeering{},
+	&Subnet{},
+	&SubnetAddressPrefix{},
 }
 
 func VirtualNetworks(subscriptionID string, auth autorest.Authorizer, db *database.Database, log hclog.Logger, gConfig interface{}) error {
@@ -301,20 +307,21 @@ func VirtualNetworks(subscriptionID string, auth autorest.Authorizer, db *databa
 		return err
 	}
 
-	values := make([]network.VirtualNetwork, 0)
-	for output.NotDone() {
-		values = append(values, output.Values()...)
-		output.Next()
-	}
-
 	db.Where("subscription_id", subscriptionID).Delete(VirtualNetworkTables...)
-	if len(values) != 0 {
+	resourceCount := 0
+	for output.NotDone() {
+		values := output.Values()
 		tValues, err := transformVirtualNetworks(subscriptionID, auth, &values)
 		if err != nil {
 			return err
 		}
 		db.ChunkedCreate(tValues)
-		log.Info("Fetched resources", "count", len(tValues))
+		resourceCount += len(tValues)
+		output.Next()
+	}
+
+	if resourceCount != 0 {
+		log.Info("Fetched resources", "count", resourceCount)
 	}
 	return nil
 }
