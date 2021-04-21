@@ -2,10 +2,11 @@ package mocks_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2020-10-01/resources"
 	"github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
@@ -14,7 +15,6 @@ import (
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
-	"testing"
 )
 
 var fakeResourceGroup = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/cqprovidertest"
@@ -200,22 +200,5 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 		t.Errorf("failed building mock %s", err)
 	}
 	databaseSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name, "true", "").Return(sql.DatabaseListResult{Value: &[]sql.Database{database}}, nil)
-	return s
-}
-
-func buildVirtualNetworkMock(t *testing.T, ctrl *gomock.Controller) services.Services {
-	m := mocks.NewMockVirtualNetworksClient(ctrl)
-	s := services.Services{
-		Network: services.NetworksClient{VirtualNetworks: m},
-	}
-	l := network.VirtualNetwork{}
-	err := faker.FakeData(&l)
-	if err != nil {
-		t.Errorf("failed building mock %s", err)
-	}
-	vnPage := network.NewVirtualNetworkListResultPage(network.VirtualNetworkListResult{Value: &[]network.VirtualNetwork{l}}, func(ctx context.Context, result network.VirtualNetworkListResult) (network.VirtualNetworkListResult, error) {
-		return network.VirtualNetworkListResult{}, nil
-	})
-	m.EXPECT().ListAll(gomock.Any()).Return(vnPage, nil)
 	return s
 }
