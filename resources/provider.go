@@ -8,7 +8,7 @@ import (
 
 func Provider() *provider.Provider {
 	return &provider.Provider{
-		Name:      "aws",
+		Name:      "azure",
 		Configure: client.Configure,
 		ResourceMap: map[string]*schema.Table{
 			"compute.disks":            ComputeDisks(),

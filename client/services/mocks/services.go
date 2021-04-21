@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	compute "github.com/Azure/azure-sdk-for-go/profiles/2020-09-01/compute/mgmt/compute"
+	compute "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	keyvault "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	network "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2018-11-01/network"
