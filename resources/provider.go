@@ -12,12 +12,13 @@ func Provider() *provider.Provider {
 		Configure: client.Configure,
 		ResourceMap: map[string]*schema.Table{
 			"compute.disks":            ComputeDisks(),
-			"resources.groups":         ResourceGroups(),
+			"resources.groups":         ResourcesGroups(),
 			"keyvault.vaults":          KeyVaultVaults(),
 			"storage.accounts":         StorageAccounts(),
 			"mysql.servers":            MySQLServers(),
 			"postgresql.servers":       PostgresqlServers(),
 			"sql.servers":              SQLServers(),
+			"sql.databases":            SQLDatabases(),
 			"network.virtual_networks": NetworkVirtualNetworks(),
 		},
 		Config: func() provider.Config {
