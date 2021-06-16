@@ -34,19 +34,19 @@ func SQLServers() *schema.Table {
 			},
 			{
 				Name:        "version",
-				Description: "Version - The version of the server Possible values include: 'TwoFullStopZero', 'OneTwoFullStopZero'",
+				Description: "The version of the server Possible values include: 'TwoFullStopZero', 'OneTwoFullStopZero'",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.Version"),
 			},
 			{
 				Name:        "administrator_login",
-				Description: "AdministratorLogin - Administrator username for the server Can only be specified when the server is being created (and is required for creation)",
+				Description: "Administrator username for the server Can only be specified when the server is being created (and is required for creation)",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.AdministratorLogin"),
 			},
 			{
 				Name:        "administrator_login_password",
-				Description: "AdministratorLoginPassword - The administrator login password (required for server creation)",
+				Description: "The administrator login password (required for server creation)",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.AdministratorLoginPassword"),
 			},
@@ -70,12 +70,12 @@ func SQLServers() *schema.Table {
 			},
 			{
 				Name:        "location",
-				Description: "Location - Resource location",
+				Description: "Resource location",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "tags",
-				Description: "Tags - Resource tags",
+				Description: "Resource tags",
 				Type:        schema.TypeJSON,
 			},
 			{

@@ -18,7 +18,6 @@ func Provider() *provider.Provider {
 			"mysql.servers":            MySQLServers(),
 			"postgresql.servers":       PostgresqlServers(),
 			"sql.servers":              SQLServers(),
-			"sql.databases":            SQLDatabases(),
 			"network.virtual_networks": NetworkVirtualNetworks(),
 		},
 		Config: func() provider.Config {

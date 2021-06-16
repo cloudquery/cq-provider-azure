@@ -45,17 +45,17 @@ func ResourcesGroups() *schema.Table {
 			},
 			{
 				Name:        "location",
-				Description: "Location - The location of the resource group It cannot be changed after the resource group has been created It must be one of the supported Azure locations",
+				Description: "The location of the resource group It cannot be changed after the resource group has been created It must be one of the supported Azure locations",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "managed_by",
-				Description: "ManagedBy - The ID of the resource that manages this resource group",
+				Description: "The ID of the resource that manages this resource group",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "tags",
-				Description: "Tags - The tags attached to the resource group",
+				Description: "The tags attached to the resource group",
 				Type:        schema.TypeJSON,
 			},
 		},
