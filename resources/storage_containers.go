@@ -54,19 +54,19 @@ func StorageContainers() *schema.Table {
 			},
 			{
 				Name:        "default_encryption_scope",
-				Description: "DefaultEncryptionScope - Default the container to use specified encryption scope for all writes",
+				Description: "Default the container to use specified encryption scope for all writes",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ContainerProperties.DefaultEncryptionScope"),
 			},
 			{
 				Name:        "deny_encryption_scope_override",
-				Description: "DenyEncryptionScopeOverride - Block override of encryption scope from the container default",
+				Description: "Block override of encryption scope from the container default",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("ContainerProperties.DenyEncryptionScopeOverride"),
 			},
 			{
 				Name:        "public_access",
-				Description: "PublicAccess - Specifies whether data in the container may be accessed publicly and the level of access Possible values include: 'PublicAccessContainer', 'PublicAccessBlob', 'PublicAccessNone'",
+				Description: "Specifies whether data in the container may be accessed publicly and the level of access Possible values include: 'PublicAccessContainer', 'PublicAccessBlob', 'PublicAccessNone'",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ContainerProperties.PublicAccess"),
 			},
@@ -96,7 +96,7 @@ func StorageContainers() *schema.Table {
 			},
 			{
 				Name:        "metadata",
-				Description: "Metadata - A name-value pair to associate with the container as metadata",
+				Description: "A name-value pair to associate with the container as metadata",
 				Type:        schema.TypeJSON,
 				Resolver:    schema.PathResolver("ContainerProperties.Metadata"),
 			},

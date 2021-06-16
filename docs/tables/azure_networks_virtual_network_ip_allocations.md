@@ -5,4 +5,4 @@ Azure virtual network ip allocation
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |virtual_network_id|uuid|Unique ID of azure_network_virtual_networks table (FK)|
-|resource_id|text|ID - Resource ID|
+|resource_id|text|Resource ID|
