@@ -31,13 +31,12 @@ jobs:
           ref: ${{ github.ref }}
       - name: build-docs
         run: |
-          ls -la
           go run ./docs/docs.go
-      - uses: technote-space/get-diff-action@v4
+      - name: Get list of changed files
+        uses: AvraamMavridis/files-changed-action@v3
         id: git-diff
         with:
-          PATTERNS: |
-            +(docs)/tables/*.md
+          target_branch: ${{ github.ref }}
       - name: fail-step
         run: exit 1
         if: steps.git-diff.outputs.diff
