@@ -32,11 +32,6 @@ jobs:
       - name: build-docs
         run: |
           go run ./docs/docs.go
-      - name: Get list of changed files
-        uses: AvraamMavridis/files-changed-action@v3
-        id: git-diff
-        with:
-          target_branch: ${{ github.ref }}
-      - name: fail-step
-        run: exit 1
-        if: steps.git-diff.outputs.diff
+      - name: Fail if docs are changed
+        run: |
+          if [ $(git status -- ./docs/tables | grep 'modified:' | wc -l) -gt 0 ]; then exit 1; fi
