@@ -1,20 +1,20 @@
 
 # Table: azure_networks_virtual_network_peerings
-
+Azure virtual network peering
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|virtual_network_id|uuid||
-|allow_virtual_network_access|boolean||
-|allow_forwarded_traffic|boolean||
-|allow_gateway_transit|boolean||
-|use_remote_gateways|boolean||
-|remote_virtual_network_id|text||
-|remote_address_space_address_prefixes|text[]||
-|remote_bgp_communities_virtual_network_community|text||
-|remote_bgp_communities_regional_community|text||
-|peering_state|text||
-|provisioning_state|text||
-|name|text||
-|etag|text||
-|resource_id|text||
+|virtual_network_id|uuid|Unique ID of azure_network_virtual_networks table (FK)|
+|allow_virtual_network_access|boolean|AllowVirtualNetworkAccess - Whether the VMs in the local virtual network space would be able to access the VMs in remote virtual network space|
+|allow_forwarded_traffic|boolean|AllowForwardedTraffic - Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network|
+|allow_gateway_transit|boolean|AllowGatewayTransit - If gateway links can be used in remote virtual networking to link to this virtual network|
+|use_remote_gateways|boolean|UseRemoteGateways - If remote gateways can be used on this virtual network If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit Only one peering can have this flag set to true This flag cannot be set if virtual network already has a gateway|
+|remote_virtual_network_id|text|ID - Resource ID|
+|remote_address_space_address_prefixes|text[]|AddressPrefixes - A list of address blocks reserved for this virtual network in CIDR notation|
+|remote_bgp_communities_virtual_network_community|text|VirtualNetworkCommunity - The BGP community associated with the virtual network|
+|remote_bgp_communities_regional_community|text|The BGP community associated with the region of the virtual network|
+|peering_state|text|PeeringState - The status of the virtual network peering Possible values include: 'VirtualNetworkPeeringStateInitiated', 'VirtualNetworkPeeringStateConnected', 'VirtualNetworkPeeringStateDisconnected'|
+|provisioning_state|text|The provisioning state of the virtual network peering resource Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'|
+|name|text|Name - The name of the resource that is unique within a resource group This name can be used to access the resource|
+|etag|text|A unique read-only string that changes whenever the resource is updated|
+|resource_id|text|ID - Resource ID|

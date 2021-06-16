@@ -69,16 +69,16 @@ Azure storage account
 |encryption_key_vault_properties_key_name|text|KeyName - The name of KeyVault key|
 |encryption_key_vault_properties_key_version|text|KeyVersion - The version of KeyVault key|
 |encryption_key_vault_properties_key_vault_uri|text|KeyVaultURI - The Uri of KeyVault|
-|encryption_key_vault_properties_current_versioned_key_identifier|text|The object identifier of the current versioned Key Vault Key in use|
-|encryption_key_vault_properties_last_key_rotation_timestamp_time|timestamp without time zone|Timestamp of last rotation of the Key Vault Key|
+|encryption_key_current_versioned_key_identifier|text|The object identifier of the current versioned Key Vault Key in use|
+|encryption_key_last_key_rotation_timestamp_time|timestamp without time zone|Timestamp of last rotation of the Key Vault Key|
 |access_tier|text|Required for storage accounts where kind = BlobStorage The access tier used for billing Possible values include: 'Hot', 'Cool'|
-|azure_files_identity_based_authentication_directory_service_options|text|DirectoryServiceOptions - Indicates the directory service used Possible values include: 'DirectoryServiceOptionsNone', 'DirectoryServiceOptionsAADDS', 'DirectoryServiceOptionsAD'|
-|azure_files_identity_based_authentication_active_directory_properties_domain_name|text|DomainName - Specifies the primary domain that the AD DNS server is authoritative for|
-|azure_files_identity_based_authentication_active_directory_properties_net_bios_domain_name|text|NetBiosDomainName - Specifies the NetBIOS domain name|
-|azure_files_identity_based_authentication_active_directory_properties_forest_name|text|ForestName - Specifies the Active Directory forest to get|
-|azure_files_identity_based_authentication_active_directory_properties_domain_guid|text|DomainGUID - Specifies the domain GUID|
-|azure_files_identity_based_authentication_active_directory_properties_domain_sid|text|DomainSid - Specifies the security identifier (SID)|
-|azure_files_identity_based_authentication_active_directory_properties_azure_storage_sid|text|AzureStorageSid - Specifies the security identifier (SID) for Azure Storage|
+|files_identity_auth_directory_service_options|text|DirectoryServiceOptions - Indicates the directory service used Possible values include: 'DirectoryServiceOptionsNone', 'DirectoryServiceOptionsAADDS', 'DirectoryServiceOptionsAD'|
+|files_identity_auth_ad_properties_domain_name|text|DomainName - Specifies the primary domain that the AD DNS server is authoritative for|
+|files_identity_auth_ad_properties_net_bios_domain_name|text|NetBiosDomainName - Specifies the NetBIOS domain name|
+|files_identity_auth_ad_properties_forest_name|text|ForestName - Specifies the Active Directory forest to get|
+|files_identity_auth_ad_properties_domain_guid|text|DomainGUID - Specifies the domain GUID|
+|files_identity_auth_ad_properties_net_bios_domain_sid|text|DomainSid - Specifies the security identifier (SID)|
+|files_identity_auth_ad_properties_azure_storage_sid|text|AzureStorageSid - Specifies the security identifier (SID) for Azure Storage|
 |enable_https_traffic_only|boolean|EnableHTTPSTrafficOnly - Allows https traffic only to storage service if sets to true|
 |network_rule_set_bypass|text|Bypass - Specifies whether traffic is bypassed for Logging/Metrics/AzureServices Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics Possible values include: 'None', 'Logging', 'Metrics', 'AzureServices'|
 |network_rule_set_default_action|text|DefaultAction - Specifies the default action of allow or deny when no other rules match Possible values include: 'DefaultActionAllow', 'DefaultActionDeny'|

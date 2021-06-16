@@ -407,13 +407,13 @@ func StorageAccounts() *schema.Table {
 				Resolver:    schema.PathResolver("AccountProperties.Encryption.KeyVaultProperties.KeyVaultURI"),
 			},
 			{
-				Name:        "encryption_key_vault_properties_current_versioned_key_identifier",
+				Name:        "encryption_key_current_versioned_key_identifier",
 				Description: "The object identifier of the current versioned Key Vault Key in use",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.Encryption.KeyVaultProperties.CurrentVersionedKeyIdentifier"),
 			},
 			{
-				Name:        "encryption_key_vault_properties_last_key_rotation_timestamp_time",
+				Name:        "encryption_key_last_key_rotation_timestamp_time",
 				Description: "Timestamp of last rotation of the Key Vault Key",
 				Type:        schema.TypeTimestamp,
 				Resolver:    schema.PathResolver("AccountProperties.Encryption.KeyVaultProperties.LastKeyRotationTimestamp.Time"),
@@ -425,43 +425,43 @@ func StorageAccounts() *schema.Table {
 				Resolver:    schema.PathResolver("AccountProperties.AccessTier"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_directory_service_options",
+				Name:        "files_identity_auth_directory_service_options",
 				Description: "DirectoryServiceOptions - Indicates the directory service used Possible values include: 'DirectoryServiceOptionsNone', 'DirectoryServiceOptionsAADDS', 'DirectoryServiceOptionsAD'",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.DirectoryServiceOptions"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_domain_name",
+				Name:        "files_identity_auth_ad_properties_domain_name",
 				Description: "DomainName - Specifies the primary domain that the AD DNS server is authoritative for",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.DomainName"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_net_bios_domain_name",
+				Name:        "files_identity_auth_ad_properties_net_bios_domain_name",
 				Description: "NetBiosDomainName - Specifies the NetBIOS domain name",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.NetBiosDomainName"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_forest_name",
+				Name:        "files_identity_auth_ad_properties_forest_name",
 				Description: "ForestName - Specifies the Active Directory forest to get",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.ForestName"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_domain_guid",
+				Name:        "files_identity_auth_ad_properties_domain_guid",
 				Description: "DomainGUID - Specifies the domain GUID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.DomainGUID"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_domain_sid",
+				Name:        "files_identity_auth_ad_properties_net_bios_domain_sid",
 				Description: "DomainSid - Specifies the security identifier (SID)",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.DomainSid"),
 			},
 			{
-				Name:        "azure_files_identity_based_authentication_active_directory_properties_azure_storage_sid",
+				Name:        "files_identity_auth_ad_properties_azure_storage_sid",
 				Description: "AzureStorageSid - Specifies the security identifier (SID) for Azure Storage",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AccountProperties.AzureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.AzureStorageSid"),
@@ -720,7 +720,6 @@ func StorageAccounts() *schema.Table {
 					},
 				},
 			},
-			StorageContainers(),
 		},
 	}
 }
@@ -742,7 +741,6 @@ func fetchStorageAccounts(ctx context.Context, meta schema.ClientMeta, _ *schema
 	}
 	return nil
 }
-
 func resolveStorageAccountBlobRestoreStatusParametersBlobRanges(_ context.Context, _ schema.ClientMeta, resource *schema.Resource, _ schema.Column) error {
 	account := resource.Item.(storage.Account)
 	if account.BlobRestoreStatus == nil || account.BlobRestoreStatus.Parameters == nil {
@@ -754,7 +752,6 @@ func resolveStorageAccountBlobRestoreStatusParametersBlobRanges(_ context.Contex
 	}
 	return resource.Set("blob_restore_status_parameters_blob_ranges", data)
 }
-
 func fetchStorageAccountNetworkRuleSetVirtualNetworkRules(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	account := parent.Item.(storage.Account)
 	if account.NetworkRuleSet == nil || account.NetworkRuleSet.VirtualNetworkRules == nil {
@@ -763,7 +760,6 @@ func fetchStorageAccountNetworkRuleSetVirtualNetworkRules(_ context.Context, _ s
 	res <- *account.NetworkRuleSet.VirtualNetworkRules
 	return nil
 }
-
 func fetchStorageAccountNetworkRuleSetIpRules(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	account := parent.Item.(storage.Account)
 	if account.NetworkRuleSet == nil || account.NetworkRuleSet.IPRules == nil {
@@ -772,7 +768,6 @@ func fetchStorageAccountNetworkRuleSetIpRules(_ context.Context, _ schema.Client
 	res <- *account.NetworkRuleSet.IPRules
 	return nil
 }
-
 func fetchStorageAccountPrivateEndpointConnections(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	account := parent.Item.(storage.Account)
 	if account.PrivateEndpointConnections == nil {
