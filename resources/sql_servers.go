@@ -95,6 +95,9 @@ func SQLServers() *schema.Table {
 				Type:        schema.TypeString,
 			},
 		},
+		Relations: []*schema.Table{
+			SQLDatabases(),
+		},
 	}
 }
 
