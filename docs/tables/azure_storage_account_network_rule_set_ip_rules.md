@@ -5,5 +5,5 @@ IPRule IP rule with specific IP or IP range in CIDR format.
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |account_id|uuid|Unique ID of azure_storage_accounts table (FK)|
-|ip_address_or_range|text|IPAddressOrRange - Specifies the IP or IP range in CIDR format Only IPV4 address is allowed|
-|action|text|Action - The action of IP ACL rule Possible values include: 'Allow'|
+|ip_address_or_range|text|Specifies the IP or IP range in CIDR format Only IPV4 address is allowed|
+|action|text|The action of IP ACL rule Possible values include: 'Allow'|
