@@ -12,6 +12,7 @@ func Provider() *provider.Provider {
 		Configure: client.Configure,
 		ResourceMap: map[string]*schema.Table{
 			"ad.users":                 AdUsers(),
+			"ad.groups":                AdGroups(),
 			"compute.disks":            ComputeDisks(),
 			"keyvault.vaults":          KeyVaultVaults(),
 			"mysql.servers":            MySQLServers(),
