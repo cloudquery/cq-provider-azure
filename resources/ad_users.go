@@ -9,11 +9,11 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func RbacUsers() *schema.Table {
+func AdUsers() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_rbac_users",
+		Name:        "azure_ad_users",
 		Description: "User active Directory user information",
-		Resolver:    fetchRbacUsers,
+		Resolver:    fetchAdUsers,
 		Multiplex:   client.SubscriptionMultiplex,
 		Columns: []schema.Column{
 			{
@@ -97,13 +97,13 @@ func RbacUsers() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_rbac_user_sign_in_names",
+				Name:        "azure_ad_user_sign_in_names",
 				Description: "SignInName contains information about a sign-in name of a local account user in an Azure Active Directory B2C tenant",
-				Resolver:    fetchRbacUserSignInNames,
+				Resolver:    fetchAdUserSignInNames,
 				Columns: []schema.Column{
 					{
 						Name:        "user_id",
-						Description: "Unique ID of azure_rbac_users table (FK)",
+						Description: "Unique ID of azure_ad_users table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -133,8 +133,8 @@ func RbacUsers() *schema.Table {
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
-func fetchRbacUsers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	svc := meta.(*client.Client).Services().RBAC.Users
+func fetchAdUsers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().AD.Users
 	response, err := svc.List(ctx, "", "")
 	if err != nil {
 		return err
@@ -147,7 +147,8 @@ func fetchRbacUsers(ctx context.Context, meta schema.ClientMeta, parent *schema.
 	}
 	return nil
 }
-func fetchRbacUserSignInNames(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+
+func fetchAdUserSignInNames(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	user, ok := parent.Item.(graphrbac.User)
 	if !ok {
 		return fmt.Errorf("not a graphrbac.User instance: %#v", parent.Item)

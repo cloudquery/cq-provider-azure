@@ -1,5 +1,5 @@
 //go:generate mockgen -destination=./mocks/services.go -package=mocks  . DisksClient,GroupsClient,KeyClient,VaultClient,StorageAccountClient,StorageContainerClient,SqlServerClient,SqlDatabaseClient,MySQLServerClient,MySQLConfigurationClient,PostgresqlConfigurationClient,PostgresqlServerClient,VirtualNetworksClient
-//go:generate mockgen -destination=./mocks/rbac_users.go -package=mocks . RBACUsersClient
+//go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -10,7 +10,7 @@ type Services struct {
 	MySQL      MySQL
 	Network    NetworksClient
 	PostgreSQL PostgreSQL
-	RBAC       RBAC
+	AD         AD
 	Resources  ResourcesClient
 	SQL        SQLClient
 	Storage    StorageClient
@@ -23,7 +23,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		MySQL:      NewMySQLClient(subscriptionId, auth),
 		Network:    NewNetworksClient(subscriptionId, auth),
 		PostgreSQL: NewPostgresClient(subscriptionId, auth),
-		RBAC:       NewRBACClient(subscriptionId, auth),
+		AD:         NewADClient(subscriptionId, auth),
 		Resources:  NewResourcesClient(subscriptionId, auth),
 		SQL:        NewSQLClient(subscriptionId, auth),
 		Storage:    NewStorageClient(subscriptionId, auth),

@@ -12,8 +12,8 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-func buildRBACUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
-	m := mocks.NewMockRBACUsersClient(ctrl)
+func buildADUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
+	m := mocks.NewMockADUsersClient(ctrl)
 	var user graphrbac.User
 	faker.SetIgnoreInterface(true)
 	defer faker.SetIgnoreInterface(false)
@@ -35,10 +35,10 @@ func buildRBACUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
 	)
 	m.EXPECT().List(gomock.Any(), "", "").Return(userListPage, nil)
 	return services.Services{
-		RBAC: services.RBAC{Users: m},
+		AD: services.AD{Users: m},
 	}
 }
 
-func TestRBACUsers(t *testing.T) {
-	azureTestHelper(t, resources.RbacUsers(), buildRBACUsers)
+func TestADUsers(t *testing.T) {
+	azureTestHelper(t, resources.AdUsers(), buildADUsers)
 }

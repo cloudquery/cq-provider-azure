@@ -7,16 +7,16 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
-type RBACUsersClient interface {
+type ADUsersClient interface {
 	List(ctx context.Context, filter string, expand string) (result graphrbac.UserListResultPage, err error)
 }
 
-type RBAC struct {
-	Users RBACUsersClient
+type AD struct {
+	Users ADUsersClient
 }
 
-func NewRBACClient(subscriptionId string, auth autorest.Authorizer) RBAC {
+func NewADClient(subscriptionId string, auth autorest.Authorizer) AD {
 	client := graphrbac.NewUsersClient(subscriptionId)
 	client.Authorizer = auth
-	return RBAC{Users: client}
+	return AD{Users: client}
 }
