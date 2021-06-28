@@ -198,14 +198,16 @@ func AdServicePrincipals() *schema.Table {
 						Type:        schema.TypeJSON,
 					},
 					{
-						Name:     "start_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("StartDate.Time"),
+						Name:        "start_date",
+						Description: "Start date.",
+						Type:        schema.TypeTimestamp,
+						Resolver:    schema.PathResolver("StartDate.Time"),
 					},
 					{
-						Name:     "end_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("EndDate.Time"),
+						Name:        "end_date",
+						Description: "End date.",
+						Type:        schema.TypeTimestamp,
+						Resolver:    schema.PathResolver("EndDate.Time"),
 					},
 					{
 						Name:        "key_value",
