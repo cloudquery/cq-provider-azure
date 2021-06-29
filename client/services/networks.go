@@ -29,4 +29,5 @@ type VirtualNetworksClient interface {
 
 type WatchersClient interface {
 	ListAll(ctx context.Context) (result network.WatcherListResult, err error)
+	GetFlowLogStatus(ctx context.Context, resourceGroupName string, networkWatcherName string, parameters network.FlowLogStatusParameters) (result network.WatchersGetFlowLogStatusFuture, err error)
 }

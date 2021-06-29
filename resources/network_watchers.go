@@ -2,7 +2,8 @@ package resources
 
 import (
 	"context"
-
+	"fmt"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-08-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -19,6 +20,11 @@ func NetworkWatchers() *schema.Table {
 				Description: "Azure subscription id",
 				Type:        schema.TypeString,
 				Resolver:    client.ResolveAzureSubscription,
+			},
+			{
+				Name:     "flow_log_status",
+				Type:     schema.TypeBool,
+				Resolver: resolveNetworkWatcherFlowLogStatus,
 			},
 			{
 				Name:        "etag",
@@ -72,4 +78,32 @@ func fetchNetworkWatchers(ctx context.Context, meta schema.ClientMeta, parent *s
 	}
 	res <- *result.Value
 	return nil
+}
+func resolveNetworkWatcherFlowLogStatus(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(network.Watcher)
+	if !ok {
+		return fmt.Errorf("expected to have network.Watcher but got %T", p)
+	}
+	resourceDetails, err := client.ParseResourceID(*p.ID)
+	svc := meta.(*client.Client).Services().Network.Watchers
+	result, err := svc.GetFlowLogStatus(ctx, resourceDetails.ResourceGroup, *p.Name, network.FlowLogStatusParameters{})
+	if err != nil {
+		return err
+	}
+
+	var properties network.FlowLogInformation
+	switch svc.(type) {
+	case network.WatchersClient:
+		if properties, err = result.Result(svc.(network.WatchersClient)); err != nil {
+			return err
+		}
+	default:
+		if properties, err = result.Result(network.WatchersClient{}); err != nil {
+			return err
+		}
+	}
+	if properties.FlowLogProperties == nil {
+		return nil
+	}
+	return resource.Set(c.Name, properties.FlowLogProperties.Enabled)
 }
