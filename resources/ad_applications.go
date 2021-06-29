@@ -492,8 +492,7 @@ func resolveAdApplicationOptionalClaims(ctx context.Context, meta schema.ClientM
 	if err != nil {
 		return err
 	}
-	resource.Set(c.Name, out)
-	return nil
+	return resource.Set(c.Name, out)
 }
 
 func fetchAdApplicationAppRoles(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -570,8 +569,7 @@ func resolveAdApplicationPreAuthorizedApplicationPermissions(ctx context.Context
 	if err != nil {
 		return err
 	}
-	resource.Set(c.Name, out)
-	return nil
+	return resource.Set(c.Name, out)
 }
 
 func resolveAdApplicationPreAuthorizedApplicationExtensions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
@@ -583,8 +581,7 @@ func resolveAdApplicationPreAuthorizedApplicationExtensions(ctx context.Context,
 	if err != nil {
 		return err
 	}
-	resource.Set(c.Name, out)
-	return nil
+	return resource.Set(c.Name, out)
 }
 
 func fetchAdApplicationRequiredResourceAccesses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -609,6 +606,5 @@ func resolveAdApplicationRequiredResourceAccessResourceAccess(ctx context.Contex
 	if err != nil {
 		return err
 	}
-	resource.Set(c.Name, out)
-	return nil
+	return resource.Set(c.Name, out)
 }
