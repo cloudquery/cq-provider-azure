@@ -35,6 +35,21 @@ func (m *MockWatchersClient) EXPECT() *MockWatchersClientMockRecorder {
 	return m.recorder
 }
 
+// GetFlowLogStatus mocks base method.
+func (m *MockWatchersClient) GetFlowLogStatus(arg0 context.Context, arg1, arg2 string, arg3 network.FlowLogStatusParameters) (network.WatchersGetFlowLogStatusFuture, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFlowLogStatus", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(network.WatchersGetFlowLogStatusFuture)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFlowLogStatus indicates an expected call of GetFlowLogStatus.
+func (mr *MockWatchersClientMockRecorder) GetFlowLogStatus(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFlowLogStatus", reflect.TypeOf((*MockWatchersClient)(nil).GetFlowLogStatus), arg0, arg1, arg2, arg3)
+}
+
 // ListAll mocks base method.
 func (m *MockWatchersClient) ListAll(arg0 context.Context) (network.WatcherListResult, error) {
 	m.ctrl.T.Helper()
