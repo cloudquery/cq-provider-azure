@@ -23,6 +23,8 @@ func buildNetworkWatchersMock(t *testing.T, ctrl *gomock.Controller) services.Se
 	if err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
+	id := "/subscriptions/test/resourceGroups/test/providers/test/test/test"
+	watcher.ID = &id
 	page := network.WatcherListResult{Value: &[]network.Watcher{watcher}}
 	watcherSvc.EXPECT().ListAll(gomock.Any()).Return(page, nil)
 
