@@ -1,5 +1,6 @@
-//go:generate mockgen -destination=./mocks/services.go -package=mocks  . DisksClient,GroupsClient,KeyClient,VaultClient,StorageAccountClient,StorageContainerClient,SqlServerClient,SqlDatabaseClient,MySQLServerClient,MySQLConfigurationClient,PostgresqlConfigurationClient,PostgresqlServerClient,VirtualNetworksClient
+//go:generate mockgen -destination=./mocks/services.go -package=mocks  . DisksClient,GroupsClient,KeyClient,VaultClient,StorageAccountClient,StorageContainerClient,SqlServerClient,SqlDatabaseClient,MySQLServerClient,MySQLConfigurationClient,PostgresqlConfigurationClient,PostgresqlServerClient
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
+//go:generate mockgen -destination=./mocks/network_watchers.go -package=mocks . WatchersClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
