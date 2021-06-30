@@ -9,10 +9,11 @@ import (
 
 func SecuritySettings() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_security_settings",
-		Description: "Setting the kind of the security setting",
-		Resolver:    fetchSecuritySettings,
-		Multiplex:   client.SubscriptionMultiplex,
+		Name:         "azure_security_settings",
+		Description:  "Setting the kind of the security setting",
+		Resolver:     fetchSecuritySettings,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

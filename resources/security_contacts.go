@@ -9,10 +9,11 @@ import (
 
 func SecurityContacts() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_security_contacts",
-		Description: "Contact contact details for security issues",
-		Resolver:    fetchSecurityContacts,
-		Multiplex:   client.SubscriptionMultiplex,
+		Name:         "azure_security_contacts",
+		Description:  "Contact contact details for security issues",
+		Resolver:     fetchSecurityContacts,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

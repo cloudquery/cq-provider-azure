@@ -9,10 +9,11 @@ import (
 
 func SecurityAutoProvisioningSettings() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_security_auto_provisioning_settings",
-		Description: "AutoProvisioningSetting auto provisioning setting",
-		Resolver:    fetchSecurityAutoProvisioningSettings,
-		Multiplex:   client.SubscriptionMultiplex,
+		Name:         "azure_security_auto_provisioning_settings",
+		Description:  "AutoProvisioningSetting auto provisioning setting",
+		Resolver:     fetchSecurityAutoProvisioningSettings,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

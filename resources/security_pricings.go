@@ -9,10 +9,11 @@ import (
 
 func SecurityPricings() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_security_pricings",
-		Description: "Pricing azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period The standard tier offers advanced security capabilities, while the free tier offers basic security features",
-		Resolver:    fetchSecurityPricings,
-		Multiplex:   client.SubscriptionMultiplex,
+		Name:         "azure_security_pricings",
+		Description:  "Pricing azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period The standard tier offers advanced security capabilities, while the free tier offers basic security features",
+		Resolver:     fetchSecurityPricings,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
