@@ -8,8 +8,9 @@ import (
 )
 
 type SQLClient struct {
-	Servers  SqlServerClient
 	Database SqlDatabaseClient
+	Firewall SQLFirewallClient
+	Servers  SqlServerClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -17,14 +18,21 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	servers.Authorizer = auth
 	database := sql.NewDatabasesClient(subscriptionId)
 	database.Authorizer = auth
+	firewall := sql.NewFirewallRulesClient(subscriptionId)
+	firewall.Authorizer = auth
 	return SQLClient{
-		Servers:  servers,
 		Database: database,
+		Firewall: firewall,
+		Servers:  servers,
 	}
 }
 
 type SqlServerClient interface {
 	List(ctx context.Context) (result sql.ServerListResult, err error)
+}
+
+type SQLFirewallClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.FirewallRuleListResult, err error)
 }
 
 type SqlDatabaseClient interface {

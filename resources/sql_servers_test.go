@@ -14,15 +14,16 @@ import (
 func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	serverSvc := mocks.NewMockSqlServerClient(ctrl)
 	databaseSvc := mocks.NewMockSqlDatabaseClient(ctrl)
+	firewallSvc := mocks.NewMockSQLFirewallClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
-			Servers:  serverSvc,
 			Database: databaseSvc,
+			Firewall: firewallSvc,
+			Servers:  serverSvc,
 		},
 	}
 	server := sql.Server{}
-	err := faker.FakeData(&server)
-	if err != nil {
+	if err := faker.FakeData(&server); err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
 	name := "testServer"
@@ -35,6 +36,14 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 		t.Errorf("failed building mock %s", err)
 	}
 	databaseSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name, "true", "").Return(sql.DatabaseListResult{Value: &[]sql.Database{database}}, nil)
+
+	var rule sql.FirewallRule
+	if err := faker.FakeData(&rule); err != nil {
+		t.Fatal(err)
+	}
+	firewallSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
+		sql.FirewallRuleListResult{Value: &[]sql.FirewallRule{rule}}, nil,
+	)
 	return s
 }
 

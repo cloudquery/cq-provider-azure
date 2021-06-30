@@ -3,6 +3,7 @@ package resources
 import (
 	"context"
 
+	"github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -97,6 +98,57 @@ func SQLServers() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			SQLDatabases(),
+			{
+				Name:        "azure_sql_server_firewall_rules",
+				Description: "The list of server firewall rules.",
+				Resolver:    fetchSqlServerFirewallRules,
+				Columns: []schema.Column{
+					{
+						Name:        "server_id",
+						Description: "Unique ID of azure_sql_servers table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "kind",
+						Description: "Kind of server that contains this firewall rule",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "location",
+						Description: "Location of the server that contains this firewall rule",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "start_ip_address",
+						Description: "The start IP address of the firewall rule Must be IPv4 format Use value '0000' to represent all Azure-internal IP addresses",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("FirewallRuleProperties.StartIPAddress"),
+					},
+					{
+						Name:        "end_ip_address",
+						Description: "The end IP address of the firewall rule Must be IPv4 format Must be greater than or equal to startIpAddress Use value '0000' to represent all Azure-internal IP addresses",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
+					},
+					{
+						Name:        "resource_id",
+						Description: "Resource ID",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "name",
+						Description: "Resource name",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "type",
+						Description: "Resource type",
+						Type:        schema.TypeString,
+					},
+				},
+			},
 		},
 	}
 }
@@ -104,12 +156,29 @@ func SQLServers() *schema.Table {
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
-func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, _ *schema.Resource, res chan interface{}) error {
+func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.Servers
 	servers, err := svc.List(ctx)
 	if err != nil {
 		return err
 	}
 	res <- *servers.Value
+	return nil
+}
+
+func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().SQL.Firewall
+	s := parent.Item.(sql.Server)
+	details, err := client.ParseResourceID(*s.ID)
+	if err != nil {
+		return err
+	}
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	if err != nil {
+		return err
+	}
+	if result.Value != nil {
+		res <- *result.Value
+	}
 	return nil
 }
