@@ -12,10 +12,11 @@ import (
 
 func AdApplications() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_ad_applications",
-		Description: "Application active Directory application information",
-		Resolver:    fetchAdApplications,
-		Multiplex:   client.SubscriptionMultiplex,
+		Name:         "azure_ad_applications",
+		Description:  "Application active Directory application information",
+		Resolver:     fetchAdApplications,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
