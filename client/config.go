@@ -3,7 +3,7 @@ package client
 // Provider Configuration
 
 type Config struct {
-	Subscriptions []string `yaml:"subscriptions"`
+	Subscriptions []string `hcl:"subscriptions"`
 }
 
 func (c Config) Example() string {
