@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -29,7 +29,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 }
 
 type SqlServerClient interface {
-	List(ctx context.Context) (result sql.ServerListResult, err error)
+	List(ctx context.Context) (result sql.ServerListResultPage, err error)
 }
 
 type SQLFirewallClient interface {
@@ -37,9 +37,9 @@ type SQLFirewallClient interface {
 }
 
 type SQLServerAdminClient interface {
-	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerAdministratorListResult, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.AdministratorListResultPage, err error)
 }
 
 type SqlDatabaseClient interface {
-	ListByServer(ctx context.Context, resourceGroupName string, serverName string, expand string, filter string) (result sql.DatabaseListResult, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.DatabaseListResultPage, err error)
 }

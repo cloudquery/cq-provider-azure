@@ -1,14 +1,15 @@
 
 # Table: azure_sql_server_admins
-ServerAzureADAdministrator an server Active Directory Administrator
+ServerAzureADAdministrator azure Active Directory administrator
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |server_id|uuid|Unique ID of azure_sql_servers table (FK)|
-|administrator_type|text|The type of administrator|
-|login|text|The server administrator login value|
-|sid|uuid|The server administrator Sid (Secure ID)|
-|tenant_id|uuid|The server Active Directory Administrator tenant id|
+|administrator_type|text|Type of the sever administrator|
+|login|text|Login name of the server administrator|
+|sid|uuid|SID (object ID) of the server administrator|
+|tenant_id|uuid|Tenant ID of the administrator|
+|azure_ad_only_authentication|boolean|Azure Active Directory only Authentication enabled|
 |resource_id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|

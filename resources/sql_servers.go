@@ -3,7 +3,7 @@ package resources
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -23,25 +23,31 @@ func SQLServers() *schema.Table {
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
+				Name:        "identity_principal_id",
+				Description: "The Azure Active Directory principal id",
+				Type:        schema.TypeUUID,
+				Resolver:    schema.PathResolver("Identity.PrincipalID"),
+			},
+			{
+				Name:        "identity_type",
+				Description: "The identity type Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource Possible values include: 'None', 'SystemAssigned', 'UserAssigned'",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("Identity.Type"),
+			},
+			{
+				Name:        "identity_tenant_id",
+				Description: "The Azure Active Directory tenant id",
+				Type:        schema.TypeUUID,
+				Resolver:    schema.PathResolver("Identity.TenantID"),
+			},
+			{
 				Name:        "kind",
-				Description: "Kind of sql server  This is metadata used for the Azure portal experience",
+				Description: "Kind of sql server This is metadata used for the Azure portal experience",
 				Type:        schema.TypeString,
-			},
-			{
-				Name:        "fully_qualified_domain_name",
-				Description: "The fully qualified domain name of the server",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.FullyQualifiedDomainName"),
-			},
-			{
-				Name:        "version",
-				Description: "The version of the server Possible values include: 'TwoFullStopZero', 'OneTwoFullStopZero'",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.Version"),
 			},
 			{
 				Name:        "administrator_login",
-				Description: "Administrator username for the server Can only be specified when the server is being created (and is required for creation)",
+				Description: "Administrator username for the server Once created it cannot be changed",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.AdministratorLogin"),
 			},
@@ -52,22 +58,34 @@ func SQLServers() *schema.Table {
 				Resolver:    schema.PathResolver("ServerProperties.AdministratorLoginPassword"),
 			},
 			{
-				Name:        "external_administrator_sid",
-				Description: "The ID of the Active Azure Directory object with admin permissions on this server Legacy parameter, always null To check for Active Directory admin, query /servers/{serverName}/administrators",
-				Type:        schema.TypeUUID,
-				Resolver:    schema.PathResolver("ServerProperties.ExternalAdministratorSid"),
-			},
-			{
-				Name:        "external_administrator_login",
-				Description: "The display name of the Azure Active Directory object with admin permissions on this server Legacy parameter, always null To check for Active Directory admin, query /servers/{serverName}/administrators",
+				Name:        "version",
+				Description: "The version of the server",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.ExternalAdministratorLogin"),
+				Resolver:    schema.PathResolver("ServerProperties.Version"),
 			},
 			{
 				Name:        "state",
-				Description: "The state of the server Possible values include: 'ServerStateReady', 'ServerStateDisabled'",
+				Description: "The state of the server",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.State"),
+			},
+			{
+				Name:        "fully_qualified_domain_name",
+				Description: "The fully qualified domain name of the server",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ServerProperties.FullyQualifiedDomainName"),
+			},
+			{
+				Name:        "minimal_tls_version",
+				Description: "Minimal TLS version Allowed values: '10', '11', '12'",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ServerProperties.MinimalTLSVersion"),
+			},
+			{
+				Name:        "public_network_access",
+				Description: "Whether or not public endpoint access is allowed for this server  Value is optional but if passed in, must be 'Enabled' or 'Disabled' Possible values include: 'ServerPublicNetworkAccessEnabled', 'ServerPublicNetworkAccessDisabled'",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ServerProperties.PublicNetworkAccess"),
 			},
 			{
 				Name:        "location",
@@ -98,6 +116,55 @@ func SQLServers() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			SQLDatabases(),
+			{
+				Name:        "azure_sql_server_private_endpoint_connections",
+				Description: "List of private endpoint connections on a server",
+				Resolver:    fetchSqlServerPrivateEndpointConnections,
+				Columns: []schema.Column{
+					{
+						Name:        "server_id",
+						Description: "Unique ID of azure_sql_servers table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "resource_id",
+						Description: "Resource ID",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "private_endpoint_id",
+						Description: "Resource id of the private endpoint",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Properties.PrivateEndpoint.ID"),
+					},
+					{
+						Name:        "private_link_service_connection_state_status",
+						Description: "The private link service connection status Possible values include: 'Approved', 'Pending', 'Rejected', 'Disconnected'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.Status"),
+					},
+					{
+						Name:        "private_link_service_connection_state_description",
+						Description: "The private link service connection description",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.Description"),
+					},
+					{
+						Name:        "private_link_service_connection_state_actions_required",
+						Description: "The actions required for private link service connection Possible values include: 'PrivateLinkServiceConnectionStateActionsRequireNone'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.ActionsRequired"),
+					},
+					{
+						Name:        "provisioning_state",
+						Description: "State of the private endpoint connection Possible values include: 'PrivateEndpointProvisioningStateApproving', 'PrivateEndpointProvisioningStateReady', 'PrivateEndpointProvisioningStateDropping', 'PrivateEndpointProvisioningStateFailed', 'PrivateEndpointProvisioningStateRejecting'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Properties.ProvisioningState"),
+					},
+				},
+			},
 			{
 				Name:        "azure_sql_server_firewall_rules",
 				Description: "The list of server firewall rules.",
@@ -151,7 +218,7 @@ func SQLServers() *schema.Table {
 			},
 			{
 				Name:        "azure_sql_server_admins",
-				Description: "ServerAzureADAdministrator an server Active Directory Administrator",
+				Description: "ServerAzureADAdministrator azure Active Directory administrator",
 				Resolver:    fetchSqlServerAdmins,
 				Columns: []schema.Column{
 					{
@@ -162,27 +229,33 @@ func SQLServers() *schema.Table {
 					},
 					{
 						Name:        "administrator_type",
-						Description: "The type of administrator",
+						Description: "Type of the sever administrator",
 						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ServerAdministratorProperties.AdministratorType"),
+						Resolver:    schema.PathResolver("AdministratorProperties.AdministratorType"),
 					},
 					{
 						Name:        "login",
-						Description: "The server administrator login value",
+						Description: "Login name of the server administrator",
 						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ServerAdministratorProperties.Login"),
+						Resolver:    schema.PathResolver("AdministratorProperties.Login"),
 					},
 					{
 						Name:        "sid",
-						Description: "The server administrator Sid (Secure ID)",
+						Description: "SID (object ID) of the server administrator",
 						Type:        schema.TypeUUID,
-						Resolver:    schema.PathResolver("ServerAdministratorProperties.Sid"),
+						Resolver:    schema.PathResolver("AdministratorProperties.Sid"),
 					},
 					{
 						Name:        "tenant_id",
-						Description: "The server Active Directory Administrator tenant id",
+						Description: "Tenant ID of the administrator",
 						Type:        schema.TypeUUID,
-						Resolver:    schema.PathResolver("ServerAdministratorProperties.TenantID"),
+						Resolver:    schema.PathResolver("AdministratorProperties.TenantID"),
+					},
+					{
+						Name:        "azure_ad_only_authentication",
+						Description: "Azure Active Directory only Authentication enabled",
+						Type:        schema.TypeBool,
+						Resolver:    schema.PathResolver("AdministratorProperties.AzureADOnlyAuthentication"),
 					},
 					{
 						Name:        "resource_id",
@@ -215,7 +288,20 @@ func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema
 	if err != nil {
 		return err
 	}
-	res <- *servers.Value
+	for servers.NotDone() {
+		res <- servers.Values()
+		if err := servers.NextWithContext(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func fetchSqlServerPrivateEndpointConnections(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	server := parent.Item.(sql.Server)
+	if server.PrivateEndpointConnections != nil {
+		res <- *server.PrivateEndpointConnections
+	}
 	return nil
 }
 
@@ -247,8 +333,11 @@ func fetchSqlServerAdmins(ctx context.Context, meta schema.ClientMeta, parent *s
 	if err != nil {
 		return err
 	}
-	if result.Value != nil {
-		res <- *result.Value
+	for result.NotDone() {
+		res <- result.Values()
+		if err := result.NextWithContext(ctx); err != nil {
+			return err
+		}
 	}
 	return nil
 }

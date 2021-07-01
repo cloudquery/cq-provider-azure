@@ -1,9 +1,10 @@
 package resources_test
 
 import (
+	"context"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/cq-provider-azure/resources"
@@ -31,13 +32,28 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	name := "testServer"
 	server.Name = &name
 	server.ID = &fakeResourceGroup
-	page := sql.ServerListResult{Value: &[]sql.Server{server}}
-	serverSvc.EXPECT().List(gomock.Any()).Return(page, nil)
+	serverSvc.EXPECT().List(gomock.Any()).Return(
+		sql.NewServerListResultPage(
+			sql.ServerListResult{Value: &[]sql.Server{server}},
+			func(context.Context, sql.ServerListResult) (sql.ServerListResult, error) {
+				return sql.ServerListResult{}, nil
+			},
+		),
+		nil,
+	)
+
 	database := sql.Database{}
 	if err := faker.FakeData(&database); err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
-	databaseSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name, "true", "").Return(sql.DatabaseListResult{Value: &[]sql.Database{database}}, nil)
+	databaseSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
+		sql.NewDatabaseListResultPage(
+			sql.DatabaseListResult{Value: &[]sql.Database{database}},
+			func(context.Context, sql.DatabaseListResult) (sql.DatabaseListResult, error) {
+				return sql.DatabaseListResult{}, nil
+			},
+		), nil,
+	)
 
 	var rule sql.FirewallRule
 	if err := faker.FakeData(&rule); err != nil {
@@ -51,9 +67,13 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	if err := faker.FakeData(&admin); err != nil {
 		t.Fatal(err)
 	}
-	adminsSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
-		sql.ServerAdministratorListResult{Value: &[]sql.ServerAzureADAdministrator{admin}}, nil,
+	adminPage := sql.NewAdministratorListResultPage(
+		sql.AdministratorListResult{Value: &[]sql.ServerAzureADAdministrator{admin}},
+		func(context.Context, sql.AdministratorListResult) (sql.AdministratorListResult, error) {
+			return sql.AdministratorListResult{}, nil
+		},
 	)
+	adminsSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(adminPage, nil)
 	return s
 }
 

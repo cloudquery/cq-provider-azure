@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/sql/mgmt/2014-04-01/sql"
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -36,18 +36,18 @@ func (m *MockSqlDatabaseClient) EXPECT() *MockSqlDatabaseClientMockRecorder {
 }
 
 // ListByServer mocks base method.
-func (m *MockSqlDatabaseClient) ListByServer(arg0 context.Context, arg1, arg2, arg3, arg4 string) (sql.DatabaseListResult, error) {
+func (m *MockSqlDatabaseClient) ListByServer(arg0 context.Context, arg1, arg2 string) (sql.DatabaseListResultPage, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListByServer", arg0, arg1, arg2, arg3, arg4)
-	ret0, _ := ret[0].(sql.DatabaseListResult)
+	ret := m.ctrl.Call(m, "ListByServer", arg0, arg1, arg2)
+	ret0, _ := ret[0].(sql.DatabaseListResultPage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListByServer indicates an expected call of ListByServer.
-func (mr *MockSqlDatabaseClientMockRecorder) ListByServer(arg0, arg1, arg2, arg3, arg4 interface{}) *gomock.Call {
+func (mr *MockSqlDatabaseClientMockRecorder) ListByServer(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByServer", reflect.TypeOf((*MockSqlDatabaseClient)(nil).ListByServer), arg0, arg1, arg2, arg3, arg4)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByServer", reflect.TypeOf((*MockSqlDatabaseClient)(nil).ListByServer), arg0, arg1, arg2)
 }
 
 // MockSQLFirewallClient is a mock of SQLFirewallClient interface.
@@ -112,10 +112,10 @@ func (m *MockSQLServerAdminClient) EXPECT() *MockSQLServerAdminClientMockRecorde
 }
 
 // ListByServer mocks base method.
-func (m *MockSQLServerAdminClient) ListByServer(arg0 context.Context, arg1, arg2 string) (sql.ServerAdministratorListResult, error) {
+func (m *MockSQLServerAdminClient) ListByServer(arg0 context.Context, arg1, arg2 string) (sql.AdministratorListResultPage, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListByServer", arg0, arg1, arg2)
-	ret0, _ := ret[0].(sql.ServerAdministratorListResult)
+	ret0, _ := ret[0].(sql.AdministratorListResultPage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -150,10 +150,10 @@ func (m *MockSqlServerClient) EXPECT() *MockSqlServerClientMockRecorder {
 }
 
 // List mocks base method.
-func (m *MockSqlServerClient) List(arg0 context.Context) (sql.ServerListResult, error) {
+func (m *MockSqlServerClient) List(arg0 context.Context) (sql.ServerListResultPage, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List", arg0)
-	ret0, _ := ret[0].(sql.ServerListResult)
+	ret0, _ := ret[0].(sql.ServerListResultPage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
