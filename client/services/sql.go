@@ -8,10 +8,11 @@ import (
 )
 
 type SQLClient struct {
-	Database     SqlDatabaseClient
-	Firewall     SQLFirewallClient
-	ServerAdmins SQLServerAdminClient
-	Servers      SqlServerClient
+	Database                     SqlDatabaseClient
+	DatabaseBlobAuditingPolicies SQLDatabaseBlobAuditingPoliciesClient
+	Firewall                     SQLFirewallClient
+	ServerAdmins                 SQLServerAdminClient
+	Servers                      SqlServerClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -19,12 +20,15 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	servers.Authorizer = auth
 	database := sql.NewDatabasesClient(subscriptionId)
 	database.Authorizer = auth
+	dbap := sql.NewDatabaseBlobAuditingPoliciesClient(subscriptionId)
+	dbap.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
 	return SQLClient{
-		Database: database,
-		Firewall: firewall,
-		Servers:  servers,
+		Database:                     database,
+		DatabaseBlobAuditingPolicies: dbap,
+		Firewall:                     firewall,
+		Servers:                      servers,
 	}
 }
 
@@ -42,4 +46,8 @@ type SQLServerAdminClient interface {
 
 type SqlDatabaseClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.DatabaseListResultPage, err error)
+}
+
+type SQLDatabaseBlobAuditingPoliciesClient interface {
+	ListByDatabase(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.DatabaseBlobAuditingPolicyListResultPage, err error)
 }

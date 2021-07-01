@@ -17,12 +17,14 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	databaseSvc := mocks.NewMockSqlDatabaseClient(ctrl)
 	firewallSvc := mocks.NewMockSQLFirewallClient(ctrl)
 	adminsSvc := mocks.NewMockSQLServerAdminClient(ctrl)
+	databaseBlobSvc := mocks.NewMockSQLDatabaseBlobAuditingPoliciesClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
-			Database:     databaseSvc,
-			Firewall:     firewallSvc,
-			ServerAdmins: adminsSvc,
-			Servers:      serverSvc,
+			Database:                     databaseSvc,
+			DatabaseBlobAuditingPolicies: databaseBlobSvc,
+			Firewall:                     firewallSvc,
+			ServerAdmins:                 adminsSvc,
+			Servers:                      serverSvc,
 		},
 	}
 	server := sql.Server{}
@@ -46,11 +48,25 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	if err := faker.FakeData(&database); err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
+	database.ID = &fakeResourceGroup
 	databaseSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
 		sql.NewDatabaseListResultPage(
 			sql.DatabaseListResult{Value: &[]sql.Database{database}},
 			func(context.Context, sql.DatabaseListResult) (sql.DatabaseListResult, error) {
 				return sql.DatabaseListResult{}, nil
+			},
+		), nil,
+	)
+
+	var databaseBlobPolicy sql.DatabaseBlobAuditingPolicy
+	if err := faker.FakeData(&databaseBlobPolicy); err != nil {
+		t.Fatal(err)
+	}
+	databaseBlobSvc.EXPECT().ListByDatabase(gomock.Any(), "test", *server.Name, *database.Name).Return(
+		sql.NewDatabaseBlobAuditingPolicyListResultPage(
+			sql.DatabaseBlobAuditingPolicyListResult{Value: &[]sql.DatabaseBlobAuditingPolicy{databaseBlobPolicy}},
+			func(context.Context, sql.DatabaseBlobAuditingPolicyListResult) (sql.DatabaseBlobAuditingPolicyListResult, error) {
+				return sql.DatabaseBlobAuditingPolicyListResult{}, nil
 			},
 		), nil,
 	)
