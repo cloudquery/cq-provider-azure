@@ -18,6 +18,7 @@ func Provider() *provider.Provider {
 			"keyvault.vaults":          KeyVaultVaults(),
 			"mysql.servers":            MySQLServers(),
 			"network.virtual_networks": NetworkVirtualNetworks(),
+			"network.security_groups":  NetworkSecurityGroups(),
 			"postgresql.servers":       PostgresqlServers(),
 			"resources.groups":         ResourcesGroups(),
 			"sql.servers":              SQLServers(),

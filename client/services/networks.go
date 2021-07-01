@@ -9,16 +9,25 @@ import (
 
 type NetworksClient struct {
 	VirtualNetworks VirtualNetworksClient
+	SecurityGroups  SecurityGroupsClient
 }
 
 func NewNetworksClient(subscriptionId string, auth autorest.Authorizer) NetworksClient {
 	vn := network.NewVirtualNetworksClient(subscriptionId)
 	vn.Authorizer = auth
+
+	sg := network.NewSecurityGroupsClient(subscriptionId)
+	sg.Authorizer = auth
 	return NetworksClient{
 		VirtualNetworks: vn,
+		SecurityGroups:  sg,
 	}
 }
 
 type VirtualNetworksClient interface {
 	ListAll(ctx context.Context) (result network.VirtualNetworkListResultPage, err error)
+}
+
+type SecurityGroupsClient interface {
+	ListAll(ctx context.Context) (result network.SecurityGroupListResultPage, err error)
 }
