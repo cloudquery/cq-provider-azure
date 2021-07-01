@@ -107,12 +107,14 @@ func fetchNetworkWatchers(ctx context.Context, meta schema.ClientMeta, parent *s
 	if err != nil {
 		return err
 	}
+	if result.Value == nil {
+		return nil
+	}
 	for _, w := range *result.Value {
 		resourceDetails, err := client.ParseResourceID(*w.ID)
 		if err != nil {
 			return err
 		}
-		svc := meta.(*client.Client).Services().Network.Watchers
 		result, err := svc.GetFlowLogStatus(ctx, resourceDetails.ResourceGroup, *w.Name, network.FlowLogStatusParameters{})
 		if err != nil {
 			return err
