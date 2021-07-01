@@ -3,6 +3,7 @@
 //go:generate mockgen -destination=./mocks/ad_service_principals.go -package=mocks . ADServicePrinicpals
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
 //go:generate mockgen -destination=./mocks/postgresql.go -package=mocks . PostgresqlConfigurationClient,PostgresqlServerClient,PostgresqlFirewallRuleClient
+//go:generate mockgen -destination=./mocks/monitor.go -package=mocks . ActivityLogAlertsClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -17,6 +18,7 @@ type Services struct {
 	Resources  ResourcesClient
 	SQL        SQLClient
 	Storage    StorageClient
+	Monitor    MonitorClient
 }
 
 func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
@@ -30,5 +32,6 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		Resources:  NewResourcesClient(subscriptionId, auth),
 		SQL:        NewSQLClient(subscriptionId, auth),
 		Storage:    NewStorageClient(subscriptionId, auth),
+		Monitor:    NewMonitorClient(subscriptionId, auth),
 	}
 }
