@@ -149,6 +149,59 @@ func SQLServers() *schema.Table {
 					},
 				},
 			},
+			{
+				Name:        "azure_sql_server_admins",
+				Description: "ServerAzureADAdministrator an server Active Directory Administrator",
+				Resolver:    fetchSqlServerAdmins,
+				Columns: []schema.Column{
+					{
+						Name:        "server_id",
+						Description: "Unique ID of azure_sql_servers table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "administrator_type",
+						Description: "The type of administrator",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ServerAdministratorProperties.AdministratorType"),
+					},
+					{
+						Name:        "login",
+						Description: "The server administrator login value",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ServerAdministratorProperties.Login"),
+					},
+					{
+						Name:        "sid",
+						Description: "The server administrator Sid (Secure ID)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.PathResolver("ServerAdministratorProperties.Sid"),
+					},
+					{
+						Name:        "tenant_id",
+						Description: "The server Active Directory Administrator tenant id",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.PathResolver("ServerAdministratorProperties.TenantID"),
+					},
+					{
+						Name:        "resource_id",
+						Description: "Resource ID",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "name",
+						Description: "Resource name",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "type",
+						Description: "Resource type",
+						Type:        schema.TypeString,
+					},
+				},
+			},
 		},
 	}
 }
@@ -168,6 +221,23 @@ func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema
 
 func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.Firewall
+	s := parent.Item.(sql.Server)
+	details, err := client.ParseResourceID(*s.ID)
+	if err != nil {
+		return err
+	}
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	if err != nil {
+		return err
+	}
+	if result.Value != nil {
+		res <- *result.Value
+	}
+	return nil
+}
+
+func fetchSqlServerAdmins(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().SQL.ServerAdmins
 	s := parent.Item.(sql.Server)
 	details, err := client.ParseResourceID(*s.ID)
 	if err != nil {

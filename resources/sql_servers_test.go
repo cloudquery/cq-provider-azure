@@ -15,11 +15,13 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	serverSvc := mocks.NewMockSqlServerClient(ctrl)
 	databaseSvc := mocks.NewMockSqlDatabaseClient(ctrl)
 	firewallSvc := mocks.NewMockSQLFirewallClient(ctrl)
+	adminsSvc := mocks.NewMockSQLServerAdminClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
-			Database: databaseSvc,
-			Firewall: firewallSvc,
-			Servers:  serverSvc,
+			Database:     databaseSvc,
+			Firewall:     firewallSvc,
+			ServerAdmins: adminsSvc,
+			Servers:      serverSvc,
 		},
 	}
 	server := sql.Server{}
@@ -43,6 +45,14 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	}
 	firewallSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
 		sql.FirewallRuleListResult{Value: &[]sql.FirewallRule{rule}}, nil,
+	)
+
+	var admin sql.ServerAzureADAdministrator
+	if err := faker.FakeData(&admin); err != nil {
+		t.Fatal(err)
+	}
+	adminsSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
+		sql.ServerAdministratorListResult{Value: &[]sql.ServerAzureADAdministrator{admin}}, nil,
 	)
 	return s
 }

@@ -8,9 +8,10 @@ import (
 )
 
 type SQLClient struct {
-	Database SqlDatabaseClient
-	Firewall SQLFirewallClient
-	Servers  SqlServerClient
+	Database     SqlDatabaseClient
+	Firewall     SQLFirewallClient
+	ServerAdmins SQLServerAdminClient
+	Servers      SqlServerClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -33,6 +34,10 @@ type SqlServerClient interface {
 
 type SQLFirewallClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.FirewallRuleListResult, err error)
+}
+
+type SQLServerAdminClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerAdministratorListResult, err error)
 }
 
 type SqlDatabaseClient interface {
