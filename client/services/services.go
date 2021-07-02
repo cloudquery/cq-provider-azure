@@ -3,9 +3,7 @@
 //go:generate mockgen -destination=./mocks/ad_service_principals.go -package=mocks . ADServicePrinicpals
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
 //go:generate mockgen -destination=./mocks/security_auto_provisioning_settings.go -package=mocks . SecurityAutoProvisioningSettingsClient
-//go:generate mockgen -destination=./mocks/security_contacts.go -package=mocks . SecurityContactsClient
-//go:generate mockgen -destination=./mocks/security_pricings.go -package=mocks . SecurityPricingsClient
-//go:generate mockgen -destination=./mocks/security_settings.go -package=mocks . SecuritySettingsClient
+//go:generate mockgen -destination=./mocks/security.go -package=mocks . SecurityContactsClient,SecurityPricingsClient,SecuritySettingsClient
 //go:generate mockgen -destination=./mocks/postgresql.go -package=mocks . PostgresqlConfigurationClient,PostgresqlServerClient,PostgresqlFirewallRuleClient
 package services
 
