@@ -501,10 +501,11 @@ func fetchAdApplicationAppRoles(ctx context.Context, meta schema.ClientMeta, par
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.AppRoles != nil {
-		for _, item := range *app.AppRoles {
-			res <- item
-		}
+	if app.AppRoles == nil {
+		return nil
+	}
+	for _, item := range *app.AppRoles {
+		res <- item
 	}
 	return nil
 }
@@ -514,10 +515,11 @@ func fetchAdApplicationKeyCredentials(ctx context.Context, meta schema.ClientMet
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.KeyCredentials != nil {
-		for _, item := range *app.KeyCredentials {
-			res <- item
-		}
+	if app.KeyCredentials == nil {
+		return nil
+	}
+	for _, item := range *app.KeyCredentials {
+		res <- item
 	}
 	return nil
 }
@@ -527,10 +529,11 @@ func fetchAdApplicationOauth2Permissions(ctx context.Context, meta schema.Client
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.Oauth2Permissions != nil {
-		for _, item := range *app.Oauth2Permissions {
-			res <- item
-		}
+	if app.Oauth2Permissions == nil {
+		return nil
+	}
+	for _, item := range *app.Oauth2Permissions {
+		res <- item
 	}
 	return nil
 }
@@ -540,10 +543,11 @@ func fetchAdApplicationPasswordCredentials(ctx context.Context, meta schema.Clie
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.PasswordCredentials != nil {
-		for _, item := range *app.PasswordCredentials {
-			res <- item
-		}
+	if app.PasswordCredentials == nil {
+		return nil
+	}
+	for _, item := range *app.PasswordCredentials {
+		res <- item
 	}
 	return nil
 }
@@ -553,10 +557,11 @@ func fetchAdApplicationPreAuthorizedApplications(ctx context.Context, meta schem
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.PreAuthorizedApplications != nil {
-		for _, item := range *app.PreAuthorizedApplications {
-			res <- item
-		}
+	if app.PreAuthorizedApplications == nil {
+		return nil
+	}
+	for _, item := range *app.PreAuthorizedApplications {
+		res <- item
 	}
 	return nil
 }
@@ -590,10 +595,11 @@ func fetchAdApplicationRequiredResourceAccesses(ctx context.Context, meta schema
 	if !ok {
 		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
 	}
-	if app.RequiredResourceAccess != nil {
-		for _, item := range *app.RequiredResourceAccess {
-			res <- item
-		}
+	if app.RequiredResourceAccess == nil {
+		return nil
+	}
+	for _, item := range *app.RequiredResourceAccess {
+		res <- item
 	}
 	return nil
 }
