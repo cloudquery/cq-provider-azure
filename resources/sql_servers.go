@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -298,7 +299,10 @@ func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema
 }
 
 func fetchSqlServerPrivateEndpointConnections(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	server := parent.Item.(sql.Server)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
 	if server.PrivateEndpointConnections != nil {
 		res <- *server.PrivateEndpointConnections
 	}
@@ -307,12 +311,15 @@ func fetchSqlServerPrivateEndpointConnections(ctx context.Context, meta schema.C
 
 func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.Firewall
-	s := parent.Item.(sql.Server)
-	details, err := client.ParseResourceID(*s.ID)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
+	details, err := client.ParseResourceID(*server.ID)
 	if err != nil {
 		return err
 	}
-	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *server.Name)
 	if err != nil {
 		return err
 	}
@@ -324,12 +331,15 @@ func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, pa
 
 func fetchSqlServerAdmins(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.ServerAdmins
-	s := parent.Item.(sql.Server)
-	details, err := client.ParseResourceID(*s.ID)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
+	details, err := client.ParseResourceID(*server.ID)
 	if err != nil {
 		return err
 	}
-	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *server.Name)
 	if err != nil {
 		return err
 	}
