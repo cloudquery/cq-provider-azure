@@ -1,8 +1,9 @@
-//go:generate mockgen -destination=./mocks/services.go -package=mocks  . DisksClient,GroupsClient,KeyClient,VaultClient,StorageAccountClient,StorageContainerClient,MySQLServerClient,MySQLConfigurationClient,PostgresqlConfigurationClient,PostgresqlServerClient,VirtualNetworksClient
+//go:generate mockgen -destination=./mocks/services.go -package=mocks  . DisksClient,GroupsClient,KeyClient,VaultClient,StorageAccountClient,StorageContainerClient,MySQLServerClient,MySQLConfigurationClient,VirtualNetworksClient
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SqlDatabaseClient,SQLFirewallClient,SQLServerAdminClient,SqlServerClient
 //go:generate mockgen -destination=./mocks/ad_groups.go -package=mocks . ADGroupsClient
 //go:generate mockgen -destination=./mocks/ad_service_principals.go -package=mocks . ADServicePrinicpals
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
-//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SqlDatabaseClient,SQLFirewallClient,SQLServerAdminClient,SqlServerClient
+//go:generate mockgen -destination=./mocks/postgresql.go -package=mocks . PostgresqlConfigurationClient,PostgresqlServerClient,PostgresqlFirewallRuleClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
