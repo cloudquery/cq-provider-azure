@@ -41,6 +41,7 @@ func NewSecurityClient(subscriptionId string, auth autorest.Authorizer) Security
 	contacts := security.NewContactsClient(subscriptionId, "")
 	contacts.Authorizer = auth
 	settings := security.NewSettingsClient(subscriptionId, "")
+	settings.Authorizer = auth
 	return SecurityClient{
 		AutoProvisioningSettings: aps,
 		Contacts:                 contacts,
