@@ -1451,11 +1451,11 @@ func fetchComputeVirtualMachinePropertiesStorageProfileDataDisks(ctx context.Con
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.StorageProfile == nil {
+	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.StorageProfile == nil || p.VirtualMachineProperties.StorageProfile.DataDisks == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.StorageProfile.DataDisks
+	res <- *p.VirtualMachineProperties.StorageProfile.DataDisks
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesOsProfileWindowsConfigurationAdditionalUnattendContents(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1463,11 +1463,13 @@ func fetchComputeVirtualMachinePropertiesOsProfileWindowsConfigurationAdditional
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
-	if p.OsProfile == nil || p.OsProfile.WindowsConfiguration == nil {
+	if p.OsProfile == nil ||
+		p.OsProfile.WindowsConfiguration == nil ||
+		p.OsProfile.WindowsConfiguration.AdditionalUnattendContent == nil {
 		return nil
 	}
 
-	res <- p.OsProfile.WindowsConfiguration.AdditionalUnattendContent
+	res <- *p.OsProfile.WindowsConfiguration.AdditionalUnattendContent
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesOsProfileWindowsConfigurationWinRMListeners(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1475,11 +1477,14 @@ func fetchComputeVirtualMachinePropertiesOsProfileWindowsConfigurationWinRMListe
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
-	if p.OsProfile == nil || p.OsProfile.WindowsConfiguration == nil || p.OsProfile.WindowsConfiguration.WinRM == nil {
+	if p.OsProfile == nil ||
+		p.OsProfile.WindowsConfiguration == nil ||
+		p.OsProfile.WindowsConfiguration.WinRM == nil ||
+		p.OsProfile.WindowsConfiguration.WinRM.Listeners == nil {
 		return nil
 	}
 
-	res <- p.OsProfile.WindowsConfiguration.WinRM.Listeners
+	res <- *p.OsProfile.WindowsConfiguration.WinRM.Listeners
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesOsProfileLinuxConfigurationSshPublicKeys(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1488,11 +1493,14 @@ func fetchComputeVirtualMachinePropertiesOsProfileLinuxConfigurationSshPublicKey
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.OsProfile == nil || p.OsProfile.LinuxConfiguration == nil || p.OsProfile.LinuxConfiguration.SSH == nil {
+	if p.OsProfile == nil ||
+		p.OsProfile.LinuxConfiguration == nil ||
+		p.OsProfile.LinuxConfiguration.SSH == nil ||
+		p.OsProfile.LinuxConfiguration.SSH.PublicKeys == nil {
 		return nil
 	}
 
-	res <- p.OsProfile.LinuxConfiguration.SSH.PublicKeys
+	res <- *p.OsProfile.LinuxConfiguration.SSH.PublicKeys
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesOsProfileSecrets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1501,11 +1509,11 @@ func fetchComputeVirtualMachinePropertiesOsProfileSecrets(ctx context.Context, m
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.OsProfile == nil {
+	if p.OsProfile == nil || p.OsProfile.Secrets == nil {
 		return nil
 	}
 
-	res <- p.OsProfile.Secrets
+	res <- *p.OsProfile.Secrets
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesOsProfileSecretVaultCertificates(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1514,7 +1522,11 @@ func fetchComputeVirtualMachinePropertiesOsProfileSecretVaultCertificates(ctx co
 		return fmt.Errorf("expected to have compute.VaultSecretGroup but got %T", parent.Item)
 	}
 
-	res <- p.VaultCertificates
+	if p.VaultCertificates == nil {
+		return nil
+	}
+
+	res <- *p.VaultCertificates
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesNetworkProfileNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1523,11 +1535,13 @@ func fetchComputeVirtualMachinePropertiesNetworkProfileNetworkInterfaces(ctx con
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.NetworkProfile == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.NetworkProfile == nil ||
+		p.VirtualMachineProperties.NetworkProfile.NetworkInterfaces == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.NetworkProfile.NetworkInterfaces
+	res <- *p.VirtualMachineProperties.NetworkProfile.NetworkInterfaces
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewVmAgentExtensionHandlers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1536,11 +1550,14 @@ func fetchComputeVirtualMachinePropertiesInstanceViewVmAgentExtensionHandlers(ct
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil || p.VirtualMachineProperties.InstanceView.VMAgent == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.InstanceView == nil ||
+		p.VirtualMachineProperties.InstanceView.VMAgent == nil ||
+		p.VirtualMachineProperties.InstanceView.VMAgent.ExtensionHandlers == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.VMAgent.ExtensionHandlers
+	res <- *p.VirtualMachineProperties.InstanceView.VMAgent.ExtensionHandlers
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewVmAgentStatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1549,11 +1566,14 @@ func fetchComputeVirtualMachinePropertiesInstanceViewVmAgentStatuses(ctx context
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil || p.VirtualMachineProperties.InstanceView.VMAgent == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.InstanceView == nil ||
+		p.VirtualMachineProperties.InstanceView.VMAgent == nil ||
+		p.VirtualMachineProperties.InstanceView.VMAgent.Statuses == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.VMAgent.Statuses
+	res <- *p.VirtualMachineProperties.InstanceView.VMAgent.Statuses
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewDisks(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1562,24 +1582,26 @@ func fetchComputeVirtualMachinePropertiesInstanceViewDisks(ctx context.Context, 
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.InstanceView == nil ||
+		p.VirtualMachineProperties.InstanceView.Disks == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.Disks
+	res <- *p.VirtualMachineProperties.InstanceView.Disks
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewDiskEncryptionSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(compute.VirtualMachine)
+	p, ok := parent.Item.(compute.DiskInstanceView)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.DiskInstanceView but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil {
+	if p.EncryptionSettings == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.Disks
+	res <- *p.EncryptionSettings
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewDiskStatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1588,7 +1610,11 @@ func fetchComputeVirtualMachinePropertiesInstanceViewDiskStatuses(ctx context.Co
 		return fmt.Errorf("expected to have compute.Disk but got %T", parent.Item)
 	}
 
-	res <- p.Statuses
+	if p.Statuses == nil {
+		return nil
+	}
+
+	res <- *p.Statuses
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewExtensions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1597,11 +1623,13 @@ func fetchComputeVirtualMachinePropertiesInstanceViewExtensions(ctx context.Cont
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.InstanceView == nil ||
+		p.VirtualMachineProperties.InstanceView.Extensions == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.Extensions
+	res <- *p.VirtualMachineProperties.InstanceView.Extensions
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewExtensionSubstatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1609,17 +1637,25 @@ func fetchComputeVirtualMachinePropertiesInstanceViewExtensionSubstatuses(ctx co
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineExtensionInstanceView but got %T", parent.Item)
 	}
+	if p.Substatuses == nil {
+		return nil
+	}
 
-	res <- p.Substatuses
+	res <- *p.Substatuses
 	return nil
 }
+
 func fetchComputeVirtualMachinePropertiesInstanceViewExtensionStatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(compute.VirtualMachineExtensionInstanceView)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineExtensionInstanceView but got %T", parent.Item)
 	}
 
-	res <- p.Statuses
+	if p.Statuses == nil {
+		return nil
+	}
+
+	res <- *p.Statuses
 	return nil
 }
 func fetchComputeVirtualMachinePropertiesInstanceViewStatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1628,11 +1664,13 @@ func fetchComputeVirtualMachinePropertiesInstanceViewStatuses(ctx context.Contex
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineProperties == nil || p.VirtualMachineProperties.InstanceView == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.InstanceView == nil ||
+		p.VirtualMachineProperties.InstanceView.Statuses == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineProperties.InstanceView.Statuses
+	res <- *p.VirtualMachineProperties.InstanceView.Statuses
 	return nil
 }
 func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1641,7 +1679,11 @@ func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.Client
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	res <- p.Resources
+	if p.Resources == nil {
+		return nil
+	}
+
+	res <- *p.Resources
 	return nil
 }
 func resolveComputeVirtualMachineResourceVirtualMachineExtensionPropertiesSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
@@ -1657,7 +1699,6 @@ func resolveComputeVirtualMachineResourceVirtualMachineExtensionPropertiesProtec
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineExtension but got %T", resource.Item)
 	}
-
 	return resource.Set(c.Name, p.ProtectedSettings)
 }
 func fetchComputeVirtualMachineResourceVirtualMachineExtensionPropertiesInstanceViewSubstatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1666,11 +1707,13 @@ func fetchComputeVirtualMachineResourceVirtualMachineExtensionPropertiesInstance
 		return fmt.Errorf("expected to have compute.VirtualMachineExtension but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineExtensionProperties == nil || p.VirtualMachineExtensionProperties.InstanceView == nil {
+	if p.VirtualMachineExtensionProperties == nil ||
+		p.VirtualMachineExtensionProperties.InstanceView == nil ||
+		p.VirtualMachineExtensionProperties.InstanceView.Substatuses == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineExtensionProperties.InstanceView.Substatuses
+	res <- *p.VirtualMachineExtensionProperties.InstanceView.Substatuses
 	return nil
 }
 func fetchComputeVirtualMachineResourceVirtualMachineExtensionPropertiesInstanceViewStatuses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1680,11 +1723,12 @@ func fetchComputeVirtualMachineResourceVirtualMachineExtensionPropertiesInstance
 	}
 
 	if p.VirtualMachineExtensionProperties == nil ||
-		p.VirtualMachineExtensionProperties.InstanceView == nil {
+		p.VirtualMachineExtensionProperties.InstanceView == nil ||
+		p.VirtualMachineExtensionProperties.InstanceView.Statuses == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineExtensionProperties.InstanceView.Statuses
+	res <- *p.VirtualMachineExtensionProperties.InstanceView.Statuses
 	return nil
 }
 func fetchComputeVirtualMachineResourceVirtualMachinePropertiesNetworkProfileNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1694,10 +1738,11 @@ func fetchComputeVirtualMachineResourceVirtualMachinePropertiesNetworkProfileNet
 	}
 
 	if p.VirtualMachineExtensionProperties == nil ||
-		p.VirtualMachineExtensionProperties.InstanceView == nil {
+		p.VirtualMachineExtensionProperties.InstanceView == nil ||
+		p.VirtualMachineExtensionProperties.InstanceView.Statuses == nil {
 		return nil
 	}
 
-	res <- p.VirtualMachineExtensionProperties.InstanceView.Statuses
+	res <- *p.VirtualMachineExtensionProperties.InstanceView.Statuses
 	return nil
 }
