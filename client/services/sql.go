@@ -21,10 +21,13 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	database.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
+	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
+	serverAdmins.Authorizer = auth
 	return SQLClient{
-		Database: database,
-		Firewall: firewall,
-		Servers:  servers,
+		Database:     database,
+		Firewall:     firewall,
+		ServerAdmins: serverAdmins,
+		Servers:      servers,
 	}
 }
 
