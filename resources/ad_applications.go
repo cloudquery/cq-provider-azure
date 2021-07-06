@@ -17,7 +17,7 @@ func AdApplications() *schema.Table {
 		Resolver:     fetchAdApplications,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "app_id"}},
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "object_id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
