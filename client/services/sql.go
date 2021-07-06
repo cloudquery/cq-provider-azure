@@ -8,13 +8,13 @@ import (
 )
 
 type SQLClient struct {
-	Database                     SqlDatabaseClient
+	Database                     SQLDatabaseClient
 	DatabaseBlobAuditingPolicies SQLDatabaseBlobAuditingPoliciesClient
 	Firewall                     SQLFirewallClient
 	ServerAdmins                 SQLServerAdminClient
 	ServerBlobAuditingPolicies   SQLServerBlobAuditingPolicies
 	ServerDevOpsAuditSettings    SQLServerDevOpsAuditSettingsClient
-	Servers                      SqlServerClient
+	Servers                      SQLServerClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -40,7 +40,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	}
 }
 
-type SqlServerClient interface {
+type SQLServerClient interface {
 	List(ctx context.Context) (result sql.ServerListResultPage, err error)
 }
 
@@ -60,7 +60,7 @@ type SQLServerDevOpsAuditSettingsClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerDevOpsAuditSettingsListResultPage, err error)
 }
 
-type SqlDatabaseClient interface {
+type SQLDatabaseClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.DatabaseListResultPage, err error)
 }
 

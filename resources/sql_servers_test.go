@@ -13,8 +13,8 @@ import (
 )
 
 func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services {
-	serverSvc := mocks.NewMockSqlServerClient(ctrl)
-	databaseSvc := mocks.NewMockSqlDatabaseClient(ctrl)
+	serverSvc := mocks.NewMockSQLServerClient(ctrl)
+	databaseSvc := mocks.NewMockSQLDatabaseClient(ctrl)
 	firewallSvc := mocks.NewMockSQLFirewallClient(ctrl)
 	adminsSvc := mocks.NewMockSQLServerAdminClient(ctrl)
 	databaseBlobSvc := mocks.NewMockSQLDatabaseBlobAuditingPoliciesClient(ctrl)

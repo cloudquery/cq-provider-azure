@@ -2,7 +2,7 @@
 //go:generate mockgen -destination=./mocks/ad_groups.go -package=mocks . ADGroupsClient
 //go:generate mockgen -destination=./mocks/ad_service_principals.go -package=mocks . ADServicePrinicpals
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
-//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerDevOpsAuditSettingsClient,SqlDatabaseClient,SqlServerClient
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
