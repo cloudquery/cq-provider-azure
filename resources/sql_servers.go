@@ -358,6 +358,101 @@ func SQLServers() *schema.Table {
 					},
 				},
 			},
+			{
+				Name:        "azure_sql_server_devops_audit_settings",
+				Description: "ServerDevOpsAuditingSettings a server DevOps auditing settings",
+				Resolver:    fetchSqlServerDevopsAuditSettings,
+				Columns: []schema.Column{
+					{
+						Name:        "server_id",
+						Description: "Unique ID of azure_sql_servers table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "created_by",
+						Description: "A string identifier for the identity that created the resource",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("SystemData.CreatedBy"),
+					},
+					{
+						Name:        "created_by_type",
+						Description: "The type of identity that created the resource: <User|Application|ManagedIdentity|Key> Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("SystemData.CreatedByType"),
+					},
+					{
+						Name:        "created_at_time",
+						Description: "The timestamp of resource creation (UTC).",
+						Type:        schema.TypeTimestamp,
+						Resolver:    schema.PathResolver("SystemData.CreatedAt.Time"),
+					},
+					{
+						Name:        "last_modified_by",
+						Description: "A string identifier for the identity that last modified the resource",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("SystemData.LastModifiedBy"),
+					},
+					{
+						Name:        "last_modified_by_type",
+						Description: "The type of identity that last modified the resource: <User|Application|ManagedIdentity|Key> Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("SystemData.LastModifiedByType"),
+					},
+					{
+						Name:        "last_modified_at_time",
+						Description: "The timestamp of last modification (UTC).",
+						Type:        schema.TypeTimestamp,
+						Resolver:    schema.PathResolver("SystemData.LastModifiedAt.Time"),
+					},
+					{
+						Name:        "is_azure_monitor_target_enabled",
+						Description: "Specifies whether DevOps audit events are sent to Azure Monitor In order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true  When using REST API to configure DevOps audit, Diagnostic Settings with 'DevOpsOperationsAudit' diagnostic logs category on the master database should be also created  Diagnostic Settings URI format: PUT https://managementazurecom/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/MicrosoftSql/servers/{serverName}/databases/master/providers/microsoftinsights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  For more information, see [Diagnostic Settings REST API](https://gomicrosoftcom/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://gomicrosoftcom/fwlink/?linkid=2033043)",
+						Type:        schema.TypeBool,
+						Resolver:    schema.PathResolver("ServerDevOpsAuditSettingsProperties.IsAzureMonitorTargetEnabled"),
+					},
+					{
+						Name:        "state",
+						Description: "Specifies the state of the audit If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required Possible values include: 'BlobAuditingPolicyStateEnabled', 'BlobAuditingPolicyStateDisabled'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ServerDevOpsAuditSettingsProperties.State"),
+					},
+					{
+						Name:        "storage_endpoint",
+						Description: "Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ServerDevOpsAuditSettingsProperties.StorageEndpoint"),
+					},
+					{
+						Name:        "storage_account_access_key",
+						Description: "Specifies the identifier key of the auditing storage account If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage Prerequisites for using managed identity authentication: 1 Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD) 2 Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity For more information, see [Auditing to storage using Managed Identity authentication](https://gomicrosoftcom/fwlink/?linkid=2114355)",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ServerDevOpsAuditSettingsProperties.StorageAccountAccessKey"),
+					},
+					{
+						Name:        "storage_account_subscription_id",
+						Description: "Specifies the blob storage subscription Id",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.PathResolver("ServerDevOpsAuditSettingsProperties.StorageAccountSubscriptionID"),
+					},
+					{
+						Name:        "resource_id",
+						Description: "Resource ID",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "name",
+						Description: "Resource name",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "type",
+						Description: "Resource type",
+						Type:        schema.TypeString,
+					},
+				},
+			},
 		},
 	}
 }
@@ -427,6 +522,26 @@ func fetchSqlServerAdmins(ctx context.Context, meta schema.ClientMeta, parent *s
 
 func fetchSqlServerDbBlobAuditingPolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.ServerBlobAuditingPolicies
+	s := parent.Item.(sql.Server)
+	details, err := client.ParseResourceID(*s.ID)
+	if err != nil {
+		return err
+	}
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	if err != nil {
+		return err
+	}
+	for result.NotDone() {
+		res <- result.Values()
+		if err := result.NextWithContext(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func fetchSqlServerDevopsAuditSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().SQL.ServerDevOpsAuditSettings
 	s := parent.Item.(sql.Server)
 	details, err := client.ParseResourceID(*s.ID)
 	if err != nil {

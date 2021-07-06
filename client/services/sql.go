@@ -13,6 +13,7 @@ type SQLClient struct {
 	Firewall                     SQLFirewallClient
 	ServerAdmins                 SQLServerAdminClient
 	ServerBlobAuditingPolicies   SQLServerBlobAuditingPolicies
+	ServerDevOpsAuditSettings    SQLServerDevOpsAuditSettingsClient
 	Servers                      SqlServerClient
 }
 
@@ -27,12 +28,15 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	firewall.Authorizer = auth
 	sbap := sql.NewServerBlobAuditingPoliciesClient(subscriptionId)
 	sbap.Authorizer = auth
+	sdas := sql.NewServerDevOpsAuditSettingsClient(subscriptionId)
+	sdas.Authorizer = auth
 	return SQLClient{
 		Database:                     database,
 		DatabaseBlobAuditingPolicies: dbap,
 		Firewall:                     firewall,
-		Servers:                      servers,
 		ServerBlobAuditingPolicies:   sbap,
+		ServerDevOpsAuditSettings:    sdas,
+		Servers:                      servers,
 	}
 }
 
@@ -50,6 +54,10 @@ type SQLServerAdminClient interface {
 
 type SQLServerBlobAuditingPolicies interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerBlobAuditingPolicyListResultPage, err error)
+}
+
+type SQLServerDevOpsAuditSettingsClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerDevOpsAuditSettingsListResultPage, err error)
 }
 
 type SqlDatabaseClient interface {
