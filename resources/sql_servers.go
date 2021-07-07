@@ -122,15 +122,16 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_private_endpoint_connections",
 				Description: "List of private endpoint connections on a server",
 				Resolver:    fetchSqlServerPrivateEndpointConnections,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -171,9 +172,10 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_firewall_rules",
 				Description: "The list of server firewall rules.",
 				Resolver:    fetchSqlServerFirewallRules,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -201,7 +203,7 @@ func SQLServers() *schema.Table {
 						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -222,9 +224,10 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_admins",
 				Description: "ServerAzureADAdministrator azure Active Directory administrator",
 				Resolver:    fetchSqlServerAdmins,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -260,7 +263,7 @@ func SQLServers() *schema.Table {
 						Resolver:    schema.PathResolver("AdministratorProperties.AzureADOnlyAuthentication"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
