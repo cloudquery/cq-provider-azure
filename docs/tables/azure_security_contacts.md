@@ -9,6 +9,6 @@ Contact contact details for security issues
 |phone|text|The phone number of this security contact|
 |alert_notifications|text|Whether to send security alerts notifications to the security contact Possible values include: 'On', 'Off'|
 |alerts_to_admins|text|Whether to send security alerts notifications to subscription admins Possible values include: 'AlertsToAdminsOn', 'AlertsToAdminsOff'|
-|resource_id|text|Resource Id|
+|id|text|Resource Id|
 |name|text|Resource name|
 |resource_type|text|Resource type|

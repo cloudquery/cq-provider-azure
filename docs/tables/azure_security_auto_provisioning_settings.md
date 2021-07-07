@@ -6,6 +6,6 @@ AutoProvisioningSetting auto provisioning setting
 | ------------- | ------------- | -----  |
 |subscription_id|text|Azure subscription id|
 |auto_provision|text|Describes what kind of security agent provisioning action to take Possible values include: 'AutoProvisionOn', 'AutoProvisionOff'|
-|resource_id|text|Resource Id|
+|id|text|Resource Id|
 |name|text|Resource name|
 |resource_type|text|Resource type|
