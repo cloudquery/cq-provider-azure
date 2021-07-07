@@ -321,9 +321,10 @@ func SQLDatabases() *schema.Table {
 				Name:        "azure_sql_database_db_blob_auditing_policies",
 				Description: "Database blob auditing policy",
 				Resolver:    fetchSqlDatabaseDbBlobAuditingPolicies,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"database_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "database_id",
+						Name:        "database_cq_id",
 						Description: "Unique ID of azure_sql_databases table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -388,7 +389,7 @@ func SQLDatabases() *schema.Table {
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.QueueDelayMs"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
