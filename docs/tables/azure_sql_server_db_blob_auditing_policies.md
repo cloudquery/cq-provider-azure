@@ -1,11 +1,10 @@
 
-# Table: azure_sql_database_db_blob_auditing_policies
+# Table: azure_sql_server_db_blob_auditing_policies
 Database blob auditing policy
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|database_cq_id|uuid|Unique ID of azure_sql_databases table (FK)|
-|kind|text|Resource kind|
+|server_cq_id|uuid|Unique ID of azure_sql_servers table (FK)|
 |state|text|Specifies the state of the policy If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required Possible values include: 'BlobAuditingPolicyStateEnabled', 'BlobAuditingPolicyStateDisabled'|
 |storage_endpoint|text|Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required|
 |storage_account_access_key|text|Specifies the identifier key of the auditing storage account If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage Prerequisites for using managed identity authentication: 1 Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD) 2 Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity For more information, see [Auditing to storage using Managed Identity authentication](https://gomicrosoftcom/fwlink/?linkid=2114355)|
