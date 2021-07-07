@@ -32,7 +32,7 @@ type SecurityClient struct {
 
 func NewSecurityClient(subscriptionId string, auth autorest.Authorizer) SecurityClient {
 	// New*Client requires that the ASC location is passed as an argument, but API methods
-	// that we actually use do not use that location for performing the request (juding by REST API docs).
+	// that we actually use do not use that location for performing the request (judging by REST API docs).
 	// That is why we are passing an empty string here.
 	aps := security.NewAutoProvisioningSettingsClient(subscriptionId, "")
 	aps.Authorizer = auth
