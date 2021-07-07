@@ -37,4 +37,4 @@ jobs:
           go run ./docs/docs.go
       - name: Fail if docs are changed
         run: |
-          if [ $(git status -- ./docs/tables | grep 'modified:' | wc -l) -gt 0 ]; then exit 1; fi
+          test "$(git status -s ./docs/tables | wc -l)" -eq 0
