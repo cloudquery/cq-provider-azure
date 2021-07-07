@@ -15,6 +15,7 @@ func SQLDatabases() *schema.Table {
 		Resolver:     fetchSqlDatabases,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -299,7 +300,7 @@ func SQLDatabases() *schema.Table {
 				Type:        schema.TypeJSON,
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),

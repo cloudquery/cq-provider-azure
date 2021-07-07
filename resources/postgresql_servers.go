@@ -14,6 +14,7 @@ func PostgresqlServers() *schema.Table {
 		Description: "Azure postgresql server",
 		Resolver:    fetchPostgresqlServers,
 		Multiplex:   client.SubscriptionMultiplex,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -182,7 +183,7 @@ func PostgresqlServers() *schema.Table {
 				Type:        schema.TypeString,
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Fully qualified resource ID for the resource Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
@@ -203,15 +204,16 @@ func PostgresqlServers() *schema.Table {
 				Name:        "azure_postgresql_server_private_endpoint_connections",
 				Description: "Azure postgresql server private endpoint connection",
 				Resolver:    fetchPostgresqlServerPrivateEndpointConnections,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_postgresql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID of the Private Endpoint Connection",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -252,9 +254,10 @@ func PostgresqlServers() *schema.Table {
 				Name:        "azure_postgresql_server_configurations",
 				Description: "Azure postgresql server configuration",
 				Resolver:    fetchPostgresqlServerConfigurations,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_postgresql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -296,7 +299,49 @@ func PostgresqlServers() *schema.Table {
 						Resolver:    schema.PathResolver("ConfigurationProperties.Source"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
+						Description: "Fully qualified resource ID for the resource Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "name",
+						Description: "The name of the resource",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "type",
+						Description: "The type of the resource Eg \"MicrosoftCompute/virtualMachines\" or \"MicrosoftStorage/storageAccounts\"",
+						Type:        schema.TypeString,
+					},
+				},
+			},
+			{
+				Name:        "azure_postgresql_server_firewall_rules",
+				Description: "Azure postgresql server firewall rule",
+				Resolver:    fetchPostgresqlServerFirewallRules,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+				Columns: []schema.Column{
+					{
+						Name:        "server_cq_id",
+						Description: "Unique ID of azure_postgresql_servers table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "start_ip_address",
+						Description: "The start IP address of the server firewall rule Must be IPv4 format",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("FirewallRuleProperties.StartIPAddress"),
+					},
+					{
+						Name:        "end_ip_address",
+						Description: "The end IP address of the server firewall rule Must be IPv4 format",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
+					},
+					{
+						Name:        "id",
 						Description: "Fully qualified resource ID for the resource Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -320,7 +365,7 @@ func PostgresqlServers() *schema.Table {
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
-func fetchPostgresqlServers(ctx context.Context, meta schema.ClientMeta, _ *schema.Resource, res chan interface{}) error {
+func fetchPostgresqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().PostgreSQL.Servers
 	response, err := svc.List(ctx)
 	if err != nil {
@@ -332,7 +377,7 @@ func fetchPostgresqlServers(ctx context.Context, meta schema.ClientMeta, _ *sche
 	res <- *response.Value
 	return nil
 }
-func fetchPostgresqlServerPrivateEndpointConnections(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+func fetchPostgresqlServerPrivateEndpointConnections(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	server := parent.Item.(postgresql.Server)
 	if server.PrivateEndpointConnections == nil {
 		return nil
@@ -356,5 +401,24 @@ func fetchPostgresqlServerConfigurations(ctx context.Context, meta schema.Client
 		return nil
 	}
 	res <- *configurations.Value
+	return nil
+}
+
+func fetchPostgresqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	server := parent.Item.(postgresql.Server)
+	svc := meta.(*client.Client).Services().PostgreSQL.FirewallRule
+
+	resourceDetails, err := client.ParseResourceID(*server.ID)
+	if err != nil {
+		return err
+	}
+	firewallRules, err := svc.ListByServer(ctx, resourceDetails.ResourceGroup, *server.Name)
+	if err != nil {
+		return err
+	}
+	if firewallRules.Value == nil {
+		return nil
+	}
+	res <- *firewallRules.Value
 	return nil
 }
