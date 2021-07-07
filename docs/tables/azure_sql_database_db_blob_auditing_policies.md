@@ -4,7 +4,7 @@ Database blob auditing policy
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|database_id|uuid|Unique ID of azure_sql_databases table (FK)|
+|database_cq_id|uuid|Unique ID of azure_sql_databases table (FK)|
 |kind|text|Resource kind|
 |state|text|Specifies the state of the policy If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required Possible values include: 'BlobAuditingPolicyStateEnabled', 'BlobAuditingPolicyStateDisabled'|
 |storage_endpoint|text|Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required|
@@ -15,6 +15,6 @@ Database blob auditing policy
 |is_storage_secondary_key_in_use|boolean|Specifies whether storageAccountAccessKey value is the storage's secondary key|
 |is_azure_monitor_target_enabled|boolean|Specifies whether audit events are sent to Azure Monitor In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true  When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created Note that for server level audit you should use the 'master' database as {databaseName}  Diagnostic Settings URI format: PUT https://managementazurecom/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/MicrosoftSql/servers/{serverName}/databases/{databaseName}/providers/microsoftinsights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  For more information, see [Diagnostic Settings REST API](https://gomicrosoftcom/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://gomicrosoftcom/fwlink/?linkid=2033043)|
 |queue_delay_ms|integer|Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed The default minimum value is 1000 (1 second) The maximum is 2,147,483,647|
-|resource_id|text|Resource ID|
+|id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|

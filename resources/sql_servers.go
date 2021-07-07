@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -15,6 +16,7 @@ func SQLServers() *schema.Table {
 		Resolver:     fetchSqlServers,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -98,7 +100,7 @@ func SQLServers() *schema.Table {
 				Type:        schema.TypeJSON,
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
@@ -120,15 +122,16 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_private_endpoint_connections",
 				Description: "List of private endpoint connections on a server",
 				Resolver:    fetchSqlServerPrivateEndpointConnections,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -169,9 +172,10 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_firewall_rules",
 				Description: "The list of server firewall rules.",
 				Resolver:    fetchSqlServerFirewallRules,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -199,7 +203,7 @@ func SQLServers() *schema.Table {
 						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -220,9 +224,10 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_admins",
 				Description: "ServerAzureADAdministrator azure Active Directory administrator",
 				Resolver:    fetchSqlServerAdmins,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -258,7 +263,7 @@ func SQLServers() *schema.Table {
 						Resolver:    schema.PathResolver("AdministratorProperties.AzureADOnlyAuthentication"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -279,9 +284,10 @@ func SQLServers() *schema.Table {
 				Name:        "azure_sql_server_db_blob_auditing_policies",
 				Description: "Database blob auditing policy",
 				Resolver:    fetchSqlServerDbBlobAuditingPolicies,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "server_id",
+						Name:        "server_cq_id",
 						Description: "Unique ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
@@ -341,7 +347,7 @@ func SQLServers() *schema.Table {
 						Resolver:    schema.PathResolver("ServerBlobAuditingPolicyProperties.QueueDelayMs"),
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -476,7 +482,10 @@ func fetchSqlServers(ctx context.Context, meta schema.ClientMeta, parent *schema
 }
 
 func fetchSqlServerPrivateEndpointConnections(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	server := parent.Item.(sql.Server)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
 	if server.PrivateEndpointConnections != nil {
 		res <- *server.PrivateEndpointConnections
 	}
@@ -485,12 +494,15 @@ func fetchSqlServerPrivateEndpointConnections(ctx context.Context, meta schema.C
 
 func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.Firewall
-	s := parent.Item.(sql.Server)
-	details, err := client.ParseResourceID(*s.ID)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
+	details, err := client.ParseResourceID(*server.ID)
 	if err != nil {
 		return err
 	}
-	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *server.Name)
 	if err != nil {
 		return err
 	}
@@ -502,12 +514,15 @@ func fetchSqlServerFirewallRules(ctx context.Context, meta schema.ClientMeta, pa
 
 func fetchSqlServerAdmins(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.ServerAdmins
-	s := parent.Item.(sql.Server)
-	details, err := client.ParseResourceID(*s.ID)
+	server, ok := parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not an sql.Server instance: %#v", parent.Item)
+	}
+	details, err := client.ParseResourceID(*server.ID)
 	if err != nil {
 		return err
 	}
-	result, err := svc.ListByServer(ctx, details.ResourceGroup, *s.Name)
+	result, err := svc.ListByServer(ctx, details.ResourceGroup, *server.Name)
 	if err != nil {
 		return err
 	}

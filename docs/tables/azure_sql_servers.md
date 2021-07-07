@@ -18,6 +18,6 @@ Azure sql server
 |public_network_access|text|Whether or not public endpoint access is allowed for this server  Value is optional but if passed in, must be 'Enabled' or 'Disabled' Possible values include: 'ServerPublicNetworkAccessEnabled', 'ServerPublicNetworkAccessDisabled'|
 |location|text|Resource location|
 |tags|jsonb|Resource tags|
-|resource_id|text|Resource ID|
+|id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|

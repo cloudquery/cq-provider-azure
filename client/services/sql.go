@@ -26,6 +26,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	dbap.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
+	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
+	serverAdmins.Authorizer = auth
 	sbap := sql.NewServerBlobAuditingPoliciesClient(subscriptionId)
 	sbap.Authorizer = auth
 	sdas := sql.NewServerDevOpsAuditSettingsClient(subscriptionId)
@@ -34,6 +36,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		Database:                     database,
 		DatabaseBlobAuditingPolicies: dbap,
 		Firewall:                     firewall,
+		ServerAdmins:                 serverAdmins,
 		ServerBlobAuditingPolicies:   sbap,
 		ServerDevOpsAuditSettings:    sdas,
 		Servers:                      servers,

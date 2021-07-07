@@ -52,6 +52,6 @@ Azure sql database
 |maintenance_configuration_id|text|Maintenance configuration id assigned to the database This configuration defines the period when the maintenance updates will occur|
 |location|text|Resource location|
 |tags|jsonb|Resource tags|
-|resource_id|text|Resource ID|
+|id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|
