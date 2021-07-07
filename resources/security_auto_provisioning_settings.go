@@ -14,6 +14,7 @@ func SecurityAutoProvisioningSettings() *schema.Table {
 		Resolver:     fetchSecurityAutoProvisioningSettings,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -28,7 +29,7 @@ func SecurityAutoProvisioningSettings() *schema.Table {
 				Resolver:    schema.PathResolver("AutoProvisioningSettingProperties.AutoProvision"),
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),

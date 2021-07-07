@@ -14,6 +14,7 @@ func SecurityContacts() *schema.Table {
 		Resolver:     fetchSecurityContacts,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -46,7 +47,7 @@ func SecurityContacts() *schema.Table {
 				Resolver:    schema.PathResolver("ContactProperties.AlertsToAdmins"),
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),

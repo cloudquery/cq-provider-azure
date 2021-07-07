@@ -14,6 +14,7 @@ func SecuritySettings() *schema.Table {
 		Resolver:     fetchSecuritySettings,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -27,7 +28,7 @@ func SecuritySettings() *schema.Table {
 				Type:        schema.TypeString,
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
