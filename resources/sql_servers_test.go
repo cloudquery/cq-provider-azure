@@ -21,6 +21,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	serverBlobSvc := mocks.NewMockSQLServerBlobAuditingPolicies(ctrl)
 	devopsAuditSvc := mocks.NewMockSQLServerDevOpsAuditSettingsClient(ctrl)
 	databaseThreatsSvc := mocks.NewMockSQLDatabaseThreatDetectionPoliciesClient(ctrl)
+	serverVulnsSvc := mocks.NewMockSQLServerVulnerabilityAssessmentsClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
 			Database:                        databaseSvc,
@@ -31,6 +32,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 			ServerBlobAuditingPolicies:      serverBlobSvc,
 			ServerDevOpsAuditSettings:       devopsAuditSvc,
 			Servers:                         serverSvc,
+			ServerVulnerabilityAssessments:  serverVulnsSvc,
 		},
 	}
 	server := sql.Server{}
@@ -128,6 +130,20 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 		t.Fatal(err)
 	}
 	databaseThreatsSvc.EXPECT().Get(gomock.Any(), "test", *server.Name, *database.Name).Return(databaseAlert, nil)
+
+	var serverVuln sql.ServerVulnerabilityAssessment
+	if err := faker.FakeData(&serverVuln); err != nil {
+		t.Fatal(err)
+	}
+	serverVulnsSvc.EXPECT().ListByServer(gomock.Any(), "test", *server.Name).Return(
+		sql.NewServerVulnerabilityAssessmentListResultPage(
+			sql.ServerVulnerabilityAssessmentListResult{Value: &[]sql.ServerVulnerabilityAssessment{serverVuln}},
+			func(context.Context, sql.ServerVulnerabilityAssessmentListResult) (sql.ServerVulnerabilityAssessmentListResult, error) {
+				return sql.ServerVulnerabilityAssessmentListResult{}, nil
+			},
+		), nil,
+	)
+
 	return s
 }
 

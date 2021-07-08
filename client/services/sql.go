@@ -16,6 +16,7 @@ type SQLClient struct {
 	ServerBlobAuditingPolicies      SQLServerBlobAuditingPolicies
 	ServerDevOpsAuditSettings       SQLServerDevOpsAuditSettingsClient
 	Servers                         SQLServerClient
+	ServerVulnerabilityAssessments  SQLServerVulnerabilityAssessmentsClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -35,6 +36,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	sdas.Authorizer = auth
 	dtdp := sql.NewDatabaseThreatDetectionPoliciesClient(subscriptionId)
 	dtdp.Authorizer = auth
+	sva := sql.NewServerVulnerabilityAssessmentsClient(subscriptionId)
+	sva.Authorizer = auth
 	return SQLClient{
 		Database:                        database,
 		DatabaseBlobAuditingPolicies:    dbap,
@@ -44,6 +47,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		ServerBlobAuditingPolicies:      sbap,
 		ServerDevOpsAuditSettings:       sdas,
 		Servers:                         servers,
+		ServerVulnerabilityAssessments:  sva,
 	}
 }
 
@@ -67,6 +71,9 @@ type SQLServerDevOpsAuditSettingsClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerDevOpsAuditSettingsListResultPage, err error)
 }
 
+type SQLServerVulnerabilityAssessmentsClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.ServerVulnerabilityAssessmentListResultPage, err error)
+}
 type SQLDatabaseClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.DatabaseListResultPage, err error)
 }
