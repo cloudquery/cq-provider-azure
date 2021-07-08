@@ -22,17 +22,19 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	devopsAuditSvc := mocks.NewMockSQLServerDevOpsAuditSettingsClient(ctrl)
 	databaseThreatsSvc := mocks.NewMockSQLDatabaseThreatDetectionPoliciesClient(ctrl)
 	serverVulnsSvc := mocks.NewMockSQLServerVulnerabilityAssessmentsClient(ctrl)
+	dbVulnsSvc := mocks.NewMockSQLDatabaseVulnerabilityAssessmentsClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
-			Database:                        databaseSvc,
-			DatabaseBlobAuditingPolicies:    databaseBlobSvc,
-			DatabaseThreatDetectionPolicies: databaseThreatsSvc,
-			Firewall:                        firewallSvc,
-			ServerAdmins:                    adminsSvc,
-			ServerBlobAuditingPolicies:      serverBlobSvc,
-			ServerDevOpsAuditSettings:       devopsAuditSvc,
-			Servers:                         serverSvc,
-			ServerVulnerabilityAssessments:  serverVulnsSvc,
+			Database:                         databaseSvc,
+			DatabaseBlobAuditingPolicies:     databaseBlobSvc,
+			DatabaseThreatDetectionPolicies:  databaseThreatsSvc,
+			DatabaseVulnerabilityAssessments: dbVulnsSvc,
+			Firewall:                         firewallSvc,
+			ServerAdmins:                     adminsSvc,
+			ServerBlobAuditingPolicies:       serverBlobSvc,
+			ServerDevOpsAuditSettings:        devopsAuditSvc,
+			Servers:                          serverSvc,
+			ServerVulnerabilityAssessments:   serverVulnsSvc,
 		},
 	}
 	server := sql.Server{}
@@ -140,6 +142,19 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 			sql.ServerVulnerabilityAssessmentListResult{Value: &[]sql.ServerVulnerabilityAssessment{serverVuln}},
 			func(context.Context, sql.ServerVulnerabilityAssessmentListResult) (sql.ServerVulnerabilityAssessmentListResult, error) {
 				return sql.ServerVulnerabilityAssessmentListResult{}, nil
+			},
+		), nil,
+	)
+
+	var dbVuln sql.DatabaseVulnerabilityAssessment
+	if err := faker.FakeData(&dbVuln); err != nil {
+		t.Fatal(err)
+	}
+	dbVulnsSvc.EXPECT().ListByDatabase(gomock.Any(), "test", *server.Name, *database.Name).Return(
+		sql.NewDatabaseVulnerabilityAssessmentListResultPage(
+			sql.DatabaseVulnerabilityAssessmentListResult{Value: &[]sql.DatabaseVulnerabilityAssessment{dbVuln}},
+			func(context.Context, sql.DatabaseVulnerabilityAssessmentListResult) (sql.DatabaseVulnerabilityAssessmentListResult, error) {
+				return sql.DatabaseVulnerabilityAssessmentListResult{}, nil
 			},
 		), nil,
 	)

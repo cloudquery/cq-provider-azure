@@ -8,15 +8,16 @@ import (
 )
 
 type SQLClient struct {
-	Database                        SQLDatabaseClient
-	DatabaseBlobAuditingPolicies    SQLDatabaseBlobAuditingPoliciesClient
-	DatabaseThreatDetectionPolicies SQLDatabaseThreatDetectionPoliciesClient
-	Firewall                        SQLFirewallClient
-	ServerAdmins                    SQLServerAdminClient
-	ServerBlobAuditingPolicies      SQLServerBlobAuditingPolicies
-	ServerDevOpsAuditSettings       SQLServerDevOpsAuditSettingsClient
-	Servers                         SQLServerClient
-	ServerVulnerabilityAssessments  SQLServerVulnerabilityAssessmentsClient
+	Database                         SQLDatabaseClient
+	DatabaseBlobAuditingPolicies     SQLDatabaseBlobAuditingPoliciesClient
+	DatabaseThreatDetectionPolicies  SQLDatabaseThreatDetectionPoliciesClient
+	DatabaseVulnerabilityAssessments SQLDatabaseVulnerabilityAssessmentsClient
+	Firewall                         SQLFirewallClient
+	ServerAdmins                     SQLServerAdminClient
+	ServerBlobAuditingPolicies       SQLServerBlobAuditingPolicies
+	ServerDevOpsAuditSettings        SQLServerDevOpsAuditSettingsClient
+	Servers                          SQLServerClient
+	ServerVulnerabilityAssessments   SQLServerVulnerabilityAssessmentsClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -84,4 +85,8 @@ type SQLDatabaseBlobAuditingPoliciesClient interface {
 
 type SQLDatabaseThreatDetectionPoliciesClient interface {
 	Get(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.DatabaseSecurityAlertPolicy, err error)
+}
+
+type SQLDatabaseVulnerabilityAssessmentsClient interface {
+	ListByDatabase(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.DatabaseVulnerabilityAssessmentListResultPage, err error)
 }

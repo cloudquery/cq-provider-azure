@@ -5,7 +5,7 @@
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
 //go:generate mockgen -destination=./mocks/postgresql.go -package=mocks . PostgresqlConfigurationClient,PostgresqlServerClient,PostgresqlFirewallRuleClient
 //go:generate mockgen -destination=./mocks/security.go -package=mocks . SecurityAutoProvisioningSettingsClient,SecurityContactsClient,SecurityPricingsClient,SecuritySettingsClient
-//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLDatabaseVulnerabilityAssessmentsClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"

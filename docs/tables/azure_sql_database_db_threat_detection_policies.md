@@ -4,7 +4,7 @@ Contains information about a database Threat Detection policy.
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|database_id|uuid|Unique ID of azure_sql_databases table (FK)|
+|database_cq_id|uuid|Unique ID of azure_sql_databases table (FK)|
 |location|text|The geo-location where the resource lives|
 |kind|text|Resource kind|
 |state|text|Specifies the state of the policy If state is Enabled, storageEndpoint and storageAccountAccessKey are required Possible values include: 'SecurityAlertPolicyStateNew', 'SecurityAlertPolicyStateEnabled', 'SecurityAlertPolicyStateDisabled'|
