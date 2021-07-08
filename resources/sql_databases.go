@@ -410,9 +410,10 @@ func SQLDatabases() *schema.Table {
 				Name:        "azure_sql_database_db_threat_detection_policies",
 				Description: "Contains information about a database Threat Detection policy.",
 				Resolver:    fetchSqlDatabaseDbThreatDetectionPolicies,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"database_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "database_id",
+						Name:        "database_cq_id",
 						Description: "Unique ID of azure_sql_databases table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
