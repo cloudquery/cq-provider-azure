@@ -406,6 +406,93 @@ func SQLDatabases() *schema.Table {
 					},
 				},
 			},
+			{
+				Name:        "azure_sql_database_db_threat_detection_policies",
+				Description: "Contains information about a database Threat Detection policy.",
+				Resolver:    fetchSqlDatabaseDbThreatDetectionPolicies,
+				Columns: []schema.Column{
+					{
+						Name:        "database_id",
+						Description: "Unique ID of azure_sql_databases table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "location",
+						Description: "The geo-location where the resource lives",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "kind",
+						Description: "Resource kind",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "state",
+						Description: "Specifies the state of the policy If state is Enabled, storageEndpoint and storageAccountAccessKey are required Possible values include: 'SecurityAlertPolicyStateNew', 'SecurityAlertPolicyStateEnabled', 'SecurityAlertPolicyStateDisabled'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.State"),
+					},
+					{
+						Name:        "disabled_alerts",
+						Description: "Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration; Unsafe_Action",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.DisabledAlerts"),
+					},
+					{
+						Name:        "email_addresses",
+						Description: "Specifies the semicolon-separated list of e-mail addresses to which the alert is sent",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.EmailAddresses"),
+					},
+					{
+						Name:        "email_account_admins",
+						Description: "Specifies that the alert is sent to the account administrators Possible values include: 'SecurityAlertPolicyEmailAccountAdminsEnabled', 'SecurityAlertPolicyEmailAccountAdminsDisabled'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.EmailAccountAdmins"),
+					},
+					{
+						Name:        "storage_endpoint",
+						Description: "Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) This blob storage will hold all Threat Detection audit logs If state is Enabled, storageEndpoint is required",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageEndpoint"),
+					},
+					{
+						Name:        "storage_account_access_key",
+						Description: "Specifies the identifier key of the Threat Detection audit storage account If state is Enabled, storageAccountAccessKey is required",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageAccountAccessKey"),
+					},
+					{
+						Name:        "retention_days",
+						Description: "Specifies the number of days to keep in the Threat Detection audit logs",
+						Type:        schema.TypeInt,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.RetentionDays"),
+					},
+					{
+						Name:        "use_server_default",
+						Description: "Specifies whether to use the default server policy Possible values include: 'SecurityAlertPolicyUseServerDefaultEnabled', 'SecurityAlertPolicyUseServerDefaultDisabled'",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.UseServerDefault"),
+					},
+					{
+						Name:        "id",
+						Description: "Resource ID",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
+					},
+					{
+						Name:        "name",
+						Description: "Resource name",
+						Type:        schema.TypeString,
+					},
+					{
+						Name:        "type",
+						Description: "Resource type",
+						Type:        schema.TypeString,
+					},
+				},
+			},
 		},
 	}
 }
@@ -451,5 +538,21 @@ func fetchSqlDatabaseDbBlobAuditingPolicies(ctx context.Context, meta schema.Cli
 			return err
 		}
 	}
+	return nil
+}
+
+func fetchSqlDatabaseDbThreatDetectionPolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().SQL.DatabaseThreatDetectionPolicies
+	database := parent.Item.(sql.Database)
+	details, err := client.ParseResourceID(*database.ID)
+	if err != nil {
+		return err
+	}
+	serverName := parent.Parent.Get("name").(*string)
+	result, err := svc.Get(ctx, details.ResourceGroup, *serverName, *database.Name)
+	if err != nil {
+		return err
+	}
+	res <- result
 	return nil
 }
