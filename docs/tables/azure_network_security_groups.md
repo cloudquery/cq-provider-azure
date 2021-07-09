@@ -8,7 +8,7 @@ Azure network security group
 |resource_guid|text|The resource GUID property of the network security group resource|
 |provisioning_state|text|The provisioning state of the network security group resource Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'|
 |etag|text|A unique read-only string that changes whenever the resource is updated|
-|resource_id|text|Resource ID|
+|id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|
 |location|text|Resource location|

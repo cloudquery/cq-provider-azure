@@ -15,6 +15,7 @@ func NetworkSecurityGroups() *schema.Table {
 		Description: "Azure network security group",
 		Resolver:    fetchNetworkSecurityGroups,
 		Multiplex:   client.SubscriptionMultiplex,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -40,7 +41,7 @@ func NetworkSecurityGroups() *schema.Table {
 				Type:        schema.TypeString,
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
@@ -71,12 +72,19 @@ func NetworkSecurityGroups() *schema.Table {
 				Name:        "azure_network_security_group_security_rules",
 				Description: "SecurityRule network security rule",
 				Resolver:    fetchNetworkSecurityGroupSecurityRules,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"security_group_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "security_group_id",
+						Name:        "security_group_cq_id",
 						Description: "Unique ID of azure_network_security_groups table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "security_group_id",
+						Description: "ID of azure_network_security_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "description",
@@ -178,7 +186,7 @@ func NetworkSecurityGroups() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -189,12 +197,19 @@ func NetworkSecurityGroups() *schema.Table {
 				Name:        "azure_network_security_group_flow_logs",
 				Description: "FlowLog a flow log resource",
 				Resolver:    fetchNetworkSecurityGroupFlowLogs,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"security_group_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "security_group_id",
+						Name:        "security_group_cq_id",
 						Description: "Unique ID of azure_network_security_groups table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "security_group_id",
+						Description: "ID of azure_network_security_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "target_resource_id",
@@ -286,7 +301,7 @@ func NetworkSecurityGroups() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -317,12 +332,19 @@ func NetworkSecurityGroups() *schema.Table {
 				Name:        "azure_network_security_group_default_security_rules",
 				Description: "SecurityRule network security rule",
 				Resolver:    fetchNetworkSecurityGroupDefaultSecurityRules,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"security_group_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "security_group_id",
+						Name:        "security_group_cq_id",
 						Description: "Unique ID of azure_network_security_groups table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "security_group_id",
+						Description: "ID of azure_network_security_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "description",
@@ -424,7 +446,7 @@ func NetworkSecurityGroups() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "id",
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
