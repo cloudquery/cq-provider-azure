@@ -9,16 +9,25 @@ import (
 
 type MonitorClient struct {
 	ActivityLogAlerts ActivityLogAlertsClient
+	LogProfiles       LogProfilesClient
 }
 
 func NewMonitorClient(subscriptionId string, auth autorest.Authorizer) MonitorClient {
 	servers := insights.NewActivityLogAlertsClient(subscriptionId)
 	servers.Authorizer = auth
+	logProfiles := insights.NewLogProfilesClient(subscriptionID)
+	logProfiles.Authorizer = auth
 	return MonitorClient{
 		ActivityLogAlerts: servers,
+		LogProfiles:       logProfiles,
 	}
 }
 
 type ActivityLogAlertsClient interface {
 	ListBySubscriptionID(ctx context.Context) (result insights.ActivityLogAlertList, err error)
 }
+
+type LogProfilesClient interface {
+	List(ctx context.Context) (result insights.LogProfileCollection, err error)
+}
+
