@@ -13,6 +13,7 @@ func NetworkWatchers() *schema.Table {
 		Name:        "azure_network_watchers",
 		Description: "Azure network watcher",
 		Resolver:    fetchNetworkWatchers,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"id"}},
 		Multiplex:   client.SubscriptionMultiplex,
 		Columns: []schema.Column{
 			{
@@ -33,7 +34,7 @@ func NetworkWatchers() *schema.Table {
 				Resolver:    schema.PathResolver("WatcherPropertiesFormat.ProvisioningState"),
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
