@@ -7,7 +7,7 @@ Azure network watcher
 |subscription_id|text|Azure subscription id|
 |etag|text|A unique read-only string that changes whenever the resource is updated|
 |provisioning_state|text|The provisioning state of the network watcher resource Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'|
-|resource_id|text|Resource ID|
+|id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|
 |location|text|Resource location|
