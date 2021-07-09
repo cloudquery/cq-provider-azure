@@ -15,6 +15,7 @@ func MonitorActivityLogAlerts() *schema.Table {
 		Description: "ActivityLogAlertResource an activity log alert resource",
 		Resolver:    fetchMonitorActivityLogAlerts,
 		Multiplex:   client.SubscriptionMultiplex,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -41,7 +42,7 @@ func MonitorActivityLogAlerts() *schema.Table {
 				Resolver:    schema.PathResolver("ActivityLogAlert.Description"),
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Azure resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
@@ -72,12 +73,19 @@ func MonitorActivityLogAlerts() *schema.Table {
 				Name:        "azure_monitor_activity_log_alert_conditions",
 				Description: "ActivityLogAlertLeafCondition an Activity Log alert condition that is met by comparing an activity log field and value",
 				Resolver:    fetchMonitorActivityLogAlertConditions,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"activity_log_alert_cq_id", "field"}},
 				Columns: []schema.Column{
 					{
-						Name:        "activity_log_alert_id",
+						Name:        "activity_log_alert_cq_id",
 						Description: "Unique ID of azure_monitor_activity_log_alerts table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "activity_log_alert_id",
+						Description: "ID of azure_monitor_activity_log_alerts table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "field",
@@ -96,12 +104,19 @@ func MonitorActivityLogAlerts() *schema.Table {
 				Name:        "azure_monitor_activity_log_alert_action_groups",
 				Description: "ActivityLogAlertActionGroup a pointer to an Azure Action Group",
 				Resolver:    fetchMonitorActivityLogAlertActionGroups,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"activity_log_alert_cq_id", "action_group_id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "activity_log_alert_id",
+						Name:        "activity_log_alert_cq_id",
 						Description: "Unique ID of azure_monitor_activity_log_alerts table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "activity_log_alert_id",
+						Description: "ID of azure_monitor_activity_log_alerts table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "action_group_id",
