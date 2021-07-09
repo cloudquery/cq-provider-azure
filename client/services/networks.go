@@ -10,6 +10,7 @@ import (
 type NetworksClient struct {
 	VirtualNetworks VirtualNetworksClient
 	SecurityGroups  SecurityGroupsClient
+	Watchers        WatchersClient
 }
 
 func NewNetworksClient(subscriptionId string, auth autorest.Authorizer) NetworksClient {
@@ -18,9 +19,12 @@ func NewNetworksClient(subscriptionId string, auth autorest.Authorizer) Networks
 
 	sg := network.NewSecurityGroupsClient(subscriptionId)
 	sg.Authorizer = auth
+	wch := network.NewWatchersClient(subscriptionId)
+	wch.Authorizer = auth
 	return NetworksClient{
 		VirtualNetworks: vn,
 		SecurityGroups:  sg,
+		Watchers:        wch,
 	}
 }
 
@@ -30,4 +34,9 @@ type VirtualNetworksClient interface {
 
 type SecurityGroupsClient interface {
 	ListAll(ctx context.Context) (result network.SecurityGroupListResultPage, err error)
+}
+
+type WatchersClient interface {
+	ListAll(ctx context.Context) (result network.WatcherListResult, err error)
+	GetFlowLogStatus(ctx context.Context, resourceGroupName string, networkWatcherName string, parameters network.FlowLogStatusParameters) (result network.WatchersGetFlowLogStatusFuture, err error)
 }
