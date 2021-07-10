@@ -3,7 +3,8 @@ package resources
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
+
+	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-03-01/compute"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -14,6 +15,7 @@ func ComputeVirtualMachines() *schema.Table {
 		Description: "VirtualMachine describes a Virtual Machine",
 		Resolver:    fetchComputeVirtualMachines,
 		Multiplex:   client.SubscriptionMultiplex,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -303,7 +305,7 @@ func ComputeVirtualMachines() *schema.Table {
 				Resolver:    schema.PathResolver("ExtendedLocation.Type"),
 			},
 			{
-				Name:        "resource_id",
+				Name:        "id",
 				Description: "Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
@@ -331,15 +333,22 @@ func ComputeVirtualMachines() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_compute_virtual_machine_win_config_rm_listeners",
-				Description: "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
-				Resolver:    fetchComputeVirtualMachineWinConfigRmListeners,
+				Name:         "azure_compute_virtual_machine_win_config_rm_listeners",
+				Description:  "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
+				Resolver:     fetchComputeVirtualMachineWinConfigRmListeners,
+				AlwaysDelete: true,
 				Columns: []schema.Column{
 					{
-						Name:        "virtual_machine_id",
+						Name:        "virtual_machine_cq_id",
 						Description: "Unique ID of azure_compute_virtual_machines table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "virtual_machine_id",
+						Description: "ID of azure_compute_virtual_machines table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "protocol",
@@ -355,15 +364,22 @@ func ComputeVirtualMachines() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_compute_virtual_machine_secrets",
-				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
-				Resolver:    fetchComputeVirtualMachineSecrets,
+				Name:         "azure_compute_virtual_machine_secrets",
+				Description:  "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
+				Resolver:     fetchComputeVirtualMachineSecrets,
+				AlwaysDelete: true,
 				Columns: []schema.Column{
 					{
-						Name:        "virtual_machine_id",
+						Name:        "virtual_machine_cq_id",
 						Description: "Unique ID of azure_compute_virtual_machines table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "virtual_machine_id",
+						Description: "ID of azure_compute_virtual_machines table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
 						Name:        "source_vault_id",
@@ -377,9 +393,10 @@ func ComputeVirtualMachines() *schema.Table {
 						Name:        "azure_compute_virtual_machine_secret_vault_certificates",
 						Description: "VaultCertificate describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM",
 						Resolver:    fetchComputeVirtualMachineSecretVaultCertificates,
+						Options:     schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_secret_cq_id", "certificate_url"}},
 						Columns: []schema.Column{
 							{
-								Name:        "virtual_machine_secret_id",
+								Name:        "virtual_machine_secret_cq_id",
 								Description: "Unique ID of azure_compute_virtual_machine_secrets table (FK)",
 								Type:        schema.TypeUUID,
 								Resolver:    schema.ParentIdResolver,
@@ -403,15 +420,22 @@ func ComputeVirtualMachines() *schema.Table {
 				Name:        "azure_compute_virtual_machine_resources",
 				Description: "VirtualMachineExtension describes a Virtual Machine Extension",
 				Resolver:    fetchComputeVirtualMachineResources,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
-						Name:        "virtual_machine_id",
+						Name:        "virtual_machine_cq_id",
 						Description: "Unique ID of azure_compute_virtual_machines table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "resource_id",
+						Name:        "virtual_machine_id",
+						Description: "ID of azure_compute_virtual_machines table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
+					},
+					{
+						Name:        "id",
 						Description: "Resource Id",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
@@ -437,31 +461,36 @@ func ComputeVirtualMachines() *schema.Table {
 						Type:        schema.TypeJSON,
 					},
 				},
-				Relations: []*schema.Table{
+			},
+			{
+				Name:        "azure_compute_virtual_machine_resource_network_interfaces",
+				Description: "NetworkInterfaceReference describes a network interface reference",
+				Resolver:    fetchComputeVirtualMachineResourceNetworkInterfaces,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_cq_id", "id"}},
+				Columns: []schema.Column{
 					{
-						Name:        "azure_compute_virtual_machine_resource_network_interfaces",
-						Description: "NetworkInterfaceReference describes a network interface reference",
-						Resolver:    fetchComputeVirtualMachineResourceNetworkInterfaces,
-						Columns: []schema.Column{
-							{
-								Name:        "virtual_machine_resource_id",
-								Description: "Unique ID of azure_compute_virtual_machine_resources table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:        "network_interface_reference_properties_primary",
-								Description: "Specifies the primary network interface in case the virtual machine has more than 1 network interface",
-								Type:        schema.TypeBool,
-								Resolver:    schema.PathResolver("NetworkInterfaceReferenceProperties.Primary"),
-							},
-							{
-								Name:        "resource_id",
-								Description: "Resource Id",
-								Type:        schema.TypeString,
-								Resolver:    schema.PathResolver("ID"),
-							},
-						},
+						Name:        "virtual_machine_cq_id",
+						Description: "Unique ID of azure_compute_virtual_machine_resources table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "virtual_machine_id",
+						Description: "ID of azure_compute_virtual_machines table (FK)",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
+					},
+					{
+						Name:        "network_interface_reference_properties_primary",
+						Description: "Specifies the primary network interface in case the virtual machine has more than 1 network interface",
+						Type:        schema.TypeBool,
+						Resolver:    schema.PathResolver("NetworkInterfaceReferenceProperties.Primary"),
+					},
+					{
+						Name:        "id",
+						Description: "Resource Id",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("ID"),
 					},
 				},
 			},
@@ -536,18 +565,18 @@ func fetchComputeVirtualMachineSecrets(ctx context.Context, meta schema.ClientMe
 }
 
 func fetchComputeVirtualMachineResourceNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(compute.VirtualMachineExtension)
+	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachineExtension but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
 
-	if p.VirtualMachineExtensionProperties == nil ||
-		p.VirtualMachineExtensionProperties.InstanceView == nil ||
-		p.VirtualMachineExtensionProperties.InstanceView.Statuses == nil {
+	if p.VirtualMachineProperties == nil ||
+		p.VirtualMachineProperties.NetworkProfile == nil ||
+		p.VirtualMachineProperties.NetworkProfile.NetworkInterfaces == nil {
 		return nil
 	}
 
-	res <- *p.VirtualMachineExtensionProperties.InstanceView.Statuses
+	res <- *p.VirtualMachineProperties.NetworkProfile.NetworkInterfaces
 	return nil
 }
 func fetchComputeVirtualMachineSecretVaultCertificates(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
