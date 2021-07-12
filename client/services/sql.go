@@ -8,7 +8,7 @@ import (
 )
 
 type SQLClient struct {
-	Database     SqlDatabaseClient
+	Databases    SqlDatabaseClient
 	Firewall     SQLFirewallClient
 	ServerAdmins SQLServerAdminClient
 	Servers      SqlServerClient
@@ -17,14 +17,14 @@ type SQLClient struct {
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	servers := sql.NewServersClient(subscriptionId)
 	servers.Authorizer = auth
-	database := sql.NewDatabasesClient(subscriptionId)
-	database.Authorizer = auth
+	databases := sql.NewDatabasesClient(subscriptionId)
+	databases.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
 	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
 	serverAdmins.Authorizer = auth
 	return SQLClient{
-		Database:     database,
+		Databases:    databases,
 		Firewall:     firewall,
 		ServerAdmins: serverAdmins,
 		Servers:      servers,
