@@ -35,11 +35,16 @@ func buildWebAppsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	})
 	apps.EXPECT().List(gomock.Any()).Return(page, nil)
 
-	pp := resources.PublishingProfile{
-		PublishUrl: "test", UserName: "test", UserPWD: "test",
+	pp := resources.PublishData{
+		PublishData: []resources.PublishProfile{
+			{
+				PublishUrl: "test",
+				UserName:   "test",
+				UserPWD:    "test"},
+		},
 	}
 
-	data, err := xml.Marshal([]resources.PublishingProfile{pp})
+	data, err := xml.Marshal([]resources.PublishData{pp})
 	if err != nil {
 		t.Errorf("failed building xml %s", err)
 	}

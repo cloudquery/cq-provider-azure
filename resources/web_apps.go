@@ -1467,12 +1467,12 @@ func fetchWebAppPublishingProfiles(ctx context.Context, meta schema.ClientMeta, 
 	if _, err = buf.ReadFrom(response.Body); err != nil {
 		return err
 	}
-	var profiles []PublishingProfile
-	if err = xml.Unmarshal(buf.Bytes(), &profiles); err != nil {
+	var profileData PublishData
+	if err = xml.Unmarshal(buf.Bytes(), &profileData); err != nil {
 		return err
 	}
 
-	res <- profiles
+	res <- profileData.PublishData
 	return nil
 }
 func resolveWebAppAppSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
@@ -1663,8 +1663,13 @@ func fetchWebAppScmIpSecurityRestrictions(ctx context.Context, meta schema.Clien
 	return nil
 }
 
-type PublishingProfile struct {
-	PublishUrl string `xml:"publishUrl"`
-	UserName   string `xml:"userName"`
-	UserPWD    string `xml:"userPWD"`
+type PublishProfile struct {
+	PublishUrl string `xml:"publishUrl,attr"`
+	UserName   string `xml:"userName,attr"`
+	UserPWD    string `xml:"userPWD,attr"`
+}
+
+type PublishData struct {
+	XMLName     xml.Name         `xml:"publishData"`
+	PublishData []PublishProfile `xml:"publishProfile"`
 }
