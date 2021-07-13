@@ -8,7 +8,7 @@ import (
 )
 
 type SQLClient struct {
-	Database                     SQLDatabaseClient
+	Databases                    SQLDatabaseClient
 	DatabaseBlobAuditingPolicies SQLDatabaseBlobAuditingPoliciesClient
 	Firewall                     SQLFirewallClient
 	ServerAdmins                 SQLServerAdminClient
@@ -18,23 +18,23 @@ type SQLClient struct {
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
-	servers := sql.NewServersClient(subscriptionId)
-	servers.Authorizer = auth
-	database := sql.NewDatabasesClient(subscriptionId)
-	database.Authorizer = auth
+	databases := sql.NewDatabasesClient(subscriptionId)
+	databases.Authorizer = auth
 	dbap := sql.NewDatabaseBlobAuditingPoliciesClient(subscriptionId)
 	dbap.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
-	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
-	serverAdmins.Authorizer = auth
 	sbap := sql.NewServerBlobAuditingPoliciesClient(subscriptionId)
 	sbap.Authorizer = auth
 	sdas := sql.NewServerDevOpsAuditSettingsClient(subscriptionId)
 	sdas.Authorizer = auth
+	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
+	serverAdmins.Authorizer = auth
+	servers := sql.NewServersClient(subscriptionId)
+	servers.Authorizer = auth
 	return SQLClient{
-		Database:                     database,
 		DatabaseBlobAuditingPolicies: dbap,
+		Databases:                    databases,
 		Firewall:                     firewall,
 		ServerAdmins:                 serverAdmins,
 		ServerBlobAuditingPolicies:   sbap,
