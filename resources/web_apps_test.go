@@ -34,9 +34,15 @@ func buildWebAppsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	apps.EXPECT().List(gomock.Any()).Return(page, nil)
 
 	value := ioutil.NopCloser(strings.NewReader("hello world")) // r type is io.ReadCloser
-
 	response := web.ReadCloser{Response: autorest.Response{Response: &http.Response{Body: value}}}
 	apps.EXPECT().ListPublishingProfileXMLWithSecrets(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(response, nil)
+
+	auth := web.SiteAuthSettings{}
+	err = faker.FakeData(&auth)
+	if err != nil {
+		t.Errorf("failed building mock %s", err)
+	}
+	apps.EXPECT().GetAuthSettings(gomock.Any(), gomock.Any(), gomock.Any()).Return(auth, nil)
 
 	return s
 }

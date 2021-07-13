@@ -1399,6 +1399,7 @@ func WebApps() *schema.Table {
 					},
 				},
 			},
+			WebAppAuthSettings(),
 		},
 	}
 }

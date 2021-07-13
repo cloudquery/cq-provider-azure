@@ -35,6 +35,21 @@ func (m *MockAppsClient) EXPECT() *MockAppsClientMockRecorder {
 	return m.recorder
 }
 
+// GetAuthSettings mocks base method.
+func (m *MockAppsClient) GetAuthSettings(arg0 context.Context, arg1, arg2 string) (web.SiteAuthSettings, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAuthSettings", arg0, arg1, arg2)
+	ret0, _ := ret[0].(web.SiteAuthSettings)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAuthSettings indicates an expected call of GetAuthSettings.
+func (mr *MockAppsClientMockRecorder) GetAuthSettings(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAuthSettings", reflect.TypeOf((*MockAppsClient)(nil).GetAuthSettings), arg0, arg1, arg2)
+}
+
 // List mocks base method.
 func (m *MockAppsClient) List(arg0 context.Context) (web.AppCollectionPage, error) {
 	m.ctrl.T.Helper()
