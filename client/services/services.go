@@ -3,7 +3,6 @@
 //go:generate mockgen -destination=./mocks/ad_groups.go -package=mocks . ADGroupsClient
 //go:generate mockgen -destination=./mocks/ad_service_principals.go -package=mocks . ADServicePrinicpals
 //go:generate mockgen -destination=./mocks/ad_users.go -package=mocks . ADUsersClient
-//go:generate mockgen -destination=./mocks/network.go -package=mocks . WatchersClient,VirtualNetworksClient,SecurityGroupsClient
 //go:generate mockgen -destination=./mocks/monitor.go -package=mocks . LogProfilesClient
 //go:generate mockgen -destination=./mocks/network.go -package=mocks . VirtualNetworksClient,SecurityGroupsClient,WatchersClient
 //go:generate mockgen -destination=./mocks/postgresql.go -package=mocks . PostgresqlConfigurationClient,PostgresqlServerClient,PostgresqlFirewallRuleClient
@@ -29,7 +28,7 @@ type Services struct {
 	SQL           SQLClient
 	Storage       StorageClient
 	Subscriptions SubscriptionsClient
-	Web        WebClient
+	Web           WebClient
 }
 
 func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
@@ -46,6 +45,6 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		SQL:           NewSQLClient(subscriptionId, auth),
 		Storage:       NewStorageClient(subscriptionId, auth),
 		Subscriptions: NewSubscriptionsClient(subscriptionId, auth),
-		Web:        NewWebClient(subscriptionId, auth),
+		Web:           NewWebClient(subscriptionId, auth),
 	}
 }
