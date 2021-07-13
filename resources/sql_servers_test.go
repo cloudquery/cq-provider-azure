@@ -21,7 +21,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	serverBlobSvc := mocks.NewMockSQLServerBlobAuditingPolicies(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
-			Database:                     databaseSvc,
+			Databases:                    databaseSvc,
 			DatabaseBlobAuditingPolicies: databaseBlobSvc,
 			Firewall:                     firewallSvc,
 			ServerAdmins:                 adminsSvc,
