@@ -8,8 +8,8 @@ import (
 )
 
 type SQLClient struct {
-	Database                        SQLDatabaseClient
 	DatabaseBlobAuditingPolicies    SQLDatabaseBlobAuditingPoliciesClient
+	Databases                       SQLDatabaseClient
 	DatabaseThreatDetectionPolicies SQLDatabaseThreatDetectionPoliciesClient
 	Firewall                        SQLFirewallClient
 	ServerAdmins                    SQLServerAdminClient
@@ -19,25 +19,25 @@ type SQLClient struct {
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
-	servers := sql.NewServersClient(subscriptionId)
-	servers.Authorizer = auth
-	database := sql.NewDatabasesClient(subscriptionId)
-	database.Authorizer = auth
+	databases := sql.NewDatabasesClient(subscriptionId)
+	databases.Authorizer = auth
 	dbap := sql.NewDatabaseBlobAuditingPoliciesClient(subscriptionId)
 	dbap.Authorizer = auth
+	dtdp := sql.NewDatabaseThreatDetectionPoliciesClient(subscriptionId)
+	dtdp.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
-	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
-	serverAdmins.Authorizer = auth
 	sbap := sql.NewServerBlobAuditingPoliciesClient(subscriptionId)
 	sbap.Authorizer = auth
 	sdas := sql.NewServerDevOpsAuditSettingsClient(subscriptionId)
 	sdas.Authorizer = auth
-	dtdp := sql.NewDatabaseThreatDetectionPoliciesClient(subscriptionId)
-	dtdp.Authorizer = auth
+	serverAdmins := sql.NewServerAzureADAdministratorsClient(subscriptionId)
+	serverAdmins.Authorizer = auth
+	servers := sql.NewServersClient(subscriptionId)
+	servers.Authorizer = auth
 	return SQLClient{
-		Database:                        database,
 		DatabaseBlobAuditingPolicies:    dbap,
+		Databases:                       databases,
 		DatabaseThreatDetectionPolicies: dtdp,
 		Firewall:                        firewall,
 		ServerAdmins:                    serverAdmins,

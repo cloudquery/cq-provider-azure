@@ -502,7 +502,7 @@ func SQLDatabases() *schema.Table {
 //                                               Table Resolver Functions
 // ====================================================================================================================
 func fetchSqlDatabases(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	svc := meta.(*client.Client).Services().SQL.Database
+	svc := meta.(*client.Client).Services().SQL.Databases
 	server := parent.Item.(sql.Server)
 	resourceDetails, err := client.ParseResourceID(*server.ID)
 	if err != nil {
