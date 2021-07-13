@@ -4,6 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/xml"
+	"io/ioutil"
+	"net/http"
+	"testing"
+
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-12-01/web"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/cloudquery/cq-provider-azure/client/services"
@@ -11,9 +15,6 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources"
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
-	"io/ioutil"
-	"net/http"
-	"testing"
 )
 
 func buildWebAppsMock(t *testing.T, ctrl *gomock.Controller) services.Services {

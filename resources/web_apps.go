@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/xml"
 	"fmt"
+
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-12-01/web"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -1463,10 +1464,11 @@ func fetchWebAppPublishingProfiles(ctx context.Context, meta schema.ClientMeta, 
 	}
 
 	buf := new(bytes.Buffer)
-	_, err = buf.ReadFrom(response.Body)
+	if _, err = buf.ReadFrom(response.Body); err != nil {
+		return err
+	}
 	var profiles []PublishingProfile
-	xml.Unmarshal(buf.Bytes(), &profiles)
-	if err != nil {
+	if err = xml.Unmarshal(buf.Bytes(), &profiles); err != nil {
 		return err
 	}
 
