@@ -52,7 +52,7 @@ VirtualMachine describes a Virtual Machine
 |zones|text[]|The virtual machine zones|
 |extended_location_name|text|The name of the extended location|
 |extended_location_type|text|The type of the extended location Possible values include: 'EdgeZone'|
-|resource_id|text|Resource Id|
+|id|text|Resource Id|
 |name|text|Resource name|
 |type|text|Resource type|
 |location|text|Resource location|
