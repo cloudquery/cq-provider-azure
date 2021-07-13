@@ -17,8 +17,11 @@ func Provider() *provider.Provider {
 			"ad.users":                            AdUsers(),
 			"compute.disks":                       ComputeDisks(),
 			"keyvault.vaults":                     KeyVaultVaults(),
+			"monitor.log_profiles":                MonitorLogProfiles(),
 			"mysql.servers":                       MySQLServers(),
 			"network.virtual_networks":            NetworkVirtualNetworks(),
+			"network.security_groups":             NetworkSecurityGroups(),
+			"network.watchers":                    NetworkWatchers(),
 			"postgresql.servers":                  PostgresqlServers(),
 			"resources.groups":                    ResourcesGroups(),
 			"security.auto_provisioning_settings": SecurityAutoProvisioningSettings(),
@@ -27,6 +30,7 @@ func Provider() *provider.Provider {
 			"security.settings":                   SecuritySettings(),
 			"sql.servers":                         SQLServers(),
 			"storage.accounts":                    StorageAccounts(),
+			"subscription.subscriptions":          SubscriptionSubscriptions(),
 		},
 		Config: func() provider.Config {
 			return &client.Config{}
