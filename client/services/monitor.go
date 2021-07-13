@@ -8,17 +8,26 @@ import (
 )
 
 type MonitorClient struct {
-	LogProfiles LogProfilesClient
+	LogProfiles        LogProfilesClient
+	DiagnosticSettings DiagnosticSettingsClient
 }
 
 func NewMonitorClient(subscriptionID string, auth autorest.Authorizer) MonitorClient {
 	logProfiles := insights.NewLogProfilesClient(subscriptionID)
 	logProfiles.Authorizer = auth
+
+	diagnosticSettings := insights.NewDiagnosticSettingsClient(subscriptionID)
+	diagnosticSettings.Authorizer = auth
 	return MonitorClient{
-		LogProfiles: logProfiles,
+		LogProfiles:        logProfiles,
+		DiagnosticSettings: diagnosticSettings,
 	}
 }
 
 type LogProfilesClient interface {
 	List(ctx context.Context) (result insights.LogProfileCollection, err error)
+}
+
+type DiagnosticSettingsClient interface {
+	List(ctx context.Context, resourceURI string) (result insights.DiagnosticSettingsResourceCollection, err error)
 }
