@@ -3,6 +3,7 @@ package resources
 import (
 	"bytes"
 	"context"
+	"encoding/xml"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-12-01/web"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -22,11 +23,6 @@ func WebApps() *schema.Table {
 				Description: "Azure subscription id",
 				Type:        schema.TypeString,
 				Resolver:    client.ResolveAzureSubscription,
-			},
-			{
-				Name:     "publishing_profiles",
-				Type:     schema.TypeString,
-				Resolver: resolveWebAppPublishingProfiles,
 			},
 			{
 				Name:        "state",
@@ -874,6 +870,39 @@ func WebApps() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
+				Name:         "azure_web_app_publishing_profiles",
+				Description:  "HostNameSslState SSL-enabled hostname",
+				Resolver:     fetchWebAppPublishingProfiles,
+				AlwaysDelete: true,
+				Columns: []schema.Column{
+					{
+						Name:        "app_cq_id",
+						Description: "Unique ID of azure_web_apps table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "app_id",
+						Description: "ID of web app",
+						Type:        schema.TypeString,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
+					},
+					{
+						Name: "publish_url",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "user_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name:     "user_pwd",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("UserPWD"),
+					},
+				},
+			},
+			{
 				Name:        "azure_web_app_host_name_ssl_states",
 				Description: "HostNameSslState SSL-enabled hostname",
 				Resolver:    fetchWebAppHostNameSslStates,
@@ -1421,10 +1450,10 @@ func fetchWebApps(ctx context.Context, meta schema.ClientMeta, parent *schema.Re
 	}
 	return nil
 }
-func resolveWebAppPublishingProfiles(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	p, ok := resource.Item.(web.Site)
+func fetchWebAppPublishingProfiles(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(web.Site)
 	if !ok {
-		return fmt.Errorf("expected web.Site but got %T", resource.Item)
+		return fmt.Errorf("expected web.Site but got %T", parent.Item)
 	}
 
 	svc := meta.(*client.Client).Services().Web.Apps
@@ -1435,11 +1464,14 @@ func resolveWebAppPublishingProfiles(ctx context.Context, meta schema.ClientMeta
 
 	buf := new(bytes.Buffer)
 	_, err = buf.ReadFrom(response.Body)
+	var profiles []PublishingProfile
+	xml.Unmarshal(buf.Bytes(), &profiles)
 	if err != nil {
 		return err
 	}
 
-	return resource.Set(c.Name, buf.String())
+	res <- profiles
+	return nil
 }
 func resolveWebAppAppSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(web.Site)
@@ -1627,4 +1659,10 @@ func fetchWebAppScmIpSecurityRestrictions(ctx context.Context, meta schema.Clien
 
 	res <- *p.SiteProperties.SiteConfig.ScmIPSecurityRestrictions
 	return nil
+}
+
+type PublishingProfile struct {
+	PublishUrl string `xml:"publishUrl"`
+	UserName   string `xml:"userName"`
+	UserPWD    string `xml:"userPWD"`
 }

@@ -1,7 +1,9 @@
 package resources_test
 
 import (
+	"bytes"
 	"context"
+	"encoding/xml"
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-12-01/web"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/cloudquery/cq-provider-azure/client/services"
@@ -11,7 +13,6 @@ import (
 	"github.com/golang/mock/gomock"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"testing"
 )
 
@@ -33,7 +34,16 @@ func buildWebAppsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	})
 	apps.EXPECT().List(gomock.Any()).Return(page, nil)
 
-	value := ioutil.NopCloser(strings.NewReader("hello world")) // r type is io.ReadCloser
+	pp := resources.PublishingProfile{
+		PublishUrl: "test", UserName: "test", UserPWD: "test",
+	}
+
+	data, err := xml.Marshal([]resources.PublishingProfile{pp})
+	if err != nil {
+		t.Errorf("failed building xml %s", err)
+	}
+
+	value := ioutil.NopCloser(bytes.NewReader(data)) // r type is io.ReadCloser
 	response := web.ReadCloser{Response: autorest.Response{Response: &http.Response{Body: value}}}
 	apps.EXPECT().ListPublishingProfileXMLWithSecrets(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(response, nil)
 
