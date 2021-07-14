@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/authorization/mgmt/2015-07-01/authorization"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/cq-provider-azure/resources"
@@ -24,7 +25,7 @@ func buildAuthorizationRoleDefinitions(t *testing.T, ctrl *gomock.Controller) se
 	if err := faker.FakeData(&def); err != nil {
 		t.Fatal(err)
 	}
-	defs.EXPECT().List(gomock.Any(), "", "").Return(
+	defs.EXPECT().List(gomock.Any(), client.ScopeSubscription(testSubscriptionID), "").Return(
 		authorization.NewRoleDefinitionListResultPage(
 			authorization.RoleDefinitionListResult{Value: &[]authorization.RoleDefinition{def}},
 			func(context.Context, authorization.RoleDefinitionListResult) (authorization.RoleDefinitionListResult, error) {

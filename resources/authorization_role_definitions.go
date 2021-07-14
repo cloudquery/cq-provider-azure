@@ -97,8 +97,9 @@ func AuthorizationRoleDefinitions() *schema.Table {
 //                                               Table Resolver Functions
 // ====================================================================================================================
 func fetchAuthorizationRoleDefinitions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	svc := meta.(*client.Client).Services().Authorization.RoleDefinitions
-	result, err := svc.List(ctx, "", "")
+	cl := meta.(*client.Client)
+	svc := cl.Services().Authorization.RoleDefinitions
+	result, err := svc.List(ctx, client.ScopeSubscription(cl.SubscriptionId), "")
 	if err != nil {
 		return err
 	}
