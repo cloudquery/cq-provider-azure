@@ -65,7 +65,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "create_mode",
-				Description: "Specifies the mode of database creation  Default: regular database creation  Copy: creates a database as a copy of an existing database sourceDatabaseId must be specified as the resource ID of the source database  Secondary: creates a database as a secondary replica of an existing database sourceDatabaseId must be specified as the resource ID of the existing primary database  PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified  Recovery: Creates a database by restoring a geo-replicated backup sourceDatabaseId must be specified as the recoverable database resource ID to restore  Restore: Creates a database by restoring a backup of a deleted database sourceDatabaseId must be specified If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored restorePointInTime may also be specified to restore from an earlier point in time  RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID  Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition Possible values include: 'CreateModeDefault', 'CreateModeCopy', 'CreateModeSecondary', 'CreateModePointInTimeRestore', 'CreateModeRestore', 'CreateModeRecovery', 'CreateModeRestoreExternalBackup', 'CreateModeRestoreExternalBackupSecondary', 'CreateModeRestoreLongTermRetentionBackup', 'CreateModeOnlineSecondary'",
+				Description: "Specifies the mode of database creation.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CreateMode"),
 			},
@@ -83,7 +83,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "sample_name",
-				Description: "The name of the sample schema to apply when creating this database Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd', 'WideWorldImportersFull'",
+				Description: "The name of the sample schema to apply when creating this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.SampleName"),
 			},
@@ -101,7 +101,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "status",
-				Description: "The status of the database Possible values include: 'DatabaseStatusOnline', 'DatabaseStatusRestoring', 'DatabaseStatusRecoveryPending', 'DatabaseStatusRecovering', 'DatabaseStatusSuspect', 'DatabaseStatusOffline', 'DatabaseStatusStandby', 'DatabaseStatusShutdown', 'DatabaseStatusEmergencyMode', 'DatabaseStatusAutoClosed', 'DatabaseStatusCopying', 'DatabaseStatusCreating', 'DatabaseStatusInaccessible', 'DatabaseStatusOfflineSecondary', 'DatabaseStatusPausing', 'DatabaseStatusPaused', 'DatabaseStatusResuming', 'DatabaseStatusScaling', 'DatabaseStatusOfflineChangingDwPerformanceTiers', 'DatabaseStatusOnlineChangingDwPerformanceTiers', 'DatabaseStatusDisabled'",
+				Description: "The status of the database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.Status"),
 			},
@@ -179,7 +179,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "catalog_collation",
-				Description: "Collation of the metadata catalog Possible values include: 'DATABASEDEFAULT', 'SQLLatin1GeneralCP1CIAS'",
+				Description: "Collation of the metadata catalog.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CatalogCollation"),
 			},
@@ -191,7 +191,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "license_type",
-				Description: "The license type to apply for this database `LicenseIncluded` if you need a license, or `BasePrice` if you have a license and are eligible for the Azure Hybrid Benefit Possible values include: 'LicenseIncluded', 'BasePrice'",
+				Description: "The license type to apply for this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.LicenseType"),
 			},
@@ -209,7 +209,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "read_scale",
-				Description: "The state of read-only routing If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region Possible values include: 'DatabaseReadScaleEnabled', 'DatabaseReadScaleDisabled'",
+				Description: "The state of read-only routing If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.ReadScale"),
 			},
@@ -221,7 +221,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "secondary_type",
-				Description: "The secondary type of the database if it is a secondary  Valid values are Geo and Named Possible values include: 'Geo', 'Named'",
+				Description: "The secondary type of the database if it is a secondary.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.SecondaryType"),
 			},
@@ -257,13 +257,13 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "auto_pause_delay",
-				Description: "Time in minutes after which database is automatically paused A value of -1 means that automatic pause is disabled",
+				Description: "Time in minutes after which database is automatically paused.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.AutoPauseDelay"),
 			},
 			{
 				Name:        "storage_account_type",
-				Description: "The storage account type used to store backups for this database Possible values include: 'GRS', 'LRS', 'ZRS'",
+				Description: "The storage account type used to store backups for this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.StorageAccountType"),
 			},
@@ -285,7 +285,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "maintenance_configuration_id",
-				Description: "Maintenance configuration id assigned to the database This configuration defines the period when the maintenance updates will occur",
+				Description: "Maintenance configuration id assigned to the database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.MaintenanceConfigurationID"),
 			},
@@ -336,19 +336,19 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "state",
-						Description: "Specifies the state of the policy If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required Possible values include: 'BlobAuditingPolicyStateEnabled', 'BlobAuditingPolicyStateDisabled'",
+						Description: "Specifies the state of the policy.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.State"),
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required",
+						Description: "Specifies the blob storage endpoint.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageEndpoint"),
 					},
 					{
 						Name:        "storage_account_access_key",
-						Description: "Specifies the identifier key of the auditing storage account If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage Prerequisites for using managed identity authentication: 1 Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD) 2 Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity For more information, see [Auditing to storage using Managed Identity authentication](https://gomicrosoftcom/fwlink/?linkid=2114355)",
+						Description: "Specifies the identifier key of the auditing storage account.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageAccountAccessKey"),
 					},
@@ -360,7 +360,7 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "audit_actions_and_groups",
-						Description: "Specifies the Actions-Groups and Actions to audit  The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:  BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP  This above combination is also the set that is configured by default when enabling auditing from the Azure portal  The supported action groups to audit are (note: choose only specific groups that cover your auditing needs Using unnecessary groups could lead to very large quantities of audit records):  APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP  These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs  For more information, see [Database-Level Audit Action Groups](https://docsmicrosoftcom/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups)  For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy) The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES  The general form for defining an action to be audited is: {action} ON {object} BY {principal}  Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively  For example: SELECT on dbomyTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public  For more information, see [Database-Level Audit Actions](https://docsmicrosoftcom/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)",
+						Description: "Specifies the Actions-Groups and Actions to audit.",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.AuditActionsAndGroups"),
 					},
@@ -378,7 +378,7 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "is_azure_monitor_target_enabled",
-						Description: "Specifies whether audit events are sent to Azure Monitor In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true  When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created Note that for server level audit you should use the 'master' database as {databaseName}  Diagnostic Settings URI format: PUT https://managementazurecom/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/MicrosoftSql/servers/{serverName}/databases/{databaseName}/providers/microsoftinsights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  For more information, see [Diagnostic Settings REST API](https://gomicrosoftcom/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://gomicrosoftcom/fwlink/?linkid=2033043)",
+						Description: "Specifies whether audit events are sent to Azure Monitor.",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.IsAzureMonitorTargetEnabled"),
 					},
