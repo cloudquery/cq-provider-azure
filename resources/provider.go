@@ -15,6 +15,7 @@ func Provider() *provider.Provider {
 			"ad.groups":                           AdGroups(),
 			"ad.service_principals":               AdServicePrincipals(),
 			"ad.users":                            AdUsers(),
+			"authorization.role_assignments":      AuthorizationRoleAssignments(),
 			"compute.disks":                       ComputeDisks(),
 			"keyvault.vaults":                     KeyVaultVaults(),
 			"monitor.log_profiles":                MonitorLogProfiles(),
