@@ -11,11 +11,12 @@ import (
 
 func ComputeVirtualMachines() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_compute_virtual_machines",
-		Description: "VirtualMachine describes a Virtual Machine",
-		Resolver:    fetchComputeVirtualMachines,
-		Multiplex:   client.SubscriptionMultiplex,
-		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:         "azure_compute_virtual_machines",
+		Description:  "VirtualMachine describes a Virtual Machine",
+		Resolver:     fetchComputeVirtualMachines,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -61,7 +62,7 @@ func ComputeVirtualMachines() *schema.Table {
 			},
 			{
 				Name:        "computer_name",
-				Description: "Specifies the host OS name of the virtual machine <br><br> This name cannot be updated after the VM is created <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docsmicrosoftcom/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftocjson#1-naming-conventions)",
+				Description: "Specifies the host OS name of the virtual machine",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.OsProfile.ComputerName"),
 			},
@@ -187,19 +188,19 @@ func ComputeVirtualMachines() *schema.Table {
 			},
 			{
 				Name:        "availability_set_id",
-				Description: "Resource Id",
+				Description: "Availability set id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.AvailabilitySet.ID"),
 			},
 			{
 				Name:        "virtual_machine_scale_set_id",
-				Description: "Resource Id",
+				Description: "Virtual machine scale set id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.VirtualMachineScaleSet.ID"),
 			},
 			{
 				Name:        "proximity_placement_group_id",
-				Description: "Resource Id",
+				Description: "Proximity placement group resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.ProximityPlacementGroup.ID"),
 			},
@@ -223,13 +224,13 @@ func ComputeVirtualMachines() *schema.Table {
 			},
 			{
 				Name:        "host_id",
-				Description: "Resource Id",
+				Description: "Host Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.Host.ID"),
 			},
 			{
 				Name:        "host_group_id",
-				Description: "Resource Id",
+				Description: "Host group Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.HostGroup.ID"),
 			},
@@ -333,10 +334,9 @@ func ComputeVirtualMachines() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:         "azure_compute_virtual_machine_win_config_rm_listeners",
-				Description:  "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
-				Resolver:     fetchComputeVirtualMachineWinConfigRmListeners,
-				AlwaysDelete: true,
+				Name:        "azure_compute_virtual_machine_win_config_rm_listeners",
+				Description: "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
+				Resolver:    fetchComputeVirtualMachineWinConfigRmListeners,
 				Columns: []schema.Column{
 					{
 						Name:        "virtual_machine_cq_id",
@@ -364,10 +364,9 @@ func ComputeVirtualMachines() *schema.Table {
 				},
 			},
 			{
-				Name:         "azure_compute_virtual_machine_secrets",
-				Description:  "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
-				Resolver:     fetchComputeVirtualMachineSecrets,
-				AlwaysDelete: true,
+				Name:        "azure_compute_virtual_machine_secrets",
+				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
+				Resolver:    fetchComputeVirtualMachineSecrets,
 				Columns: []schema.Column{
 					{
 						Name:        "virtual_machine_cq_id",
@@ -383,7 +382,7 @@ func ComputeVirtualMachines() *schema.Table {
 					},
 					{
 						Name:        "source_vault_id",
-						Description: "Resource Id",
+						Description: "Source vault Id",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("SourceVault.ID"),
 					},
