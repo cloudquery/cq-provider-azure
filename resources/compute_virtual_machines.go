@@ -367,6 +367,7 @@ func ComputeVirtualMachines() *schema.Table {
 				Name:        "azure_compute_virtual_machine_secrets",
 				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
 				Resolver:    fetchComputeVirtualMachineSecrets,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_cq_id", "source_vault_id"}},
 				Columns: []schema.Column{
 					{
 						Name:        "virtual_machine_cq_id",
