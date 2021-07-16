@@ -2,6 +2,8 @@ package resources_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
@@ -9,7 +11,6 @@ import (
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func buildNetworkVirtualNetworksMock(t *testing.T, ctrl *gomock.Controller) services.Services {
