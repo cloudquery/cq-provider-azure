@@ -11,4 +11,4 @@ ManagedClusterPodIdentity
 |identity_resource_id|text|The resource id of the user assigned identity|
 |identity_client_id|text|The client id of the user assigned identity|
 |identity_object_id|text|The object id of the user assigned identity|
-|provisioning_state|text|The current provisioning state of the pod identity Possible values include: 'Assigned', 'Updating', 'Deleting', 'Failed'|
+|provisioning_state|text|The current provisioning state of the pod identity.|

@@ -27,13 +27,13 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "provisioning_state",
-				Description: "The current deployment or provisioning state, which only appears in the response",
+				Description: "The current deployment or provisioning state.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.ProvisioningState"),
 			},
 			{
 				Name:        "power_state_code",
-				Description: "Tells whether the cluster is Running or Stopped Possible values include: 'Running', 'Stopped'",
+				Description: "Tells whether the cluster is Running or Stopped.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.PowerState.Code"),
 			},
@@ -87,19 +87,19 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "windows_profile_admin_username",
-				Description: "Specifies the name of the administrator account <br><br> **restriction:** Cannot end in \"\" <br><br> **Disallowed values:** \"administrator\", \"admin\", \"user\", \"user1\", \"test\", \"user2\", \"test1\", \"user3\", \"admin1\", \"1\", \"123\", \"a\", \"actuser\", \"adm\", \"admin2\", \"aspnet\", \"backup\", \"console\", \"david\", \"guest\", \"john\", \"owner\", \"root\", \"server\", \"sql\", \"support\", \"support_388945a0\", \"sys\", \"test2\", \"test3\", \"user4\", \"user5\" <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters",
+				Description: "Specifies the name of the administrator account.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.AdminUsername"),
 			},
 			{
 				Name:        "windows_profile_admin_password",
-				Description: "Specifies the password of the administrator account <br><br> **Minimum-length:** 8 characters <br><br> **Max-length:** 123 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\\W_]) <br><br> **Disallowed values:** \"abc@123\", \"P@$$w0rd\", \"P@ssw0rd\", \"P@ssword123\", \"Pa$$word\", \"pass@word1\", \"Password!\", \"Password1\", \"Password22\", \"iloveyou!\"",
+				Description: "Specifies the password of the administrator account.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.AdminPassword"),
 			},
 			{
 				Name:        "windows_profile_license_type",
-				Description: "The licenseType to use for Windows VMs Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs Possible values include: 'None', 'WindowsServer'",
+				Description: "The licenseType to use for Windows VMs.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.LicenseType"),
 			},
@@ -152,26 +152,20 @@ func ContainerManagedClusters() *schema.Table {
 				Resolver:    schema.PathResolver("ManagedClusterProperties.EnableRBAC"),
 			},
 			{
-				Name:        "enable_pod_security_policy",
-				Description: "(DEPRECATING) Whether to enable Kubernetes pod security policy (preview) This feature is set for removal on October 15th, 2020 Learn more at akams/aks/azpodpolicy",
-				Type:        schema.TypeBool,
-				Resolver:    schema.PathResolver("ManagedClusterProperties.EnablePodSecurityPolicy"),
-			},
-			{
 				Name:        "network_profile_network_plugin",
-				Description: "Network plugin used for building Kubernetes network Possible values include: 'Azure', 'Kubenet'",
+				Description: "Network plugin used for building Kubernetes network.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.NetworkPlugin"),
 			},
 			{
 				Name:        "network_profile_network_policy",
-				Description: "Network policy used for building Kubernetes network Possible values include: 'NetworkPolicyCalico', 'NetworkPolicyAzure'",
+				Description: "Network policy used for building Kubernetes network.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.NetworkPolicy"),
 			},
 			{
 				Name:        "network_profile_network_mode",
-				Description: "Network mode used for building Kubernetes network Possible values include: 'Transparent', 'Bridge'",
+				Description: "Network mode used for building Kubernetes network.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.NetworkMode"),
 			},
@@ -183,37 +177,37 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "network_profile_service_cidr",
-				Description: "A CIDR notation IP range from which to assign service cluster IPs It must not overlap with any Subnet IP ranges",
+				Description: "A CIDR notation IP range from which to assign service cluster IPs.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.ServiceCidr"),
 			},
 			{
 				Name:        "network_profile_dns_service_ip",
-				Description: "An IP address assigned to the Kubernetes DNS service It must be within the Kubernetes service address range specified in serviceCidr",
+				Description: "An IP address assigned to the Kubernetes DNS service.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.DNSServiceIP"),
 			},
 			{
 				Name:        "network_profile_docker_bridge_cidr",
-				Description: "A CIDR notation IP range assigned to the Docker bridge network It must not overlap with any Subnet IP ranges or the Kubernetes service address range",
+				Description: "A CIDR notation IP range assigned to the Docker bridge network.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.DockerBridgeCidr"),
 			},
 			{
 				Name:        "network_profile_outbound_type",
-				Description: "The outbound (egress) routing method Possible values include: 'LoadBalancer', 'UserDefinedRouting'",
+				Description: "The outbound (egress) routing method.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.OutboundType"),
 			},
 			{
 				Name:        "network_profile_load_balancer_sku",
-				Description: "The load balancer sku for the managed cluster Possible values include: 'Standard', 'Basic'",
+				Description: "The load balancer sku for the managed cluster.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.LoadBalancerSku"),
 			},
 			{
 				Name:        "network_profile_load_balancer_managed_outbound_ips_count",
-				Description: "Desired number of outbound IP created/managed by Azure for the cluster load balancer Allowed values must be in the range of 1 to 100 (inclusive) The default value is 1",
+				Description: "Desired number of outbound IP created/managed by Azure for the cluster load balancer.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.ManagedOutboundIPs.Count"),
 			},
@@ -237,13 +231,13 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "network_profile_load_balancer_allocated_outbound_ports",
-				Description: "Desired number of allocated SNAT ports per VM Allowed values must be in the range of 0 to 64000 (inclusive) The default value is 0 which results in Azure dynamically allocating ports",
+				Description: "Desired number of allocated SNAT ports per VM.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.AllocatedOutboundPorts"),
 			},
 			{
 				Name:        "network_profile_load_balancer_idle_timeout",
-				Description: "Desired outbound flow idle timeout in minutes Allowed values must be in the range of 4 to 120 (inclusive) The default value is 30 minutes",
+				Description: "Desired outbound flow idle timeout in minutes.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.NetworkProfile.LoadBalancerProfile.IdleTimeoutInMinutes"),
 			},
@@ -285,13 +279,13 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "aad_profile_tenant_id",
-				Description: "The AAD tenant ID to use for authentication If not specified, will use the tenant of the deployment subscription",
+				Description: "The AAD tenant ID to use for authentication.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.AadProfile.TenantID"),
 			},
 			{
 				Name:        "auto_upgrade_profile_upgrade_channel",
-				Description: "upgrade channel for auto upgrade Possible values include: 'UpgradeChannelRapid', 'UpgradeChannelStable', 'UpgradeChannelPatch', 'UpgradeChannelNodeImage', 'UpgradeChannelNone'",
+				Description: "upgrade channel for auto upgrade.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.AutoUpgradeProfile.UpgradeChannel"),
 			},
@@ -333,7 +327,7 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "disable_local_accounts",
-				Description: "If set to true, getting static credential will be disabled for this cluster Expected to only be used for AAD clusters",
+				Description: "If set to true, getting static credential will be disabled for this cluster.",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("ManagedClusterProperties.DisableLocalAccounts"),
 			},
@@ -375,25 +369,25 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "identity_type",
-				Description: "The type of identity used for the managed cluster Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes Type 'None' will not use MSI for the managed cluster, service principal will be used instead Possible values include: 'ResourceIdentityTypeSystemAssigned', 'ResourceIdentityTypeUserAssigned', 'ResourceIdentityTypeNone'",
+				Description: "The type of identity used for the managed cluster.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Identity.Type"),
 			},
 			{
 				Name:        "identity_user_assigned_identities",
-				Description: "The user identity associated with the managed cluster This identity will be used in control plane and only one user assigned identity is allowed The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftManagedIdentity/userAssignedIdentities/{identityName}'",
+				Description: "The user identity associated with the managed cluster.",
 				Type:        schema.TypeJSON,
 				Resolver:    schema.PathResolver("Identity.UserAssignedIdentities"),
 			},
 			{
 				Name:        "sku_name",
-				Description: "Name of a managed cluster SKU Possible values include: 'ManagedClusterSKUNameBasic'",
+				Description: "Name of a managed cluster SKU.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "Tier of a managed cluster SKU Possible values include: 'Paid', 'Free'",
+				Description: "Tier of a managed cluster SKU.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
@@ -405,7 +399,7 @@ func ContainerManagedClusters() *schema.Table {
 			},
 			{
 				Name:        "extended_location_type",
-				Description: "The type of the extended location Possible values include: 'EdgeZone'",
+				Description: "The type of the extended location.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ExtendedLocation.Type"),
 			},
@@ -532,7 +526,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "count",
-						Description: "Number of agents (VMs) to host docker containers Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools The default value is 1",
+						Description: "Number of agents (VMs) to host docker containers.",
 						Type:        schema.TypeInt,
 					},
 					{
@@ -543,18 +537,18 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "os_disk_size_gb",
-						Description: "OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool If you specify 0, it will apply the default osDisk size according to the vmSize specified",
+						Description: "OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool.",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("OsDiskSizeGB"),
 					},
 					{
 						Name:        "os_disk_type",
-						Description: "OS disk type to be used for machines in a given agent pool Allowed values are 'Ephemeral' and 'Managed' If unspecified, defaults to 'Ephemeral' when the VM supports ephemeral OS and has a cache disk larger than the requested OSDiskSizeGB Otherwise, defaults to 'Managed' May not be changed after creation Possible values include: 'Managed', 'Ephemeral'",
+						Description: "OS disk type to be used for machines in a given agent pool.",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "kubelet_disk_type",
-						Description: "KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage Currently allows one value, OS, resulting in Kubelet using the OS disk for data Possible values include: 'OS', 'Temporary'",
+						Description: "KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.",
 						Type:        schema.TypeString,
 					},
 					{
@@ -576,12 +570,12 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "os_type",
-						Description: "OsType to be used to specify os type Choose from Linux and Windows Default to Linux Possible values include: 'Linux', 'Windows'",
+						Description: "OsType to be used to specify os type.",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "os_sku",
-						Description: "OsSKU to be used to specify os sku Choose from Ubuntu(default) and CBLMariner for Linux OSType Not applicable to Windows OSType Possible values include: 'Ubuntu', 'CBLMariner'",
+						Description: "OsSKU to be used to specify os sku.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("OsSKU"),
 					},
@@ -602,12 +596,12 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "type",
-						Description: "AgentPoolType represents types of an agent pool Possible values include: 'VirtualMachineScaleSets', 'AvailabilitySet'",
+						Description: "AgentPoolType represents types of an agent pool.",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "mode",
-						Description: "AgentPoolMode represents mode of an agent pool Possible values include: 'System', 'User'",
+						Description: "AgentPoolMode represents mode of an agent pool.",
 						Type:        schema.TypeString,
 					},
 					{
@@ -622,7 +616,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "upgrade_settings_max_surge",
-						Description: "Count or percentage of additional nodes to be added during upgrade If empty uses AKS default",
+						Description: "Count or percentage of additional nodes to be added during upgrade.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("UpgradeSettings.MaxSurge"),
 					},
@@ -633,13 +627,13 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "power_state_code",
-						Description: "Tells whether the cluster is Running or Stopped Possible values include: 'Running', 'Stopped'",
+						Description: "Tells whether the cluster is Running or Stopped.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("PowerState.Code"),
 					},
 					{
 						Name:        "availability_zones",
-						Description: "Availability zones for nodes Must use VirtualMachineScaleSets AgentPoolType",
+						Description: "Availability zones for nodes.",
 						Type:        schema.TypeStringArray,
 					},
 					{
@@ -656,17 +650,17 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "scale_set_priority",
-						Description: "ScaleSetPriority to be used to specify virtual machine scale set priority Default to regular Possible values include: 'Spot', 'Regular'",
+						Description: "ScaleSetPriority to be used to specify virtual machine scale set priority.",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "scale_set_eviction_policy",
-						Description: "ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set Default to Delete Possible values include: 'Delete', 'Deallocate'",
+						Description: "ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set.",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "spot_max_price",
-						Description: "SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand",
+						Description: "SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars.",
 						Type:        schema.TypeFloat,
 					},
 					{
@@ -681,7 +675,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "node_taints",
-						Description: "Taints added to new nodes during node pool create and scale For example, key=value:NoSchedule",
+						Description: "Taints added to new nodes during node pool create and scale.",
 						Type:        schema.TypeStringArray,
 					},
 					{
@@ -746,7 +740,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "kubelet_config_container_log_max_files",
-						Description: "The maximum number of container log files that can be present for a container The number must be ≥ 2",
+						Description: "The maximum number of container log files that can be present for a container.",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("KubeletConfig.ContainerLogMaxFiles"),
 					},
@@ -775,7 +769,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "gpu_instance_profile",
-						Description: "GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g Possible values include: 'MIG1g', 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'",
+						Description: "GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.",
 						Type:        schema.TypeString,
 					},
 				},
@@ -827,7 +821,7 @@ func ContainerManagedClusters() *schema.Table {
 					},
 					{
 						Name:        "provisioning_state",
-						Description: "The current provisioning state of the pod identity Possible values include: 'Assigned', 'Updating', 'Deleting', 'Failed'",
+						Description: "The current provisioning state of the pod identity.",
 						Type:        schema.TypeString,
 					},
 				},
