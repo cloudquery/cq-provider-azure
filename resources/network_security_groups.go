@@ -11,11 +11,12 @@ import (
 
 func NetworkSecurityGroups() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_network_security_groups",
-		Description: "Azure network security group",
-		Resolver:    fetchNetworkSecurityGroups,
-		Multiplex:   client.SubscriptionMultiplex,
-		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:         "azure_network_security_groups",
+		Description:  "Azure network security group",
+		Resolver:     fetchNetworkSecurityGroups,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -83,7 +84,7 @@ func NetworkSecurityGroups() *schema.Table {
 					{
 						Name:        "security_group_id",
 						Description: "ID of azure_network_security_groups table (FK)",
-						Type:        schema.TypeUUID,
+						Type:        schema.TypeString,
 						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
@@ -208,7 +209,7 @@ func NetworkSecurityGroups() *schema.Table {
 					{
 						Name:        "security_group_id",
 						Description: "ID of azure_network_security_groups table (FK)",
-						Type:        schema.TypeUUID,
+						Type:        schema.TypeString,
 						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
@@ -343,7 +344,7 @@ func NetworkSecurityGroups() *schema.Table {
 					{
 						Name:        "security_group_id",
 						Description: "ID of azure_network_security_groups table (FK)",
-						Type:        schema.TypeUUID,
+						Type:        schema.TypeString,
 						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
