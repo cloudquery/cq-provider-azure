@@ -8,23 +8,26 @@ import (
 )
 
 type NetworksClient struct {
-	VirtualNetworks VirtualNetworksClient
-	SecurityGroups  SecurityGroupsClient
-	Watchers        WatchersClient
+	VirtualNetworks   VirtualNetworksClient
+	SecurityGroups    SecurityGroupsClient
+	Watchers          WatchersClient
+	PublicIPAddresses PublicIPAddressesClient
 }
 
 func NewNetworksClient(subscriptionId string, auth autorest.Authorizer) NetworksClient {
 	vn := network.NewVirtualNetworksClient(subscriptionId)
 	vn.Authorizer = auth
-
 	sg := network.NewSecurityGroupsClient(subscriptionId)
 	sg.Authorizer = auth
 	wch := network.NewWatchersClient(subscriptionId)
 	wch.Authorizer = auth
+	pips := network.NewPublicIPAddressesClient(subscriptionId)
+	pips.Authorizer = auth
 	return NetworksClient{
-		VirtualNetworks: vn,
-		SecurityGroups:  sg,
-		Watchers:        wch,
+		VirtualNetworks:   vn,
+		SecurityGroups:    sg,
+		Watchers:          wch,
+		PublicIPAddresses: pips,
 	}
 }
 
@@ -34,6 +37,10 @@ type VirtualNetworksClient interface {
 
 type SecurityGroupsClient interface {
 	ListAll(ctx context.Context) (result network.SecurityGroupListResultPage, err error)
+}
+
+type PublicIPAddressesClient interface {
+	ListAll(ctx context.Context) (result network.PublicIPAddressListResultPage, err error)
 }
 
 type WatchersClient interface {
