@@ -10,6 +10,7 @@
 //go:generate mockgen -destination=./mocks/sql.go -package=mocks . SqlDatabaseClient,SQLFirewallClient,SQLServerAdminClient,SqlServerClient
 //go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionGetter
 //go:generate mockgen -destination=./mocks/keyvault.go -package=mocks . KeyClient,SecretsClient,VaultClient
+//go:generate mockgen -destination=./mocks/containerservice.go -package=mocks . ManagedClustersClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -17,6 +18,7 @@ import "github.com/Azure/go-autorest/autorest"
 type Services struct {
 	AD            AD
 	Compute       ComputeClient
+	Container     ContainerServiceClient
 	KeyVault      KeyVaultClient
 	Monitor       MonitorClient
 	MySQL         MySQL
@@ -33,6 +35,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 	return Services{
 		AD:            NewADClient(subscriptionId, auth),
 		Compute:       NewComputeClient(subscriptionId, auth),
+		Container:     NewContainerServiceClient(subscriptionId, auth),
 		KeyVault:      NewKeyVaultClient(subscriptionId, auth),
 		Monitor:       NewMonitorClient(subscriptionId, auth),
 		MySQL:         NewMySQLClient(subscriptionId, auth),
