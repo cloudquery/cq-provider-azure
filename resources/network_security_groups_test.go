@@ -62,27 +62,6 @@ func buildNetworkSecurityGroupsMock(t *testing.T, ctrl *gomock.Controller) servi
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].PrivateEndpointNetworkPolicies))
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].PrivateLinkServiceNetworkPolicies))
 
-	//type SubnetPropertiesFormat struct {
-	//	AddressPrefix                     *string                            `json:"addressPrefix,omitempty"`
-	//	AddressPrefixes                   *[]string                          `json:"addressPrefixes,omitempty"`
-	//	NetworkSecurityGroup              *SecurityGroup                     `json:"networkSecurityGroup,omitempty"`
-	//	RouteTable                        *RouteTable                        `json:"routeTable,omitempty"`
-	//	NatGateway                        *SubResource                       `json:"natGateway,omitempty"`
-	//	ServiceEndpoints                  *[]ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
-	//	ServiceEndpointPolicies           *[]ServiceEndpointPolicy           `json:"serviceEndpointPolicies,omitempty"`
-	//	PrivateEndpoints                  *[]PrivateEndpoint                 `json:"privateEndpoints,omitempty"`
-	//	IPConfigurations                  *[]IPConfiguration                 `json:"ipConfigurations,omitempty"`
-	//	IPConfigurationProfiles           *[]IPConfigurationProfile          `json:"ipConfigurationProfiles,omitempty"`
-	//	IPAllocations                     *[]SubResource                     `json:"ipAllocations,omitempty"`
-	//	ResourceNavigationLinks           *[]ResourceNavigationLink          `json:"resourceNavigationLinks,omitempty"`
-	//	ServiceAssociationLinks           *[]ServiceAssociationLink          `json:"serviceAssociationLinks,omitempty"`
-	//	Delegations                       *[]Delegation                      `json:"delegations,omitempty"`
-	//	Purpose                           *string                            `json:"purpose,omitempty"`
-	//	ProvisioningState                 ProvisioningState                  `json:"provisioningState,omitempty"`
-	//	PrivateEndpointNetworkPolicies    *string                            `json:"privateEndpointNetworkPolicies,omitempty"`
-	//	PrivateLinkServiceNetworkPolicies *string                            `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	//}
-
 	fakeId := fakeResourceGroup + "/" + *sg.ID
 	sg.ID = &fakeId
 
