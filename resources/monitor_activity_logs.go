@@ -14,6 +14,7 @@ func MonitorActivityLogs() *schema.Table {
 		Resolver:     fetchMonitorActivityLogs,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "authorization_action",
