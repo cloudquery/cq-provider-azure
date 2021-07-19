@@ -4,7 +4,7 @@ ManagedClusterPodIdentityException
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|managed_cluster_cq_id|uuid|Unique ID of azure_container_managed_clusters table (FK)|
+|managed_cluster_cq_id|uuid|Unique CloudQuery ID of azure_container_managed_clusters table (FK)|
 |name|text|Name of the pod identity exception|
 |namespace|text|Namespace of the pod identity exception|
 |pod_labels|jsonb|Pod labels to match|

@@ -4,7 +4,7 @@ ManagedClusterAgentPoolProfile profile for the container service agent pool
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|managed_cluster_cq_id|uuid|Unique ID of azure_container_managed_clusters table (FK)|
+|managed_cluster_cq_id|uuid|Unique CloudQuery ID of azure_container_managed_clusters table (FK)|
 |name|text|Unique name of the agent pool profile in the context of the subscription and resource group|
 |count|integer|Number of agents (VMs) to host docker containers.|
 |vm_size|text|Size of agent VMs|

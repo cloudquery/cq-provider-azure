@@ -439,7 +439,7 @@ func ContainerManagedClusters() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "managed_cluster_cq_id",
-						Description: "Unique ID of azure_container_managed_clusters table (FK)",
+						Description: "Unique CloudQuery ID of azure_container_managed_clusters table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -468,7 +468,7 @@ func ContainerManagedClusters() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "managed_cluster_cq_id",
-						Description: "Unique ID of azure_container_managed_clusters table (FK)",
+						Description: "Unique CloudQuery ID of azure_container_managed_clusters table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -515,7 +515,7 @@ func ContainerManagedClusters() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "managed_cluster_cq_id",
-						Description: "Unique ID of azure_container_managed_clusters table (FK)",
+						Description: "Unique CloudQuery ID of azure_container_managed_clusters table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -782,7 +782,7 @@ func ContainerManagedClusters() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "managed_cluster_cq_id",
-						Description: "Unique ID of azure_container_managed_clusters table (FK)",
+						Description: "Unique CloudQuery ID of azure_container_managed_clusters table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},

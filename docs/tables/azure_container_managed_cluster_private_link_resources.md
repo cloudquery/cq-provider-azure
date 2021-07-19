@@ -4,7 +4,7 @@ PrivateLinkResource a private link resource
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|managed_cluster_cq_id|uuid|Unique ID of azure_container_managed_clusters table (FK)|
+|managed_cluster_cq_id|uuid|Unique CloudQuery ID of azure_container_managed_clusters table (FK)|
 |id|text|The ID of the private link resource|
 |name|text|The name of the private link resource|
 |type|text|The resource type|
