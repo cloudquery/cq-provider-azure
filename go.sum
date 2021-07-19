@@ -101,6 +101,8 @@ github.com/cloudquery/cq-provider-sdk v0.3.0-rc2 h1:BaoCgp7gDzC7WIxaXSTx0SHytBnh
 github.com/cloudquery/cq-provider-sdk v0.3.0-rc2/go.mod h1:hRc7KsA2yxTlTPY7rGTHvQK57OWA+zujYBHt78NBo8o=
 github.com/cloudquery/cq-provider-sdk v0.3.0-rc4 h1:CoOX/v4KkLhMjFjfdLPGsGe6Hn7A3ojHi6FmgbBnxqI=
 github.com/cloudquery/cq-provider-sdk v0.3.0-rc4/go.mod h1:hRc7KsA2yxTlTPY7rGTHvQK57OWA+zujYBHt78NBo8o=
+github.com/cloudquery/cq-provider-sdk v0.3.0-rc7 h1:dJEf8i3vwiadGqB8YM2gZVr7M6X1FhOZRZ5AbmFeLpY=
+github.com/cloudquery/cq-provider-sdk v0.3.0-rc7/go.mod h1:N+hB03nTEaZYeGmnSMR+Q1waGlKreG0Ii83/lkdY/9I=
 github.com/cloudquery/cq-provider-sdk v0.3.0-rc8 h1:aRhxbImFHSDMBH/ks4GwZcAynAyOYC7PRjI+okeHuEM=
 github.com/cloudquery/cq-provider-sdk v0.3.0-rc8/go.mod h1:N+hB03nTEaZYeGmnSMR+Q1waGlKreG0Ii83/lkdY/9I=
 github.com/cloudquery/faker/v3 v3.7.4 h1:cCcU3r0yHpS0gqKj9rRKAGS0/hY33fBxbqCNFtDD4ec=
