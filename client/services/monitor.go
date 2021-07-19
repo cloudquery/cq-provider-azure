@@ -14,16 +14,14 @@ type MonitorClient struct {
 }
 
 func NewMonitorClient(subscriptionId string, auth autorest.Authorizer) MonitorClient {
-	activityLogAlerts := insights.NewActivityLogAlertsClient(subscriptionId)
-	activityLogAlerts.Authorizer = auth
-
+	servers := insights.NewActivityLogAlertsClient(subscriptionId)
+	servers.Authorizer = auth
 	logProfiles := insights.NewLogProfilesClient(subscriptionId)
 	logProfiles.Authorizer = auth
-
 	activityLogs := insights.NewActivityLogsClient(subscriptionId)
 	activityLogs.Authorizer = auth
 	return MonitorClient{
-		ActivityLogAlerts: activityLogAlerts,
+		ActivityLogAlerts: servers,
 		LogProfiles:       logProfiles,
 		ActivityLogs:      activityLogs,
 	}
@@ -37,4 +35,8 @@ type ActivityLogClient interface {
 }
 type LogProfilesClient interface {
 	List(ctx context.Context) (result insights.LogProfileCollection, err error)
+}
+
+type DiagnosticSettingsClient interface {
+	List(ctx context.Context, resourceURI string) (result insights.DiagnosticSettingsResourceCollection, err error)
 }
