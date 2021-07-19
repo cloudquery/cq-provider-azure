@@ -72,8 +72,8 @@ func AuthorizationRoleDefinitions() *schema.Table {
 				Resolver:    fetchAuthorizationRoleDefinitionPermissions,
 				Columns: []schema.Column{
 					{
-						Name:        "role_definition_id",
-						Description: "Unique ID of azure_authorization_role_definitions table (FK)",
+						Name:        "role_definition_cq_id",
+						Description: "Unique CloudQuery ID of azure_authorization_role_definitions table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
