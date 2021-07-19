@@ -8,9 +8,10 @@ import (
 )
 
 type MonitorClient struct {
-	ActivityLogAlerts ActivityLogAlertsClient
-	LogProfiles       LogProfilesClient
-	ActivityLogs      ActivityLogClient
+	ActivityLogAlerts  ActivityLogAlertsClient
+	LogProfiles        LogProfilesClient
+	ActivityLogs       ActivityLogClient
+	DiagnosticSettings DiagnosticSettingsClient
 }
 
 func NewMonitorClient(subscriptionId string, auth autorest.Authorizer) MonitorClient {
@@ -20,10 +21,13 @@ func NewMonitorClient(subscriptionId string, auth autorest.Authorizer) MonitorCl
 	logProfiles.Authorizer = auth
 	activityLogs := insights.NewActivityLogsClient(subscriptionId)
 	activityLogs.Authorizer = auth
+	diagnosticSettings := insights.NewDiagnosticSettingsClient(subscriptionId)
+	diagnosticSettings.Authorizer = auth
 	return MonitorClient{
-		ActivityLogAlerts: servers,
-		LogProfiles:       logProfiles,
-		ActivityLogs:      activityLogs,
+		ActivityLogAlerts:  servers,
+		LogProfiles:        logProfiles,
+		ActivityLogs:       activityLogs,
+		DiagnosticSettings: diagnosticSettings,
 	}
 }
 
