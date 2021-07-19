@@ -45,7 +45,7 @@ func buildNetworkSecurityGroupsMock(t *testing.T, ctrl *gomock.Controller) servi
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].Etag))
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].AddressPrefix))
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].AddressPrefixes))
-	//require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].NetworkSecurityGroup))
+	//require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].NetworkSecurityGroup.ID))
 	//require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].RouteTable))
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].NatGateway))
 	require.Nil(t, faker.FakeData(&(*sg.Subnets)[0].ServiceEndpoints))
