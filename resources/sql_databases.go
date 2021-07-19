@@ -65,7 +65,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "create_mode",
-				Description: "Specifies the mode of database creation  Default: regular database creation  Copy: creates a database as a copy of an existing database sourceDatabaseId must be specified as the resource ID of the source database  Secondary: creates a database as a secondary replica of an existing database sourceDatabaseId must be specified as the resource ID of the existing primary database  PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified  Recovery: Creates a database by restoring a geo-replicated backup sourceDatabaseId must be specified as the recoverable database resource ID to restore  Restore: Creates a database by restoring a backup of a deleted database sourceDatabaseId must be specified If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored restorePointInTime may also be specified to restore from an earlier point in time  RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID  Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition Possible values include: 'CreateModeDefault', 'CreateModeCopy', 'CreateModeSecondary', 'CreateModePointInTimeRestore', 'CreateModeRestore', 'CreateModeRecovery', 'CreateModeRestoreExternalBackup', 'CreateModeRestoreExternalBackupSecondary', 'CreateModeRestoreLongTermRetentionBackup', 'CreateModeOnlineSecondary'",
+				Description: "Specifies the mode of database creation.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CreateMode"),
 			},
@@ -83,7 +83,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "sample_name",
-				Description: "The name of the sample schema to apply when creating this database Possible values include: 'AdventureWorksLT', 'WideWorldImportersStd', 'WideWorldImportersFull'",
+				Description: "The name of the sample schema to apply when creating this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.SampleName"),
 			},
@@ -101,7 +101,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "status",
-				Description: "The status of the database Possible values include: 'DatabaseStatusOnline', 'DatabaseStatusRestoring', 'DatabaseStatusRecoveryPending', 'DatabaseStatusRecovering', 'DatabaseStatusSuspect', 'DatabaseStatusOffline', 'DatabaseStatusStandby', 'DatabaseStatusShutdown', 'DatabaseStatusEmergencyMode', 'DatabaseStatusAutoClosed', 'DatabaseStatusCopying', 'DatabaseStatusCreating', 'DatabaseStatusInaccessible', 'DatabaseStatusOfflineSecondary', 'DatabaseStatusPausing', 'DatabaseStatusPaused', 'DatabaseStatusResuming', 'DatabaseStatusScaling', 'DatabaseStatusOfflineChangingDwPerformanceTiers', 'DatabaseStatusOnlineChangingDwPerformanceTiers', 'DatabaseStatusDisabled'",
+				Description: "The status of the database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.Status"),
 			},
@@ -179,7 +179,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "catalog_collation",
-				Description: "Collation of the metadata catalog Possible values include: 'DATABASEDEFAULT', 'SQLLatin1GeneralCP1CIAS'",
+				Description: "Collation of the metadata catalog.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CatalogCollation"),
 			},
@@ -191,7 +191,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "license_type",
-				Description: "The license type to apply for this database `LicenseIncluded` if you need a license, or `BasePrice` if you have a license and are eligible for the Azure Hybrid Benefit Possible values include: 'LicenseIncluded', 'BasePrice'",
+				Description: "The license type to apply for this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.LicenseType"),
 			},
@@ -209,7 +209,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "read_scale",
-				Description: "The state of read-only routing If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region Possible values include: 'DatabaseReadScaleEnabled', 'DatabaseReadScaleDisabled'",
+				Description: "The state of read-only routing If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.ReadScale"),
 			},
@@ -221,7 +221,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "secondary_type",
-				Description: "The secondary type of the database if it is a secondary  Valid values are Geo and Named Possible values include: 'Geo', 'Named'",
+				Description: "The secondary type of the database if it is a secondary.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.SecondaryType"),
 			},
@@ -257,13 +257,13 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "auto_pause_delay",
-				Description: "Time in minutes after which database is automatically paused A value of -1 means that automatic pause is disabled",
+				Description: "Time in minutes after which database is automatically paused.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.AutoPauseDelay"),
 			},
 			{
 				Name:        "storage_account_type",
-				Description: "The storage account type used to store backups for this database Possible values include: 'GRS', 'LRS', 'ZRS'",
+				Description: "The storage account type used to store backups for this database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.StorageAccountType"),
 			},
@@ -285,7 +285,7 @@ func SQLDatabases() *schema.Table {
 			},
 			{
 				Name:        "maintenance_configuration_id",
-				Description: "Maintenance configuration id assigned to the database This configuration defines the period when the maintenance updates will occur",
+				Description: "Maintenance configuration id assigned to the database.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.MaintenanceConfigurationID"),
 			},

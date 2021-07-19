@@ -8,8 +8,8 @@ import (
 )
 
 type SQLClient struct {
-	Databases                    SQLDatabaseClient
 	DatabaseBlobAuditingPolicies SQLDatabaseBlobAuditingPoliciesClient
+	Databases                    SQLDatabaseClient
 	Firewall                     SQLFirewallClient
 	ServerAdmins                 SQLServerAdminClient
 	ServerBlobAuditingPolicies   SQLServerBlobAuditingPolicies
