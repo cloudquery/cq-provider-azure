@@ -86,30 +86,6 @@ func NetworkPublicIPAddresses() *schema.Table {
 				Resolver:    resolveNetworkPublicIPAddressPublicIPAddress,
 			},
 			{
-				Name:        "provisioning_state",
-				Description: "The provisioning state of the IP configuration resource Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.IPConfiguration.IPConfigurationPropertiesFormat.ProvisioningState"),
-			},
-			{
-				Name:        "name",
-				Description: "The name of the resource that is unique within a resource group This name can be used to access the resource",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.IPConfiguration.Name"),
-			},
-			{
-				Name:        "etag",
-				Description: "A unique read-only string that changes whenever the resource is updated",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.IPConfiguration.Etag"),
-			},
-			{
-				Name:        "id",
-				Description: "Resource ID",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.IPConfiguration.ID"),
-			},
-			{
 				Name:        "dns_settings_domain_name_label",
 				Description: "The domain name label The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system",
 				Type:        schema.TypeString,
