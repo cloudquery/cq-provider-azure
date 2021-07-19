@@ -911,7 +911,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -962,7 +962,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -997,7 +997,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1032,7 +1032,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1067,7 +1067,7 @@ func WebApps() *schema.Table {
 						Columns: []schema.Column{
 							{
 								Name:        "app_virtual_application_cq_id",
-								Description: "Unique ID of azure_web_apps table (FK)",
+								Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 								Type:        schema.TypeUUID,
 								Resolver:    schema.ParentIdResolver,
 							},
@@ -1093,7 +1093,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1154,7 +1154,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1204,7 +1204,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1243,7 +1243,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1283,7 +1283,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1347,7 +1347,7 @@ func WebApps() *schema.Table {
 					},
 					{
 						Name:        "headers",
-						Description: "IP restriction rule headers X-Forwarded-Host (https://developermozillaorg/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples) The matching logic is  - If the property is null or empty (default), all hosts(or lack of) are allowed - A value is compared using ordinal-ignore-case (excluding port number) - Subdomain wildcards are permitted but don't match the root domain For example, *contosocom matches the subdomain foocontosocom  but not the root domain contosocom or multi-level foobarcontosocom - Unicode host names are allowed but are converted to Punycode for matching X-Forwarded-For (https://developermozillaorg/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples) The matching logic is  - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property X-Azure-FDID and X-FD-HealthProbe The matching logic is exact match",
+						Description: "IP restriction rule headers",
 						Type:        schema.TypeJSON,
 					},
 				},
@@ -1360,7 +1360,7 @@ func WebApps() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "app_cq_id",
-						Description: "Unique ID of azure_web_apps table (FK)",
+						Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -1424,7 +1424,7 @@ func WebApps() *schema.Table {
 					},
 					{
 						Name:        "headers",
-						Description: "IP restriction rule headers X-Forwarded-Host (https://developermozillaorg/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples) The matching logic is  - If the property is null or empty (default), all hosts(or lack of) are allowed - A value is compared using ordinal-ignore-case (excluding port number) - Subdomain wildcards are permitted but don't match the root domain For example, *contosocom matches the subdomain foocontosocom  but not the root domain contosocom or multi-level foobarcontosocom - Unicode host names are allowed but are converted to Punycode for matching X-Forwarded-For (https://developermozillaorg/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples) The matching logic is  - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property X-Azure-FDID and X-FD-HealthProbe The matching logic is exact match",
+						Description: "IP restriction rule headers",
 						Type:        schema.TypeJSON,
 					},
 				},

@@ -24,13 +24,13 @@ func WebAppAuthSettings() *schema.Table {
 			},
 			{
 				Name:        "app_id",
-				Description: "Unique ID of azure_web_apps table (FK)",
+				Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 				Type:        schema.TypeString,
 				Resolver:    schema.ParentResourceFieldResolver("id"),
 			},
 			{
 				Name:        "enabled",
-				Description: "otherwise, <code>false</code>",
+				Description: "If authorization for site is enabled the value is true",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("SiteAuthSettingsProperties.Enabled"),
 			},

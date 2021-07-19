@@ -30,6 +30,9 @@ func buildWebAppsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	if err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
+
+	ip := faker.IPv4()
+	(*site.SiteProperties.SiteConfig.ScmIPSecurityRestrictions)[0].SubnetMask = &ip
 	page := web.NewAppCollectionPage(web.AppCollection{Value: &[]web.Site{site}}, func(ctx context.Context, collection web.AppCollection) (web.AppCollection, error) {
 		return web.AppCollection{}, nil
 	})
