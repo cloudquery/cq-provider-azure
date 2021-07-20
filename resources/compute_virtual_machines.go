@@ -285,7 +285,7 @@ func ComputeVirtualMachines() *schema.Table {
 			},
 			{
 				Name:        "platform_fault_domain",
-				Description: "1<li>This property cannot be updated once the Virtual Machine is created<li>Fault domain assignment can be viewed in the Virtual Machine Instance View<br><br>Minimum api‐version: 2020‐12‐01",
+				Description: "Specifies the scale set logical fault domain into which the Virtual Machine will be created.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.PlatformFaultDomain"),
 			},
