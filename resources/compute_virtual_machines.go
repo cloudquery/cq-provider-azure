@@ -670,16 +670,23 @@ func fetchComputeVirtualMachineSecretVaultCertificates(ctx context.Context, meta
 	return nil
 }
 func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	svc := meta.(*client.Client).Services().Compute.VirtualMachineExtensions
 	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
 	}
-
-	if p.Resources == nil {
+	details, err := client.ParseResourceID(*p.ID)
+	if err != nil {
+		return err
+	}
+	response, err := svc.List(ctx, details.ResourceGroup, *p.Name, "")
+	if err != nil {
+		return err
+	}
+	if response.Value == nil {
 		return nil
 	}
-
-	res <- *p.Resources
+	res <- *response.Value
 	return nil
 }
 func resolveComputeVirtualMachineResourceVirtualMachineExtensionProperties(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
