@@ -24,7 +24,7 @@ func WebAppAuthSettings() *schema.Table {
 			},
 			{
 				Name:        "app_id",
-				Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
+				Description: "Original resource id of the web app (FK)",
 				Type:        schema.TypeString,
 				Resolver:    schema.ParentResourceFieldResolver("id"),
 			},

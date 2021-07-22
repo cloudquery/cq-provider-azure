@@ -462,7 +462,7 @@ func WebApps() *schema.Table {
 						Type: schema.TypeString,
 					},
 					{
-						Name: "user_p_w_d",
+						Name: "user_pwd",
 						Type: schema.TypeString,
 					},
 				},
