@@ -41,3 +41,7 @@ type VirtualMachinesClient interface {
 type VirtualMachineExtensionsClient interface {
 	List(ctx context.Context, resourceGroupName string, VMName string, expand string) (result compute.VirtualMachineExtensionsListResult, err error)
 }
+
+type VirtualMachineExtensionsClient interface {
+	List(ctx context.Context, resourceGroupName string, VMName string, expand string) (result compute.VirtualMachineExtensionsListResult, err error)
+}
