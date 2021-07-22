@@ -7,4 +7,4 @@
 |app_cq_id|uuid|Unique CloudQuery ID of azure_web_apps table (FK)|
 |publish_url|text||
 |user_name|text||
-|user_p_w_d|text||
+|user_pwd|text||
