@@ -462,8 +462,9 @@ func WebApps() *schema.Table {
 						Type: schema.TypeString,
 					},
 					{
-						Name: "user_pwd",
-						Type: schema.TypeString,
+						Name:     "user_pwd",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("UserPWD"),
 					},
 				},
 			},
