@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -414,7 +415,7 @@ func SQLDatabases() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "database_cq_id",
-						Description: "Unique ID of azure_sql_databases table (FK)",
+						Description: "Unique CloudQuery ID of azure_sql_databases table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -549,8 +550,11 @@ func fetchSqlDatabaseDbThreatDetectionPolicies(ctx context.Context, meta schema.
 	if err != nil {
 		return err
 	}
-	serverName := parent.Parent.Get("name").(*string)
-	result, err := svc.Get(ctx, details.ResourceGroup, *serverName, *database.Name)
+	db, ok := parent.Parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not a sql.Database instance: %T", parent.Parent.Item)
+	}
+	result, err := svc.Get(ctx, details.ResourceGroup, *db.Name, *database.Name)
 	if err != nil {
 		return err
 	}
