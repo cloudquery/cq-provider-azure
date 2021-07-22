@@ -474,19 +474,19 @@ func SQLServers() *schema.Table {
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "A blob storage container path to hold the scan results (eg https://myStorageblobcorewindowsnet/VaScans/)",
+						Description: "A blob storage container path to hold the scan results.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ServerVulnerabilityAssessmentProperties.StorageContainerPath"),
 					},
 					{
 						Name:        "storage_container_sas_key",
-						Description: "A shared access signature (SAS Key) that has read and write access to the blob container specified in 'storageContainerPath' parameter If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required",
+						Description: "A shared access signature (SAS Key) that has read and write access to the blob container specified in 'storageContainerPath' parameter.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ServerVulnerabilityAssessmentProperties.StorageContainerSasKey"),
 					},
 					{
 						Name:        "storage_account_access_key",
-						Description: "Specifies the identifier key of the storage account for vulnerability assessment scan results If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required",
+						Description: "Specifies the identifier key of the storage account for vulnerability assessment scan results.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ServerVulnerabilityAssessmentProperties.StorageAccountAccessKey"),
 					},
