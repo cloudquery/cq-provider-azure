@@ -430,13 +430,13 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "state",
-						Description: "Specifies the state of the policy If state is Enabled, storageEndpoint and storageAccountAccessKey are required Possible values include: 'SecurityAlertPolicyStateNew', 'SecurityAlertPolicyStateEnabled', 'SecurityAlertPolicyStateDisabled'",
+						Description: "Specifies the state of the policy.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.State"),
 					},
 					{
 						Name:        "disabled_alerts",
-						Description: "Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration; Unsafe_Action",
+						Description: "Specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.DisabledAlerts"),
 					},
@@ -448,19 +448,19 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "email_account_admins",
-						Description: "Specifies that the alert is sent to the account administrators Possible values include: 'SecurityAlertPolicyEmailAccountAdminsEnabled', 'SecurityAlertPolicyEmailAccountAdminsDisabled'",
+						Description: "Specifies that the alert is sent to the account administrators.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.EmailAccountAdmins"),
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint (eg https://MyAccountblobcorewindowsnet) This blob storage will hold all Threat Detection audit logs If state is Enabled, storageEndpoint is required",
+						Description: "Specifies the blob storage endpoint.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageEndpoint"),
 					},
 					{
 						Name:        "storage_account_access_key",
-						Description: "Specifies the identifier key of the Threat Detection audit storage account If state is Enabled, storageAccountAccessKey is required",
+						Description: "Specifies the identifier key of the Threat Detection audit storage account.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageAccountAccessKey"),
 					},
@@ -472,7 +472,7 @@ func SQLDatabases() *schema.Table {
 					},
 					{
 						Name:        "use_server_default",
-						Description: "Specifies whether to use the default server policy Possible values include: 'SecurityAlertPolicyUseServerDefaultEnabled', 'SecurityAlertPolicyUseServerDefaultDisabled'",
+						Description: "Specifies whether to use the default server policy.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.UseServerDefault"),
 					},
