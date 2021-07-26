@@ -4,7 +4,7 @@ SiteAuthSettings configuration settings for the Azure App Service Authentication
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|app_cq_id|uuid|Unique ID of azure_web_apps table (FK)|
+|app_cq_id|uuid|Unique CloudQuery ID of azure_web_apps table (FK)|
 |app_id|text|Original resource id of the web app (FK)|
 |enabled|boolean|If authorization for site is enabled the value is true|
 |runtime_version|text|The RuntimeVersion of the Authentication / Authorization feature in use for the current app The setting in this value can control the behavior of certain features in the Authentication / Authorization module|

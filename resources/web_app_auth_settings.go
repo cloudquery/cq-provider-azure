@@ -18,7 +18,7 @@ func WebAppAuthSettings() *schema.Table {
 		Columns: []schema.Column{
 			{
 				Name:        "app_cq_id",
-				Description: "Unique ID of azure_web_apps table (FK)",
+				Description: "Unique CloudQuery ID of azure_web_apps table (FK)",
 				Type:        schema.TypeUUID,
 				Resolver:    schema.ParentIdResolver,
 			},
