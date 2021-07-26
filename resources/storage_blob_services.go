@@ -24,7 +24,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "default_service_version",
-				Description: "DefaultServiceVersion indicates the default version to use for requests to the Blob service if an incoming request’s version is not specified Possible values include version 2008-10-27 and all more recent versions",
+				Description: "DefaultServiceVersion indicates the default version to use for requests to the Blob service if an incoming request’s version is not specified.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.DefaultServiceVersion"),
 			},
@@ -36,7 +36,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "delete_retention_policy_days",
-				Description: "Indicates the number of days that the deleted item should be retained The minimum specified value can be 1 and the maximum value can be 365",
+				Description: "Indicates the number of days that the deleted item should be retained.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.DeleteRetentionPolicy.Days"),
 			},
@@ -60,7 +60,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "change_feed_retention_in_days",
-				Description: "Indicates the duration of changeFeed retention in days Minimum value is 1 day and maximum value is 146000 days (400 years) A null value indicates an infinite retention of the change feed",
+				Description: "Indicates the duration of changeFeed retention in days.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.ChangeFeed.RetentionInDays"),
 			},
@@ -94,7 +94,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "container_delete_retention_policy_days",
-				Description: "Indicates the number of days that the deleted item should be retained The minimum specified value can be 1 and the maximum value can be 365",
+				Description: "Indicates the number of days that the deleted item should be retained.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy.Days"),
 			},
@@ -106,19 +106,19 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "last_access_time_tracking_policy_name",
-				Description: "Name of the policy The valid value is AccessTimeTracking This field is currently read only Possible values include: 'AccessTimeTracking'",
+				Description: "Name of the policy.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.LastAccessTimeTrackingPolicy.Name"),
 			},
 			{
 				Name:        "last_access_time_tracking_policy_tracking_granularity_in_days",
-				Description: "The field specifies blob object tracking granularity in days, typically how often the blob object should be trackedThis field is currently read only with value as 1",
+				Description: "The field specifies blob object tracking granularity in days.",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.LastAccessTimeTrackingPolicy.TrackingGranularityInDays"),
 			},
 			{
 				Name:        "last_access_time_tracking_policy_blob_type",
-				Description: "An array of predefined supported blob types Only blockBlob is the supported value This field is currently read only",
+				Description: "An array of predefined supported blob types.",
 				Type:        schema.TypeStringArray,
 				Resolver:    schema.PathResolver("BlobServicePropertiesProperties.LastAccessTimeTrackingPolicy.BlobType"),
 			},
@@ -136,7 +136,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "id",
-				Description: "Fully qualified resource ID for the resource Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
+				Description: "Fully qualified resource ID.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
@@ -147,7 +147,7 @@ func StorageBlobServices() *schema.Table {
 			},
 			{
 				Name:        "type",
-				Description: "The type of the resource Eg \"MicrosoftCompute/virtualMachines\" or \"MicrosoftStorage/storageAccounts\"",
+				Description: "The type of the resource.",
 				Type:        schema.TypeString,
 			},
 		},
@@ -165,27 +165,27 @@ func StorageBlobServices() *schema.Table {
 					},
 					{
 						Name:        "allowed_origins",
-						Description: "Required if CorsRule element is present A list of origin domains that will be allowed via CORS, or \"*\" to allow all domains",
+						Description: "A list of origin domains that will be allowed via CORS, or \"*\" to allow all domains",
 						Type:        schema.TypeStringArray,
 					},
 					{
 						Name:        "allowed_methods",
-						Description: "Required if CorsRule element is present A list of HTTP methods that are allowed to be executed by the origin",
+						Description: "A list of HTTP methods that are allowed to be executed by the origin",
 						Type:        schema.TypeStringArray,
 					},
 					{
 						Name:        "max_age_in_seconds",
-						Description: "Required if CorsRule element is present The number of seconds that the client/browser should cache a preflight response",
+						Description: "The number of seconds that the client/browser should cache a preflight response",
 						Type:        schema.TypeInt,
 					},
 					{
 						Name:        "exposed_headers",
-						Description: "Required if CorsRule element is present A list of response headers to expose to CORS clients",
+						Description: "A list of response headers to expose to CORS clients",
 						Type:        schema.TypeStringArray,
 					},
 					{
 						Name:        "allowed_headers",
-						Description: "Required if CorsRule element is present A list of headers allowed to be part of the cross-origin request",
+						Description: "A list of headers allowed to be part of the cross-origin request",
 						Type:        schema.TypeStringArray,
 					},
 				},
