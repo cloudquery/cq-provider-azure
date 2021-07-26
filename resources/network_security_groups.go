@@ -478,6 +478,7 @@ func fetchNetworkSecurityGroupFlowLogs(ctx context.Context, meta schema.ClientMe
 
 	svc := meta.(*client.Client).Services().Network.Watchers
 	for _, fl := range *p.FlowLogs {
+		//parse flow log id and get required fields from it
 		v := strings.Split(*fl.ID, "/")
 		if len(v) != 11 {
 			return fmt.Errorf("wrong format of flow logs id")
@@ -486,6 +487,7 @@ func fetchNetworkSecurityGroupFlowLogs(ctx context.Context, meta schema.ClientMe
 		resourceGroup := v[4]
 		name := v[10]
 
+		//there is no API to get network.FlowLog directly so we fetch network.FlowLogInformation and fill network.FlowLog structure
 		result, err := svc.GetFlowLogStatus(ctx, resourceGroup, networkWatcherName, network.FlowLogStatusParameters{TargetResourceID: p.ID})
 		if err != nil {
 			return err
