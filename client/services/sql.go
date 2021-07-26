@@ -27,6 +27,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	dbap.Authorizer = auth
 	dtdp := sql.NewDatabaseThreatDetectionPoliciesClient(subscriptionId)
 	dtdp.Authorizer = auth
+	dva := sql.NewDatabaseVulnerabilityAssessmentsClient(subscriptionId)
+	dva.Authorizer = auth
 	firewall := sql.NewFirewallRulesClient(subscriptionId)
 	firewall.Authorizer = auth
 	sbap := sql.NewServerBlobAuditingPoliciesClient(subscriptionId)
@@ -40,15 +42,16 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	sva := sql.NewServerVulnerabilityAssessmentsClient(subscriptionId)
 	sva.Authorizer = auth
 	return SQLClient{
-		DatabaseBlobAuditingPolicies:    dbap,
-		Databases:                       databases,
-		DatabaseThreatDetectionPolicies: dtdp,
-		Firewall:                        firewall,
-		ServerAdmins:                    serverAdmins,
-		ServerBlobAuditingPolicies:      sbap,
-		ServerDevOpsAuditSettings:       sdas,
-		Servers:                         servers,
-		ServerVulnerabilityAssessments:  sva,
+		DatabaseBlobAuditingPolicies:     dbap,
+		Databases:                        databases,
+		DatabaseThreatDetectionPolicies:  dtdp,
+		DatabaseVulnerabilityAssessments: dva,
+		Firewall:                         firewall,
+		ServerAdmins:                     serverAdmins,
+		ServerBlobAuditingPolicies:       sbap,
+		ServerDevOpsAuditSettings:        sdas,
+		Servers:                          servers,
+		ServerVulnerabilityAssessments:   sva,
 	}
 }
 

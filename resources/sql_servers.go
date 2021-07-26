@@ -468,7 +468,7 @@ func SQLServers() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "server_cq_id",
-						Description: "Unique ID of azure_sql_servers table (FK)",
+						Description: "Unique CloudQuery ID of azure_sql_servers table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},

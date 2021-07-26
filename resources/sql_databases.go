@@ -414,7 +414,7 @@ func SQLDatabases() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "database_cq_id",
-						Description: "Unique ID of azure_sql_databases table (FK)",
+						Description: "Unique CloudQuery ID of azure_sql_databases table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -502,7 +502,7 @@ func SQLDatabases() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "database_cq_id",
-						Description: "Unique ID of azure_sql_databases table (FK)",
+						Description: "Unique CloudQuery ID of azure_sql_databases table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
