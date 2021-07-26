@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -594,8 +595,11 @@ func fetchSqlDatabaseDbBlobAuditingPolicies(ctx context.Context, meta schema.Cli
 	if err != nil {
 		return err
 	}
-	serverName := parent.Parent.Get("name").(*string)
-	result, err := svc.ListByDatabase(ctx, details.ResourceGroup, *serverName, *database.Name)
+	server, ok := parent.Parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not a sql.Server instance: %T", parent.Parent.Item)
+	}
+	result, err := svc.ListByDatabase(ctx, details.ResourceGroup, *server.Name, *database.Name)
 	if err != nil {
 		return err
 	}
@@ -615,8 +619,11 @@ func fetchSqlDatabaseDbThreatDetectionPolicies(ctx context.Context, meta schema.
 	if err != nil {
 		return err
 	}
-	serverName := parent.Parent.Get("name").(*string)
-	result, err := svc.Get(ctx, details.ResourceGroup, *serverName, *database.Name)
+	server, ok := parent.Parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not a sql.Server instance: %T", parent.Parent.Item)
+	}
+	result, err := svc.Get(ctx, details.ResourceGroup, *server.Name, *database.Name)
 	if err != nil {
 		return err
 	}
@@ -631,8 +638,11 @@ func fetchSqlDatabaseDbVulnerabilityAssessments(ctx context.Context, meta schema
 	if err != nil {
 		return err
 	}
-	serverName := parent.Parent.Get("name").(*string)
-	result, err := svc.ListByDatabase(ctx, details.ResourceGroup, *serverName, *database.Name)
+	server, ok := parent.Parent.Item.(sql.Server)
+	if !ok {
+		return fmt.Errorf("not a sql.Server instance: %T", parent.Parent.Item)
+	}
+	result, err := svc.ListByDatabase(ctx, details.ResourceGroup, *server.Name, *database.Name)
 	if err != nil {
 		return err
 	}
