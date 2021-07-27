@@ -2,10 +2,10 @@ package services
 
 import (
 	"context"
-	auth2 "github.com/Azure/go-autorest/autorest/azure/auth"
 
 	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/go-autorest/autorest"
+	auth2 "github.com/Azure/go-autorest/autorest/azure/auth"
 )
 
 type ADApplicationsClient interface {
