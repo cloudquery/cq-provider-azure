@@ -166,7 +166,7 @@ func StorageBlobServices() *schema.Table {
 					{
 						Name:        "blob_service_id",
 						Description: "Unique ID of azure_storage_blob_services table (FK)",
-						Type:        schema.TypeUUID,
+						Type:        schema.TypeString,
 						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
