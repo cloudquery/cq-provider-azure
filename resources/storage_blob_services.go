@@ -164,6 +164,12 @@ func StorageBlobServices() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
+						Name:        "blob_service_id",
+						Description: "Unique ID of azure_storage_blob_services table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentResourceFieldResolver("id"),
+					},
+					{
 						Name:        "allowed_origins",
 						Description: "A list of origin domains that will be allowed via CORS, or \"*\" to allow all domains",
 						Type:        schema.TypeStringArray,
