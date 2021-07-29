@@ -24,6 +24,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	serverVulnsSvc := mocks.NewMockSQLServerVulnerabilityAssessmentsClient(ctrl)
 	dbVulnsSvc := mocks.NewMockSQLDatabaseVulnerabilityAssessmentsClient(ctrl)
 	encSvc := mocks.NewMockTransparentDataEncryptionsClient(ctrl)
+	epSvc := mocks.NewMockEncryptionProtectorsClient(ctrl)
 	s := services.Services{
 		SQL: services.SQLClient{
 			DatabaseBlobAuditingPolicies:     databaseBlobSvc,
@@ -37,6 +38,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 			Servers:                          serverSvc,
 			ServerVulnerabilityAssessments:   serverVulnsSvc,
 			TransparentDataEncryptions:       encSvc,
+			EncryptionProtectors:             epSvc,
 		},
 	}
 	server := sql.Server{}
@@ -167,6 +169,14 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	}
 	encSvc.EXPECT().Get(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(
 		e, nil,
+	)
+
+	var ep sql.EncryptionProtector
+	if err := faker.FakeData(&ep); err != nil {
+		t.Fatal(err)
+	}
+	epSvc.EXPECT().Get(gomock.Any(), gomock.Any(), gomock.Any()).Return(
+		ep, nil,
 	)
 	return s
 }

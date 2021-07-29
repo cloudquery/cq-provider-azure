@@ -4,7 +4,7 @@ Azure sql database
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|subscription_id|text|Azure subscription id|
+|server_cq_id|uuid|Unique ID of azure_sql_servers table (FK)|
 |sku_name|text|The name of the SKU, typically, a letter + Number code, eg P3|
 |sku_tier|text|The tier or edition of the particular SKU, eg Basic, Premium|
 |sku_size|text|Size of the particular SKU|
@@ -55,3 +55,4 @@ Azure sql database
 |id|text|Resource ID|
 |name|text|Resource name|
 |type|text|Resource type|
+|transparent_data_encryption|jsonb|TransparentDataEncryption represents a database transparent data encryption configuration|

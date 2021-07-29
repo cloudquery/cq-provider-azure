@@ -19,6 +19,7 @@ type SQLClient struct {
 	Servers                          SQLServerClient
 	ServerVulnerabilityAssessments   SQLServerVulnerabilityAssessmentsClient
 	TransparentDataEncryptions       TransparentDataEncryptionsClient
+	EncryptionProtectors             EncryptionProtectorsClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -44,6 +45,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	sva.Authorizer = auth
 	enc := sql.NewTransparentDataEncryptionsClient(subscriptionId)
 	enc.Authorizer = auth
+	ep := sql.NewEncryptionProtectorsClient(subscriptionId)
+	ep.Authorizer = auth
 	return SQLClient{
 		DatabaseBlobAuditingPolicies:     dbap,
 		Databases:                        databases,
@@ -56,6 +59,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		Servers:                          servers,
 		ServerVulnerabilityAssessments:   sva,
 		TransparentDataEncryptions:       enc,
+		EncryptionProtectors:             ep,
 	}
 }
 
@@ -100,4 +104,8 @@ type SQLDatabaseVulnerabilityAssessmentsClient interface {
 
 type TransparentDataEncryptionsClient interface {
 	Get(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.TransparentDataEncryption, err error)
+}
+
+type EncryptionProtectorsClient interface {
+	Get(ctx context.Context, resourceGroupName string, serverName string) (result sql.EncryptionProtector, err error)
 }
