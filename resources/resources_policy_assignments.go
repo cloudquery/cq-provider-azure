@@ -51,7 +51,7 @@ func ResourcesPolicyAssignments() *schema.Table {
 			},
 			{
 				Name:        "parameters",
-				Description: "The parameter values for the assigned policy rule The keys are the parameter names",
+				Description: "The parameter values for the assigned policy rule",
 				Type:        schema.TypeJSON,
 				Resolver:    schema.PathResolver("AssignmentProperties.Parameters"),
 			},
@@ -63,13 +63,13 @@ func ResourcesPolicyAssignments() *schema.Table {
 			},
 			{
 				Name:        "metadata",
-				Description: "The policy assignment metadata Metadata is an open ended object and is typically a collection of key value pairs",
+				Description: "The policy assignment metadata",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveResourcesPolicyAssignmentMetadata,
 			},
 			{
 				Name:        "enforcement_mode",
-				Description: "The policy assignment enforcement mode Possible values are Default and DoNotEnforce Possible values include: 'Default', 'DoNotEnforce'",
+				Description: "The policy assignment enforcement mode",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("AssignmentProperties.EnforcementMode"),
 			},
@@ -91,19 +91,19 @@ func ResourcesPolicyAssignments() *schema.Table {
 			},
 			{
 				Name:        "sku_name",
-				Description: "The name of the policy sku Possible values are A0 and A1",
+				Description: "The name of the policy sku",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "The policy sku tier Possible values are Free and Standard",
+				Description: "The policy sku tier",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
 			{
 				Name:        "location",
-				Description: "The location of the policy assignment Only required when utilizing managed identity",
+				Description: "The location of the policy assignment",
 				Type:        schema.TypeString,
 			},
 			{
@@ -120,7 +120,7 @@ func ResourcesPolicyAssignments() *schema.Table {
 			},
 			{
 				Name:        "identity_type",
-				Description: "The identity type This is the only required field when adding a system assigned identity to a resource Possible values include: 'SystemAssigned', 'None'",
+				Description: "The identity type",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Identity.Type"),
 			},
