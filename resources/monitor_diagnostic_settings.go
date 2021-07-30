@@ -2,9 +2,11 @@ package resources
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2019-11-01-preview/insights"
+	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -74,6 +76,12 @@ func MonitorDiagnosticSettings() *schema.Table {
 				Name:        "type",
 				Description: "Azure resource type",
 				Type:        schema.TypeString,
+			},
+			{
+				Name:        "resource_uri",
+				Description: "Resource URI this setting belongs to",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ResourceURI"),
 			},
 		},
 		Relations: []*schema.Table{
@@ -170,31 +178,64 @@ func MonitorDiagnosticSettings() *schema.Table {
 	}
 }
 
+// diagnosticSetting is a custom copy of insights.DiagnosticSettingsResource with extra ResourceURI field
+type diagnosticSetting struct {
+	// DiagnosticSettings - Properties of a Diagnostic Settings Resource.
+	*insights.DiagnosticSettings `json:"properties,omitempty"`
+	// ID - READ-ONLY; Azure resource Id
+	ID *string `json:"id,omitempty"`
+	// Name - READ-ONLY; Azure resource name
+	Name *string `json:"name,omitempty"`
+	// Type - READ-ONLY; Azure resource type
+	Type *string `json:"type,omitempty"`
+
+	// ResourceURI is a resource URI which this diagnostic setting belongs to
+	ResourceURI string
+}
+
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
 func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	resSvc := meta.(*client.Client).Services().Resources.Resources
-	svc := meta.(*client.Client).Services().Monitor.DiagnosticSettings
-	resources, err := resSvc.List(ctx, "", "", nil)
+	cl := meta.(*client.Client)
+	resSvc := cl.Services().Resources.Resources
+	monSvc := cl.Services().Monitor.DiagnosticSettings
+	resResponse, err := resSvc.List(ctx, "", "", nil)
 	if err != nil {
 		return err
 	}
-	for _, r := range resources.Values() {
-		response, err := svc.List(ctx, *r.ID)
+	rs := resResponse.Values()
+	ids := make([]string, 0, len(rs))
+	ids = append(ids, "/subscriptions/"+cl.SubscriptionId)
+	for _, r := range rs {
+		ids = append(ids, *r.ID)
+	}
+	for _, id := range ids {
+		response, err := monSvc.List(ctx, id)
 		if err != nil {
+			if isResourceTypeNotSupported(err) {
+				continue
+			}
 			return err
 		}
 		if response.Value == nil {
 			continue
 		}
-		res <- *response.Value
+		for _, v := range *response.Value {
+			res <- diagnosticSetting{
+				DiagnosticSettings: v.DiagnosticSettings,
+				ID:                 v.ID,
+				Name:               v.Name,
+				Type:               v.Type,
+				ResourceURI:        id,
+			}
+		}
 	}
 
 	return nil
 }
 func fetchMonitorDiagnosticSettingMetrics(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(insights.DiagnosticSettingsResource)
+	p, ok := parent.Item.(diagnosticSetting)
 	if !ok {
 		return fmt.Errorf("expected insights.DiagnosticSettingsResource but got %T", parent.Item)
 	}
@@ -207,7 +248,7 @@ func fetchMonitorDiagnosticSettingMetrics(ctx context.Context, meta schema.Clien
 	return nil
 }
 func fetchMonitorDiagnosticSettingLogs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(insights.DiagnosticSettingsResource)
+	p, ok := parent.Item.(diagnosticSetting)
 	if !ok {
 		return fmt.Errorf("expected insights.DiagnosticSettingsResource but got %T", parent.Item)
 	}
@@ -218,4 +259,12 @@ func fetchMonitorDiagnosticSettingLogs(ctx context.Context, meta schema.ClientMe
 
 	res <- *p.DiagnosticSettings.Logs
 	return nil
+}
+
+func isResourceTypeNotSupported(err error) bool {
+	var azureErr *azure.RequestError
+	if errors.As(err, &azureErr) {
+		return azureErr.ServiceError != nil && azureErr.ServiceError.Code == "ResourceTypeNotSupported"
+	}
+	return false
 }
