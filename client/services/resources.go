@@ -22,8 +22,8 @@ func NewResourcesClient(subscriptionId string, auth autorest.Authorizer) Resourc
 	assignments := policy.NewAssignmentsClient()
 	assignments.Authorizer = auth
 	return ResourcesClient{
-		Groups:    groups,
-		Resources: resources,
+		Groups:      groups,
+		Resources:   resources,
 		Assignments: assignments,
 	}
 }
