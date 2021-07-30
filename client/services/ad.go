@@ -33,7 +33,8 @@ type AD struct {
 
 func NewADClient(_ string, _ autorest.Authorizer) AD {
 	//ad services need custom authorization
-	auth, _ := auth2.NewAuthorizerFromEnvironmentWithResource("https://graph.windows.net/")
+	auth, _ := auth2.NewAuthorizerFromEnvironmentWithResource(graphrbac.DefaultBaseURI) //https://graph.windows.net
+
 	//we ignore errors since operations below usually are already executed during creation of a default authorizer
 	settings, _ := auth2.GetSettingsFromEnvironment()
 	c, _ := settings.GetClientCredentials()
