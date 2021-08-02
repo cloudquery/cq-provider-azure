@@ -2,6 +2,7 @@ package resources_test
 
 import (
 	"context"
+	"github.com/cloudquery/cq-provider-azure/resources"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
@@ -39,5 +40,5 @@ func buildADUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
 }
 
 func TestADUsers(t *testing.T) {
-	//azureTestHelper(t, resources.AdUsers(), buildADUsers)
+	azureTestHelper(t, resources.AdUsers(), buildADUsers)
 }

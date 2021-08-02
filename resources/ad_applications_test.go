@@ -33,5 +33,5 @@ func buildADApplications(t *testing.T, ctrl *gomock.Controller) services.Service
 }
 
 func TestADApplications(t *testing.T) {
-	//azureTestHelper(t, resources.AdApplications(), buildADApplications)
+	azureTestHelper(t, resources.AdApplications(), buildADApplications)
 }

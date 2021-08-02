@@ -33,5 +33,5 @@ func buildADServicePrincipals(t *testing.T, ctrl *gomock.Controller) services.Se
 }
 
 func TestADServicePrincipals(t *testing.T) {
-	//azureTestHelper(t, resources.AdServicePrincipals(), buildADServicePrincipals)
+	azureTestHelper(t, resources.AdServicePrincipals(), buildADServicePrincipals)
 }

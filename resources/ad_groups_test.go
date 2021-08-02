@@ -34,5 +34,5 @@ func buildADGroups(t *testing.T, ctrl *gomock.Controller) services.Services {
 }
 
 func TestADGroups(t *testing.T) {
-	//azureTestHelper(t, resources.AdGroups(), buildADGroups)
+	azureTestHelper(t, resources.AdGroups(), buildADGroups)
 }
