@@ -11,7 +11,6 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-// nolint:deadcode
 func buildADGroups(t *testing.T, ctrl *gomock.Controller) services.Services {
 	m := mocks.NewMockADGroupsClient(ctrl)
 	var group graphrbac.ADGroup

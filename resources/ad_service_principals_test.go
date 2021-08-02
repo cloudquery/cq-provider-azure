@@ -11,7 +11,6 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-// nolint:deadcode
 func buildADServicePrincipals(t *testing.T, ctrl *gomock.Controller) services.Services {
 	m := mocks.NewMockADServicePrinicpals(ctrl)
 	var principal graphrbac.ServicePrincipal

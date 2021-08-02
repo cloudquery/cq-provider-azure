@@ -11,7 +11,6 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-// nolint:deadcode
 func buildADApplications(t *testing.T, ctrl *gomock.Controller) services.Services {
 	m := mocks.NewMockADApplicationsClient(ctrl)
 	var app graphrbac.Application

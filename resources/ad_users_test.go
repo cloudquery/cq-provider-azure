@@ -11,7 +11,6 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-// nolint:deadcode
 func buildADUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
 	m := mocks.NewMockADUsersClient(ctrl)
 	var user graphrbac.User
