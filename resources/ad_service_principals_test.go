@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
+	"github.com/cloudquery/cq-provider-azure/resources"
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
 )
