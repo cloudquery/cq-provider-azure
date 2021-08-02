@@ -44,6 +44,12 @@ func SecuritySettings() *schema.Table {
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Type"),
 			},
+			{
+				Name:        "enabled",
+				Description: "Export setting enabled flag",
+				Type:        schema.TypeBool,
+				Resolver:    schema.PathResolver("DataExportSettingProperties.Enabled"),
+			},
 		},
 	}
 }
@@ -66,7 +72,6 @@ func fetchSecuritySettings(ctx context.Context, meta schema.ClientMeta, parent *
 				res <- d
 			}
 		}
-		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
 			return err
 		}
