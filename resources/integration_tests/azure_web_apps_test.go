@@ -38,16 +38,45 @@ func TestIntegrationWebApps(t *testing.T) {
 					Name:           "azure_web_app_host_name_ssl_states",
 					ForeignKeyName: "app_cq_id",
 					ExpectedValues: []providertest.ExpectedValue{{
-						Count: 2,
-						Data:  map[string]interface{}{},
+						Count: 1,
+						Data: map[string]interface{}{
+							"host_type": "Standard",
+							"name":      fmt.Sprintf("as-%s%s.azurewebsites.net", res.Prefix, res.Suffix),
+							"ssl_state": "Disabled",
+						},
+					}},
+				},
+				{
+					Name:           "azure_web_app_host_name_ssl_states",
+					ForeignKeyName: "app_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data: map[string]interface{}{
+							"host_type": "Repository",
+							"name":      fmt.Sprintf("as-%s%s.scm.azurewebsites.net", res.Prefix, res.Suffix),
+							"ssl_state": "Disabled",
+						},
 					}},
 				},
 				{
 					Name:           "azure_web_app_publishing_profiles",
 					ForeignKeyName: "app_cq_id",
 					ExpectedValues: []providertest.ExpectedValue{{
-						Count: 3,
-						Data:  map[string]interface{}{},
+						Count: 2,
+						Data: map[string]interface{}{
+							"publish_url": fmt.Sprintf("as-%s%s.scm.azurewebsites.net:443", res.Prefix, res.Suffix),
+							"user_name":   fmt.Sprintf("as-%s%s", res.Prefix, res.Suffix),
+						},
+					}},
+				},
+				{
+					Name:           "azure_web_app_publishing_profiles",
+					ForeignKeyName: "app_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data: map[string]interface{}{
+							"user_name": fmt.Sprintf("as-%s%s\\$as-%s%s", res.Prefix, res.Suffix, res.Prefix, res.Suffix),
+						},
 					}},
 				},
 			},
