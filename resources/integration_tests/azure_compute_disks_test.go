@@ -11,6 +11,7 @@ import (
 func TestIntegrationComputeDisks(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.ComputeDisks(), []string{
 		"azure_compute_disks.tf",
+		//"azure_keyvault_vaults.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: resources.ComputeDisks().Name,

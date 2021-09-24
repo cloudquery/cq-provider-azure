@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "keyvaults_keyvault" {
-  name                        = "vault-${substr(var.test_prefix,-9,-1)}-${substr(var.test_suffix,-6,-1)}"
+  name                        = "vault-${substr(var.test_prefix,-9,-1)}${substr(var.test_suffix,-9,-1)}"
   location                    = azurerm_resource_group.resource_group.location
   resource_group_name         = azurerm_resource_group.resource_group.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
@@ -7,6 +7,7 @@ resource "azurerm_key_vault" "keyvaults_keyvault" {
   soft_delete_retention_days  = 7
   enabled_for_disk_encryption = true
   purge_protection_enabled    = false
+  enabled_for_deployment      = true
 
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
@@ -65,7 +66,7 @@ resource "azurerm_key_vault" "keyvaults_keyvault" {
 
 resource "azurerm_key_vault_secret" "keyvaults_secret" {
   name         = "kv-secret1-${var.test_prefix}-${var.test_suffix}"
-  value        = "szechuan"
+  value        = "kv-secret1-${var.test_prefix}-${var.test_suffix}"
   key_vault_id = azurerm_key_vault.keyvaults_keyvault.id
 }
 
@@ -130,6 +131,10 @@ resource "azurerm_key_vault_key" "keyvaults_key" {
   key_type     = "RSA"
   key_size     = 2048
 
+  tags = {
+    test = "test"
+  }
+
   key_opts = [
     "decrypt",
     "encrypt",
@@ -137,52 +142,5 @@ resource "azurerm_key_vault_key" "keyvaults_key" {
     "unwrapKey",
     "verify",
     "wrapKey",
-  ]
-}
-
-
-
-resource "azurerm_key_vault_access_policy" "virtual_machines_key_vault_access_policy" {
-  key_vault_id = azurerm_key_vault.keyvaults_keyvault.id
-
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = data.azurerm_client_config.current.object_id
-
-
-  key_permissions = [
-    "Backup",
-    "Create",
-    "Delete",
-    "Import",
-    "List",
-    "Recover",
-    "Restore",
-    "Update",
-    "Get",
-    "WrapKey",
-    "UnwrapKey",
-    "Decrypt"
-  ]
-
-  secret_permissions = [
-    "Backup",
-    "Delete",
-    "Get",
-    "List",
-    "Recover",
-    "Restore",
-    "Set",
-  ]
-
-  certificate_permissions = [
-    "Backup",
-    "Create",
-    "Delete",
-    "Get",
-    "Import",
-    "List",
-    "Recover",
-    "Restore",
-    "Update",
   ]
 }

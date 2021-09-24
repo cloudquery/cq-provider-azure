@@ -11,7 +11,7 @@ import (
 func TestIntegrationComputeVirtualMachines(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.ComputeVirtualMachines(), []string{
 		"azure_compute_virtual_machines.tf",
-		//"azure_keyvault_vaults.tf",
+		"azure_keyvault_vaults.tf",
 		"networks.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
@@ -63,6 +63,24 @@ func TestIntegrationComputeVirtualMachines(t *testing.T) {
 							},
 						},
 					}},
+				},
+				{
+					Name:           "azure_compute_virtual_machine_secrets",
+					ForeignKeyName: "virtual_machine_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data:  map[string]interface{}{},
+					}},
+					Relations: []*providertest.ResourceIntegrationVerification{
+						{
+							Name:           "azure_compute_virtual_machine_secret_vault_certificates",
+							ForeignKeyName: "virtual_machine_secret_cq_id",
+							ExpectedValues: []providertest.ExpectedValue{{
+								Count: 1,
+								Data:  map[string]interface{}{},
+							}},
+						},
+					},
 				},
 			},
 		}

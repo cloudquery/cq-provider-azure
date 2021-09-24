@@ -47,12 +47,12 @@ resource "azurerm_virtual_machine" "main" {
 
   }
 
-#  os_profile_secrets {
-#    source_vault_id = azurerm_key_vault.keyvaults_keyvault.vault_uri
-#    vault_certificates {
-#      certificate_url = azurerm_key_vault_certificate.keyvaults_cert.secret_id
-#    }
-#  }
+  os_profile_secrets {
+    source_vault_id = azurerm_key_vault.keyvaults_keyvault.id
+    vault_certificates {
+      certificate_url = azurerm_key_vault_certificate.keyvaults_cert.secret_id
+    }
+  }
 
 
   os_profile_linux_config {

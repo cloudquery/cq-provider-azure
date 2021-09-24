@@ -2,6 +2,7 @@ provider "azurerm" {
   features {
     key_vault {
       purge_soft_delete_on_destroy = true
+      recover_soft_deleted_key_vaults = true
     }
   }
 }
@@ -9,7 +10,7 @@ provider "azurerm" {
 resource "azurerm_resource_group" "resource_group" {
   name     = "resource-group-${var.test_prefix}${var.test_suffix}"
   location = "West Europe"
-  tags = {
+  tags     = {
     TestId = var.test_suffix
     Type   = "integration_test"
   }
