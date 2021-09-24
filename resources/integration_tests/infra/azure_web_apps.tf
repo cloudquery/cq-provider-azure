@@ -36,4 +36,8 @@ resource "azurerm_app_service" "web_apps_app_service" {
   identity {
     type = "SystemAssigned"
   }
+
+  tags = {
+    test = "test"
+  }
 }

@@ -31,6 +31,9 @@ func TestIntegrationWebApps(t *testing.T) {
 					"kind":                         "app",
 					"type":                         "Microsoft.Web/sites",
 					"container_size":               float64(0),
+					"tags": map[string]interface{}{
+						"test": "test",
+					},
 				},
 			}},
 			Relations: []*providertest.ResourceIntegrationVerification{
@@ -65,7 +68,7 @@ func TestIntegrationWebApps(t *testing.T) {
 						Count: 2,
 						Data: map[string]interface{}{
 							"publish_url": fmt.Sprintf("as-%s%s.scm.azurewebsites.net:443", res.Prefix, res.Suffix),
-							"user_name":   fmt.Sprintf("as-%s%s", res.Prefix, res.Suffix),
+							"user_name":   fmt.Sprintf("$as-%s%s", res.Prefix, res.Suffix),
 						},
 					}},
 				},
