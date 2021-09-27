@@ -2,10 +2,11 @@ package integration_tests
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
-	"testing"
 )
 
 func TestIntegrationStorageAccounts(t *testing.T) {
@@ -65,6 +66,46 @@ func TestIntegrationStorageAccounts(t *testing.T) {
 							"private_link_service_connection_state_action_required": "None",
 							"provisioning_state": "Succeeded",
 							"type":               "Microsoft.Storage/storageAccounts/privateEndpointConnections",
+						},
+					}},
+				},
+				{
+					Name:           "azure_storage_blob_services",
+					ForeignKeyName: "account_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data: map[string]interface{}{
+							"delete_retention_policy_enabled": false,
+							"sku_name":                        "Standard_GRS",
+							"sku_tier":                        "Standard",
+							"name":                            "default",
+							"type":                            "Microsoft.Storage/storageAccounts/blobServices",
+						},
+					}},
+					Relations: []*providertest.ResourceIntegrationVerification{{
+						Name:           "azure_storage_blob_service_cors_rules",
+						ForeignKeyName: "blob_service_cq_id",
+						ExpectedValues: []providertest.ExpectedValue{{
+							Count: 1,
+							Data: map[string]interface{}{
+								"allowed_origins":    []interface{}{"https://example.com"},
+								"allowed_methods":    []interface{}{"GET", "HEAD", "POST", "PUT"},
+								"max_age_in_seconds": float64(3600),
+								"exposed_headers":    []interface{}{"*"},
+								"allowed_headers":    []interface{}{"*"},
+							},
+						}},
+					}},
+				},
+				{
+					Name:           "azure_storage_containers",
+					ForeignKeyName: "account_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data: map[string]interface{}{
+							"public_access": "None",
+							"name":          fmt.Sprintf("storage-container-%s%s", res.Prefix, res.Suffix),
+							"type":          "Microsoft.Storage/storageAccounts/blobServices/containers",
 						},
 					}},
 				},
