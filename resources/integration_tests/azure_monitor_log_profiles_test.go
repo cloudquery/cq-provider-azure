@@ -9,7 +9,11 @@ import (
 )
 
 func TestIntegrationMonitorLogProfiles(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.MonitorLogProfiles(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
+	awsTestIntegrationHelper(t, resources.MonitorLogProfiles(), []string{
+		"azure_monitor_log_profiles.tf",
+		"azure_storage_accounts.tf",
+		"networks.tf",
+	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: resources.MonitorLogProfiles().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {

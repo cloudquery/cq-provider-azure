@@ -11,6 +11,7 @@ import (
 func TestIntegrationMonitorDiagnosticSettings(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.MonitorDiagnosticSettings(), []string{
 		"azure_monitor_diagnostic_settings.tf",
+		"azure_storage_accounts.tf",
 		"networks.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
