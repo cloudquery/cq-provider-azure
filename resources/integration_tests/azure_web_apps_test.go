@@ -82,6 +82,23 @@ func TestIntegrationWebApps(t *testing.T) {
 						},
 					}},
 				},
+				{
+					Name:           "azure_web_app_auth_settings",
+					ForeignKeyName: "app_cq_id",
+					ExpectedValues: []providertest.ExpectedValue{{
+						Count: 1,
+						Data: map[string]interface{}{
+							"name":                            "authsettings",
+							"default_provider":                "MicrosoftAccount",
+							"token_store_enabled":             false,
+							"token_refresh_extension_hours":   float64(72),
+							"microsoft_account_client_id":     "x",
+							"microsoft_account_client_secret": "x",
+							"type":                            "Microsoft.Web/sites/config",
+							"enabled":                         true,
+						},
+					}},
+				},
 			},
 		}
 	})

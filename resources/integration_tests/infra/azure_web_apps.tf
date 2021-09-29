@@ -36,6 +36,14 @@ resource "azurerm_app_service" "web_apps_app_service" {
   identity {
     type = "SystemAssigned"
   }
+  auth_settings {
+    enabled          = true
+    default_provider = "MicrosoftAccount"
+    microsoft {
+      client_id     = "x"
+      client_secret = "x"
+    }
+  }
 
   tags = {
     test = "test"
