@@ -21,10 +21,8 @@ resource "azurerm_subnet" "internal" {
   resource_group_name                            = azurerm_resource_group.resource_group.name
   virtual_network_name                           = azurerm_virtual_network.network1.name
   enforce_private_link_endpoint_network_policies = true
-  address_prefixes                               = [
-    "10.0.2.0/24"
-  ]
-  service_endpoints                              = ["Microsoft.Storage"]
+  address_prefixes                               = ["10.0.2.0/24"]
+  service_endpoints = ["Microsoft.Storage", "Microsoft.Sql"]
 }
 
 resource "azurerm_network_watcher" "network_watcher" {
