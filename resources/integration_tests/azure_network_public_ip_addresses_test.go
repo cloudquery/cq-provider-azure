@@ -2,10 +2,11 @@ package integration_tests
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
-	"testing"
 )
 
 func TestIntegrationNetworkPublicIPAddresses(t *testing.T) {

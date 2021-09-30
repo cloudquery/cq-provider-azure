@@ -2,19 +2,13 @@ package integration_tests
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
-	"testing"
 )
 
-func lastN(str string, i int) string {
-	if len(str) <= i {
-		return str
-	}
-
-	return str[len(str)-i:]
-}
 func TestIntegrationKeyvaultVaults(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.KeyvaultVaults(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 

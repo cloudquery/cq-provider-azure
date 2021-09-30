@@ -1,10 +1,11 @@
 package integration_tests
 
 import (
+	"testing"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
-	"testing"
 )
 
 func TestIntegrationSecurityPricings(t *testing.T) {
