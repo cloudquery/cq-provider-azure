@@ -10,6 +10,7 @@ resource "azurerm_storage_account_network_rules" "storage_accounts_permit_subnet
   resource_group_name  = azurerm_resource_group.resource_group.name
   storage_account_name = azurerm_storage_account.storage_accounts_storage_account.name
 
+
   default_action             = "Deny"
   ip_rules                   = ["187.67.86.15"]
   virtual_network_subnet_ids = [azurerm_subnet.internal.id]

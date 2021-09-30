@@ -78,7 +78,7 @@ func TestIntegrationContainerManagedClusters(t *testing.T) {
 							"provisioning_state":    "Succeeded",
 							"type":                  "VirtualMachineScaleSets",
 							"mode":                  "System",
-							"min_count":             float64(1),
+							"min_count":             float64(2),
 							"max_count":             float64(2),
 							"os_sku":                "Ubuntu",
 							"os_type":               "Linux",

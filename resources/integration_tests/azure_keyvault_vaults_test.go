@@ -8,16 +8,24 @@ import (
 	"testing"
 )
 
+func lastN(str string, i int) string {
+	if len(str) <= i {
+		return str
+	}
+
+	return str[len(str)-i:]
+}
 func TestIntegrationKeyvaultVaults(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.KeyvaultVaults(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
+
 		return providertest.ResourceIntegrationVerification{
 			Name: resources.KeyvaultVaults().Name,
 
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf(
 					"vault-%s%s",
-					res.Prefix[len(res.Prefix)-9:len(res.Prefix)],
-					res.Suffix[len(res.Suffix)-9:len(res.Suffix)],
+					lastN(res.Prefix, 9),
+					lastN(res.Suffix, 9),
 				)})
 			},
 			ExpectedValues: []providertest.ExpectedValue{{
