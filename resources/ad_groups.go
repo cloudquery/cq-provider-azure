@@ -1043,7 +1043,17 @@ func fetchAdGroupSettings(ctx context.Context, meta schema.ClientMeta, parent *s
 	return nil
 }
 func resolveAdGroupSettingValues(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	panic("not implemented")
+	p, ok := resource.Item.(msgraph.GroupSetting)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.GroupSetting but got %T", resource.Item)
+	}
+
+	j := map[string]interface{}{}
+	for _, v := range p.Values {
+		j[*v.Name] = *v.Value
+	}
+
+	return resource.Set(c.Name, j)
 }
 func fetchAdGroupPhotos(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(msgraph.Group)
