@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/yaegashi/msgraph.go/msauth"

@@ -3,6 +3,7 @@ package resources
 import (
 	"context"
 	"fmt"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	msgraph "github.com/yaegashi/msgraph.go/v1.0"
@@ -24,7 +25,7 @@ func AdGroups() *schema.Table {
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:        "entity_id",
+				Name:        "id",
 				Description: "ID undocumented",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DirectoryObject.Entity.ID"),
@@ -172,7 +173,7 @@ func AdGroups() *schema.Table {
 				Type:        schema.TypeBool,
 			},
 			{
-				Name:        "created_on_behalf_of_entity_id",
+				Name:        "created_on_behalf_of_id",
 				Description: "ID undocumented",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("CreatedOnBehalfOf.Entity.ID"),
@@ -184,7 +185,7 @@ func AdGroups() *schema.Table {
 				Resolver:    schema.PathResolver("CreatedOnBehalfOf.DeletedDateTime"),
 			},
 			{
-				Name:        "photo_entity_id",
+				Name:        "photo_id",
 				Description: "ID undocumented",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Photo.Entity.ID"),
@@ -202,7 +203,7 @@ func AdGroups() *schema.Table {
 				Resolver:    schema.PathResolver("Photo.Width"),
 			},
 			{
-				Name:        "team_entity_id",
+				Name:        "team_id",
 				Description: "ID undocumented",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Team.Entity.ID"),
@@ -386,127 +387,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_member_ofs",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupMemberOfs,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_members_with_license_errors",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupMembersWithLicenseErrors,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_transitive_members",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupTransitiveMembers,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_transitive_member_ofs",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupTransitiveMemberOfs,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_owners",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupOwners,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -530,7 +411,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -546,30 +427,11 @@ func AdGroups() *schema.Table {
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("TemplateID"),
 					},
-				},
-				Relations: []*schema.Table{
 					{
-						Name:        "azure_ad_group_setting_values",
-						Description: "SettingValue undocumented",
-						Resolver:    fetchAdGroupSettingValues,
-						Columns: []schema.Column{
-							{
-								Name:        "group_setting_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_group_settings table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:        "name",
-								Description: "Name undocumented",
-								Type:        schema.TypeString,
-							},
-							{
-								Name:        "value",
-								Description: "Value undocumented",
-								Type:        schema.TypeString,
-							},
-						},
+						Name:        "values",
+						Description: "Values undocumented",
+						Type:        schema.TypeJSON,
+						Resolver:    resolveAdGroupSettingValues,
 					},
 				},
 			},
@@ -585,7 +447,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -603,54 +465,6 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_accepted_senders",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupAcceptedSenders,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_group_rejected_senders",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupRejectedSenders,
-				Columns: []schema.Column{
-					{
-						Name:        "group_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "entity_id",
-						Description: "ID undocumented",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:        "deleted_date_time",
-						Description: "DeletedDateTime undocumented",
-						Type:        schema.TypeTimestamp,
-					},
-				},
-			},
-			{
 				Name:        "azure_ad_group_lifecycle_policies",
 				Description: "GroupLifecyclePolicy undocumented",
 				Resolver:    fetchAdGroupLifecyclePolicies,
@@ -662,7 +476,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -696,7 +510,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -736,7 +550,7 @@ func AdGroups() *schema.Table {
 								Resolver:    schema.ParentIdResolver,
 							},
 							{
-								Name:        "entity_id",
+								Name:        "id",
 								Description: "ID undocumented",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("Entity.ID"),
@@ -753,7 +567,7 @@ func AdGroups() *schema.Table {
 								Resolver:    schema.PathResolver("WebURL"),
 							},
 							{
-								Name:        "configuration_entity_id",
+								Name:        "configuration_id",
 								Description: "EntityID undocumented",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("Configuration.EntityID"),
@@ -777,7 +591,7 @@ func AdGroups() *schema.Table {
 								Resolver:    schema.PathResolver("Configuration.WebsiteURL"),
 							},
 							{
-								Name:        "teams_app_entity_id",
+								Name:        "teams_app_id",
 								Description: "ID undocumented",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("TeamsApp.Entity.ID"),
@@ -814,7 +628,7 @@ func AdGroups() *schema.Table {
 										Resolver:    schema.ParentIdResolver,
 									},
 									{
-										Name:        "entity_id",
+										Name:        "id",
 										Description: "ID undocumented",
 										Type:        schema.TypeString,
 										Resolver:    schema.PathResolver("Entity.ID"),
@@ -853,13 +667,13 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
 					},
 					{
-						Name:        "teams_app_entity_id",
+						Name:        "teams_app_id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("TeamsApp.Entity.ID"),
@@ -883,7 +697,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.PathResolver("TeamsApp.DistributionMethod"),
 					},
 					{
-						Name:        "teams_app_definition_entity_id",
+						Name:        "teams_app_definition_id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("TeamsAppDefinition.Entity.ID"),
@@ -920,7 +734,7 @@ func AdGroups() *schema.Table {
 								Resolver:    schema.ParentIdResolver,
 							},
 							{
-								Name:        "entity_id",
+								Name:        "id",
 								Description: "ID undocumented",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("Entity.ID"),
@@ -957,7 +771,7 @@ func AdGroups() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "entity_id",
+						Name:        "id",
 						Description: "ID undocumented",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Entity.ID"),
@@ -1012,6 +826,174 @@ func AdGroups() *schema.Table {
 					},
 				},
 			},
+			{
+				Name:        "azure_ad_group_member_ofs",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupMemberOfs,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_members_with_license_errors",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupMembersWithLicenseErrors,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_transitive_members",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupTransitiveMembers,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_transitive_member_ofs",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupTransitiveMemberOfs,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_owners",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupOwners,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_accepted_senders",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupAcceptedSenders,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
+			{
+				Name:        "azure_ad_group_rejected_senders",
+				Description: "DirectoryObject Represents an Azure Active Directory object",
+				Resolver:    fetchAdGroupRejectedSenders,
+				Columns: []schema.Column{
+					{
+						Name:        "group_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_groups table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "id",
+						Description: "ID undocumented",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("Entity.ID"),
+					},
+					{
+						Name:        "deleted_date_time",
+						Description: "DeletedDateTime undocumented",
+						Type:        schema.TypeTimestamp,
+					},
+				},
+			},
 		},
 	}
 }
@@ -1052,46 +1034,6 @@ func fetchAdGroupMembers(ctx context.Context, meta schema.ClientMeta, parent *sc
 	res <- p.Members
 	return nil
 }
-func fetchAdGroupMemberOfs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.MemberOf
-	return nil
-}
-func fetchAdGroupMembersWithLicenseErrors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.MembersWithLicenseErrors
-	return nil
-}
-func fetchAdGroupTransitiveMembers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.TransitiveMembers
-	return nil
-}
-func fetchAdGroupTransitiveMemberOfs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.TransitiveMemberOf
-	return nil
-}
-func fetchAdGroupOwners(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.Owners
-	return nil
-}
 func fetchAdGroupSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(msgraph.Group)
 	if !ok {
@@ -1100,14 +1042,8 @@ func fetchAdGroupSettings(ctx context.Context, meta schema.ClientMeta, parent *s
 	res <- p.Settings
 	return nil
 }
-func fetchAdGroupSettingValues(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	//todo make it json
-	p, ok := parent.Item.(msgraph.GroupSetting)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.GroupSetting but got %T", parent.Item)
-	}
-	res <- p.Values
-	return nil
+func resolveAdGroupSettingValues(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	panic("not implemented")
 }
 func fetchAdGroupPhotos(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(msgraph.Group)
@@ -1115,22 +1051,6 @@ func fetchAdGroupPhotos(ctx context.Context, meta schema.ClientMeta, parent *sch
 		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
 	}
 	res <- p.Photos
-	return nil
-}
-func fetchAdGroupAcceptedSenders(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.AcceptedSenders
-	return nil
-}
-func fetchAdGroupRejectedSenders(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
-	}
-	res <- p.RejectedSenders
 	return nil
 }
 func fetchAdGroupLifecyclePolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
@@ -1196,5 +1116,61 @@ func fetchAdGroupTeamOperations(ctx context.Context, meta schema.ClientMeta, par
 		return nil
 	}
 	res <- p.Team.Operations
+	return nil
+}
+func fetchAdGroupMemberOfs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.MemberOf
+	return nil
+}
+func fetchAdGroupMembersWithLicenseErrors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.MembersWithLicenseErrors
+	return nil
+}
+func fetchAdGroupTransitiveMembers(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.TransitiveMembers
+	return nil
+}
+func fetchAdGroupTransitiveMemberOfs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.TransitiveMemberOf
+	return nil
+}
+func fetchAdGroupOwners(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.Owners
+	return nil
+}
+func fetchAdGroupAcceptedSenders(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.AcceptedSenders
+	return nil
+}
+func fetchAdGroupRejectedSenders(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
+	}
+	res <- p.RejectedSenders
 	return nil
 }

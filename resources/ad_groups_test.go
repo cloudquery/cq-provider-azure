@@ -4,6 +4,13 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"net"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"reflect"
+	"testing"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/resources"
@@ -14,12 +21,6 @@ import (
 	"github.com/hashicorp/go-hclog"
 	"github.com/julienschmidt/httprouter"
 	msgraph "github.com/yaegashi/msgraph.go/v1.0"
-	"net"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
-	"reflect"
-	"testing"
 )
 
 func fakeSkipFields(tst *testing.T, data interface{}, skipFields []string) {
