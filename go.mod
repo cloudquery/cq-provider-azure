@@ -11,6 +11,10 @@ require (
 	github.com/golang/mock v1.5.0
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/go-hclog v0.16.2
+	github.com/julienschmidt/httprouter v1.2.0
+	github.com/open-networks/go-msgraph v0.2.1
 	github.com/stretchr/testify v1.7.0
 	github.com/tombuildsstuff/giovanni v0.16.0
+	github.com/yaegashi/msgraph.go v0.1.4
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 )

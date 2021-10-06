@@ -16,9 +16,13 @@
 //go:generate mockgen -destination=./mocks/storage.go -package=mocks . StorageAccountClient,StorageBlobServicePropertiesClient,StorageBlobServicesClient,StorageContainerClient,StorageQueueServicePropertiesClient
 //go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionGetter
 //go:generate mockgen -destination=./mocks/web.go -package=mocks . AppsClient
+//go:generate mockgen -destination=./mocks/msgraph.go -package=mocks . GraphClient
 package services
 
-import "github.com/Azure/go-autorest/autorest"
+import (
+	"github.com/Azure/go-autorest/autorest"
+	msgraph "github.com/yaegashi/msgraph.go/v1.0"
+)
 
 type Services struct {
 	AD            AD
@@ -36,10 +40,15 @@ type Services struct {
 	Storage       StorageClient
 	Subscriptions SubscriptionsClient
 	Web           WebClient
+	Graph         *msgraph.GraphServiceRequestBuilder
 }
 
-func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
-	return Services{
+func InitServices(subscriptionId string, auth autorest.Authorizer) (*Services, error) {
+	graph, err := NewGraphClient(subscriptionId, auth)
+	if err != nil {
+		return nil, err
+	}
+	return &Services{
 		AD:            NewADClient(subscriptionId, auth),
 		Authorization: NewAuthorizationClient(subscriptionId, auth),
 		Compute:       NewComputeClient(subscriptionId, auth),
@@ -55,5 +64,6 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		Storage:       NewStorageClient(subscriptionId, auth),
 		Subscriptions: NewSubscriptionsClient(subscriptionId, auth),
 		Web:           NewWebClient(subscriptionId, auth),
-	}
+		Graph:         graph,
+	}, nil
 }

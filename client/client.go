@@ -82,8 +82,13 @@ func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, erro
 		client.subscriptions = subscriptions
 		logger.Info("No subscriptions specified going to using all available ones", "subscriptions", subscriptions)
 	}
+
 	for _, sub := range client.subscriptions {
-		client.SetSubscriptionServices(sub, services.InitServices(sub, azureAuth))
+		services, err := services.InitServices(sub, azureAuth)
+		if err != nil {
+			return nil, err
+		}
+		client.SetSubscriptionServices(sub, *services)
 	}
 
 	// Return the initialized client and it will be passed to your resources
