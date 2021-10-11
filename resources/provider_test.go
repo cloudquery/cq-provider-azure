@@ -38,11 +38,11 @@ func azureTestHelper(t *testing.T, table *schema.Table, builder func(*testing.T,
 	})
 }
 
-func createTestClient(adress string) http.Client {
+func createTestClient(address string) http.Client {
 	transport := http.Transport{
 		DialContext: func(ctx context.Context, network string, addr string) (net.Conn, error) {
 			var d net.Dialer
-			return d.DialContext(ctx, network, adress)
+			return d.DialContext(ctx, network, address)
 		},
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
