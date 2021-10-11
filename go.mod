@@ -6,11 +6,11 @@ require (
 	github.com/Azure/azure-sdk-for-go v56.0.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.11.19
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.7
-	github.com/cloudquery/cq-provider-sdk v0.4.5
+	github.com/cloudquery/cq-provider-sdk v0.4.9
 	github.com/cloudquery/faker/v3 v3.7.4
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/hashicorp/go-hclog v0.16.2
+	github.com/hashicorp/go-hclog v1.0.0
 	github.com/julienschmidt/httprouter v1.2.0
 	github.com/open-networks/go-msgraph v0.2.1
 	github.com/stretchr/testify v1.7.0

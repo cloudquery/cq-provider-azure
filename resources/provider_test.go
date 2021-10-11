@@ -3,11 +3,12 @@ package resources_test
 import (
 	"context"
 	"crypto/tls"
-	"github.com/cloudquery/faker/v3"
 	"net"
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/cloudquery/faker/v3"
 
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
