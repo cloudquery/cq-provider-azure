@@ -1,11 +1,9 @@
 
-# Table: azure_ad_group_on_premises_provisioning_errors
-
+# Table: azure_ad_group_member_of
+DirectoryObject Represents an Azure Active Directory object
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |group_cq_id|uuid|Unique CloudQuery ID of azure_ad_groups table (FK)|
-|value|text||
-|category|text||
-|property_causing_error|text||
-|occurred_date_time|timestamp without time zone||
+|id|text||
+|deleted_date_time|timestamp without time zone||

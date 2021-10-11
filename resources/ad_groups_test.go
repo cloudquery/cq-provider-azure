@@ -1,14 +1,10 @@
 package resources_test
 
 import (
-	"context"
-	"crypto/tls"
 	"encoding/json"
-	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"reflect"
 	"testing"
 
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -17,31 +13,10 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/logging"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
-	"github.com/cloudquery/faker/v3"
 	"github.com/hashicorp/go-hclog"
 	"github.com/julienschmidt/httprouter"
 	msgraph "github.com/yaegashi/msgraph.go/v1.0"
 )
-
-func fakeSkipFields(tst *testing.T, data interface{}, skipFields []string) {
-	skipMap := make(map[string]struct{})
-	for _, s := range skipFields {
-		skipMap[s] = struct{}{}
-	}
-	v := reflect.ValueOf(data)
-	ind := reflect.Indirect(v)
-	s := ind.Type()
-
-	for i := 0; i < s.NumField(); i++ {
-		if _, ok := skipMap[s.Field(i).Name]; !ok {
-			ifc := ind.Field(i).Interface()
-			if err := faker.FakeData(&ifc); err != nil {
-				tst.Fatal(err)
-			}
-			ind.Field(i).Set(reflect.ValueOf(ifc))
-		}
-	}
-}
 
 func createADGroupsTestServer(t *testing.T) (*msgraph.GraphServiceRequestBuilder, error) {
 	var group msgraph.Group
@@ -89,21 +64,8 @@ func createADGroupsTestServer(t *testing.T) (*msgraph.GraphServiceRequestBuilder
 
 	ts := httptest.NewTLSServer(mux)
 	u, _ := url.Parse(ts.URL)
-
-	transport := http.Transport{
-		DialContext: func(ctx context.Context, network string, addr string) (net.Conn, error) {
-			var d net.Dialer
-			return d.DialContext(ctx, network, u.Host)
-		},
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-
-	client := http.Client{
-		Transport: &transport,
-	}
-
+	client := createTestClient(u.Host)
 	svc := msgraph.NewClient(&client)
-
 	return svc, nil
 }
 

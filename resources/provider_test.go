@@ -1,6 +1,12 @@
 package resources_test
 
 import (
+	"context"
+	"crypto/tls"
+	"github.com/cloudquery/faker/v3"
+	"net"
+	"net/http"
+	"reflect"
 	"testing"
 
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -29,4 +35,38 @@ func azureTestHelper(t *testing.T, table *schema.Table, builder func(*testing.T,
 			return c, nil
 		},
 	})
+}
+
+func createTestClient(adress string) http.Client {
+	transport := http.Transport{
+		DialContext: func(ctx context.Context, network string, addr string) (net.Conn, error) {
+			var d net.Dialer
+			return d.DialContext(ctx, network, adress)
+		},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	return http.Client{
+		Transport: &transport,
+	}
+}
+
+func fakeSkipFields(tst *testing.T, data interface{}, skipFields []string) {
+	skipMap := make(map[string]struct{})
+	for _, s := range skipFields {
+		skipMap[s] = struct{}{}
+	}
+	v := reflect.ValueOf(data)
+	ind := reflect.Indirect(v)
+	s := ind.Type()
+
+	for i := 0; i < s.NumField(); i++ {
+		if _, ok := skipMap[s.Field(i).Name]; !ok {
+			ifc := ind.Field(i).Interface()
+			if err := faker.FakeData(&ifc); err != nil {
+				tst.Fatal(err)
+			}
+			ind.Field(i).Set(reflect.ValueOf(ifc))
+		}
+	}
 }
