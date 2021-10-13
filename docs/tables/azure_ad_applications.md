@@ -36,5 +36,5 @@
 |web_logout_url|text||
 |web_implicit_grant_settings_enable_id_token_issuance|boolean||
 |web_implicit_grant_settings_enable_access_token_issuance|boolean||
-|created_on_behalf_of_entity_id|text||
+|created_on_behalf_of_id|text||
 |created_on_behalf_of_deleted_date_time|timestamp without time zone||

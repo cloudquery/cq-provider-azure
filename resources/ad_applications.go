@@ -170,7 +170,7 @@ func AdApplications() *schema.Table {
 				Resolver: schema.PathResolver("Web.ImplicitGrantSettings.EnableAccessTokenIssuance"),
 			},
 			{
-				Name:     "created_on_behalf_of_entity_id",
+				Name:     "created_on_behalf_of_id",
 				Type:     schema.TypeString,
 				Resolver: schema.PathResolver("CreatedOnBehalfOf.Entity.ID"),
 			},
@@ -560,12 +560,12 @@ func AdApplications() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:     "directory_object_entity_id",
+						Name:     "id",
 						Type:     schema.TypeString,
 						Resolver: schema.PathResolver("DirectoryObject.Entity.ID"),
 					},
 					{
-						Name:     "directory_object_deleted_date_time",
+						Name:     "deleted_date_time",
 						Type:     schema.TypeTimestamp,
 						Resolver: schema.PathResolver("DirectoryObject.DeletedDateTime"),
 					},
@@ -602,7 +602,7 @@ func AdApplications() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:     "entity_id",
+						Name:     "id",
 						Type:     schema.TypeString,
 						Resolver: schema.PathResolver("Entity.ID"),
 					},
