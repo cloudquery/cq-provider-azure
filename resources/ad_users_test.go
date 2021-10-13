@@ -2,6 +2,11 @@ package resources_test
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"testing"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/logging"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -9,10 +14,6 @@ import (
 	"github.com/hashicorp/go-hclog"
 	"github.com/julienschmidt/httprouter"
 	msgraph "github.com/yaegashi/msgraph.go/v1.0"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
-	"testing"
 
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/resources"
