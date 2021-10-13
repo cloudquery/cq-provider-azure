@@ -1,4 +1,3 @@
-
 resource "azurerm_network_interface" "virtual_machines_w_netowrk_interface" {
   name                = "${var.test_prefix}-${var.test_suffix}-vms-w-nic"
   location            = azurerm_resource_group.resource_group.location
@@ -12,12 +11,13 @@ resource "azurerm_network_interface" "virtual_machines_w_netowrk_interface" {
 }
 
 resource "azurerm_windows_virtual_machine" "virtual_machines_w_vm" {
-  name                  = "${var.test_prefix}-${var.test_suffix}-w-vm"
-  resource_group_name   = azurerm_resource_group.resource_group.name
-  location              = azurerm_resource_group.resource_group.location
-  size                  = "Standard_B1ls"
-  admin_username        = "adminuser"
-  admin_password        = "P@$$w0rd1234!"
+  name                = "${var.test_prefix}-${var.test_suffix}-w-vm"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.resource_group.location
+  size                = "Standard_B1ls"
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+
   network_interface_ids = [
     azurerm_network_interface.virtual_machines_w_netowrk_interface.id,
   ]

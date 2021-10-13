@@ -9,8 +9,6 @@ resource "azurerm_monitor_action_group" "log_alerts_action_group" {
   }
 }
 
-
-
 resource "azurerm_monitor_activity_log_alert" "log_alerts_log_alert" {
   name                = "${var.test_prefix}-${var.test_suffix}-activitylogalert"
   resource_group_name = azurerm_resource_group.resource_group.name

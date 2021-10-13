@@ -7,7 +7,6 @@ resource "azurerm_app_service_plan" "web_apps_service_plan" {
     tier = "Standard"
     size = "S1"
   }
-
 }
 
 resource "azurerm_app_service" "web_apps_app_service" {
@@ -27,6 +26,7 @@ resource "azurerm_app_service" "web_apps_app_service" {
 
     min_tls_version = "1.2"
   }
+
   connection_string {
     name  = "Databaasdfse"
     type  = "SQLServer"
@@ -36,6 +36,7 @@ resource "azurerm_app_service" "web_apps_app_service" {
   identity {
     type = "SystemAssigned"
   }
+
   auth_settings {
     enabled          = true
     default_provider = "MicrosoftAccount"

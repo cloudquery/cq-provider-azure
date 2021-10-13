@@ -18,7 +18,6 @@ resource "azurerm_policy_definition" "example" {
   }
 POLICY_RULE
 
-
   parameters = <<PARAMETERS
     {
     "allowedLocations": {
@@ -31,13 +30,11 @@ POLICY_RULE
     }
   }
 PARAMETERS
-
 }
 
-
-resource "azurerm_policy_assignment" "example" {
+resource "azurerm_resource_group_policy_assignment" "example" {
   name                 = "${var.test_prefix}${var.test_suffix}-policy-assignment"
-  scope                = azurerm_resource_group.resource_group.id
+  resource_group_id    = azurerm_resource_group.resource_group.id
   policy_definition_id = azurerm_policy_definition.example.id
   description          = "Policy Assignment created via an Acceptance Test"
   display_name         = "${var.test_prefix}${var.test_suffix}-assignment"
@@ -55,5 +52,4 @@ METADATA
   }
 }
 PARAMETERS
-
 }

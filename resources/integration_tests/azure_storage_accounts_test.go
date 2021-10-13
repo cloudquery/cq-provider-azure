@@ -17,7 +17,7 @@ func TestIntegrationStorageAccounts(t *testing.T) {
 		return providertest.ResourceIntegrationVerification{
 			Name: resources.StorageAccounts().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
-				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%ssa", res.Suffix)})
+				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%stsa", res.Suffix)})
 			},
 			ExpectedValues: []providertest.ExpectedValue{{
 				Count: 1,
@@ -54,7 +54,6 @@ func TestIntegrationStorageAccounts(t *testing.T) {
 						},
 					}},
 				},
-
 				{
 					Name:           "azure_storage_account_private_endpoint_connections",
 					ForeignKeyName: "account_cq_id",

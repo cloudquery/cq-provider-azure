@@ -11,6 +11,7 @@ import (
 
 func TestIntegrationSQLServers(t *testing.T) {
 	table := resources.SQLServers()
+
 	awsTestIntegrationHelper(t, table, []string{"azure_sql_servers.tf", "azure_storage_accounts.tf", "networks.tf"}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: table.Name,
@@ -27,17 +28,6 @@ func TestIntegrationSQLServers(t *testing.T) {
 				},
 			}},
 			Relations: []*providertest.ResourceIntegrationVerification{
-				// {
-				// 	Name:           "azure_sql_server_private_endpoint_connections",
-				// 	ForeignKeyName: "server_cq_id",
-				// 	ExpectedValues: []providertest.ExpectedValue{{
-				// 		Count: 1,
-				// 		Data: map[string]interface{}{
-				// 			"private_link_service_connection_state_status":      "Approved",
-				// 			"private_link_service_connection_state_description": "Auto-approved",
-				// 		},
-				// 	}},
-				// },
 				{
 					Name:           "azure_sql_server_db_blob_auditing_policies",
 					ForeignKeyName: "server_cq_id",

@@ -11,6 +11,7 @@ import (
 
 func TestIntegrationResourcesGroups(t *testing.T) {
 	table := resources.ResourcesGroups()
+
 	awsTestIntegrationHelper(t, table, []string{}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: table.Name,

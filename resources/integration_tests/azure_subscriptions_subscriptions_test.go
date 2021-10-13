@@ -10,6 +10,7 @@ import (
 
 func TestIntegrationSubscriptionsSubscriptions(t *testing.T) {
 	table := resources.SubscriptionSubscriptions()
+
 	awsTestIntegrationHelper(t, table, []string{}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: table.Name,

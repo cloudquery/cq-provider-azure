@@ -35,7 +35,7 @@ resource "azurerm_private_endpoint" "pe_mysql_1" {
   private_service_connection {
     name                           = "psc-${var.test_prefix}-${var.test_suffix}"
     private_connection_resource_id = azurerm_mysql_server.mysql_server_1.id
-    subresource_names              = [ "mysqlServer" ]
+    subresource_names              = ["mysqlServer"]
     is_manual_connection           = false
   }
 }

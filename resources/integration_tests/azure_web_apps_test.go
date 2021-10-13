@@ -72,16 +72,6 @@ func TestIntegrationWebApps(t *testing.T) {
 						},
 					}},
 				},
-				//{
-				//	Name:           "azure_web_app_publishing_profiles",
-				//	ForeignKeyName: "app_cq_id",
-				//	ExpectedValues: []providertest.ExpectedValue{{
-				//		Count: 1,
-				//		Data: map[string]interface{}{
-				//			"user_name": fmt.Sprintf("as-%s%s\\$as-%s%s", res.Prefix, res.Suffix, res.Prefix, res.Suffix),
-				//		},
-				//	}},
-				//},
 				{
 					Name:           "azure_web_app_auth_settings",
 					ForeignKeyName: "app_cq_id",

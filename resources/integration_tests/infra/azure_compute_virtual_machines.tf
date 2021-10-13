@@ -11,13 +11,13 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "${var.test_prefix}-${var.test_suffix}-vm"
-  location              = azurerm_resource_group.resource_group.location
-  resource_group_name   = azurerm_resource_group.resource_group.name
+  name                = "${var.test_prefix}-${var.test_suffix}-vm"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
   network_interface_ids = [
     azurerm_network_interface.main.id
   ]
-  vm_size               = "Standard_B1ls"
+  vm_size = "Standard_B1ls"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   delete_os_disk_on_termination = true
@@ -39,7 +39,6 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
   }
 
-
   os_profile {
     computer_name  = "hostname"
     admin_username = "testadmin"
@@ -54,11 +53,9 @@ resource "azurerm_virtual_machine" "main" {
     }
   }
 
-
   os_profile_linux_config {
     disable_password_authentication = false
   }
-
 
   tags = {
     environment = "staging"
@@ -71,7 +68,7 @@ resource "azurerm_virtual_machine_extension" "virtual_machines_vm_extension" {
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.0"
-  tags                 = {
+  tags = {
     test = "test"
   }
 

@@ -8,10 +8,9 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "resource_group" {
-  name     = "resource-group-${var.test_prefix}${var.test_suffix}"
-  #  location = "West Europe"
+  name = "resource-group-${var.test_prefix}${var.test_suffix}"
   location = "Central US"
-  tags     = {
+  tags = {
     TestId = var.test_suffix
     Type   = "integration_test"
   }

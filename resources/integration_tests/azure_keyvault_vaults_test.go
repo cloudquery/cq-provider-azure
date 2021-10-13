@@ -11,10 +11,8 @@ import (
 
 func TestIntegrationKeyvaultVaults(t *testing.T) {
 	awsTestIntegrationHelper(t, resources.KeyvaultVaults(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
-
 		return providertest.ResourceIntegrationVerification{
 			Name: resources.KeyvaultVaults().Name,
-
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf(
 					"vault-%s%s",
@@ -66,7 +64,6 @@ func TestIntegrationKeyvaultVaults(t *testing.T) {
 						},
 					}},
 				},
-
 				{
 					Name:           "azure_keyvault_vault_secrets",
 					ForeignKeyName: "vault_cq_id",

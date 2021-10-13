@@ -5,11 +5,9 @@ resource "azurerm_managed_disk" "compute_disks_disk" {
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
   disk_size_gb         = "1"
-
   tags = {
     environment = "staging"
   }
-
 }
 
 

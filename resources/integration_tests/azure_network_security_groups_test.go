@@ -65,7 +65,6 @@ func TestIntegrationNetworkSecurityGroups(t *testing.T) {
 						},
 					}},
 				},
-
 				{
 					Name:           "azure_network_security_group_security_rules",
 					ForeignKeyName: "security_group_cq_id",

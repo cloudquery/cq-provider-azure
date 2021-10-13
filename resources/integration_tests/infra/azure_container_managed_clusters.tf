@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "managed_clusters_cluster" {
     vm_size             = "Standard_B2s"
     node_labels         = { "node-type" = "system" }
     vnet_subnet_id      = azurerm_subnet.internal.id
-    tags                = {
+    tags = {
       test = "test"
     }
   }
@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "managed_clusters_cluster" {
 }
 
 resource "azurerm_container_registry" "managed_clusters_registry" {
-  name                = "${var.test_prefix}${var.test_suffix}reg"
+  name                = "${var.test_suffix}reg"
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   sku                 = "Standard"
@@ -75,9 +75,3 @@ resource "azurerm_role_assignment" "managed_clusters_vm_contributor" {
   role_definition_name = "Virtual Machine Contributor"
   principal_id         = azurerm_kubernetes_cluster.managed_clusters_cluster.kubelet_identity[0].object_id
 }
-
-#resource "azurerm_role_assignment" "managed_clusters_q1" {
-#  scope                = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${azurerm_resource_group.resource_group.name}/providers/Microsoft.Storage/storageAccounts/${azurerm_storage_account.storage_accounts_storage_account.name}/queueServices/default/queues/queue-1"
-#  role_definition_name = "Storage Queue Data Contributor"
-#  principal_id         = azurerm_user_assigned_identity.managed_clusters_pod_identity_queue_contributor.principal_id
-#}

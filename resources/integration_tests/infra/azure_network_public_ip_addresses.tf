@@ -7,7 +7,4 @@ resource "azurerm_public_ip" "public_ips_ip" {
   tags = {
     environment = "Production"
   }
-#  ip_tags = {
-#    type = "aks-slb-unmanaged-outbound-ip"
-#  }
 }

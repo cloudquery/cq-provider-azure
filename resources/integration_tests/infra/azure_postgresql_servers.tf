@@ -43,7 +43,7 @@ resource "azurerm_private_endpoint" "pe_pgsql_1" {
   private_service_connection {
     name                           = "psc-${var.test_prefix}-${var.test_suffix}"
     private_connection_resource_id = azurerm_postgresql_server.pgsql_server_1.id
-    subresource_names              = [ "postgresqlServer" ]
+    subresource_names              = ["postgresqlServer"]
     is_manual_connection           = false
   }
 }

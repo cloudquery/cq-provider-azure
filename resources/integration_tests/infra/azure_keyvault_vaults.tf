@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "keyvaults_keyvault" {
-  name                        = "vault-${substr(var.test_prefix,-9,-1)}${substr(var.test_suffix,-9,-1)}"
+  name                        = "vault-${substr(var.test_prefix, -9, -1)}${substr(var.test_suffix, -9, -1)}"
   location                    = azurerm_resource_group.resource_group.location
   resource_group_name         = azurerm_resource_group.resource_group.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
@@ -70,9 +70,8 @@ resource "azurerm_key_vault_secret" "keyvaults_secret" {
   key_vault_id = azurerm_key_vault.keyvaults_keyvault.id
 }
 
-
 resource "azurerm_key_vault_certificate" "keyvaults_cert" {
-  name         = "kv-cert-${substr(var.test_suffix,-5,-1)}"
+  name         = "kv-cert-${substr(var.test_suffix, -5, -1)}"
   key_vault_id = azurerm_key_vault.keyvaults_keyvault.id
 
   certificate_policy {
@@ -102,8 +101,6 @@ resource "azurerm_key_vault_certificate" "keyvaults_cert" {
     }
 
     x509_certificate_properties {
-      # Server Authentication = 1.3.6.1.5.5.7.3.1
-      # Client Authentication = 1.3.6.1.5.5.7.3.2
       extended_key_usage = ["1.3.6.1.5.5.7.3.1"]
 
       key_usage = [
@@ -126,7 +123,7 @@ resource "azurerm_key_vault_certificate" "keyvaults_cert" {
 }
 
 resource "azurerm_key_vault_key" "keyvaults_key" {
-  name         = "kv-key1-${substr(var.test_suffix,-5,-1)}"
+  name         = "kv-key1-${substr(var.test_suffix, -5, -1)}"
   key_vault_id = azurerm_key_vault.keyvaults_keyvault.id
   key_type     = "RSA"
   key_size     = 2048

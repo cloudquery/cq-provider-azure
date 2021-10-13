@@ -12,6 +12,7 @@ import (
 func TestIntegrationPostgreSQLServers(t *testing.T) {
 	table := resources.PostgresqlServers()
 	const fkName = "server_cq_id"
+
 	awsTestIntegrationHelper(t, table, []string{"azure_postgresql_servers.tf", "networks.tf"}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
 			Name: table.Name,
