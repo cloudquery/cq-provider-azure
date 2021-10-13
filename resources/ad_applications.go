@@ -2,22 +2,19 @@ package resources
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-
-	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	msgraph "github.com/yaegashi/msgraph.go/v1.0"
 )
 
 func AdApplications() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_ad_applications",
-		Description:  "Application active Directory application information",
 		Resolver:     fetchAdApplications,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "object_id"}},
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -26,446 +23,591 @@ func AdApplications() *schema.Table {
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:        "app_id",
-				Description: "The application ID",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("AppID"),
+				Name:     "id",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("DirectoryObject.Entity.ID"),
 			},
 			{
-				Name:        "allow_guests_sign_in",
-				Description: "A property on the application to indicate if the application accepts other IDPs or not or partially accepts",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "allow_passthrough_users",
-				Description: "Indicates that the application supports pass through users who have no presence in the resource tenant",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "app_logo_url",
-				Description: "The url for the application logo image stored in a CDN",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("AppLogoURL"),
-			},
-			{
-				Name:        "app_permissions",
-				Description: "The application permissions",
-				Type:        schema.TypeStringArray,
-			},
-			{
-				Name:        "available_to_other_tenants",
-				Description: "Whether the application is available to other tenants",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "display_name",
-				Description: "The display name of the application",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "error_url",
-				Description: "A URL provided by the author of the application to report errors when using the application",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ErrorURL"),
-			},
-			{
-				Name:        "group_membership_claims",
-				Description: "Configures the groups claim issued in a user or OAuth 20 access token that the app expects Possible values include: 'None', 'SecurityGroup', 'All'",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "homepage",
-				Description: "The home page of the application",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "identifier_uris",
-				Description: "A collection of URIs for the application",
-				Type:        schema.TypeStringArray,
-			},
-			{
-				Name:        "informational_urls_terms_of_service",
-				Description: "The terms of service URI",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("InformationalUrls.TermsOfService"),
-			},
-			{
-				Name:        "informational_urls_marketing",
-				Description: "The marketing URI",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("InformationalUrls.Marketing"),
-			},
-			{
-				Name:        "informational_urls_privacy",
-				Description: "The privacy policy URI",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("InformationalUrls.Privacy"),
-			},
-			{
-				Name:        "informational_urls_support",
-				Description: "The support URI",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("InformationalUrls.Support"),
-			},
-			{
-				Name:        "is_device_only_auth_supported",
-				Description: "Specifies whether this application supports device authentication without a user The default is false",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "known_client_applications",
-				Description: "Client applications that are tied to this resource application Consent to any of the known client applications will result in implicit consent to the resource application through a combined consent dialog (showing the OAuth permission scopes required by the client and the resource)",
-				Type:        schema.TypeStringArray,
-			},
-			{
-				Name:        "logout_url",
-				Description: "the url of the logout page",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("LogoutURL"),
-			},
-			{
-				Name:        "oauth2_allow_implicit_flow",
-				Description: "Whether to allow implicit grant flow for OAuth2",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "oauth2_allow_url_path_matching",
-				Description: "Specifies whether during a token Request Azure AD will allow path matching of the redirect URI against the applications collection of replyURLs The default is false",
-				Type:        schema.TypeBool,
-				Resolver:    schema.PathResolver("Oauth2AllowURLPathMatching"),
-			},
-			{
-				Name:        "oauth2_require_post_response",
-				Description: "Specifies whether, as part of OAuth 20 token requests, Azure AD will allow POST requests, as opposed to GET requests The default is false, which specifies that only GET requests will be allowed",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "org_restrictions",
-				Description: "A list of tenants allowed to access application",
-				Type:        schema.TypeStringArray,
-			},
-			{
-				Name:     "optional_claims",
-				Type:     schema.TypeJSON,
-				Resolver: resolveAdApplicationOptionalClaims,
-			},
-			{
-				Name:        "public_client",
-				Description: "Specifies whether this application is a public client (such as an installed application running on a mobile device) Default is false",
-				Type:        schema.TypeBool,
-			},
-			{
-				Name:        "publisher_domain",
-				Description: "Reliable domain which can be used to identify an application",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "reply_urls",
-				Description: "A collection of reply URLs for the application",
-				Type:        schema.TypeStringArray,
-			},
-			{
-				Name:        "saml_metadata_url",
-				Description: "The URL to the SAML metadata for the application",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("SamlMetadataURL"),
-			},
-			{
-				Name:        "sign_in_audience",
-				Description: "Audience for signing in to the application (AzureADMyOrganization, AzureADAllOrganizations, AzureADAndMicrosoftAccounts)",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "www_homepage",
-				Description: "The primary Web page",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "additional_properties",
-				Description: "Unmatched properties from the message are deserialized this collection",
-				Type:        schema.TypeJSON,
-			},
-			{
-				Name:        "object_id",
-				Description: "The object ID",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ObjectID"),
-			},
-			{
-				Name:     "deletion_timestamp_time",
+				Name:     "deleted_date_time",
 				Type:     schema.TypeTimestamp,
-				Resolver: schema.PathResolver("DeletionTimestamp.Time"),
+				Resolver: schema.PathResolver("DirectoryObject.DeletedDateTime"),
 			},
 			{
-				Name:        "object_type",
-				Description: "Possible values include: 'ObjectTypeDirectoryObject', 'ObjectTypeApplication', 'ObjectTypeGroup', 'ObjectTypeServicePrincipal', 'ObjectTypeUser'",
-				Type:        schema.TypeString,
+				Name:     "api_accept_mapped_claims",
+				Type:     schema.TypeBool,
+				Resolver: schema.PathResolver("API.AcceptMappedClaims"),
+			},
+			{
+				Name:     "api_known_client_applications",
+				Type:     schema.TypeStringArray,
+				Resolver: schema.PathResolver("API.KnownClientApplications"),
+			},
+			{
+				Name:     "api_requested_access_token_version",
+				Type:     schema.TypeBigInt,
+				Resolver: schema.PathResolver("API.RequestedAccessTokenVersion"),
+			},
+			{
+				Name:     "app_id",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("AppID"),
+			},
+			{
+				Name:     "application_template_id",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("ApplicationTemplateID"),
+			},
+			{
+				Name: "is_fallback_public_client",
+				Type: schema.TypeBool,
+			},
+			{
+				Name: "identifier_uris",
+				Type: schema.TypeStringArray,
+			},
+			{
+				Name: "created_date_time",
+				Type: schema.TypeTimestamp,
+			},
+			{
+				Name:     "public_client_redirect_uris",
+				Type:     schema.TypeStringArray,
+				Resolver: schema.PathResolver("PublicClient.RedirectUris"),
+			},
+			{
+				Name: "display_name",
+				Type: schema.TypeString,
+			},
+			{
+				Name: "group_membership_claims",
+				Type: schema.TypeString,
+			},
+			{
+				Name:     "info_logo_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Info.LogoURL"),
+			},
+			{
+				Name:     "info_marketing_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Info.MarketingURL"),
+			},
+			{
+				Name:     "info_privacy_statement_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Info.PrivacyStatementURL"),
+			},
+			{
+				Name:     "info_support_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Info.SupportURL"),
+			},
+			{
+				Name:     "info_terms_of_service_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Info.TermsOfServiceURL"),
+			},
+			{
+				Name: "is_device_only_auth_supported",
+				Type: schema.TypeBool,
+			},
+			{
+				Name:     "oauth_2_require_post_response",
+				Type:     schema.TypeBool,
+				Resolver: schema.PathResolver("OAuth2RequirePostResponse"),
+			},
+			{
+				Name:     "parental_control_settings_countries_blocked_for_minors",
+				Type:     schema.TypeStringArray,
+				Resolver: schema.PathResolver("ParentalControlSettings.CountriesBlockedForMinors"),
+			},
+			{
+				Name:     "parental_control_settings_legal_age_group_rule",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("ParentalControlSettings.LegalAgeGroupRule"),
+			},
+			{
+				Name: "publisher_domain",
+				Type: schema.TypeString,
+			},
+			{
+				Name: "sign_in_audience",
+				Type: schema.TypeString,
+			},
+			{
+				Name: "tags",
+				Type: schema.TypeStringArray,
+			},
+			{
+				Name:     "token_encryption_key_id",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("TokenEncryptionKeyID"),
+			},
+			{
+				Name:     "web_home_page_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Web.HomePageURL"),
+			},
+			{
+				Name:     "web_redirect_uris",
+				Type:     schema.TypeStringArray,
+				Resolver: schema.PathResolver("Web.RedirectUris"),
+			},
+			{
+				Name:     "web_logout_url",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("Web.LogoutURL"),
+			},
+			{
+				Name:     "web_implicit_grant_settings_enable_id_token_issuance",
+				Type:     schema.TypeBool,
+				Resolver: schema.PathResolver("Web.ImplicitGrantSettings.EnableIDTokenIssuance"),
+			},
+			{
+				Name:     "web_implicit_grant_settings_enable_access_token_issuance",
+				Type:     schema.TypeBool,
+				Resolver: schema.PathResolver("Web.ImplicitGrantSettings.EnableAccessTokenIssuance"),
+			},
+			{
+				Name:     "created_on_behalf_of_entity_id",
+				Type:     schema.TypeString,
+				Resolver: schema.PathResolver("CreatedOnBehalfOf.Entity.ID"),
+			},
+			{
+				Name:     "created_on_behalf_of_deleted_date_time",
+				Type:     schema.TypeTimestamp,
+				Resolver: schema.PathResolver("CreatedOnBehalfOf.DeletedDateTime"),
 			},
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_ad_application_app_roles",
-				Description: "AppRole",
-				Resolver:    fetchAdApplicationAppRoles,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "id"}},
+				Name:     "azure_ad_application_add_ins",
+				Resolver: fetchAdApplicationAddIns,
 				Columns: []schema.Column{
 					{
 						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "id",
-						Description: "Unique role identifier inside the appRoles collection",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ID"),
+						Name:     "id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("ID"),
 					},
 					{
-						Name:        "allowed_member_types",
-						Description: "Specifies whether this app role definition can be assigned to users and groups by setting to 'User', or to other applications (that are accessing this application in daemon service scenarios) by setting to 'Application', or to both",
-						Type:        schema.TypeStringArray,
+						Name: "type",
+						Type: schema.TypeString,
 					},
+				},
+				Relations: []*schema.Table{
 					{
-						Name:        "description",
-						Description: "Permission help text that appears in the admin app assignment and consent experiences",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "display_name",
-						Description: "Display name for the permission that appears in the admin consent and app assignment experiences",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "is_enabled",
-						Description: "When creating or updating a role definition, this must be set to true (which is the default) To delete a role, this must first be set to false At that point, in a subsequent call, this role may be removed",
-						Type:        schema.TypeBool,
-					},
-					{
-						Name:        "role_claim_value",
-						Description: "Specifies the value of the roles claim that the application should expect in the authentication and access tokens",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Value"),
+						Name:     "azure_ad_application_add_in_properties",
+						Resolver: fetchAdApplicationAddInProperties,
+						Columns: []schema.Column{
+							{
+								Name:        "application_add_in_cq_id",
+								Description: "Unique CloudQuery ID of azure_ad_application_add_ins table (FK)",
+								Type:        schema.TypeUUID,
+								Resolver:    schema.ParentIdResolver,
+							},
+							{
+								Name: "key",
+								Type: schema.TypeString,
+							},
+							{
+								Name: "value",
+								Type: schema.TypeString,
+							},
+						},
 					},
 				},
 			},
 			{
-				Name:        "azure_ad_application_key_credentials",
-				Description: "KeyCredential active Directory Key Credential information",
-				Resolver:    fetchAdApplicationKeyCredentials,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "key_id"}},
+				Name:     "azure_ad_application_api_pre_authorized_applications",
+				Resolver: fetchAdApplicationApiPreAuthorizedApplications,
 				Columns: []schema.Column{
 					{
 						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "additional_properties",
-						Description: "Unmatched properties from the message are deserialized this collection",
-						Type:        schema.TypeJSON,
+						Name:     "app_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("AppID"),
 					},
 					{
-						Name:     "start_date_time",
+						Name:     "delegated_permission_ids",
+						Type:     schema.TypeStringArray,
+						Resolver: schema.PathResolver("DelegatedPermissionIDs"),
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_api_oauth_2_permission_scopes",
+				Resolver: fetchAdApplicationApiOauth2PermissionScopes,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name: "admin_consent_description",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "admin_consent_display_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name:     "id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("ID"),
+					},
+					{
+						Name: "is_enabled",
+						Type: schema.TypeBool,
+					},
+					{
+						Name: "origin",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "type",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "user_consent_description",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "user_consent_display_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "value",
+						Type: schema.TypeString,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_app_roles",
+				Resolver: fetchAdApplicationAppRoles,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name: "allowed_member_types",
+						Type: schema.TypeStringArray,
+					},
+					{
+						Name: "description",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "display_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name:     "id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("ID"),
+					},
+					{
+						Name: "is_enabled",
+						Type: schema.TypeBool,
+					},
+					{
+						Name: "origin",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "value",
+						Type: schema.TypeString,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_key_credentials",
+				Resolver: fetchAdApplicationKeyCredentials,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:     "custom_key_identifier",
+						Type:     schema.TypeByteArray,
+						Resolver: resolveAdApplicationKeyCredentialsCustomKeyIdentifier,
+					},
+					{
+						Name: "display_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "end_date_time",
+						Type: schema.TypeTimestamp,
+					},
+					{
+						Name:     "key_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("KeyID"),
+					},
+					{
+						Name: "start_date_time",
+						Type: schema.TypeTimestamp,
+					},
+					{
+						Name: "type",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "usage",
+						Type: schema.TypeString,
+					},
+					{
+						Name:     "key",
+						Type:     schema.TypeByteArray,
+						Resolver: resolveAdApplicationKeyCredentialsKey,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_optional_claims_id_token",
+				Resolver: fetchAdApplicationOptionalClaimsIdTokens,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name: "name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "source",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "essential",
+						Type: schema.TypeBool,
+					},
+					{
+						Name: "additional_properties",
+						Type: schema.TypeStringArray,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_optional_claims_access_token",
+				Resolver: fetchAdApplicationOptionalClaimsAccessTokens,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name: "name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "source",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "essential",
+						Type: schema.TypeBool,
+					},
+					{
+						Name: "additional_properties",
+						Type: schema.TypeStringArray,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_optional_claims_saml2_token",
+				Resolver: fetchAdApplicationOptionalClaimsSaml2Tokens,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name: "name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "source",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "essential",
+						Type: schema.TypeBool,
+					},
+					{
+						Name: "additional_properties",
+						Type: schema.TypeStringArray,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_password_credentials",
+				Resolver: fetchAdApplicationPasswordCredentials,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:     "custom_key_identifier",
+						Type:     schema.TypeByteArray,
+						Resolver: resolveAdApplicationPasswordCredentialsCustomKeyIdentifier,
+					},
+					{
+						Name: "display_name",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "end_date_time",
+						Type: schema.TypeTimestamp,
+					},
+					{
+						Name:     "key_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("KeyID"),
+					},
+					{
+						Name: "start_date_time",
+						Type: schema.TypeTimestamp,
+					},
+					{
+						Name: "secret_text",
+						Type: schema.TypeString,
+					},
+					{
+						Name: "hint",
+						Type: schema.TypeString,
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_required_resource_access",
+				Resolver: fetchAdApplicationRequiredResourceAccesses,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:     "resource_app_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("ResourceAppID"),
+					},
+				},
+				Relations: []*schema.Table{
+					{
+						Name:     "azure_ad_application_required_resource_access_resource_access",
+						Resolver: fetchAdApplicationRequiredResourceAccessResourceAccesses,
+						Columns: []schema.Column{
+							{
+								Name:        "application_required_resource_access_cq_id",
+								Description: "Unique CloudQuery ID of azure_ad_application_required_resource_access table (FK)",
+								Type:        schema.TypeUUID,
+								Resolver:    schema.ParentIdResolver,
+							},
+							{
+								Name:     "id",
+								Type:     schema.TypeString,
+								Resolver: schema.PathResolver("ID"),
+							},
+							{
+								Name: "type",
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
+			{
+				Name:     "azure_ad_application_extension_properties",
+				Resolver: fetchAdApplicationExtensionProperties,
+				Columns: []schema.Column{
+					{
+						Name:        "application_cq_id",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:     "directory_object_entity_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("DirectoryObject.Entity.ID"),
+					},
+					{
+						Name:     "directory_object_deleted_date_time",
 						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("StartDate.Time"),
+						Resolver: schema.PathResolver("DirectoryObject.DeletedDateTime"),
 					},
 					{
-						Name:     "end_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("EndDate.Time"),
+						Name: "app_display_name",
+						Type: schema.TypeString,
 					},
 					{
-						Name:        "value",
-						Description: "Key value",
-						Type:        schema.TypeString,
+						Name: "name",
+						Type: schema.TypeString,
 					},
 					{
-						Name:        "key_id",
-						Description: "Key ID",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("KeyID"),
+						Name: "data_type",
+						Type: schema.TypeString,
 					},
 					{
-						Name:        "usage",
-						Description: "Usage Acceptable values are 'Verify' and 'Sign'",
-						Type:        schema.TypeString,
+						Name: "is_synced_from_on_premises",
+						Type: schema.TypeBool,
 					},
 					{
-						Name:        "type",
-						Description: "Type Acceptable values are 'AsymmetricX509Cert' and 'Symmetric'",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "custom_key_identifier",
-						Description: "Custom Key Identifier",
-						Type:        schema.TypeString,
+						Name: "target_objects",
+						Type: schema.TypeStringArray,
 					},
 				},
 			},
 			{
-				Name:        "azure_ad_application_oauth2_permissions",
-				Description: "OAuth2Permission represents an OAuth 20 delegated permission scope The specified OAuth 20 delegated permission scopes may be requested by client applications (through the requiredResourceAccess collection on the Application object) when calling a resource application The oauth2Permissions property of the ServicePrincipal entity and of the Application entity is a collection of OAuth2Permission",
-				Resolver:    fetchAdApplicationOauth2Permissions,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "id"}},
+				Name:     "azure_ad_application_owners",
+				Resolver: fetchAdApplicationOwners,
 				Columns: []schema.Column{
 					{
 						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
+						Description: "Unique CloudQuery ID of azure_ad_applications table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "admin_consent_description",
-						Description: "Permission help text that appears in the admin consent and app assignment experiences",
-						Type:        schema.TypeString,
+						Name:     "entity_id",
+						Type:     schema.TypeString,
+						Resolver: schema.PathResolver("Entity.ID"),
 					},
 					{
-						Name:        "admin_consent_display_name",
-						Description: "Display name for the permission that appears in the admin consent and app assignment experiences",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "id",
-						Description: "Unique scope permission identifier inside the oauth2Permissions collection",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ID"),
-					},
-					{
-						Name:        "is_enabled",
-						Description: "When creating or updating a permission, this property must be set to true (which is the default) To delete a permission, this property must first be set to false At that point, in a subsequent call, the permission may be removed",
-						Type:        schema.TypeBool,
-					},
-					{
-						Name:        "permission_type",
-						Description: "Specifies whether this scope permission can be consented to by an end user, or whether it is a tenant-wide permission that must be consented to by a Company Administrator Possible values are \"User\" or \"Admin\"",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Type"),
-					},
-					{
-						Name:        "user_consent_description",
-						Description: "Permission help text that appears in the end user consent experience",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "user_consent_display_name",
-						Description: "Display name for the permission that appears in the end user consent experience",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "scope_claim_value",
-						Description: "The value of the scope claim that the resource application should expect in the OAuth 20 access token",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("Value"),
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_application_password_credentials",
-				Description: "PasswordCredential active Directory Password Credential information",
-				Resolver:    fetchAdApplicationPasswordCredentials,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "key_id"}},
-				Columns: []schema.Column{
-					{
-						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "additional_properties",
-						Description: "Unmatched properties from the message are deserialized this collection",
-						Type:        schema.TypeJSON,
-					},
-					{
-						Name:     "start_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("StartDate.Time"),
-					},
-					{
-						Name:     "end_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("EndDate.Time"),
-					},
-					{
-						Name:        "key_id",
-						Description: "Key ID",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("KeyID"),
-					},
-					{
-						Name:        "value",
-						Description: "Key value",
-						Type:        schema.TypeString,
-					},
-					{
-						Name:        "custom_key_identifier",
-						Description: "Custom Key Identifier",
-						Type:        schema.TypeByteArray,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_application_pre_authorized_applications",
-				Description: "PreAuthorizedApplication contains information about pre authorized client application",
-				Resolver:    fetchAdApplicationPreAuthorizedApplications,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "app_id"}},
-				Columns: []schema.Column{
-					{
-						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "app_id",
-						Description: "Represents the application id",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("AppID"),
-					},
-					{
-						Name:        "permissions",
-						Description: "Collection of required app permissions/entitlements from the resource application",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveAdApplicationPreAuthorizedApplicationPermissions,
-					},
-					{
-						Name:        "extensions",
-						Description: "Collection of extensions from the resource application",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveAdApplicationPreAuthorizedApplicationExtensions,
-					},
-				},
-			},
-			{
-				Name:        "azure_ad_application_required_resource_accesses",
-				Description: "RequiredResourceAccess specifies the set of OAuth 20 permission scopes and app roles under the specified resource that an application requires access to The specified OAuth 20 permission scopes may be requested by client applications (through the requiredResourceAccess collection) when calling a resource application The requiredResourceAccess property of the Application entity is a collection of RequiredResourceAccess",
-				Resolver:    fetchAdApplicationRequiredResourceAccesses,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"application_cq_id", "resource_app_id"}},
-				Columns: []schema.Column{
-					{
-						Name:        "application_cq_id",
-						Description: "Unique ID of azure_ad_applications table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "additional_properties",
-						Description: "Unmatched properties from the message are deserialized this collection",
-						Type:        schema.TypeJSON,
-					},
-					{
-						Name:        "resource_access",
-						Description: "The list of OAuth20 permission scopes and app roles that the application requires from the specified resource",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveAdApplicationRequiredResourceAccessResourceAccess,
-					},
-					{
-						Name:        "resource_app_id",
-						Description: "The unique identifier for the resource that the application requires access to This should be equal to the appId declared on the target resource application",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ResourceAppID"),
+						Name: "deleted_date_time",
+						Type: schema.TypeTimestamp,
 					},
 				},
 			},
@@ -476,149 +618,149 @@ func AdApplications() *schema.Table {
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
+
 func fetchAdApplications(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	svc := meta.(*client.Client).Services().AD.Applications
-	response, err := svc.List(ctx, "")
+	svc := meta.(*client.Client).Services().Graph
+	response, err := svc.Applications().Request().Get(ctx)
 	if err != nil {
 		return err
 	}
-	for response.NotDone() {
-		res <- response.Values()
-		if err := response.NextWithContext(ctx); err != nil {
-			return err
-		}
-	}
+	res <- response
 	return nil
 }
-
-func resolveAdApplicationOptionalClaims(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	app, ok := resource.Item.(graphrbac.Application)
+func fetchAdApplicationAddIns(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", resource.Item)
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	out, err := json.Marshal(app.OptionalClaims)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
+	res <- p.AddIns
+	return nil
 }
-
+func fetchAdApplicationAddInProperties(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.AddIn)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.AddIn but got %T", parent.Item)
+	}
+	res <- p.Properties
+	return nil
+}
+func fetchAdApplicationApiPreAuthorizedApplications(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
+	}
+	res <- p.API.PreAuthorizedApplications
+	return nil
+}
+func fetchAdApplicationApiOauth2PermissionScopes(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
+	}
+	res <- p.API.OAuth2PermissionScopes
+	return nil
+}
 func fetchAdApplicationAppRoles(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+	p, ok := parent.Item.(msgraph.Application)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	if app.AppRoles == nil {
-		return nil
-	}
-	for _, item := range *app.AppRoles {
-		res <- item
-	}
+	res <- p.AppRoles
 	return nil
 }
-
 func fetchAdApplicationKeyCredentials(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+	p, ok := parent.Item.(msgraph.Application)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	if app.KeyCredentials == nil {
-		return nil
-	}
-	for _, item := range *app.KeyCredentials {
-		res <- item
-	}
+	res <- p.KeyCredentials
 	return nil
 }
-
-func fetchAdApplicationOauth2Permissions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+func resolveAdApplicationKeyCredentialsCustomKeyIdentifier(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.KeyCredential)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.KeyCredential but got %T", resource.Item)
 	}
-	if app.Oauth2Permissions == nil {
-		return nil
+
+	return resource.Set(c.Name, []byte(*p.CustomKeyIdentifier))
+}
+func resolveAdApplicationKeyCredentialsKey(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.KeyCredential)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.KeyCredential but got %T", resource.Item)
 	}
-	for _, item := range *app.Oauth2Permissions {
-		res <- item
+
+	return resource.Set(c.Name, []byte(*p.Key))
+}
+func fetchAdApplicationOptionalClaimsIdTokens(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
+	res <- p.OptionalClaims.IDToken
 	return nil
 }
-
+func fetchAdApplicationOptionalClaimsAccessTokens(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
+	}
+	res <- p.OptionalClaims.AccessToken
+	return nil
+}
+func fetchAdApplicationOptionalClaimsSaml2Tokens(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
+	}
+	res <- p.OptionalClaims.Saml2Token
+	return nil
+}
 func fetchAdApplicationPasswordCredentials(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+	p, ok := parent.Item.(msgraph.Application)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	if app.PasswordCredentials == nil {
-		return nil
-	}
-	for _, item := range *app.PasswordCredentials {
-		res <- item
-	}
+	res <- p.PasswordCredentials
 	return nil
 }
-
-func fetchAdApplicationPreAuthorizedApplications(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+func resolveAdApplicationPasswordCredentialsCustomKeyIdentifier(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.PasswordCredential)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.PasswordCredential but got %T", resource.Item)
 	}
-	if app.PreAuthorizedApplications == nil {
-		return nil
-	}
-	for _, item := range *app.PreAuthorizedApplications {
-		res <- item
-	}
-	return nil
-}
 
-func resolveAdApplicationPreAuthorizedApplicationPermissions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	paa, ok := resource.Item.(graphrbac.PreAuthorizedApplication)
-	if !ok {
-		return fmt.Errorf("not a graphrbac.PreAuthorizedApplication instance: %#v", resource.Item)
-	}
-	out, err := json.Marshal(paa.Permissions)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
+	return resource.Set(c.Name, []byte(*p.CustomKeyIdentifier))
 }
-
-func resolveAdApplicationPreAuthorizedApplicationExtensions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	paa, ok := resource.Item.(graphrbac.PreAuthorizedApplication)
-	if !ok {
-		return fmt.Errorf("not a graphrbac.PreAuthorizedApplication instance: %#v", resource.Item)
-	}
-	out, err := json.Marshal(paa.Extensions)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
-}
-
 func fetchAdApplicationRequiredResourceAccesses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	app, ok := parent.Item.(graphrbac.Application)
+	p, ok := parent.Item.(msgraph.Application)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.Application instance: %#v", parent.Item)
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	if app.RequiredResourceAccess == nil {
-		return nil
-	}
-	for _, item := range *app.RequiredResourceAccess {
-		res <- item
-	}
+	res <- p.RequiredResourceAccess
 	return nil
 }
-
-func resolveAdApplicationRequiredResourceAccessResourceAccess(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	rra, ok := resource.Item.(graphrbac.RequiredResourceAccess)
+func fetchAdApplicationRequiredResourceAccessResourceAccesses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.RequiredResourceAccess)
 	if !ok {
-		return fmt.Errorf("not a graphrbac.RequiredResourceAccess instance: %#v", resource.Item)
+		return fmt.Errorf("expected to have msgraph.RequiredResourceAccess but got %T", parent.Item)
 	}
-	out, err := json.Marshal(rra.ResourceAccess)
-	if err != nil {
-		return err
+	res <- p.ResourceAccess
+	return nil
+}
+func fetchAdApplicationExtensionProperties(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
 	}
-	return resource.Set(c.Name, out)
+	res <- p.ExtensionProperties
+	return nil
+}
+func fetchAdApplicationOwners(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+	p, ok := parent.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", parent.Item)
+	}
+	res <- p.Owners
+	return nil
 }

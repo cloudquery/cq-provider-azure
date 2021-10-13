@@ -1,38 +1,81 @@
 package resources_test
 
 import (
-	"context"
+	"encoding/json"
+	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/logging"
+	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
+	"github.com/hashicorp/go-hclog"
+	"github.com/julienschmidt/httprouter"
+	msgraph "github.com/yaegashi/msgraph.go/v1.0"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/cloudquery/cq-provider-azure/client/services"
-	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/cq-provider-azure/resources"
-	"github.com/cloudquery/faker/v3"
-	"github.com/golang/mock/gomock"
 )
 
-func buildADApplications(t *testing.T, ctrl *gomock.Controller) services.Services {
-	m := mocks.NewMockADApplicationsClient(ctrl)
-	var app graphrbac.Application
-	faker.SetIgnoreInterface(true)
-	defer faker.SetIgnoreInterface(false)
-	if err := faker.FakeData(&app); err != nil {
-		t.Fatal(err)
-	}
+func createADApplicationsTestServer(t *testing.T) (*msgraph.GraphServiceRequestBuilder, error) {
+	var application msgraph.Application
+	fakeSkipFields(t, &application, []string{})
+	mux := httprouter.New()
+	mux.GET("/v1.0/applications", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		groups := []msgraph.Application{
+			application,
+		}
 
-	appListPage := graphrbac.NewApplicationListResultPage(
-		graphrbac.ApplicationListResult{Value: &[]graphrbac.Application{app}},
-		func(ctx context.Context, list graphrbac.ApplicationListResult) (graphrbac.ApplicationListResult, error) {
-			return graphrbac.ApplicationListResult{}, nil
-		},
-	)
-	m.EXPECT().List(gomock.Any(), "").Return(appListPage, nil)
-	return services.Services{
-		AD: services.AD{Applications: m},
-	}
+		value, err := json.Marshal(groups)
+		if err != nil {
+			http.Error(w, "unable to marshal request: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		resp := msgraph.Paging{
+			NextLink: "",
+			Value:    value,
+		}
+
+		b, err := json.Marshal(resp)
+		if err != nil {
+			http.Error(w, "unable to marshal request: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		if _, err := w.Write(b); err != nil {
+			http.Error(w, "failed to write", http.StatusBadRequest)
+			return
+		}
+	})
+
+	ts := httptest.NewTLSServer(mux)
+	u, _ := url.Parse(ts.URL)
+	client := createTestClient(u.Host)
+	svc := msgraph.NewClient(&client)
+	return svc, nil
 }
 
 func TestADApplications(t *testing.T) {
-	azureTestHelper(t, resources.AdApplications(), buildADApplications)
+	resource := providertest.ResourceTestData{
+		Table: resources.AdApplications(),
+		Config: client.Config{
+			Subscriptions: []string{"testProject"},
+		},
+		Configure: func(logger hclog.Logger, _ interface{}) (schema.ClientMeta, error) {
+			graph, err := createADApplicationsTestServer(t)
+			if err != nil {
+				return nil, err
+			}
+			c := client.NewAzureClient(logging.New(&hclog.LoggerOptions{
+				Level: hclog.Warn,
+			}), []string{"testProject"})
+			c.SetSubscriptionServices("testProject", services.Services{
+				Graph: graph,
+			})
+			return c, nil
+		},
+	}
+	providertest.TestResource(t, resources.Provider, resource)
 }
