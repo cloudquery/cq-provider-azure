@@ -21,6 +21,7 @@ func NewSubscriptionsClient(subscriptionId string, auth autorest.Authorizer) Sub
 	}
 }
 
+//go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionGetter
 type SubscriptionGetter interface {
 	Get(ctx context.Context, subscriptionID string) (result subscription.Model, err error)
 }

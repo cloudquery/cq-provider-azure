@@ -1,3 +1,4 @@
+//go:generate mockgen -destination=./mocks/ad.go -package=mocks . ADApplicationsClient,ADGroupsClient,ADServicePrinicpals,ADUsersClient
 package services
 
 import (

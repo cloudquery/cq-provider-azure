@@ -1,3 +1,4 @@
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLDatabaseVulnerabilityAssessmentsClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient,TransparentDataEncryptionsClient,EncryptionProtectorsClient
 package services
 
 import (
