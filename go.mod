@@ -11,6 +11,9 @@ require (
 	github.com/cloudquery/faker/v3 v3.7.4
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-hclog v1.0.0
+	github.com/julienschmidt/httprouter v1.2.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tombuildsstuff/giovanni v0.16.0
+	github.com/yaegashi/msgraph.go v0.1.4
+	golang.org/x/oauth2 v0.0.0-20210628180205-a41e5a781914
 )
