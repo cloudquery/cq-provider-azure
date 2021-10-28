@@ -113,6 +113,11 @@ func AdApplications() *schema.Table {
 				Type: schema.TypeBool,
 			},
 			{
+				Name:     "logo",
+				Type:     schema.TypeByteArray,
+				Resolver: resolveAdApplicationsLogo,
+			},
+			{
 				Name:     "oauth_2_require_post_response",
 				Type:     schema.TypeBool,
 				Resolver: schema.PathResolver("OAuth2RequirePostResponse"),
@@ -764,4 +769,16 @@ func fetchAdApplicationOwners(ctx context.Context, meta schema.ClientMeta, paren
 	}
 	res <- p.Owners
 	return nil
+}
+
+func resolveAdApplicationsLogo(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Application)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Application but got %T", resource.Item)
+	}
+	if p.Logo == nil {
+		return nil
+	}
+	b := []byte(*p.Logo)
+	return resource.Set(c.Name, b)
 }

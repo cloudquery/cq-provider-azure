@@ -24,32 +24,35 @@ func createADUsersTestServer(t *testing.T) (*msgraph.GraphServiceRequestBuilder,
 	fakeSkipFields(t, &user, []string{
 		"Drive",
 		"Drives",
-		"Messages",
 		"MailFolders",
 		"Calendar",
 		"Calendars",
 		"CalendarGroups",
 		"CalendarView",
 		"Events",
-		"Planner",
 		"Onenote",
-		"OnlineMeetings",
-		"Contacts",
 		"ContactFolders",
-		"Outlook",
 		"Activities",
 		"JoinedTeams",
 	})
-	id := "test"
 	user.JoinedTeams = []msgraph.Group{
-		{
-			DirectoryObject: msgraph.DirectoryObject{
-				Entity: msgraph.Entity{
-					ID: &id,
-				},
-			},
-		},
+		*fakeGroup(t),
 	}
+	user.MailFolders = []msgraph.MailFolder{
+		*fakeMailFolder(t),
+	}
+	user.ContactFolders = []msgraph.ContactFolder{
+		*fakeContactFolder(t),
+	}
+	user.Calendar = fakeCalendar(t)
+	user.Calendars = []msgraph.Calendar{*fakeCalendar(t)}
+	user.CalendarGroups = []msgraph.CalendarGroup{*fakeCalendarGroup(t)}
+	user.CalendarView = []msgraph.Event{fakeEvent(t)}
+	user.Events = []msgraph.Event{fakeEvent(t)}
+	user.Drive = fakeDrive(t)
+	user.Drives = []msgraph.Drive{*fakeDrive(t)}
+	user.Onenote = fakeOnenote(t)
+	user.Activities = []msgraph.UserActivity{*fakeUserActivity(t)}
 	mux := httprouter.New()
 	mux.GET("/v1.0/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		users := []msgraph.User{
@@ -84,6 +87,44 @@ func createADUsersTestServer(t *testing.T) (*msgraph.GraphServiceRequestBuilder,
 	client := createTestClient(u.Host)
 	svc := msgraph.NewClient(&client)
 	return svc, nil
+}
+
+func fakeContactFolder(t *testing.T) *msgraph.ContactFolder {
+	e := msgraph.ContactFolder{}
+	fakeSkipFields(t, &e, []string{
+		"ChildFolders",
+	})
+	return &e
+}
+
+func fakeCalendarGroup(t *testing.T) *msgraph.CalendarGroup {
+	e := msgraph.CalendarGroup{}
+	fakeSkipFields(t, &e, []string{
+		"Calendars",
+	})
+	e.Calendars = []msgraph.Calendar{*fakeCalendar(t)}
+	return &e
+}
+
+func fakeUserActivity(t *testing.T) *msgraph.UserActivity {
+	e := msgraph.UserActivity{}
+	fakeSkipFields(t, &e, []string{
+		"HistoryItems",
+	})
+	j := "{\"test\":1}"
+	e.ContentInfo = []byte(j)
+	e.VisualElements.Content = []byte(j)
+
+	return &e
+}
+
+func fakeMailFolder(t *testing.T) *msgraph.MailFolder {
+	e := msgraph.MailFolder{}
+	fakeSkipFields(t, &e, []string{
+		"ChildFolders",
+	})
+
+	return &e
 }
 
 func TestADUsers(t *testing.T) {

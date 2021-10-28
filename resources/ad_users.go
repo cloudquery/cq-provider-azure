@@ -246,7 +246,7 @@ func AdUsers() *schema.Table {
 				Resolver: schema.PathResolver("PasswordProfile.ForceChangePasswordNextSignIn"),
 			},
 			{
-				Name:     "password_profile_force_change_password_next_sign_in_with_m_f_a",
+				Name:     "password_profile_force_change_password_next_sign_in_with_mfa",
 				Type:     schema.TypeBool,
 				Resolver: schema.PathResolver("PasswordProfile.ForceChangePasswordNextSignInWithMFA"),
 			},
@@ -443,6 +443,56 @@ func AdUsers() *schema.Table {
 				Resolver: schema.PathResolver("Manager.DeletedDateTime"),
 			},
 			{
+				Name:     "outlook",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersOutlook,
+			},
+			{
+				Name:     "messages",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersMessages,
+			},
+			{
+				Name:     "mail_folders",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersMailFolders,
+			},
+			{
+				Name:     "calendar",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersCalendar,
+			},
+			{
+				Name:     "calendars",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersCalendars,
+			},
+			{
+				Name:     "calendar_groups",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersCalendarGroups,
+			},
+			{
+				Name:     "calendar_view",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersCalendarView,
+			},
+			{
+				Name:     "events",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersEvents,
+			},
+			{
+				Name:     "contacts",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersContacts,
+			},
+			{
+				Name:     "contact_folders",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersContactFolders,
+			},
+			{
 				Name:     "inference_classification_id",
 				Type:     schema.TypeString,
 				Resolver: schema.PathResolver("InferenceClassification.Entity.ID"),
@@ -463,24 +513,49 @@ func AdUsers() *schema.Table {
 				Resolver: schema.PathResolver("Photo.Width"),
 			},
 			{
+				Name:     "drive",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersDrive,
+			},
+			{
+				Name:     "drives",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersDrives,
+			},
+			{
+				Name:     "planner",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersPlanner,
+			},
+			{
 				Name:     "insights_id",
 				Type:     schema.TypeString,
 				Resolver: schema.PathResolver("Insights.Entity.ID"),
 			},
 			{
-				Name:     "settings_id",
-				Type:     schema.TypeString,
-				Resolver: schema.PathResolver("Settings.Entity.ID"),
-			},
-			{
-				Name:     "settings_contribution_to_content_discovery_disabled",
+				Name:     "contribution_to_content_discovery_disabled",
 				Type:     schema.TypeBool,
 				Resolver: schema.PathResolver("Settings.ContributionToContentDiscoveryDisabled"),
 			},
 			{
-				Name:     "settings_contribution_to_content_discovery_as_organization_disabled",
+				Name:     "contribution_to_content_discovery_as_organization_disabled",
 				Type:     schema.TypeBool,
 				Resolver: schema.PathResolver("Settings.ContributionToContentDiscoveryAsOrganizationDisabled"),
+			},
+			{
+				Name:     "onenote",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersOnenote,
+			},
+			{
+				Name:     "activities",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersActivities,
+			},
+			{
+				Name:     "online_meetings",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdUsersOnlineMeetings,
 			},
 			{
 				Name:     "joined_teams",
@@ -1157,674 +1232,8 @@ func AdUsers() *schema.Table {
 					},
 				},
 			},
-			{
-				Name:     "azure_ad_user_managed_devices",
-				Resolver: fetchAdUserManagedDevices,
-				Columns: []schema.Column{
-					{
-						Name:        "user_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_users table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:     "id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:     "user_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("UserID"),
-					},
-					{
-						Name: "device_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "managed_device_owner_type",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "enrolled_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "last_sync_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "operating_system",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "compliance_state",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "jail_broken",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "management_agent",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "os_version",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "eas_activated",
-						Type: schema.TypeBool,
-					},
-					{
-						Name:     "eas_device_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("EasDeviceID"),
-					},
-					{
-						Name: "eas_activation_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "azure_a_d_registered",
-						Type: schema.TypeBool,
-					},
-					{
-						Name: "device_enrollment_type",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "activation_lock_bypass_code",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "email_address",
-						Type: schema.TypeString,
-					},
-					{
-						Name:     "azure_a_d_device_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("AzureADDeviceID"),
-					},
-					{
-						Name: "device_registration_state",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "device_category_display_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "is_supervised",
-						Type: schema.TypeBool,
-					},
-					{
-						Name: "exchange_last_successful_sync_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "exchange_access_state",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "exchange_access_state_reason",
-						Type: schema.TypeString,
-					},
-					{
-						Name:     "remote_assistance_session_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("RemoteAssistanceSessionURL"),
-					},
-					{
-						Name: "remote_assistance_session_error_details",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "is_encrypted",
-						Type: schema.TypeBool,
-					},
-					{
-						Name: "user_principal_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "model",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "manufacturer",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "imei",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "compliance_grace_period_expiration_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "serial_number",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "phone_number",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "android_security_patch_level",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "user_display_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_inventory",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.Inventory"),
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_modern_apps",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.ModernApps"),
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_resource_access",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.ResourceAccess"),
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_device_configuration",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.DeviceConfiguration"),
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_compliance_policy",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.CompliancePolicy"),
-					},
-					{
-						Name:     "configuration_manager_client_enabled_features_windows_update_for_business",
-						Type:     schema.TypeBool,
-						Resolver: schema.PathResolver("ConfigurationManagerClientEnabledFeatures.WindowsUpdateForBusiness"),
-					},
-					{
-						Name: "wi_fi_mac_address",
-						Type: schema.TypeString,
-					},
-					{
-						Name:     "device_health_attestation_state_last_update_date_time",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.LastUpdateDateTime"),
-					},
-					{
-						Name:     "device_health_attestation_state_content_namespace_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.ContentNamespaceURL"),
-					},
-					{
-						Name:     "device_health_attestation_state_device_health_attestation_status",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.DeviceHealthAttestationStatus"),
-					},
-					{
-						Name:     "device_health_attestation_state_content_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.ContentVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_issued_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.IssuedDateTime"),
-					},
-					{
-						Name:     "device_health_attestation_state_attestation_identity_key",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.AttestationIdentityKey"),
-					},
-					{
-						Name:     "device_health_attestation_state_reset_count",
-						Type:     schema.TypeBigInt,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.ResetCount"),
-					},
-					{
-						Name:     "device_health_attestation_state_restart_count",
-						Type:     schema.TypeBigInt,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.RestartCount"),
-					},
-					{
-						Name:     "device_health_attestation_state_data_excution_policy",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.DataExcutionPolicy"),
-					},
-					{
-						Name:     "device_health_attestation_state_bit_locker_status",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BitLockerStatus"),
-					},
-					{
-						Name:     "device_health_attestation_state_boot_manager_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BootManagerVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_code_integrity_check_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.CodeIntegrityCheckVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_secure_boot",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.SecureBoot"),
-					},
-					{
-						Name:     "device_health_attestation_state_boot_debugging",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BootDebugging"),
-					},
-					{
-						Name:     "device_health_attestation_state_operating_system_kernel_debugging",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.OperatingSystemKernelDebugging"),
-					},
-					{
-						Name:     "device_health_attestation_state_code_integrity",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.CodeIntegrity"),
-					},
-					{
-						Name:     "device_health_attestation_state_test_signing",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.TestSigning"),
-					},
-					{
-						Name:     "device_health_attestation_state_safe_mode",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.SafeMode"),
-					},
-					{
-						Name:     "device_health_attestation_state_windows_p_e",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.WindowsPE"),
-					},
-					{
-						Name:     "device_health_attestation_state_early_launch_anti_malware_driver_protection",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.EarlyLaunchAntiMalwareDriverProtection"),
-					},
-					{
-						Name:     "device_health_attestation_state_virtual_secure_mode",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.VirtualSecureMode"),
-					},
-					{
-						Name:     "device_health_attestation_state_pcr_hash_algorithm",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.PcrHashAlgorithm"),
-					},
-					{
-						Name:     "device_health_attestation_state_boot_app_security_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BootAppSecurityVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_boot_manager_security_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BootManagerSecurityVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_tpm_version",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.TpmVersion"),
-					},
-					{
-						Name:     "device_health_attestation_state_pcr0",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.Pcr0"),
-					},
-					{
-						Name:     "device_health_attestation_state_secure_boot_configuration_policy_finger_print",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.SecureBootConfigurationPolicyFingerPrint"),
-					},
-					{
-						Name:     "device_health_attestation_state_code_integrity_policy",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.CodeIntegrityPolicy"),
-					},
-					{
-						Name:     "device_health_attestation_state_boot_revision_list_info",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.BootRevisionListInfo"),
-					},
-					{
-						Name:     "device_health_attestation_state_operating_system_rev_list_info",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.OperatingSystemRevListInfo"),
-					},
-					{
-						Name:     "device_health_attestation_state_health_status_mismatch_info",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.HealthStatusMismatchInfo"),
-					},
-					{
-						Name:     "device_health_attestation_state_health_attestation_supported_status",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("DeviceHealthAttestationState.HealthAttestationSupportedStatus"),
-					},
-					{
-						Name: "subscriber_carrier",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "meid",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "total_storage_space_in_bytes",
-						Type: schema.TypeBigInt,
-					},
-					{
-						Name: "free_storage_space_in_bytes",
-						Type: schema.TypeBigInt,
-					},
-					{
-						Name: "managed_device_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "partner_reported_threat_state",
-						Type: schema.TypeString,
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:     "azure_ad_user_managed_device_device_action_results",
-						Resolver: fetchAdUserManagedDeviceDeviceActionResults,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_device_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_devices table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name: "action_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "action_state",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "start_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "last_updated_date_time",
-								Type: schema.TypeTimestamp,
-							},
-						},
-					},
-					{
-						Name:     "azure_ad_user_managed_device_device_configuration_states",
-						Resolver: fetchAdUserManagedDeviceDeviceConfigurationStates,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_device_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_devices table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("Entity.ID"),
-							},
-							{
-								Name:     "setting_states",
-								Type:     schema.TypeJSON,
-								Resolver: resolveAdUserManagedDeviceDeviceConfigurationStatesSettingStates,
-							},
-							{
-								Name: "display_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "version",
-								Type: schema.TypeBigInt,
-							},
-							{
-								Name: "platform_type",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "state",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "setting_count",
-								Type: schema.TypeBigInt,
-							},
-						},
-					},
-					{
-						Name:     "azure_ad_user_managed_device_device_compliance_policy_states",
-						Resolver: fetchAdUserManagedDeviceDeviceCompliancePolicyStates,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_device_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_devices table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("Entity.ID"),
-							},
-							{
-								Name:     "setting_states",
-								Type:     schema.TypeJSON,
-								Resolver: resolveAdUserManagedDeviceDeviceCompliancePolicyStatesSettingStates,
-							},
-							{
-								Name: "display_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "version",
-								Type: schema.TypeBigInt,
-							},
-							{
-								Name: "platform_type",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "state",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "setting_count",
-								Type: schema.TypeBigInt,
-							},
-						},
-					},
-				},
-			},
-			{
-				Name:     "azure_ad_user_managed_app_registrations",
-				Resolver: fetchAdUserManagedAppRegistrations,
-				Columns: []schema.Column{
-					{
-						Name:        "user_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_users table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:     "id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name: "created_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "last_sync_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name: "application_version",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "management_sdk_version",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "platform_version",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "device_type",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "device_tag",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "device_name",
-						Type: schema.TypeString,
-					},
-					{
-						Name: "flagged_reasons",
-						Type: schema.TypeStringArray,
-					},
-					{
-						Name:     "user_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("UserID"),
-					},
-					{
-						Name: "version",
-						Type: schema.TypeString,
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:     "azure_ad_user_managed_app_registration_applied_policies",
-						Resolver: fetchAdUserManagedAppRegistrationAppliedPolicies,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_app_registration_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_app_registrations table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("Entity.ID"),
-							},
-							{
-								Name: "display_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "description",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "created_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "last_modified_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "version",
-								Type: schema.TypeString,
-							},
-						},
-					},
-					{
-						Name:     "azure_ad_user_managed_app_registration_intended_policies",
-						Resolver: fetchAdUserManagedAppRegistrationIntendedPolicies,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_app_registration_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_app_registrations table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("Entity.ID"),
-							},
-							{
-								Name: "display_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "description",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "created_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "last_modified_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "version",
-								Type: schema.TypeString,
-							},
-						},
-					},
-					{
-						Name:     "azure_ad_user_managed_app_registration_operations",
-						Resolver: fetchAdUserManagedAppRegistrationOperations,
-						Columns: []schema.Column{
-							{
-								Name:        "user_managed_app_registration_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_managed_app_registrations table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("Entity.ID"),
-							},
-							{
-								Name: "display_name",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "last_modified_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "state",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "version",
-								Type: schema.TypeString,
-							},
-						},
-					},
-				},
-			},
+			AdUserManagedDevices(),
+			AdUserManagedAppsRegistrations(),
 			{
 				Name:     "azure_ad_user_device_management_troubleshooting_events",
 				Resolver: fetchAdUserDeviceManagementTroubleshootingEvents,
@@ -1851,361 +1260,9 @@ func AdUsers() *schema.Table {
 					},
 				},
 			},
-			{
-				Name:     "azure_ad_user_insights_trending",
-				Resolver: fetchAdUserInsightsTrendings,
-				Columns: []schema.Column{
-					{
-						Name:        "user_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_users table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:     "id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name: "weight",
-						Type: schema.TypeFloat,
-					},
-					{
-						Name:     "resource_visualization_title",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Title"),
-					},
-					{
-						Name:     "resource_visualization_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Type"),
-					},
-					{
-						Name:     "resource_visualization_media_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.MediaType"),
-					},
-					{
-						Name:     "resource_visualization_preview_image_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewImageURL"),
-					},
-					{
-						Name:     "resource_visualization_preview_text",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewText"),
-					},
-					{
-						Name:     "resource_visualization_container_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerWebURL"),
-					},
-					{
-						Name:     "resource_visualization_container_display_name",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerDisplayName"),
-					},
-					{
-						Name:     "resource_visualization_container_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerType"),
-					},
-					{
-						Name:     "resource_reference_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.WebURL"),
-					},
-					{
-						Name:     "resource_reference_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.ID"),
-					},
-					{
-						Name:     "resource_reference_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.Type"),
-					},
-					{
-						Name: "last_modified_date_time",
-						Type: schema.TypeTimestamp,
-					},
-					{
-						Name:     "resource_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Resource.ID"),
-					},
-				},
-			},
-			{
-				Name:     "azure_ad_user_insights_shared",
-				Resolver: fetchAdUserInsightsShareds,
-				Columns: []schema.Column{
-					{
-						Name:        "user_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_users table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:     "id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:     "last_shared_shared_by_display_name",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharedBy.DisplayName"),
-					},
-					{
-						Name:     "last_shared_shared_by_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharedBy.ID"),
-					},
-					{
-						Name:     "last_shared_shared_by_address",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharedBy.Address"),
-					},
-					{
-						Name:     "last_shared_shared_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("LastShared.SharedDateTime"),
-					},
-					{
-						Name:     "last_shared_sharing_subject",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharingSubject"),
-					},
-					{
-						Name:     "last_shared_sharing_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharingType"),
-					},
-					{
-						Name:     "last_shared_sharing_reference_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharingReference.WebURL"),
-					},
-					{
-						Name:     "last_shared_sharing_reference_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharingReference.ID"),
-					},
-					{
-						Name:     "last_shared_sharing_reference_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastShared.SharingReference.Type"),
-					},
-					{
-						Name:     "resource_visualization_title",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Title"),
-					},
-					{
-						Name:     "resource_visualization_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Type"),
-					},
-					{
-						Name:     "resource_visualization_media_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.MediaType"),
-					},
-					{
-						Name:     "resource_visualization_preview_image_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewImageURL"),
-					},
-					{
-						Name:     "resource_visualization_preview_text",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewText"),
-					},
-					{
-						Name:     "resource_visualization_container_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerWebURL"),
-					},
-					{
-						Name:     "resource_visualization_container_display_name",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerDisplayName"),
-					},
-					{
-						Name:     "resource_visualization_container_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerType"),
-					},
-					{
-						Name:     "resource_reference_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.WebURL"),
-					},
-					{
-						Name:     "resource_reference_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.ID"),
-					},
-					{
-						Name:     "resource_reference_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.Type"),
-					},
-					{
-						Name:     "last_shared_method_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("LastSharedMethod.ID"),
-					},
-					{
-						Name:     "resource_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Resource.ID"),
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:     "azure_ad_user_insights_shared_sharing_history",
-						Resolver: fetchAdUserInsightsSharedSharingHistories,
-						Columns: []schema.Column{
-							{
-								Name:        "user_insights_shared_cq_id",
-								Description: "Unique CloudQuery ID of azure_ad_user_insights_shared table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:     "shared_by_display_name",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharedBy.DisplayName"),
-							},
-							{
-								Name:     "shared_by_id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharedBy.ID"),
-							},
-							{
-								Name:     "shared_by_address",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharedBy.Address"),
-							},
-							{
-								Name: "shared_date_time",
-								Type: schema.TypeTimestamp,
-							},
-							{
-								Name: "sharing_subject",
-								Type: schema.TypeString,
-							},
-							{
-								Name: "sharing_type",
-								Type: schema.TypeString,
-							},
-							{
-								Name:     "sharing_reference_web_url",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharingReference.WebURL"),
-							},
-							{
-								Name:     "sharing_reference_id",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharingReference.ID"),
-							},
-							{
-								Name:     "sharing_reference_type",
-								Type:     schema.TypeString,
-								Resolver: schema.PathResolver("SharingReference.Type"),
-							},
-						},
-					},
-				},
-			},
-			{
-				Name:     "azure_ad_user_insights_used",
-				Resolver: fetchAdUserInsightsUseds,
-				Columns: []schema.Column{
-					{
-						Name:        "user_cq_id",
-						Description: "Unique CloudQuery ID of azure_ad_users table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:     "id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Entity.ID"),
-					},
-					{
-						Name:     "last_used_last_accessed_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("LastUsed.LastAccessedDateTime"),
-					},
-					{
-						Name:     "last_used_last_modified_date_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("LastUsed.LastModifiedDateTime"),
-					},
-					{
-						Name:     "resource_visualization_title",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Title"),
-					},
-					{
-						Name:     "resource_visualization_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.Type"),
-					},
-					{
-						Name:     "resource_visualization_media_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.MediaType"),
-					},
-					{
-						Name:     "resource_visualization_preview_image_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewImageURL"),
-					},
-					{
-						Name:     "resource_visualization_preview_text",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.PreviewText"),
-					},
-					{
-						Name:     "resource_visualization_container_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerWebURL"),
-					},
-					{
-						Name:     "resource_visualization_container_display_name",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerDisplayName"),
-					},
-					{
-						Name:     "resource_visualization_container_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceVisualization.ContainerType"),
-					},
-					{
-						Name:     "resource_reference_web_url",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.WebURL"),
-					},
-					{
-						Name:     "resource_reference_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.ID"),
-					},
-					{
-						Name:     "resource_reference_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("ResourceReference.Type"),
-					},
-					{
-						Name:     "resource_id",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Resource.ID"),
-					},
-				},
-			},
+			AdUserInsightsTrending(),
+			AdUserInsightsShared(),
+			AdUserInsightsUsed(),
 		},
 	}
 }
@@ -2222,6 +1279,194 @@ func fetchAdUsers(ctx context.Context, meta schema.ClientMeta, parent *schema.Re
 	}
 	res <- response
 	return nil
+}
+func resolveAdUsersOutlook(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	if p.Outlook == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Outlook)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersMessages(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Messages)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersMailFolders(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.MailFolders)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersCalendar(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	if p.Calendar == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Calendar)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersCalendars(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Calendars)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersCalendarGroups(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.CalendarGroups)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersCalendarView(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.CalendarView)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersEvents(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Events)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersContacts(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Contacts)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersContactFolders(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.ContactFolders)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersDrive(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	if p.Drive == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Drive)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersDrives(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Drives)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersPlanner(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Planner)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersOnenote(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Onenote)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersActivities(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Activities)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdUsersOnlineMeetings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.User)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.User but got %T", resource.Item)
+	}
+	if p.Outlook == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.OnlineMeetings)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
 }
 func resolveAdUsersJoinedTeams(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(msgraph.User)
@@ -2412,129 +1657,11 @@ func fetchAdUserExtensions(ctx context.Context, meta schema.ClientMeta, parent *
 	res <- p.Extensions
 	return nil
 }
-func fetchAdUserManagedDevices(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.User)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
-	}
-	res <- p.ManagedDevices
-	return nil
-}
-func fetchAdUserManagedDeviceDeviceActionResults(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedDevice)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedDevice but got %T", parent.Item)
-	}
-	res <- p.DeviceActionResults
-	return nil
-}
-func fetchAdUserManagedDeviceDeviceConfigurationStates(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedDevice)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedDevice but got %T", parent.Item)
-	}
-	res <- p.DeviceConfigurationStates
-	return nil
-}
-func resolveAdUserManagedDeviceDeviceConfigurationStatesSettingStates(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	p, ok := resource.Item.(msgraph.DeviceConfigurationState)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.DeviceConfigurationState but got %T", resource.Item)
-	}
-	out, err := json.Marshal(p.SettingStates)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
-}
-func fetchAdUserManagedDeviceDeviceCompliancePolicyStates(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedDevice)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedDevice but got %T", parent.Item)
-	}
-	res <- p.DeviceCompliancePolicyStates
-	return nil
-}
-func resolveAdUserManagedDeviceDeviceCompliancePolicyStatesSettingStates(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	p, ok := resource.Item.(msgraph.DeviceCompliancePolicyState)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.DeviceCompliancePolicyState but got %T", resource.Item)
-	}
-	out, err := json.Marshal(p.SettingStates)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
-}
-func fetchAdUserManagedAppRegistrations(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.User)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
-	}
-	res <- p.ManagedAppRegistrations
-	return nil
-}
-func fetchAdUserManagedAppRegistrationAppliedPolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedAppRegistration)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedAppRegistration but got %T", parent.Item)
-	}
-	res <- p.AppliedPolicies
-	return nil
-}
-func fetchAdUserManagedAppRegistrationIntendedPolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedAppRegistration)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedAppRegistration but got %T", parent.Item)
-	}
-	res <- p.IntendedPolicies
-	return nil
-}
-func fetchAdUserManagedAppRegistrationOperations(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.ManagedAppRegistration)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.ManagedAppRegistration but got %T", parent.Item)
-	}
-	res <- p.Operations
-	return nil
-}
 func fetchAdUserDeviceManagementTroubleshootingEvents(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(msgraph.User)
 	if !ok {
 		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
 	}
 	res <- p.DeviceManagementTroubleshootingEvents
-	return nil
-}
-func fetchAdUserInsightsTrendings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.User)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
-	}
-	res <- p.Insights.Trending
-	return nil
-}
-func fetchAdUserInsightsShareds(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.User)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
-	}
-	res <- p.Insights.Shared
-	return nil
-}
-func fetchAdUserInsightsSharedSharingHistories(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.SharedInsight)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.SharedInsight but got %T", parent.Item)
-	}
-	res <- p.SharingHistory
-	return nil
-}
-func fetchAdUserInsightsUseds(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.User)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.User but got %T", parent.Item)
-	}
-	res <- p.Insights.Used
 	return nil
 }

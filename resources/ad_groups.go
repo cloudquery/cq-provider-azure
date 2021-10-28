@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -153,6 +154,31 @@ func AdGroups() *schema.Table {
 				Resolver: schema.PathResolver("CreatedOnBehalfOf.DeletedDateTime"),
 			},
 			{
+				Name:     "conversations",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsConversations,
+			},
+			{
+				Name:     "threads",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsThreads,
+			},
+			{
+				Name:     "calendar",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsCalendar,
+			},
+			{
+				Name:     "calendar_view",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsCalendarView,
+			},
+			{
+				Name:     "events",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsEvents,
+			},
+			{
 				Name:     "photo_id",
 				Type:     schema.TypeString,
 				Resolver: schema.PathResolver("Photo.Entity.ID"),
@@ -166,6 +192,36 @@ func AdGroups() *schema.Table {
 				Name:     "photo_width",
 				Type:     schema.TypeBigInt,
 				Resolver: schema.PathResolver("Photo.Width"),
+			},
+			{
+				Name:     "drive",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsDrive,
+			},
+			{
+				Name:     "drives",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsDrives,
+			},
+			{
+				Name:     "sites",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsSites,
+			},
+			{
+				Name:     "extensions",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsExtensions,
+			},
+			{
+				Name:     "planner",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsPlanner,
+			},
+			{
+				Name:     "onenote",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsOnenote,
 			},
 			{
 				Name:     "team_id",
@@ -213,29 +269,9 @@ func AdGroups() *schema.Table {
 				Resolver: schema.PathResolver("Team.GuestSettings.AllowDeleteChannels"),
 			},
 			{
-				Name:     "team_messaging_settings_allow_user_edit_messages",
-				Type:     schema.TypeBool,
-				Resolver: schema.PathResolver("Team.MessagingSettings.AllowUserEditMessages"),
-			},
-			{
-				Name:     "team_messaging_settings_allow_user_delete_messages",
-				Type:     schema.TypeBool,
-				Resolver: schema.PathResolver("Team.MessagingSettings.AllowUserDeleteMessages"),
-			},
-			{
-				Name:     "team_messaging_settings_allow_owner_delete_messages",
-				Type:     schema.TypeBool,
-				Resolver: schema.PathResolver("Team.MessagingSettings.AllowOwnerDeleteMessages"),
-			},
-			{
-				Name:     "team_messaging_settings_allow_team_mentions",
-				Type:     schema.TypeBool,
-				Resolver: schema.PathResolver("Team.MessagingSettings.AllowTeamMentions"),
-			},
-			{
-				Name:     "team_messaging_settings_allow_channel_mentions",
-				Type:     schema.TypeBool,
-				Resolver: schema.PathResolver("Team.MessagingSettings.AllowChannelMentions"),
+				Name:     "team_messaging_settings",
+				Type:     schema.TypeJSON,
+				Resolver: resolveAdGroupsTeamMessagingSettings,
 			},
 			{
 				Name:     "team_fun_settings_allow_giphy",
@@ -314,9 +350,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_members",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupMembers,
+				Name:     "azure_ad_group_members",
+				Resolver: fetchAdGroupMembers,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -336,9 +371,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_member_of",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupMemberOfs,
+				Name:     "azure_ad_group_member_of",
+				Resolver: fetchAdGroupMemberOfs,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -358,9 +392,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_members_with_license_errors",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupMembersWithLicenseErrors,
+				Name:     "azure_ad_group_members_with_license_errors",
+				Resolver: fetchAdGroupMembersWithLicenseErrors,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -380,9 +413,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_transitive_members",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupTransitiveMembers,
+				Name:     "azure_ad_group_transitive_members",
+				Resolver: fetchAdGroupTransitiveMembers,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -402,9 +434,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_transitive_member_of",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupTransitiveMemberOfs,
+				Name:     "azure_ad_group_transitive_member_of",
+				Resolver: fetchAdGroupTransitiveMemberOfs,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -424,9 +455,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_owners",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupOwners,
+				Name:     "azure_ad_group_owners",
+				Resolver: fetchAdGroupOwners,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -502,9 +532,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_accepted_senders",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupAcceptedSenders,
+				Name:     "azure_ad_group_accepted_senders",
+				Resolver: fetchAdGroupAcceptedSenders,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -524,9 +553,8 @@ func AdGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_ad_group_rejected_senders",
-				Description: "DirectoryObject Represents an Azure Active Directory object",
-				Resolver:    fetchAdGroupRejectedSenders,
+				Name:     "azure_ad_group_rejected_senders",
+				Resolver: fetchAdGroupRejectedSenders,
 				Columns: []schema.Column{
 					{
 						Name:        "group_cq_id",
@@ -870,6 +898,153 @@ func fetchAdGroups(ctx context.Context, meta schema.ClientMeta, parent *schema.R
 	res <- response
 	return nil
 }
+func resolveAdGroupsConversations(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Conversations)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsThreads(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Threads)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsCalendar(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	if p.Calendar == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Calendar)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsCalendarView(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.CalendarView)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsEvents(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Events)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsDrive(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	if p.Drive == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Drive)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsDrives(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Drives)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsSites(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Sites)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsExtensions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	j, err := json.Marshal(p.Extensions)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsPlanner(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	if p.Planner == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Planner)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsOnenote(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	if p.Onenote == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Onenote)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
+func resolveAdGroupsTeamMessagingSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(msgraph.Group)
+	if !ok {
+		return fmt.Errorf("expected to have msgraph.Group but got %T", resource.Item)
+	}
+	if p.Team == nil || p.Team.MessagingSettings == nil {
+		return nil
+	}
+	j, err := json.Marshal(p.Team.MessagingSettings)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, j)
+}
 func fetchAdGroupAssignedLicenses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(msgraph.Group)
 	if !ok {
@@ -985,52 +1160,6 @@ func fetchAdGroupLifecyclePolicies(ctx context.Context, meta schema.ClientMeta, 
 		return fmt.Errorf("expected to have msgraph.Group but got %T", parent.Item)
 	}
 	res <- p.GroupLifecyclePolicies
-	return nil
-}
-func fetchAdGroupTeamChannels(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Team but got %T", parent.Item)
-	}
-	if p.Team == nil || p.Team.Channels == nil {
-		return nil
-	}
-	res <- p.Team.Channels
-	return nil
-}
-func fetchAdGroupTeamChannelTabs(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Channel)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Channel but got %T", parent.Item)
-	}
-	res <- p.Tabs
-	return nil
-}
-func fetchAdGroupTeamChannelTabTeamsAppAppDefinitions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.TeamsTab)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Channel but got %T", parent.Item)
-	}
-	res <- p.TeamsApp.AppDefinitions
-	return nil
-}
-func fetchAdGroupTeamInstalledApps(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.Group)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Team but got %T", parent.Item)
-	}
-	if p.Team == nil || p.Team.InstalledApps == nil {
-		return nil
-	}
-	res <- p.Team.InstalledApps
-	return nil
-}
-func fetchAdGroupTeamInstalledAppTeamsAppAppDefinitions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
-	p, ok := parent.Item.(msgraph.TeamsAppInstallation)
-	if !ok {
-		return fmt.Errorf("expected to have msgraph.Team but got %T", parent.Item)
-	}
-	res <- p.TeamsAppDefinition
 	return nil
 }
 func fetchAdGroupTeamOperations(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {

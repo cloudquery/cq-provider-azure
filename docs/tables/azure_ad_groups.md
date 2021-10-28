@@ -36,9 +36,20 @@
 |is_archived|boolean||
 |created_on_behalf_of_id|text||
 |created_on_behalf_of_deleted_date_time|timestamp without time zone||
+|conversations|jsonb||
+|threads|jsonb||
+|calendar|jsonb||
+|calendar_view|jsonb||
+|events|jsonb||
 |photo_id|text||
 |photo_height|bigint||
 |photo_width|bigint||
+|drive|jsonb||
+|drives|jsonb||
+|sites|jsonb||
+|extensions|jsonb||
+|planner|jsonb||
+|onenote|jsonb||
 |team_id|text||
 |team_web_url|text||
 |team_member_settings_allow_create_update_channels|boolean||
@@ -48,11 +59,7 @@
 |team_member_settings_allow_create_update_remove_connectors|boolean||
 |team_guest_settings_allow_create_update_channels|boolean||
 |team_guest_settings_allow_delete_channels|boolean||
-|team_messaging_settings_allow_user_edit_messages|boolean||
-|team_messaging_settings_allow_user_delete_messages|boolean||
-|team_messaging_settings_allow_owner_delete_messages|boolean||
-|team_messaging_settings_allow_team_mentions|boolean||
-|team_messaging_settings_allow_channel_mentions|boolean||
+|team_messaging_settings|jsonb||
 |team_fun_settings_allow_giphy|boolean||
 |team_fun_settings_giphy_content_rating|text||
 |team_fun_settings_allow_stickers_and_memes|boolean||

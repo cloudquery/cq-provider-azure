@@ -1,6 +1,6 @@
 
 # Table: azure_ad_group_members_with_license_errors
-DirectoryObject Represents an Azure Active Directory object
+
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

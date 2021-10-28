@@ -24,6 +24,7 @@
 |info_support_url|text||
 |info_terms_of_service_url|text||
 |is_device_only_auth_supported|boolean||
+|logo|bytea||
 |oauth_2_require_post_response|boolean||
 |parental_control_settings_countries_blocked_for_minors|text[]||
 |parental_control_settings_legal_age_group_rule|text||

@@ -1,6 +1,6 @@
 
 # Table: azure_ad_group_owners
-DirectoryObject Represents an Azure Active Directory object
+
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

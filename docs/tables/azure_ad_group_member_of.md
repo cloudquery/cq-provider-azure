@@ -1,6 +1,6 @@
 
 # Table: azure_ad_group_member_of
-DirectoryObject Represents an Azure Active Directory object
+
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
