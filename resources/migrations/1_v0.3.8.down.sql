@@ -74,3 +74,8 @@ ALTER TABLE IF EXISTS azure_network_public_ip_addresses
 DROP
 COLUMN linked_public_ip_address;
 
+--change ip_address column of azure_network_public_ip_addresses from cidr to text
+ALTER TABLE azure_network_public_ip_addresses
+ALTER
+COLUMN ip_address TYPE text;
+

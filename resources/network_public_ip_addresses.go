@@ -112,7 +112,7 @@ func NetworkPublicIPAddresses() *schema.Table {
 			{
 				Name:        "ip_address",
 				Description: "The IP address associated with the public IP address resource.",
-				Type:        schema.TypeString,
+				Type:        schema.TypeCIDR,
 				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.IPAddress"),
 			},
 			{

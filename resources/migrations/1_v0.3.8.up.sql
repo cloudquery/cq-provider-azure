@@ -41,6 +41,8 @@ ALTER TABLE IF EXISTS azure_network_public_ip_addresses
 
 ALTER TABLE IF EXISTS azure_network_public_ip_addresses
     ADD COLUMN linked_public_ip_address JSON;
-
+--change ip_address column of azure_network_public_ip_addresses from text to cidr
+ALTER TABLE azure_network_public_ip_addresses
+ALTER COLUMN ip_address TYPE cidr USING ip_address::cidr;
 
 
