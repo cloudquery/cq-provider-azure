@@ -45,6 +45,8 @@ func buildNetworkPublicIpAddressesMock(t *testing.T, ctrl *gomock.Controller) se
 	pip.PublicIPAddressPropertiesFormat.MigrationPhase = "test"
 	fakeId := fakeResourceGroup + "/" + *pip.ID
 	pip.ID = &fakeId
+	ip := faker.IPv4()
+	pip.IPAddress = &ip
 
 	page := network.NewPublicIPAddressListResultPage(network.PublicIPAddressListResult{Value: &[]network.PublicIPAddress{pip}}, func(ctx context.Context, result network.PublicIPAddressListResult) (network.PublicIPAddressListResult, error) {
 		return network.PublicIPAddressListResult{}, nil
