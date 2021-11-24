@@ -258,7 +258,6 @@ func resolveNetworkPublicIPAddressesIpAddress(ctx context.Context, meta schema.C
 	if !ok {
 		return fmt.Errorf("expected to have network.SecurityGroup but got %T", resource.Item)
 	}
-
 	if p.IPAddress == nil {
 		return nil
 	}
@@ -266,7 +265,6 @@ func resolveNetworkPublicIPAddressesIpAddress(ctx context.Context, meta schema.C
 	if i == nil {
 		return fmt.Errorf("wrong format of IP: %s", *p.IPAddress)
 	}
-
 	return resource.Set(c.Name, i)
 }
 func resolveNetworkPublicIPAddressesServicePublicIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
