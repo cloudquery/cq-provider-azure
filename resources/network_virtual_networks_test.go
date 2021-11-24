@@ -90,6 +90,7 @@ func buildNetworkVirtualNetworksMock(t *testing.T, ctrl *gomock.Controller) serv
 	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].RouteTable.ResourceGUID))
 	require.Nil(t, faker.FakeData(&vn.VirtualNetworkPeerings))
 
+	vn.DhcpOptions.DNSServers = &[]string{faker.IPv4()}
 	fakeId := fakeResourceGroup + "/" + *vn.ID
 	vn.ID = &fakeId
 

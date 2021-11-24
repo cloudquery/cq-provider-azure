@@ -8,7 +8,7 @@ Azure virtual network
 |extended_location_name|text|The name of the extended location.|
 |extended_location_type|text|The type of the extended location.|
 |address_space_address_prefixes|text[]|A list of address blocks reserved for this virtual network in CIDR notation.|
-|dhcp_options_dns_servers|text[]|The list of DNS servers IP addresses.|
+|dhcp_options_dns_servers|inet[]|The list of DNS servers IP addresses.|
 |resource_guid|text|The resourceGuid property of the Virtual Network resource.|
 |provisioning_state|text|The provisioning state of the virtual network resource|
 |enable_ddos_protection|boolean|Indicates if DDoS protection is enabled for all the protected resources in the virtual network|

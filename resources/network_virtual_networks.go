@@ -3,10 +3,10 @@ package resources
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	"net"
 )
 
 func NetworkVirtualNetworks() *schema.Table {
@@ -45,8 +45,8 @@ func NetworkVirtualNetworks() *schema.Table {
 			{
 				Name:        "dhcp_options_dns_servers",
 				Description: "The list of DNS servers IP addresses.",
-				Type:        schema.TypeStringArray,
-				Resolver:    schema.PathResolver("VirtualNetworkPropertiesFormat.DhcpOptions.DNSServers"),
+				Type:        schema.TypeInetArray,
+				Resolver:    resolveNetworkVirtualNetworksDhcpOptionsDnsServers,
 			},
 			{
 				Name:        "resource_guid",
@@ -414,6 +414,25 @@ func fetchNetworkVirtualNetworks(ctx context.Context, meta schema.ClientMeta, pa
 		}
 	}
 	return nil
+}
+func resolveNetworkVirtualNetworksDhcpOptionsDnsServers(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	vn, ok := resource.Item.(network.VirtualNetwork)
+	if !ok {
+		return fmt.Errorf("expected to have network.VirtualNetwork but got %T", resource.Item)
+	}
+	if vn.DhcpOptions == nil || vn.DhcpOptions.DNSServers == nil || len(*vn.DhcpOptions.DNSServers) == 0 {
+		return nil
+	}
+	ips := make([]net.IP, 0, len(*vn.DhcpOptions.DNSServers))
+	for _, ip := range *vn.DhcpOptions.DNSServers {
+		i := net.ParseIP(ip)
+		if i == nil {
+			return fmt.Errorf("wrong format of IP: %s", ip)
+		}
+		ips = append(ips, i)
+		net.ParseIP(ip)
+	}
+	return resource.Set(c.Name, ips)
 }
 func resolveNetworkVirtualNetworksIpAllocations(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	vn, ok := resource.Item.(network.VirtualNetwork)
