@@ -113,7 +113,7 @@ func NetworkPublicIPAddresses() *schema.Table {
 			{
 				Name:        "ip_address",
 				Description: "The IP address associated with the public IP address resource.",
-				Type:        schema.TypeCIDR,
+				Type:        schema.TypeInet,
 				Resolver:    resolveNetworkPublicIPAddressesIpAddress,
 			},
 			{
@@ -259,14 +259,15 @@ func resolveNetworkPublicIPAddressesIpAddress(ctx context.Context, meta schema.C
 		return fmt.Errorf("expected to have network.SecurityGroup but got %T", resource.Item)
 	}
 
+	if p.IPAddress == nil {
+		return nil
+	}
 	i := net.ParseIP(*p.IPAddress)
-	_, ip, err := net.ParseCIDR(i.String() + "/32")
-	if err != nil {
-		i.DefaultMask()
-		return err
+	if i == nil {
+		return fmt.Errorf("wrong format of IP: %s", *p.IPAddress)
 	}
 
-	return resource.Set(c.Name, ip)
+	return resource.Set(c.Name, i)
 }
 func resolveNetworkPublicIPAddressesServicePublicIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(network.PublicIPAddress)

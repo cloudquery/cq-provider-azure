@@ -19,7 +19,7 @@ PublicIPAddress public IP address resource.
 |ddos_settings_protection_coverage|text|The DDoS protection policy customizability of the public IP|
 |ddos_settings_protected_ip|boolean|Enables DDoS protection on the public IP.|
 |ip_tags|jsonb|The list of tags associated with the public IP address.|
-|ip_address|cidr|The IP address associated with the public IP address resource.|
+|ip_address|inet|The IP address associated with the public IP address resource.|
 |public_ip_prefix_id|text|Resource ID.|
 |idle_timeout_in_minutes|integer|The idle timeout of the public IP address.|
 |resource_guid|text|The resource GUID property of the public IP address resource.|
