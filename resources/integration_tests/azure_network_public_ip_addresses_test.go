@@ -2,17 +2,17 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/network"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationNetworkPublicIPAddresses(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.NetworkPublicIPAddresses(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
+	awsTestIntegrationHelper(t, network.NetworkPublicIPAddresses(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.NetworkPublicIPAddresses().Name,
+			Name: network.NetworkPublicIPAddresses().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%s-%s-ip", res.Prefix, res.Suffix)})
 			},

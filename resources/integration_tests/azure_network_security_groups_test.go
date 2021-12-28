@@ -2,21 +2,21 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/network"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationNetworkSecurityGroups(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.NetworkSecurityGroups(), []string{
+	awsTestIntegrationHelper(t, network.NetworkSecurityGroups(), []string{
 		"azure_storage_accounts.tf",
 		"azure_network_security_groups.tf",
 		"networks.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.NetworkSecurityGroups().Name,
+			Name: network.NetworkSecurityGroups().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%s-%s-nsg", res.Prefix, res.Suffix)})
 			},

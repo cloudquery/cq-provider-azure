@@ -2,22 +2,22 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationComputeVirtualMachines(t *testing.T) {
 	t.Run("vm", func(t *testing.T) {
-		awsTestIntegrationHelper(t, resources.ComputeVirtualMachines(), []string{
+		awsTestIntegrationHelper(t, compute.ComputeVirtualMachines(), []string{
 			"azure_compute_virtual_machines.tf",
 			"azure_keyvault_vaults.tf",
 			"networks.tf",
 		}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 			return providertest.ResourceIntegrationVerification{
-				Name: resources.ComputeVirtualMachines().Name,
+				Name: compute.ComputeVirtualMachines().Name,
 				Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 					return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%s-%s-vm", res.Prefix, res.Suffix)})
 				},
@@ -88,12 +88,12 @@ func TestIntegrationComputeVirtualMachines(t *testing.T) {
 			}
 		})
 		t.Run("vm-w", func(t *testing.T) {
-			awsTestIntegrationHelper(t, resources.ComputeVirtualMachines(), []string{
+			awsTestIntegrationHelper(t, compute.ComputeVirtualMachines(), []string{
 				"azure_compute_virtual_machines_windows.tf",
 				"networks.tf",
 			}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 				return providertest.ResourceIntegrationVerification{
-					Name: resources.ComputeVirtualMachines().Name,
+					Name: compute.ComputeVirtualMachines().Name,
 					Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 						return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%s-%s-w-vm", res.Prefix, res.Suffix)})
 					},

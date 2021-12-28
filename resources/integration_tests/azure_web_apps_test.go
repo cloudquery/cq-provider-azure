@@ -2,18 +2,18 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/web"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
 
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationWebApps(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.WebApps(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
+	awsTestIntegrationHelper(t, web.WebApps(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.WebApps().Name,
+			Name: web.WebApps().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("as-%s%s", res.Prefix, res.Suffix)})
 			},

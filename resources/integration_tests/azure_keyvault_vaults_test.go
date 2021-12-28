@@ -2,17 +2,17 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationKeyvaultVaults(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.KeyvaultVaults(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
+	awsTestIntegrationHelper(t, keyvault.KeyvaultVaults(), nil, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.KeyvaultVaults().Name,
+			Name: keyvault.KeyvaultVaults().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf(
 					"vault-%s%s",

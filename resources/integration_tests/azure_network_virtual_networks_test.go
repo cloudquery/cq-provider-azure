@@ -2,19 +2,19 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/network"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationNetworkVirtualNetworks(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.NetworkVirtualNetworks(), []string{
+	awsTestIntegrationHelper(t, network.NetworkVirtualNetworks(), []string{
 		"networks.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.NetworkVirtualNetworks().Name,
+			Name: network.NetworkVirtualNetworks().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%s-%s-network", res.Prefix, res.Suffix)})
 			},

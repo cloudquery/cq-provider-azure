@@ -1,15 +1,15 @@
 package integration_tests
 
 import (
+	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationSubscriptionsSubscriptions(t *testing.T) {
-	table := resources.SubscriptionSubscriptions()
+	table := subscription.SubscriptionSubscriptions()
 
 	awsTestIntegrationHelper(t, table, []string{}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{

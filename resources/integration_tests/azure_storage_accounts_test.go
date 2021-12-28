@@ -2,20 +2,20 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationStorageAccounts(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.StorageAccounts(), []string{
+	awsTestIntegrationHelper(t, storage.StorageAccounts(), []string{
 		"azure_storage_accounts.tf",
 		"networks.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.StorageAccounts().Name,
+			Name: storage.StorageAccounts().Name,
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf("%stsa", res.Suffix)})
 			},

@@ -2,21 +2,21 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/container"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationContainerManagedClusters(t *testing.T) {
-	awsTestIntegrationHelper(t, resources.ContainerManagedClusters(), []string{
+	awsTestIntegrationHelper(t, container.ContainerManagedClusters(), []string{
 		"azure_storage_accounts.tf",
 		"networks.tf",
 		"azure_container_managed_clusters.tf",
 	}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
 		return providertest.ResourceIntegrationVerification{
-			Name: resources.ContainerManagedClusters().Name,
+			Name: container.ContainerManagedClusters().Name,
 
 			Filter: func(sq squirrel.SelectBuilder, res *providertest.ResourceIntegrationTestData) squirrel.SelectBuilder {
 				return sq.Where(squirrel.Eq{"name": fmt.Sprintf(

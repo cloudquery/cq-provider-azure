@@ -2,12 +2,11 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/provider"
 	"os"
 	"testing"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources"
-
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
@@ -27,7 +26,7 @@ func lastN(str string, i int) string {
 func awsTestIntegrationHelper(t *testing.T, table *schema.Table, resourceFiles []string, verificationBuilder func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification) {
 	cfg := client.Config{}
 
-	providertest.IntegrationTest(t, resources.Provider, providertest.ResourceIntegrationTestData{
+	providertest.IntegrationTest(t, provider.Provider, providertest.ResourceIntegrationTestData{
 		Table:               table,
 		Config:              cfg,
 		Configure:           client.Configure,

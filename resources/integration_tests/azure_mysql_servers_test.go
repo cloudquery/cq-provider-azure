@@ -2,15 +2,15 @@ package integration_tests
 
 import (
 	"fmt"
+	"github.com/cloudquery/cq-provider-azure/resources/services/mysql"
 	"testing"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	providertest "github.com/cloudquery/cq-provider-sdk/provider/testing"
 )
 
 func TestIntegrationMySQLServers(t *testing.T) {
-	table := resources.MySQLServers()
+	table := mysql.MySQLServers()
 	const fkName = "server_cq_id"
 
 	awsTestIntegrationHelper(t, table, []string{"azure_mysql_servers.tf", "networks.tf"}, func(res *providertest.ResourceIntegrationTestData) providertest.ResourceIntegrationVerification {
