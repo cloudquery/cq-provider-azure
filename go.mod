@@ -6,8 +6,7 @@ require (
 	github.com/Azure/azure-sdk-for-go v58.0.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.11.21
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.7
-	github.com/Masterminds/squirrel v1.5.0
-	github.com/cloudquery/cq-provider-sdk v0.5.7
+	github.com/cloudquery/cq-provider-sdk v0.6.0-beta
 	github.com/cloudquery/faker/v3 v3.7.5
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-hclog v1.0.0
@@ -24,6 +23,7 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.1 // indirect
 	github.com/Azure/go-autorest/logger v0.2.1 // indirect
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
+	github.com/Masterminds/squirrel v1.5.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/creasty/defaults v1.5.2 // indirect
@@ -93,5 +93,3 @@ require (
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
-
-replace github.com/cloudquery/cq-provider-sdk => ../cq-provider-sdk
