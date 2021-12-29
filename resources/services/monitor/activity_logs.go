@@ -25,7 +25,7 @@ func MonitorActivityLogs() *schema.Table {
 				Resolver:    schema.PathResolver("Authorization.Action"),
 			},
 			{
-				Name:        "authorization",
+				Name:        "authorization_role",
 				Description: "the role of the user For instance: Subscription Admin",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Authorization.Role"),

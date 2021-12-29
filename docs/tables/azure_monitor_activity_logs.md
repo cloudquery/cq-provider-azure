@@ -5,7 +5,7 @@ Azure network watcher
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |authorization_action|text|the permissible actions For instance: microsoftsupport/supporttickets/write|
-|authorization|text|the role of the user For instance: Subscription Admin|
+|authorization_role|text|the role of the user For instance: Subscription Admin|
 |authorization_scope|text|the scope|
 |claims|jsonb|key value pairs to identify ARM permissions|
 |caller|text|the email address of the user who has performed the operation, the UPN claim or SPN claim based on availability|
