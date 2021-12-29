@@ -3,10 +3,8 @@ package mysql
 import (
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	mysql2 "github.com/cloudquery/cq-provider-azure/resources/services/mysql"
-
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -43,5 +41,5 @@ func buildMySQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Servic
 }
 
 func TestMySQLServers(t *testing.T) {
-	client.AzureMockTestHelper(t, mysql2.MySQLServers(), buildMySQLServerMock, client.TestOptions{})
+	client.AzureMockTestHelper(t, MySQLServers(), buildMySQLServerMock, client.TestOptions{})
 }

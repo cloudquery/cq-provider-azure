@@ -4,10 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	network2 "github.com/cloudquery/cq-provider-azure/resources/services/network"
-
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -72,5 +70,5 @@ func buildNetworkPublicIpAddressesMock(t *testing.T, ctrl *gomock.Controller) se
 }
 
 func TestPublicIpAddresses(t *testing.T) {
-	client.AzureMockTestHelper(t, network2.NetworkPublicIPAddresses(), buildNetworkPublicIpAddressesMock, client.TestOptions{})
+	client.AzureMockTestHelper(t, NetworkPublicIPAddresses(), buildNetworkPublicIpAddressesMock, client.TestOptions{})
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func AdServicePrincipals() *schema.Table {
+func ServicePrincipals() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_ad_service_principals",
 		Description:  "ServicePrincipal active Directory service principal information",

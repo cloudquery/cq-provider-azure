@@ -1,3 +1,5 @@
+//go:build !integration
+
 package ad
 
 import (
@@ -35,5 +37,5 @@ func buildADServicePrincipals(t *testing.T, ctrl *gomock.Controller) services.Se
 }
 
 func TestADServicePrincipals(t *testing.T) {
-	client.AzureMockTestHelper(t, AdServicePrincipals(), buildADServicePrincipals, client.TestOptions{})
+	client.AzureMockTestHelper(t, ServicePrincipals(), buildADServicePrincipals, client.TestOptions{})
 }

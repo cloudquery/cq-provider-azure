@@ -1,13 +1,13 @@
+//go:build !integration
+
 package ad
 
 import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources/services/ad"
-
 	"github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -42,5 +42,5 @@ func buildADUsers(t *testing.T, ctrl *gomock.Controller) services.Services {
 }
 
 func TestADUsers(t *testing.T) {
-	client.AzureMockTestHelper(t, ad.AdUsers(), buildADUsers, client.TestOptions{})
+	client.AzureMockTestHelper(t, Users(), buildADUsers, client.TestOptions{})
 }

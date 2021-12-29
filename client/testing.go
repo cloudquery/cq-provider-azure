@@ -1,9 +1,9 @@
 package client
 
 import (
-	"github.com/cloudquery/cq-provider-azure/client/services"
 	"testing"
 
+	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-sdk/logging"
 	"github.com/cloudquery/cq-provider-sdk/provider"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -16,8 +16,11 @@ type TestOptions struct {
 	SkipEmptyJsonB bool
 }
 
-const FakeResourceGroup = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/cqprovidertest"
-const TestSubscriptionID = "test_sub"
+const (
+	SnapshotsDirPath   = "./snapshots"
+	TestSubscriptionID = "test_sub"
+	FakeResourceGroup  = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/cqprovidertest"
+)
 
 func AzureMockTestHelper(t *testing.T, table *schema.Table, builder func(*testing.T, *gomock.Controller) services.Services, options TestOptions) {
 	t.Helper()
@@ -54,7 +57,7 @@ func AzureMockTestHelper(t *testing.T, table *schema.Table, builder func(*testin
 func AzureTestHelper(t *testing.T, table *schema.Table, snapshotDirPath string) {
 	t.Helper()
 	cfg := `
-		subscriptions = ["test_sub"]
+		//subscriptions = ["test_sub"]
 	`
 
 	providertest.TestResource(t, providertest.ResourceTestCase{

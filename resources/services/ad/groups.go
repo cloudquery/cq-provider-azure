@@ -7,7 +7,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func AdGroups() *schema.Table {
+func Groups() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_ad_groups",
 		Description:  "ADGroup active Directory group information",

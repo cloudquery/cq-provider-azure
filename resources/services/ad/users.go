@@ -9,7 +9,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func AdUsers() *schema.Table {
+func Users() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_ad_users",
 		Description:  "User active Directory user information",

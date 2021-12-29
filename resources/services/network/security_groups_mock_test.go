@@ -4,10 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	network2 "github.com/cloudquery/cq-provider-azure/resources/services/network"
-
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -91,5 +89,5 @@ func buildNetworkSecurityGroupsMock(t *testing.T, ctrl *gomock.Controller) servi
 }
 
 func TestNetworkSecurityGroups(t *testing.T) {
-	client.AzureMockTestHelper(t, network2.NetworkSecurityGroups(), buildNetworkSecurityGroupsMock, client.TestOptions{})
+	client.AzureMockTestHelper(t, NetworkSecurityGroups(), buildNetworkSecurityGroupsMock, client.TestOptions{})
 }

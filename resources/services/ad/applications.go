@@ -10,7 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func AdApplications() *schema.Table {
+func Applications() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_ad_applications",
 		Description:  "Application active Directory application information",

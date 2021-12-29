@@ -4,10 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources/services/container"
-
 	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-03-01/containerservice"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -16,7 +14,7 @@ import (
 )
 
 func TestContainerManagedClusters(t *testing.T) {
-	client.AzureMockTestHelper(t, container.ContainerManagedClusters(), buildContainerManagedClusters, client.TestOptions{})
+	client.AzureMockTestHelper(t, ContainerManagedClusters(), buildContainerManagedClusters, client.TestOptions{})
 }
 
 func buildContainerManagedClusters(t *testing.T, ctrl *gomock.Controller) services.Services {

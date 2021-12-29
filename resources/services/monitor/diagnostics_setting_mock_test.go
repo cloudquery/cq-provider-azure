@@ -4,11 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	resources2 "github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2020-10-01/resources"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -56,5 +54,5 @@ func buildMonitorDiagnosticsSettings(t *testing.T, ctrl *gomock.Controller) serv
 }
 
 func TestMonitorDiagnosticsSettings(t *testing.T) {
-	client.AzureMockTestHelper(t, monitor.MonitorDiagnosticSettings(), buildMonitorDiagnosticsSettings, client.TestOptions{})
+	client.AzureMockTestHelper(t, MonitorDiagnosticSettings(), buildMonitorDiagnosticsSettings, client.TestOptions{})
 }

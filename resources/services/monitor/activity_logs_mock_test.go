@@ -5,10 +5,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -59,5 +57,5 @@ func buildActivityLogs(t *testing.T, ctrl *gomock.Controller) services.Services 
 }
 
 func TestActivityLogs(t *testing.T) {
-	client.AzureMockTestHelper(t, monitor.MonitorActivityLogs(), buildActivityLogs, client.TestOptions{})
+	client.AzureMockTestHelper(t, MonitorActivityLogs(), buildActivityLogs, client.TestOptions{})
 }

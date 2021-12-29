@@ -3,10 +3,8 @@ package monitor
 import (
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2019-11-01-preview/insights"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
@@ -33,5 +31,5 @@ func buildActivityLogAlertsMock(t *testing.T, ctrl *gomock.Controller) services.
 }
 
 func TestActivityLogAlerts(t *testing.T) {
-	client.AzureMockTestHelper(t, monitor.MonitorActivityLogAlerts(), buildActivityLogAlertsMock, client.TestOptions{})
+	client.AzureMockTestHelper(t, MonitorActivityLogAlerts(), buildActivityLogAlertsMock, client.TestOptions{})
 }
