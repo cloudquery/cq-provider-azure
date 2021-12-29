@@ -56,9 +56,6 @@ func AzureMockTestHelper(t *testing.T, table *schema.Table, builder func(*testin
 
 func AzureTestHelper(t *testing.T, table *schema.Table, snapshotDirPath string) {
 	t.Helper()
-	cfg := `
-		//subscriptions = ["test_sub"]
-	`
 
 	providertest.TestResource(t, providertest.ResourceTestCase{
 		Provider: &provider.Provider{
@@ -73,7 +70,7 @@ func AzureTestHelper(t *testing.T, table *schema.Table, snapshotDirPath string) 
 			},
 		},
 		Table:        table,
-		Config:       cfg,
+		Config:       "",
 		SnapshotsDir: snapshotDirPath,
 	})
 
