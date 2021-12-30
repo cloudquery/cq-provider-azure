@@ -51,7 +51,7 @@ func ComputeVirtualMachines() *schema.Table {
 			},
 			{
 				Name:        "hardware_profile_vm_size",
-				Description: "Specifies the size of the virtual machine <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023 <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docsmicrosoftcom/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docsmicrosoftcom/en-us/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docsmicrosoftcom/rest/api/compute/virtualmachines/listavailablesizes) For more information about virtual machine sizes, see [Sizes for virtual machines](https://docsmicrosoftcom/en-us/azure/virtual-machines/sizes) <br><br> The available VM sizes depend on region and availability set Possible values include: 'BasicA0', 'BasicA1', 'BasicA2', 'BasicA3', 'BasicA4', 'StandardA0', 'StandardA1', 'StandardA2', 'StandardA3', 'StandardA4', 'StandardA5', 'StandardA6', 'StandardA7', 'StandardA8', 'StandardA9', 'StandardA10', 'StandardA11', 'StandardA1V2', 'StandardA2V2', 'StandardA4V2', 'StandardA8V2', 'StandardA2mV2', 'StandardA4mV2', 'StandardA8mV2', 'StandardB1s', 'StandardB1ms', 'StandardB2s', 'StandardB2ms', 'StandardB4ms', 'StandardB8ms', 'StandardD1', 'StandardD2', 'StandardD3', 'StandardD4', 'StandardD11', 'StandardD12', 'StandardD13', 'StandardD14', 'StandardD1V2', 'StandardD2V2', 'StandardD3V2', 'StandardD4V2', 'StandardD5V2', 'StandardD2V3', 'StandardD4V3', 'StandardD8V3', 'StandardD16V3', 'StandardD32V3', 'StandardD64V3', 'StandardD2sV3', 'StandardD4sV3', 'StandardD8sV3', 'StandardD16sV3', 'StandardD32sV3', 'StandardD64sV3', 'StandardD11V2', 'StandardD12V2', 'StandardD13V2', 'StandardD14V2', 'StandardD15V2', 'StandardDS1', 'StandardDS2', 'StandardDS3', 'StandardDS4', 'StandardDS11', 'StandardDS12', 'StandardDS13', 'StandardDS14', 'StandardDS1V2', 'StandardDS2V2', 'StandardDS3V2', 'StandardDS4V2', 'StandardDS5V2', 'StandardDS11V2', 'StandardDS12V2', 'StandardDS13V2', 'StandardDS14V2', 'StandardDS15V2', 'StandardDS134V2', 'StandardDS132V2', 'StandardDS148V2', 'StandardDS144V2', 'StandardE2V3', 'StandardE4V3', 'StandardE8V3', 'StandardE16V3', 'StandardE32V3', 'StandardE64V3', 'StandardE2sV3', 'StandardE4sV3', 'StandardE8sV3', 'StandardE16sV3', 'StandardE32sV3', 'StandardE64sV3', 'StandardE3216V3', 'StandardE328sV3', 'StandardE6432sV3', 'StandardE6416sV3', 'StandardF1', 'StandardF2', 'StandardF4', 'StandardF8', 'StandardF16', 'StandardF1s', 'StandardF2s', 'StandardF4s', 'StandardF8s', 'StandardF16s', 'StandardF2sV2', 'StandardF4sV2', 'StandardF8sV2', 'StandardF16sV2', 'StandardF32sV2', 'StandardF64sV2', 'StandardF72sV2', 'StandardG1', 'StandardG2', 'StandardG3', 'StandardG4', 'StandardG5', 'StandardGS1', 'StandardGS2', 'StandardGS3', 'StandardGS4', 'StandardGS5', 'StandardGS48', 'StandardGS44', 'StandardGS516', 'StandardGS58', 'StandardH8', 'StandardH16', 'StandardH8m', 'StandardH16m', 'StandardH16r', 'StandardH16mr', 'StandardL4s', 'StandardL8s', 'StandardL16s', 'StandardL32s', 'StandardM64s', 'StandardM64ms', 'StandardM128s', 'StandardM128ms', 'StandardM6432ms', 'StandardM6416ms', 'StandardM12864ms', 'StandardM12832ms', 'StandardNC6', 'StandardNC12', 'StandardNC24', 'StandardNC24r', 'StandardNC6sV2', 'StandardNC12sV2', 'StandardNC24sV2', 'StandardNC24rsV2', 'StandardNC6sV3', 'StandardNC12sV3', 'StandardNC24sV3', 'StandardNC24rsV3', 'StandardND6s', 'StandardND12s', 'StandardND24s', 'StandardND24rs', 'StandardNV6', 'StandardNV12', 'StandardNV24'",
+				Description: "Specifies the size of the virtual machine <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023 <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docsmicrosoftcom/rest/api/compute.tf/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docsmicrosoftcom/en-us/rest/api/compute.tf/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docsmicrosoftcom/rest/api/compute.tf/virtualmachines/listavailablesizes) For more information about virtual machine sizes, see [Sizes for virtual machines](https://docsmicrosoftcom/en-us/azure/virtual-machines/sizes) <br><br> The available VM sizes depend on region and availability set Possible values include: 'BasicA0', 'BasicA1', 'BasicA2', 'BasicA3', 'BasicA4', 'StandardA0', 'StandardA1', 'StandardA2', 'StandardA3', 'StandardA4', 'StandardA5', 'StandardA6', 'StandardA7', 'StandardA8', 'StandardA9', 'StandardA10', 'StandardA11', 'StandardA1V2', 'StandardA2V2', 'StandardA4V2', 'StandardA8V2', 'StandardA2mV2', 'StandardA4mV2', 'StandardA8mV2', 'StandardB1s', 'StandardB1ms', 'StandardB2s', 'StandardB2ms', 'StandardB4ms', 'StandardB8ms', 'StandardD1', 'StandardD2', 'StandardD3', 'StandardD4', 'StandardD11', 'StandardD12', 'StandardD13', 'StandardD14', 'StandardD1V2', 'StandardD2V2', 'StandardD3V2', 'StandardD4V2', 'StandardD5V2', 'StandardD2V3', 'StandardD4V3', 'StandardD8V3', 'StandardD16V3', 'StandardD32V3', 'StandardD64V3', 'StandardD2sV3', 'StandardD4sV3', 'StandardD8sV3', 'StandardD16sV3', 'StandardD32sV3', 'StandardD64sV3', 'StandardD11V2', 'StandardD12V2', 'StandardD13V2', 'StandardD14V2', 'StandardD15V2', 'StandardDS1', 'StandardDS2', 'StandardDS3', 'StandardDS4', 'StandardDS11', 'StandardDS12', 'StandardDS13', 'StandardDS14', 'StandardDS1V2', 'StandardDS2V2', 'StandardDS3V2', 'StandardDS4V2', 'StandardDS5V2', 'StandardDS11V2', 'StandardDS12V2', 'StandardDS13V2', 'StandardDS14V2', 'StandardDS15V2', 'StandardDS134V2', 'StandardDS132V2', 'StandardDS148V2', 'StandardDS144V2', 'StandardE2V3', 'StandardE4V3', 'StandardE8V3', 'StandardE16V3', 'StandardE32V3', 'StandardE64V3', 'StandardE2sV3', 'StandardE4sV3', 'StandardE8sV3', 'StandardE16sV3', 'StandardE32sV3', 'StandardE64sV3', 'StandardE3216V3', 'StandardE328sV3', 'StandardE6432sV3', 'StandardE6416sV3', 'StandardF1', 'StandardF2', 'StandardF4', 'StandardF8', 'StandardF16', 'StandardF1s', 'StandardF2s', 'StandardF4s', 'StandardF8s', 'StandardF16s', 'StandardF2sV2', 'StandardF4sV2', 'StandardF8sV2', 'StandardF16sV2', 'StandardF32sV2', 'StandardF64sV2', 'StandardF72sV2', 'StandardG1', 'StandardG2', 'StandardG3', 'StandardG4', 'StandardG5', 'StandardGS1', 'StandardGS2', 'StandardGS3', 'StandardGS4', 'StandardGS5', 'StandardGS48', 'StandardGS44', 'StandardGS516', 'StandardGS58', 'StandardH8', 'StandardH16', 'StandardH8m', 'StandardH16m', 'StandardH16r', 'StandardH16mr', 'StandardL4s', 'StandardL8s', 'StandardL16s', 'StandardL32s', 'StandardM64s', 'StandardM64ms', 'StandardM128s', 'StandardM128ms', 'StandardM6432ms', 'StandardM6416ms', 'StandardM12864ms', 'StandardM12832ms', 'StandardNC6', 'StandardNC12', 'StandardNC24', 'StandardNC24r', 'StandardNC6sV2', 'StandardNC12sV2', 'StandardNC24sV2', 'StandardNC24rsV2', 'StandardNC6sV3', 'StandardNC12sV3', 'StandardNC24sV3', 'StandardNC24rsV3', 'StandardND6s', 'StandardND12s', 'StandardND24s', 'StandardND24rs', 'StandardNV6', 'StandardNV12', 'StandardNV24'",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineProperties.HardwareProfile.VMSize"),
 			},
@@ -548,7 +548,7 @@ func fetchComputeVirtualMachines(ctx context.Context, meta schema.ClientMeta, pa
 func resolveComputeVirtualMachineStorageProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", resource.Item)
 	}
 
 	if p.StorageProfile == nil {
@@ -563,7 +563,7 @@ func resolveComputeVirtualMachineStorageProfile(ctx context.Context, meta schema
 func resolveComputeVirtualMachineWindowsConfigurationAdditionalUnattendContent(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", resource.Item)
 	}
 
 	if p.OsProfile == nil ||
@@ -580,7 +580,7 @@ func resolveComputeVirtualMachineWindowsConfigurationAdditionalUnattendContent(c
 func resolveComputeVirtualMachineLinuxConfigurationSSHPublicKeys(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", resource.Item)
 	}
 
 	if p.OsProfile == nil ||
@@ -600,7 +600,7 @@ func resolveComputeVirtualMachineLinuxConfigurationSSHPublicKeys(ctx context.Con
 func resolveComputeVirtualMachineNetworkProfileNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", resource.Item)
 	}
 
 	if p.NetworkProfile == nil || p.NetworkProfile.NetworkInterfaces == nil {
@@ -616,7 +616,7 @@ func resolveComputeVirtualMachineInstanceView(ctx context.Context, meta schema.C
 	svc := meta.(*client.Client).Services().Compute.VirtualMachines
 	p, ok := resource.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", resource.Item)
 	}
 	details, err := client.ParseResourceID(*p.ID)
 	if err != nil {
@@ -636,7 +636,7 @@ func resolveComputeVirtualMachineInstanceView(ctx context.Context, meta schema.C
 func fetchComputeVirtualMachineWinConfigRmListeners(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", parent.Item)
 	}
 	if p.OsProfile == nil ||
 		p.OsProfile.WindowsConfiguration == nil ||
@@ -651,7 +651,7 @@ func fetchComputeVirtualMachineWinConfigRmListeners(ctx context.Context, meta sc
 func fetchComputeVirtualMachineSecrets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", parent.Item)
 	}
 
 	if p.OsProfile == nil || p.OsProfile.Secrets == nil {
@@ -664,7 +664,7 @@ func fetchComputeVirtualMachineSecrets(ctx context.Context, meta schema.ClientMe
 func fetchComputeVirtualMachineSecretVaultCertificates(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(compute.VaultSecretGroup)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VaultSecretGroup but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.tf.VaultSecretGroup but got %T", parent.Item)
 	}
 
 	if p.VaultCertificates == nil {
@@ -678,7 +678,7 @@ func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.Client
 	svc := meta.(*client.Client).Services().Compute.VirtualMachineExtensions
 	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", parent.Item)
 	}
 	details, err := client.ParseResourceID(*p.ID)
 	if err != nil {
@@ -697,7 +697,7 @@ func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.Client
 func resolveComputeVirtualMachineResourceVirtualMachineExtensionProperties(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineExtension)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachineExtension but got %T", resource.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachineExtension but got %T", resource.Item)
 	}
 
 	if p.VirtualMachineExtensionProperties == nil {
@@ -713,7 +713,7 @@ func resolveComputeVirtualMachineResourceVirtualMachineExtensionProperties(ctx c
 func fetchComputeVirtualMachineNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
 	p, ok := parent.Item.(compute.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have compute.VirtualMachine but got %T", parent.Item)
+		return fmt.Errorf("expected to have compute.tf.VirtualMachine but got %T", parent.Item)
 	}
 
 	if p.VirtualMachineProperties == nil ||

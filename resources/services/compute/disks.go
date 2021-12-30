@@ -11,7 +11,7 @@ import (
 func ComputeDisks() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_compute_disks",
-		Description:  "Azure compute disk",
+		Description:  "Azure compute.tf disk",
 		Resolver:     fetchComputeDisks,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
@@ -260,7 +260,7 @@ func ComputeDisks() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_compute_disk_encryption_settings",
-				Description: "Azure compute disk encryption setting",
+				Description: "Azure compute.tf disk encryption setting",
 				Resolver:    fetchComputeDiskEncryptionSettings,
 				Columns: []schema.Column{
 					{

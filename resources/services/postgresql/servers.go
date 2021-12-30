@@ -55,7 +55,7 @@ func PostgresqlServers() *schema.Table {
 			},
 			{
 				Name:        "sku_capacity",
-				Description: "The scale up/out capacity, representing server's compute units",
+				Description: "The scale up/out capacity, representing server's compute.tf units",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("Sku.Capacity"),
 			},

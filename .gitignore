@@ -26,7 +26,7 @@ __debug_bin
 #test directories
 **/.test/*
 
-terraform/infra/.terraform
-terraform/infra/.terraform.lock.hcl
-terraform/infra/terraform-override.tf
-terraform/infra/tmp/
+infra/.terraform
+infra/.terraform.lock.hcl
+infra/terraform-override.tf
+infra/tmp/
