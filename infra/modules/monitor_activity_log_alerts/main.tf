@@ -11,7 +11,6 @@ resource "azurerm_monitor_action_group" "log_alerts_action_group" {
 
 resource "azurerm_monitor_activity_log_alert" "log_alerts_log_alert" {
   name                = "${var.test_prefix}-${var.test_suffix}-activitylogalert"
-  location                    = var.location
   resource_group_name         = var.resource_group_name
   scopes              = [var.resource_group_id]
   description         = "This alert will monitor a specific storage account updates."
