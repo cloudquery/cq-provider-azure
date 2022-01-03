@@ -47,7 +47,7 @@ jobs:
         run: go build -v .
 
       - name: Integration Test
-        run: go test ./resources/... -v -tags integration
+        run: go test ./... -tags integration
         env:
           INTEGRATION_TESTS: 1
           TF_VAR_SUFFIX: integration
