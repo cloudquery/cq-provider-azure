@@ -9,6 +9,6 @@ import (
 )
 
 func TestIntegrationMonitorDiagnosticSettings(t *testing.T) {
-	client.AzureTestHelper(t, MonitorDiagnosticSettings(),
-		client.SnapshotsDirPath)
+	t.Skip("Skipping untill https://github.com/cloudquery/cq-provider-azure/issues/105 fixed")
+	client.AzureTestHelper(t, MonitorDiagnosticSettings())
 }
