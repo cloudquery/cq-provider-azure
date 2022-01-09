@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- 
 ## Unreleased
-### 🚀 Added
-### :gear: Changed
-### :spider: Fixed
-### 💥 Breaking Changes
+### Added
+### Changed
+### Fixed
+### Breaking Changes
 
 -->
 
