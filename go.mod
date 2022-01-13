@@ -6,7 +6,7 @@ require (
 	github.com/Azure/azure-sdk-for-go v58.0.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.11.21
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.7
-	github.com/cloudquery/cq-provider-sdk v0.6.0-beta
+	github.com/cloudquery/cq-provider-sdk v0.6.1
 	github.com/cloudquery/faker/v3 v3.7.5
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-hclog v1.0.0
@@ -57,7 +57,6 @@ require (
 	github.com/jackc/pgtype v1.8.1 // indirect
 	github.com/jackc/pgx/v4 v4.13.0 // indirect
 	github.com/jackc/puddle v1.1.4 // indirect
-	github.com/kr/pretty v0.2.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
