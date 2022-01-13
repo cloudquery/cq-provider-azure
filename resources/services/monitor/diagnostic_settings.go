@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -210,9 +211,11 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 	for _, r := range rs {
 		ids = append(ids, *r.ID)
 	}
+
 	g, _ := errgroup.WithContext(ctx)
 	limiter := semaphore.NewWeighted(10)
-	for _, id := range ids {
+	for _, i := range ids {
+		id := i
 		g.Go(func() error {
 			if err := limiter.Acquire(ctx, 1); err != nil {
 				return err
