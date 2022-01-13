@@ -4,11 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	"golang.org/x/sync/errgroup"
+	"golang.org/x/sync/semaphore"
 )
 
 func MonitorDiagnosticSettings() *schema.Table {
@@ -209,26 +210,39 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 	for _, r := range rs {
 		ids = append(ids, *r.ID)
 	}
+	g, _ := errgroup.WithContext(ctx)
+	limiter := semaphore.NewWeighted(10)
 	for _, id := range ids {
-		response, err := monSvc.List(ctx, id)
-		if err != nil {
-			if isResourceTypeNotSupported(err) {
-				continue
+		g.Go(func() error {
+			if err := limiter.Acquire(ctx, 1); err != nil {
+				return err
 			}
-			return err
-		}
-		if response.Value == nil {
-			continue
-		}
-		for _, v := range *response.Value {
-			res <- diagnosticSetting{
-				DiagnosticSettings: v.DiagnosticSettings,
-				ID:                 v.ID,
-				Name:               v.Name,
-				Type:               v.Type,
-				ResourceURI:        id,
+			defer limiter.Release(1)
+			response, err := monSvc.List(ctx, id)
+			if err != nil {
+				if isResourceTypeNotSupported(err) {
+					return nil
+				}
+				return err
 			}
-		}
+			if response.Value == nil {
+				return nil
+			}
+			for _, v := range *response.Value {
+				res <- diagnosticSetting{
+					DiagnosticSettings: v.DiagnosticSettings,
+					ID:                 v.ID,
+					Name:               v.Name,
+					Type:               v.Type,
+					ResourceURI:        id,
+				}
+			}
+			return nil
+		})
+	}
+
+	if err := g.Wait(); err != nil {
+		return err
 	}
 
 	return nil
