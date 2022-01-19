@@ -1,4 +1,4 @@
-package resources
+package network
 
 import (
 	"context"
@@ -448,7 +448,7 @@ func resolveNetworkVirtualNetworksIpAllocations(ctx context.Context, meta schema
 	}
 	return resource.Set(c.Name, allocations)
 }
-func fetchNetworksVirtualNetworkSubnets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+func fetchNetworksVirtualNetworkSubnets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	vn, ok := parent.Item.(network.VirtualNetwork)
 	if !ok {
 		return fmt.Errorf("expected to have network.VirtualNetwork but got %T", parent.Item)
@@ -460,7 +460,7 @@ func fetchNetworksVirtualNetworkSubnets(ctx context.Context, meta schema.ClientM
 	return nil
 }
 
-func fetchNetworkVirtualNetworkPeerings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchNetworksVirtualNetworkPeerings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	vn, ok := parent.Item.(network.VirtualNetwork)
 	if !ok {
 		return fmt.Errorf("expected to have network.VirtualNetwork but got %T", parent.Item)
