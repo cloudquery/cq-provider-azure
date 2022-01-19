@@ -1,4 +1,4 @@
-package resources
+package network
 
 import (
 	"context"
@@ -208,7 +208,7 @@ func NetworkPublicIPAddresses() *schema.Table {
 //                                               Table Resolver Functions
 // ====================================================================================================================
 
-func fetchNetworkPublicIpAddresses(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan interface{}) error {
+func fetchNetworkPublicIpAddresses(ctx context.Context, meta schema.ClientMeta, _ *schema.Resource, res chan<- interface{}) error {
 	svc := meta.(*client.Client).Services().Network.PublicIPAddresses
 	response, err := svc.ListAll(ctx)
 	if err != nil {

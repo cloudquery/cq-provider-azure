@@ -1,13 +1,13 @@
-package resources_test
+package network
 
 import (
 	"context"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
-	"github.com/cloudquery/cq-provider-azure/resources"
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
@@ -43,7 +43,7 @@ func buildNetworkPublicIpAddressesMock(t *testing.T, ctrl *gomock.Controller) se
 	pip.PublicIPAddressPropertiesFormat.PublicIPAddressVersion = "test"
 	pip.PublicIPAddressPropertiesFormat.ProvisioningState = "test"
 	pip.PublicIPAddressPropertiesFormat.MigrationPhase = "test"
-	fakeId := fakeResourceGroup + "/" + *pip.ID
+	fakeId := client.FakeResourceGroup + "/" + *pip.ID
 	pip.ID = &fakeId
 	ip := faker.IPv4()
 	pip.IPAddress = &ip
