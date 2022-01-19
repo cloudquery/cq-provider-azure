@@ -50,3 +50,4 @@ ALTER TABLE IF EXISTS azure_network_public_ip_addresses
 
 ALTER TABLE azure_network_public_ip_addresses
     ALTER COLUMN ip_address TYPE INET USING ip_address::INET;
+

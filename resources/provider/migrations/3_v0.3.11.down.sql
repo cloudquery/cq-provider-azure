@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS public.azure_network_public_ip_address_ip_tags
     public_ip_address_cq_id UUID  NULL,
     ip_tag_type             TEXT  NULL,
     tag                     TEXT  NULL,
-    CONSTRAINT azure_network_public_ip_address_ip_tags_pk NULL
+    CONSTRAINT azure_network_public_ip_address_ip_tags_pk PRIMARY KEY (cq_id)
 );
 
 
@@ -23,7 +23,7 @@ SELECT gen_random_uuid(),
        json_data.key,
        json_data.value
 FROM azure_network_public_ip_addresses,
-     JSON_EACH_TEXT(ip_tags) AS json_data;
+     json_each_text(ip_tags) AS json_data;
 
 
 ALTER TABLE IF EXISTS azure_network_public_ip_addresses
