@@ -1,6 +1,6 @@
 
 # Table: azure_security_jit_network_access_policy_virtual_machine_ports
-JitNetworkAccessPortRule ...
+JitNetworkAccessPortRule - Describes port rule of vm
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

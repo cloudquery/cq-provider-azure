@@ -1,6 +1,6 @@
 
 # Table: azure_security_jit_network_access_policy_virtual_machines
-JitNetworkAccessPolicyVirtualMachine ...
+JitNetworkAccessPolicyVirtualMachine - Describes virtual machine attached to current jit policy
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

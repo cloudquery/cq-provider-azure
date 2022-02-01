@@ -1,6 +1,6 @@
 
 # Table: azure_security_jit_network_access_policy_requests
-JitNetworkAccessRequest ...
+JitNetworkAccessRequest - Describes jit network access policy access request
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

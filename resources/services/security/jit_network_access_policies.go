@@ -60,7 +60,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_security_jit_network_access_policy_virtual_machines",
-				Description: "JitNetworkAccessPolicyVirtualMachine ...",
+				Description: "JitNetworkAccessPolicyVirtualMachine - Describes virtual machine attached to current jit policy",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachines,
 				Columns: []schema.Column{
 					{
@@ -85,7 +85,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 				Relations: []*schema.Table{
 					{
 						Name:        "azure_security_jit_network_access_policy_virtual_machine_ports",
-						Description: "JitNetworkAccessPortRule ...",
+						Description: "JitNetworkAccessPortRule - Describes port rule of vm",
 						Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachinePorts,
 						Columns: []schema.Column{
 							{
@@ -125,7 +125,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 			},
 			{
 				Name:        "azure_security_jit_network_access_policy_requests",
-				Description: "JitNetworkAccessRequest ...",
+				Description: "JitNetworkAccessRequest - Describes jit network access policy access request",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyRequests,
 				Columns: []schema.Column{
 					{
