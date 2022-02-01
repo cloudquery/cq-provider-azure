@@ -3,6 +3,7 @@ package security
 import (
 	"context"
 	"fmt"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v3.0/security"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -11,25 +12,32 @@ import (
 func SecurityJitNetworkAccessPolicies() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_security_jit_network_access_policies",
-		Description:  "JitNetworkAccessPolicy ...",
+		Description:  "JitNetworkAccessPolicy - Just in Time network access policy",
 		Resolver:     fetchSecurityJitNetworkAccessPolicies,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
+				Name:        "subscription_id",
+				Description: "Azure subscription id",
+				Type:        schema.TypeString,
+				Resolver:    client.ResolveAzureSubscription,
+			},
+			{
 				Name:        "id",
-				Description: "ID - READ-ONLY; Resource Id",
+				Description: "ID - Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
 				Name:        "name",
-				Description: "Name - READ-ONLY; Resource name",
+				Description: "Name - Resource name",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "type",
-				Description: "Type - READ-ONLY; Resource type",
+				Description: "Type - Resource type",
 				Type:        schema.TypeString,
 			},
 			{
@@ -39,12 +47,12 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 			},
 			{
 				Name:        "location",
-				Description: "Location - READ-ONLY; Location where the resource is stored",
+				Description: "Location - Location where the resource is stored",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "provisioning_state",
-				Description: "ProvisioningState - READ-ONLY; Gets the provisioning state of the Just-in-Time policy.",
+				Description: "ProvisioningState - Gets the provisioning state of the Just-in-Time policy.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("JitNetworkAccessPolicyProperties.ProvisioningState"),
 			},
@@ -87,8 +95,9 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 								Resolver:    schema.ParentIdResolver,
 							},
 							{
-								Name: "number",
-								Type: schema.TypeInt,
+								Name:        "number",
+								Description: "Number - Port number",
+								Type:        schema.TypeInt,
 							},
 							{
 								Name:        "protocol",
