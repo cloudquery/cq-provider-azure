@@ -213,10 +213,6 @@ func fetchSecurityJitNetworkAccessPolicyRequests(ctx context.Context, meta schem
 		return nil
 	}
 	res <- *policy.Requests
-	//
-	//for _,v := range *policy.Requests {
-	//	res <- v
-	//}
 	return nil
 }
 func resolveSecurityJitNetworkAccessPolicyRequestsVirtualMachines(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
