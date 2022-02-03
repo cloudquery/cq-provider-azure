@@ -31,6 +31,8 @@ ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
 ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     DROP COLUMN "provisioning_state";
 ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
+    DROP COLUMN "extension_type";
+ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     DROP COLUMN "instance_view";
 
 

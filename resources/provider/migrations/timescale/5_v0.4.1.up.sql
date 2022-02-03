@@ -31,6 +31,8 @@ ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
 ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     ADD COLUMN "provisioning_state" text;
 ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
+    ADD COLUMN "extension_type" text;
+ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     ADD COLUMN "instance_view" jsonb;
 
 --it was duplicated as a json column of virtual machine

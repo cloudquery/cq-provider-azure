@@ -577,6 +577,12 @@ func ComputeVirtualMachines() *schema.Table {
 						Resolver:    resolveComputeVirtualMachineResourcesProtectedSettings,
 					},
 					{
+						Name:        "extension_type",
+						Description: "Type of the extension",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("VirtualMachineExtensionProperties.Type"),
+					},
+					{
 						Name:        "provisioning_state",
 						Description: "The provisioning state, which only appears in the response.",
 						Type:        schema.TypeString,
