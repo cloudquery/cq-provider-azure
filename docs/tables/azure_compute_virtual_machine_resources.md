@@ -13,6 +13,7 @@ VirtualMachineExtension describes a Virtual Machine Extension.
 |enable_automatic_upgrade|boolean|Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.|
 |settings|jsonb|Json formatted public settings for the extension.|
 |protected_settings|jsonb|The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.|
+|extension_type|text|Type of the extension|
 |provisioning_state|text|The provisioning state, which only appears in the response.|
 |instance_view|jsonb|The virtual machine extension instance view.|
 |id|text|Resource Id|
