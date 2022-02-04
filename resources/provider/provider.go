@@ -63,6 +63,7 @@ func Provider() *provider.Provider {
 			"security.pricings":                   security.SecurityPricings(),
 			"security.settings":                   security.SecuritySettings(),
 			"sql.servers":                         sql.SQLServers(),
+			"sql.managed_instances":               sql.SqlManagedInstances(),
 			"storage.accounts":                    storage.StorageAccounts(),
 			"subscription.subscriptions":          subscription.SubscriptionSubscriptions(),
 			"web.apps":                            web.WebApps(),
