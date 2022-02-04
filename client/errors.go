@@ -82,6 +82,6 @@ var (
 
 func removePII(subId string, msg string) string {
 	msg = strings.ReplaceAll(msg, subId, "xxxx")
-	msg = uuidRegex.ReplaceAllString(msg, "$1xxxx$2")
+	msg = uuidRegex.ReplaceAllString(msg, "${1}xxxx${2}")
 	return msg
 }
