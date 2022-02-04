@@ -27,6 +27,7 @@ type SQLClient struct {
 	ManagedDatabaseVulnerabilityAssessments     ManagedDatabaseVulnerabilityAssessmentsClient
 	ManagedDatabaseVulnerabilityAssessmentScans ManagedDatabaseVulnerabilityAssessmentScansClient
 	ManagedInstanceEncryptionProtectors         ManagedInstanceEncryptionProtectorsClient
+	VirtualNetworkRules                         SQLVirtualNetworkRulesClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -66,6 +67,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	mdva.Authorizer = auth
 	mdvas := sql.NewManagedDatabaseVulnerabilityAssessmentScansClient(subscriptionId)
 	mdvas.Authorizer = auth
+	vnr := sql.NewVirtualNetworkRulesClient(subscriptionId)
+	vnr.Authorizer = auth
 	return SQLClient{
 		DatabaseBlobAuditingPolicies:                dbap,
 		Databases:                                   databases,
@@ -85,6 +88,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		ManagedDatabases:                            md,
 		ManagedDatabaseVulnerabilityAssessments:     mdva,
 		ManagedDatabaseVulnerabilityAssessmentScans: mdvas,
+		VirtualNetworkRules:                         vnr,
 	}
 }
 
@@ -157,4 +161,8 @@ type ManagedDatabaseVulnerabilityAssessmentsClient interface {
 
 type ManagedDatabaseVulnerabilityAssessmentScansClient interface {
 	ListByDatabase(ctx context.Context, resourceGroupName string, managedInstanceName string, databaseName string) (result sql.VulnerabilityAssessmentScanRecordListResultPage, err error)
+}
+
+type SQLVirtualNetworkRulesClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.VirtualNetworkRuleListResultPage, err error)
 }
