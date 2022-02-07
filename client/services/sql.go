@@ -28,7 +28,7 @@ type SQLClient struct {
 	ManagedDatabaseVulnerabilityAssessmentScans ManagedDatabaseVulnerabilityAssessmentScansClient
 	ManagedInstanceEncryptionProtectors         ManagedInstanceEncryptionProtectorsClient
 	VirtualNetworkRules                         SQLVirtualNetworkRulesClient
-	ServerSecurityAlertPolicies      ServerSecurityAlertPoliciesClient
+	ServerSecurityAlertPolicies                 ServerSecurityAlertPoliciesClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -92,7 +92,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		ManagedDatabaseVulnerabilityAssessments:     mdva,
 		ManagedDatabaseVulnerabilityAssessmentScans: mdvas,
 		VirtualNetworkRules:                         vnr,
-		ServerSecurityAlertPolicies:      ssap,
+		ServerSecurityAlertPolicies:                 ssap,
 	}
 }
 
