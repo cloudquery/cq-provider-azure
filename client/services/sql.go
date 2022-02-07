@@ -1,4 +1,4 @@
-//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLDatabaseVulnerabilityAssessmentsClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient,TransparentDataEncryptionsClient,EncryptionProtectorsClient,ManagedInstancesClient,ManagedInstanceVulnerabilityAssessmentsClient,ManagedInstanceEncryptionProtectorsClient,ManagedDatabasesClient,ManagedDatabaseVulnerabilityAssessmentsClient,ManagedDatabaseVulnerabilityAssessmentScansClient,SQLVirtualNetworkRulesClient
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLDatabaseVulnerabilityAssessmentsClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient,TransparentDataEncryptionsClient,EncryptionProtectorsClient,ManagedInstancesClient,ManagedInstanceVulnerabilityAssessmentsClient,ManagedInstanceEncryptionProtectorsClient,ManagedDatabasesClient,ManagedDatabaseVulnerabilityAssessmentsClient,ManagedDatabaseVulnerabilityAssessmentScansClient,SQLVirtualNetworkRulesClient,ServerSecurityAlertPoliciesClient
 package services
 
 import (
@@ -28,6 +28,7 @@ type SQLClient struct {
 	ManagedDatabaseVulnerabilityAssessmentScans ManagedDatabaseVulnerabilityAssessmentScansClient
 	ManagedInstanceEncryptionProtectors         ManagedInstanceEncryptionProtectorsClient
 	VirtualNetworkRules                         SQLVirtualNetworkRulesClient
+	ServerSecurityAlertPolicies      ServerSecurityAlertPoliciesClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -69,6 +70,8 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 	mdvas.Authorizer = auth
 	vnr := sql.NewVirtualNetworkRulesClient(subscriptionId)
 	vnr.Authorizer = auth
+	ssap := sql.NewServerSecurityAlertPoliciesClient(subscriptionId)
+	ssap.Authorizer = auth
 	return SQLClient{
 		DatabaseBlobAuditingPolicies:                dbap,
 		Databases:                                   databases,
@@ -89,6 +92,7 @@ func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
 		ManagedDatabaseVulnerabilityAssessments:     mdva,
 		ManagedDatabaseVulnerabilityAssessmentScans: mdvas,
 		VirtualNetworkRules:                         vnr,
+		ServerSecurityAlertPolicies:      ssap,
 	}
 }
 
@@ -165,4 +169,8 @@ type ManagedDatabaseVulnerabilityAssessmentScansClient interface {
 
 type SQLVirtualNetworkRulesClient interface {
 	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.VirtualNetworkRuleListResultPage, err error)
+}
+
+type ServerSecurityAlertPoliciesClient interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.LogicalServerSecurityAlertPolicyListResultPage, err error)
 }
