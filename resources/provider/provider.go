@@ -10,6 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
 	"github.com/cloudquery/cq-provider-azure/resources/services/container"
+	"github.com/cloudquery/cq-provider-azure/resources/services/cosmosdb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
 	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mysql"
@@ -68,6 +69,9 @@ func Provider() *provider.Provider {
 			"storage.accounts":                    storage.StorageAccounts(),
 			"subscription.subscriptions":          subscription.SubscriptionSubscriptions(),
 			"web.apps":                            web.WebApps(),
+			"cosmosdb.accounts":                   cosmosdb.CosmosDBAccounts(),
+			"cosmosdb.sql_databases":              cosmosdb.CosmosDBSqlDatabases(),
+			"cosmosdb.mongodb_databases":          cosmosdb.CosmosDBMongoDBDatabases(),
 		},
 		Config: func() provider.Config {
 			return &client.Config{}
