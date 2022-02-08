@@ -1,3 +1,4 @@
+//go:generate mockgen -destination=./mocks/sql.go -package=mocks . SQLDatabaseBlobAuditingPoliciesClient,SQLDatabaseClient,SQLDatabaseThreatDetectionPoliciesClient,SQLDatabaseVulnerabilityAssessmentsClient,SQLFirewallClient,SQLServerAdminClient,SQLServerBlobAuditingPolicies,SQLServerClient,SQLServerDevOpsAuditSettingsClient,SQLServerVulnerabilityAssessmentsClient,TransparentDataEncryptionsClient,EncryptionProtectorsClient,SQLVirtualNetworkRulesClient,ServerSecurityAlertPoliciesClient,DatabaseVulnerabilityAssessmentScansClient
 package services
 
 import (
@@ -8,20 +9,21 @@ import (
 )
 
 type SQLClient struct {
-	DatabaseBlobAuditingPolicies     SQLDatabaseBlobAuditingPoliciesClient
-	Databases                        SQLDatabaseClient
-	DatabaseThreatDetectionPolicies  SQLDatabaseThreatDetectionPoliciesClient
-	DatabaseVulnerabilityAssessments SQLDatabaseVulnerabilityAssessmentsClient
-	Firewall                         SQLFirewallClient
-	ServerAdmins                     SQLServerAdminClient
-	ServerBlobAuditingPolicies       SQLServerBlobAuditingPolicies
-	ServerDevOpsAuditSettings        SQLServerDevOpsAuditSettingsClient
-	Servers                          SQLServerClient
-	ServerVulnerabilityAssessments   SQLServerVulnerabilityAssessmentsClient
-	TransparentDataEncryptions       TransparentDataEncryptionsClient
-	EncryptionProtectors             EncryptionProtectorsClient
-	VirtualNetworkRules              SQLVirtualNetworkRulesClient
-	ServerSecurityAlertPolicies      ServerSecurityAlertPoliciesClient
+	DatabaseBlobAuditingPolicies         SQLDatabaseBlobAuditingPoliciesClient
+	Databases                            SQLDatabaseClient
+	DatabaseThreatDetectionPolicies      SQLDatabaseThreatDetectionPoliciesClient
+	DatabaseVulnerabilityAssessments     SQLDatabaseVulnerabilityAssessmentsClient
+	Firewall                             SQLFirewallClient
+	ServerAdmins                         SQLServerAdminClient
+	ServerBlobAuditingPolicies           SQLServerBlobAuditingPolicies
+	ServerDevOpsAuditSettings            SQLServerDevOpsAuditSettingsClient
+	Servers                              SQLServerClient
+	ServerVulnerabilityAssessments       SQLServerVulnerabilityAssessmentsClient
+	TransparentDataEncryptions           TransparentDataEncryptionsClient
+	EncryptionProtectors                 EncryptionProtectorsClient
+	VirtualNetworkRules                  SQLVirtualNetworkRulesClient
+	ServerSecurityAlertPolicies          ServerSecurityAlertPoliciesClient
+	DatabaseVulnerabilityAssessmentScans SQLDatabaseVulnerabilityAssessmentScansClient
 }
 
 func NewSQLClient(subscriptionId string, auth autorest.Authorizer) SQLClient {
@@ -108,6 +110,10 @@ type SQLDatabaseThreatDetectionPoliciesClient interface {
 
 type SQLDatabaseVulnerabilityAssessmentsClient interface {
 	ListByDatabase(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.DatabaseVulnerabilityAssessmentListResultPage, err error)
+}
+
+type SQLDatabaseVulnerabilityAssessmentScansClient interface {
+	ListByDatabase(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.VulnerabilityAssessmentScanRecordListResultPage, err error)
 }
 
 type TransparentDataEncryptionsClient interface {
