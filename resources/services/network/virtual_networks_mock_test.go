@@ -88,6 +88,8 @@ func buildNetworkVirtualNetworksMock(t *testing.T, ctrl *gomock.Controller) serv
 	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].RouteTable.DisableBgpRoutePropagation))
 	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].RouteTable.ProvisioningState))
 	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].RouteTable.ResourceGUID))
+	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].IPConfigurations))
+	require.Nil(t, faker.FakeData(&(*vn.Subnets)[0].PrivateEndpoints))
 	require.Nil(t, faker.FakeData(&vn.VirtualNetworkPeerings))
 
 	fakeId := client.FakeResourceGroup + "/" + *vn.ID
