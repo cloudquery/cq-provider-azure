@@ -11,7 +11,7 @@ DatabaseSecurityAlertPolicy contains information about a database Threat Detecti
 |disabled_alerts|text|Specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts|
 |email_addresses|text|Specifies the semicolon-separated list of e-mail addresses to which the alert is sent.|
 |email_account_admins|text|Specifies that the alert is sent to the account administrators|
-|storage_endpoint|text|Specifies the blob storage endpoint (e.g|
+|storage_endpoint|text|Specifies the blob storage endpoint.|
 |storage_account_access_key|text|Specifies the identifier key of the Threat Detection audit storage account|
 |retention_days|integer|Specifies the number of days to keep in the Threat Detection audit logs.|
 |use_server_default|text|Specifies whether to use the default server policy|

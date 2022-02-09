@@ -31,13 +31,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "sku_name",
-				Description: "The name of the SKU, typically, a letter + Number code, e.g",
+				Description: "The name of the SKU, typically, a letter + Number code, eg P3",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "The tier or edition of the particular SKU, e.g",
+				Description: "The tier or edition of the particular SKU, eg Basic, Premium",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
@@ -229,13 +229,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "current_sku_name",
-				Description: "The name of the SKU, typically, a letter + Number code, e.g",
+				Description: "The name of the SKU, typically, a letter + Number code, eg P3",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Name"),
 			},
 			{
 				Name:        "current_sku_tier",
-				Description: "The tier or edition of the particular SKU, e.g",
+				Description: "The tier or edition of the particular SKU, eg Basic, Premium",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Tier"),
 			},
@@ -343,7 +343,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint (e.g",
+						Description: "Specifies the blob storage endpoint.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageEndpoint"),
 					},
@@ -420,7 +420,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "A blob storage container path to hold the scan results (e.g",
+						Description: "A blob storage container path to hold the scan results",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.StorageContainerPath"),
 					},
@@ -613,7 +613,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint (e.g",
+						Description: "Specifies the blob storage endpoint.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageEndpoint"),
 					},
