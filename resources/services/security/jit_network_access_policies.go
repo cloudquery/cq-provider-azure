@@ -12,7 +12,7 @@ import (
 func SecurityJitNetworkAccessPolicies() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_security_jit_network_access_policies",
-		Description:  "JitNetworkAccessPolicy - Just in Time network access policy",
+		Description:  "Just in Time network access policy",
 		Resolver:     fetchSecurityJitNetworkAccessPolicies,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
@@ -26,33 +26,33 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 			},
 			{
 				Name:        "id",
-				Description: "ID - Resource Id",
+				Description: "Resource Id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
 				Name:        "name",
-				Description: "Name - Resource name",
+				Description: "Resource name",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "type",
-				Description: "Type - Resource type",
+				Description: "Resource type",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "kind",
-				Description: "Kind - Kind of the resource",
+				Description: "Kind of the resource",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "location",
-				Description: "Location - Location where the resource is stored",
+				Description: "Location where the resource is stored",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "provisioning_state",
-				Description: "ProvisioningState - Gets the provisioning state of the Just-in-Time policy.",
+				Description: "Gets the provisioning state of the Just-in-Time policy.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("JitNetworkAccessPolicyProperties.ProvisioningState"),
 			},
@@ -60,7 +60,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_security_jit_network_access_policy_virtual_machines",
-				Description: "JitNetworkAccessPolicyVirtualMachine - Describes virtual machine attached to current jit policy",
+				Description: "Describes virtual machine attached to current jit policy",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachines,
 				Columns: []schema.Column{
 					{
@@ -71,13 +71,13 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 					},
 					{
 						Name:        "id",
-						Description: "ID - Resource ID of the virtual machine that is linked to this policy",
+						Description: "Resource ID of the virtual machine that is linked to this policy",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
 						Name:        "public_ip_address",
-						Description: "PublicIPAddress - Public IP address of the Azure Firewall that is linked to this policy, if applicable",
+						Description: "Public IP address of the Azure Firewall that is linked to this policy, if applicable",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("PublicIPAddress"),
 					},
@@ -85,7 +85,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 				Relations: []*schema.Table{
 					{
 						Name:        "azure_security_jit_network_access_policy_virtual_machine_ports",
-						Description: "JitNetworkAccessPortRule - Describes port rule of vm",
+						Description: "Describes port rule of vm",
 						Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachinePorts,
 						Columns: []schema.Column{
 							{
@@ -96,27 +96,27 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 							},
 							{
 								Name:        "number",
-								Description: "Number - Port number",
+								Description: "Port number",
 								Type:        schema.TypeInt,
 							},
 							{
 								Name:        "protocol",
-								Description: "Protocol - Possible values include: 'TCP', 'UDP', 'All'",
+								Description: "Possible values include: 'TCP', 'UDP', 'All'",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "allowed_source_address_prefix",
-								Description: "AllowedSourceAddressPrefix - Mutually exclusive with the \"allowedSourceAddressPrefixes\" parameter",
+								Description: "Mutually exclusive with the \"allowedSourceAddressPrefixes\" parameter",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "allowed_source_address_prefixes",
-								Description: "AllowedSourceAddressPrefixes - Mutually exclusive with the \"allowedSourceAddressPrefix\" parameter.",
+								Description: "Mutually exclusive with the \"allowedSourceAddressPrefix\" parameter.",
 								Type:        schema.TypeStringArray,
 							},
 							{
 								Name:        "max_request_access_duration",
-								Description: "MaxRequestAccessDuration - Maximum duration requests can be made for",
+								Description: "Maximum duration requests can be made for",
 								Type:        schema.TypeString,
 							},
 						},
@@ -125,7 +125,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 			},
 			{
 				Name:        "azure_security_jit_network_access_policy_requests",
-				Description: "JitNetworkAccessRequest - Describes jit network access policy access request",
+				Description: "Describes jit network access policy access request",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyRequests,
 				Columns: []schema.Column{
 					{
@@ -146,12 +146,12 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 					},
 					{
 						Name:        "requestor",
-						Description: "Requestor - The identity of the person who made the request",
+						Description: "The identity of the person who made the request",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "justification",
-						Description: "Justification - The justification for making the initiate request",
+						Description: "The justification for making the initiate request",
 						Type:        schema.TypeString,
 					},
 				},
