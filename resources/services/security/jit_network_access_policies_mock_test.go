@@ -28,6 +28,8 @@ func buildSecurityJitNetworkAccessPolicies(t *testing.T, ctrl *gomock.Controller
 			return security.JitNetworkAccessPoliciesList{}, nil
 		},
 	)
+	ip := faker.IPv4()
+	(*policy.VirtualMachines)[0].PublicIPAddress = &ip
 	m.EXPECT().List(gomock.Any()).Return(result, nil)
 	return services.Services{
 		Security: services.SecurityClient{JitNetworkAccessPolicies: m},

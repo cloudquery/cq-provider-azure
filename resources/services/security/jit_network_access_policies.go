@@ -3,6 +3,7 @@ package security
 import (
 	"context"
 	"fmt"
+	"net"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v3.0/security"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -60,7 +61,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_security_jit_network_access_policy_virtual_machines",
-				Description: "Describes virtual machine attached to current jit policy",
+				Description: "JitNetworkAccessPolicyVirtualMachine ...",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachines,
 				Columns: []schema.Column{
 					{
@@ -76,56 +77,21 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
+						Name:        "ports",
+						Description: "Port configurations for the virtual machine",
+						Type:        schema.TypeJSON,
+					},
+					{
 						Name:        "public_ip_address",
 						Description: "Public IP address of the Azure Firewall that is linked to this policy, if applicable",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("PublicIPAddress"),
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:        "azure_security_jit_network_access_policy_virtual_machine_ports",
-						Description: "Describes port rule of vm",
-						Resolver:    fetchSecurityJitNetworkAccessPolicyVirtualMachinePorts,
-						Columns: []schema.Column{
-							{
-								Name:        "jit_network_access_policy_virtual_machine_cq_id",
-								Description: "Unique CloudQuery ID of azure_security_jit_network_access_policy_virtual_machines table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:        "number",
-								Description: "Port number",
-								Type:        schema.TypeInt,
-							},
-							{
-								Name:        "protocol",
-								Description: "Possible values include: 'TCP', 'UDP', 'All'",
-								Type:        schema.TypeString,
-							},
-							{
-								Name:        "allowed_source_address_prefix",
-								Description: "Mutually exclusive with the \"allowedSourceAddressPrefixes\" parameter",
-								Type:        schema.TypeString,
-							},
-							{
-								Name:        "allowed_source_address_prefixes",
-								Description: "Mutually exclusive with the \"allowedSourceAddressPrefix\" parameter.",
-								Type:        schema.TypeStringArray,
-							},
-							{
-								Name:        "max_request_access_duration",
-								Description: "Maximum duration requests can be made for",
-								Type:        schema.TypeString,
-							},
-						},
+						Type:        schema.TypeInet,
+						Resolver:    resolveSecurityJitNetworkAccessPolicyVirtualMachinesPublicIpAddress,
 					},
 				},
 			},
 			{
 				Name:        "azure_security_jit_network_access_policy_requests",
-				Description: "Describes jit network access policy access request",
+				Description: "JitNetworkAccessRequest ...",
 				Resolver:    fetchSecurityJitNetworkAccessPolicyRequests,
 				Columns: []schema.Column{
 					{
@@ -191,18 +157,14 @@ func fetchSecurityJitNetworkAccessPolicyVirtualMachines(ctx context.Context, met
 	res <- *policy.VirtualMachines
 	return nil
 }
-func fetchSecurityJitNetworkAccessPolicyVirtualMachinePorts(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	vm, ok := parent.Item.(security.JitNetworkAccessPolicyVirtualMachine)
+func resolveSecurityJitNetworkAccessPolicyVirtualMachinesPublicIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(security.JitNetworkAccessPolicyVirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected to have security.JitNetworkAccessPolicyVirtualMachine but got %T", parent.Item)
-	}
-	if vm.Ports == nil {
-		return nil
+		return fmt.Errorf("expected to have security.JitNetworkAccessPolicy but got %T", resource.Item)
 	}
 
-	res <- *vm.Ports
-
-	return nil
+	ip := net.ParseIP(*p.PublicIPAddress)
+	return resource.Set(c.Name, ip)
 }
 func fetchSecurityJitNetworkAccessPolicyRequests(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	policy, ok := parent.Item.(security.JitNetworkAccessPolicy)
