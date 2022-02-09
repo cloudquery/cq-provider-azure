@@ -4,9 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudquery/cq-provider-azure/client"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
+	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
