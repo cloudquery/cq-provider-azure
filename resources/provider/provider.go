@@ -38,11 +38,12 @@ func Provider() *provider.Provider {
 		ErrorClassifier: client.ErrorClassifier,
 		Migrations:      azureMigrations,
 		ResourceMap: map[string]*schema.Table{
-			"authorization.role_assignments": authorization.AuthorizationRoleAssignments(),
-			"authorization.role_definitions": authorization.AuthorizationRoleDefinitions(),
-			"compute.disks":                  compute.ComputeDisks(),
-			"compute.virtual_machines":       compute.ComputeVirtualMachines(),
-			"container.managed_clusters":     container.ContainerManagedClusters(),
+			"authorization.role_assignments":     authorization.AuthorizationRoleAssignments(),
+			"authorization.role_definitions":     authorization.AuthorizationRoleDefinitions(),
+			"compute.disks":                      compute.ComputeDisks(),
+			"compute.virtual_machines":           compute.ComputeVirtualMachines(),
+			"compute.virtual_machine_scale_sets": compute.ComputeVirtualMachineScaleSets(),
+			"container.managed_clusters":         container.ContainerManagedClusters(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),
