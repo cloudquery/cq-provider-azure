@@ -13,12 +13,13 @@ import (
 
 func NetworkPublicIPAddresses() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_network_public_ip_addresses",
-		Description:  "PublicIPAddress public IP address resource.",
-		Resolver:     fetchNetworkPublicIpAddresses,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:          "azure_network_public_ip_addresses",
+		Description:   "PublicIPAddress public IP address resource.",
+		Resolver:      fetchNetworkPublicIpAddresses,
+		Multiplex:     client.SubscriptionMultiplex,
+		DeleteFilter:  client.DeleteSubscriptionFilter,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -27,15 +28,15 @@ func NetworkPublicIPAddresses() *schema.Table {
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:          "extended_location_name.",
-				Description:   "The name of the extended location",
+				Name:          "extended_location_name",
+				Description:   "The name of the extended location.",
 				Type:          schema.TypeString,
 				Resolver:      schema.PathResolver("ExtendedLocation.Name"),
 				IgnoreInTests: true,
 			},
 			{
-				Name:          "extended_location_type.",
-				Description:   "The type of the extended location",
+				Name:          "extended_location_type",
+				Description:   "The type of the extended location.",
 				Type:          schema.TypeString,
 				Resolver:      schema.PathResolver("ExtendedLocation.Type"),
 				IgnoreInTests: true,
@@ -168,10 +169,11 @@ func NetworkPublicIPAddresses() *schema.Table {
 				Resolver:    schema.PathResolver("PublicIPAddressPropertiesFormat.MigrationPhase"),
 			},
 			{
-				Name:        "linked_public_ip_address",
-				Description: "The linked public IP address of the public IP address resource.",
-				Type:        schema.TypeJSON,
-				Resolver:    resolveNetworkPublicIPAddressesLinkedPublicIpAddress,
+				Name:          "linked_public_ip_address",
+				Description:   "The linked public IP address of the public IP address resource.",
+				Type:          schema.TypeJSON,
+				Resolver:      resolveNetworkPublicIPAddressesLinkedPublicIpAddress,
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "etag",

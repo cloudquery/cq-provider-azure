@@ -3,6 +3,9 @@ package provider
 import (
 	"embed"
 
+	"github.com/cloudquery/cq-provider-sdk/provider"
+	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
@@ -12,14 +15,13 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/mysql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/network"
 	"github.com/cloudquery/cq-provider-azure/resources/services/postgresql"
+	"github.com/cloudquery/cq-provider-azure/resources/services/redis"
 	resources2 "github.com/cloudquery/cq-provider-azure/resources/services/resources"
 	"github.com/cloudquery/cq-provider-azure/resources/services/security"
 	"github.com/cloudquery/cq-provider-azure/resources/services/sql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
-	"github.com/cloudquery/cq-provider-sdk/provider"
-	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 var (
@@ -30,10 +32,11 @@ var (
 
 func Provider() *provider.Provider {
 	return &provider.Provider{
-		Version:    Version,
-		Name:       "azure",
-		Configure:  client.Configure,
-		Migrations: azureMigrations,
+		Version:         Version,
+		Name:            "azure",
+		Configure:       client.Configure,
+		ErrorClassifier: client.ErrorClassifier,
+		Migrations:      azureMigrations,
 		ResourceMap: map[string]*schema.Table{
 			"authorization.role_assignments": authorization.AuthorizationRoleAssignments(),
 			"authorization.role_definitions": authorization.AuthorizationRoleDefinitions(),
@@ -54,6 +57,7 @@ func Provider() *provider.Provider {
 			"network.public_ip_addresses":          network.NetworkPublicIPAddresses(),
 			"network.watchers":                     network.NetworkWatchers(),
 			"postgresql.servers":                   postgresql.PostgresqlServers(),
+			"redis.services":                       redis.RedisServices(),
 			"resources.groups":                     resources2.ResourcesGroups(),
 			"resources.policy_assignments":         resources2.ResourcesPolicyAssignments(),
 			"security.auto_provisioning_settings":  security.SecurityAutoProvisioningSettings(),
