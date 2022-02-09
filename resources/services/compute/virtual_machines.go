@@ -432,9 +432,10 @@ func ComputeVirtualMachines() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_compute_virtual_machine_win_config_rm_listeners",
-				Description: "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
-				Resolver:    fetchComputeVirtualMachineWinConfigRmListeners,
+				Name:          "azure_compute_virtual_machine_win_config_rm_listeners",
+				Description:   "WinRMListener describes Protocol and thumbprint of Windows Remote Management listener",
+				Resolver:      fetchComputeVirtualMachineWinConfigRmListeners,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "virtual_machine_cq_id",
@@ -616,9 +617,10 @@ func ComputeVirtualMachines() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "tags",
-						Description: "Resource tags",
-						Type:        schema.TypeJSON,
+						Name:          "tags",
+						Description:   "Resource tags",
+						Type:          schema.TypeJSON,
+						IgnoreInTests: true,
 					},
 				},
 			},
