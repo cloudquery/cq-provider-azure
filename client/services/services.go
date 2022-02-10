@@ -25,6 +25,7 @@ type Services struct {
 	Authorization AuthorizationClient
 	Compute       ComputeClient
 	Container     ContainerServiceClient
+	DataLake      DataLakeClient
 	KeyVault      KeyVaultClient
 	Monitor       MonitorClient
 	MySQL         MySQL
@@ -45,6 +46,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		Authorization: NewAuthorizationClient(subscriptionId, auth),
 		Compute:       NewComputeClient(subscriptionId, auth),
 		Container:     NewContainerServiceClient(subscriptionId, auth),
+		DataLake:      NewDataLakeClient(subscriptionId, auth),
 		KeyVault:      NewKeyVaultClient(subscriptionId, auth),
 		Monitor:       NewMonitorClient(subscriptionId, auth),
 		MySQL:         NewMySQLClient(subscriptionId, auth),
