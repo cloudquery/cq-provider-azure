@@ -56,3 +56,5 @@ SELECT setup_tsdb_child('azure_compute_virtual_machine_network_interfaces', 'vir
 DROP TABLE IF EXISTS azure_security_jit_network_access_policy_virtual_machines;
 DROP TABLE IF EXISTS azure_security_jit_network_access_policy_requests;
 DROP TABLE IF EXISTS azure_security_jit_network_access_policies;
+
+DROP TABLE IF EXISTS azure_resources_links;

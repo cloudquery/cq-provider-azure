@@ -78,3 +78,19 @@ CREATE TABLE IF NOT EXISTS "azure_security_jit_network_access_policy_requests"
     UNIQUE (cq_id),
     FOREIGN KEY (jit_network_access_policy_cq_id) REFERENCES azure_security_jit_network_access_policies (cq_id) ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
+
+CREATE TABLE IF NOT EXISTS "azure_resources_links" (
+	"cq_id" uuid NOT NULL,
+	"cq_meta" jsonb,
+	"subscription_id" text,
+	"id" text,
+	"name" text,
+	"type" text,
+	"source_id" text,
+	"target_id" text,
+	"notes" text,
+	CONSTRAINT azure_resources_links_pk PRIMARY KEY(subscription_id,id),
+	UNIQUE(cq_id)
+);
