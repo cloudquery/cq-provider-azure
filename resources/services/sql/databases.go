@@ -512,6 +512,12 @@ func SqlDatabases() *schema.Table {
 						Resolver: schema.PathResolver("VulnerabilityAssessmentScanRecordProperties.EndTime.Time"),
 					},
 					{
+						Name:        "errors",
+						Description: "The scan errors.",
+						Type:        schema.TypeJSON,
+						Resolver:    resolveSqlDatabaseDbVulnerabilityAssessmentScansErrors,
+					},
+					{
 						Name:        "storage_container_path",
 						Description: "The scan results storage container path.",
 						Type:        schema.TypeString,
@@ -538,31 +544,6 @@ func SqlDatabases() *schema.Table {
 						Name:        "type",
 						Description: "Resource type.",
 						Type:        schema.TypeString,
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:        "azure_sql_database_db_vulnerability_assessment_scan_errors",
-						Description: "VulnerabilityAssessmentScanError properties of a vulnerability assessment scan error.",
-						Resolver:    fetchSqlDatabaseDbVulnerabilityAssessmentScanErrors,
-						Columns: []schema.Column{
-							{
-								Name:        "database_db_vulnerability_assessment_scan_cq_id",
-								Description: "Unique CloudQuery ID of azure_sql_database_db_vulnerability_assessment_scans table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:        "code",
-								Description: "The error code.",
-								Type:        schema.TypeString,
-							},
-							{
-								Name:        "message",
-								Description: "The error message.",
-								Type:        schema.TypeString,
-							},
-						},
 					},
 				},
 			},
@@ -775,18 +756,31 @@ func fetchSqlDatabaseDbVulnerabilityAssessmentScans(ctx context.Context, meta sc
 	}
 	return nil
 }
-func fetchSqlDatabaseDbVulnerabilityAssessmentScanErrors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	p, ok := parent.Item.(sql.VulnerabilityAssessmentScanRecord)
+func resolveSqlDatabaseDbVulnerabilityAssessmentScansErrors(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(sql.VulnerabilityAssessmentScanRecord)
 	if !ok {
-		return fmt.Errorf("expected sql.VulnerabilityAssessmentScanRecord but got %T", parent.Item)
+		return fmt.Errorf("expected sql.VulnerabilityAssessmentScanRecord but got %T", resource.Item)
 	}
 
 	if p.Errors == nil {
 		return nil
 	}
 
-	res <- *p.Errors
-	return nil
+	parsed := make([]map[string]interface{}, 0, len(*p.Errors))
+
+	for _, e := range *p.Errors {
+		parsed = append(parsed, map[string]interface{}{
+			"code":    *e.Code,
+			"message": *e.Message,
+		})
+	}
+
+	data, err := json.Marshal(parsed)
+	if err != nil {
+		return err
+	}
+
+	return resource.Set(c.Name, data)
 }
 func fetchSqlDatabaseDbThreatDetectionPolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	svc := meta.(*client.Client).Services().SQL.DatabaseThreatDetectionPolicies

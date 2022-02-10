@@ -6,8 +6,8 @@ Database a database resource.
 | ------------- | ------------- | -----  |
 |server_cq_id|uuid|Azure sql server cloudquery id|
 |transparent_data_encryption|jsonb||
-|sku_name|text|The name of the SKU, typically, a letter + Number code, eg P3|
-|sku_tier|text|The tier or edition of the particular SKU, eg Basic, Premium|
+|sku_name|text|The name of the SKU, typically, a letter + Number code, e.g|
+|sku_tier|text|The tier or edition of the particular SKU, e.g|
 |sku_size|text|Size of the particular SKU|
 |sku_family|text|If the service has different generations of hardware, for the same SKU, then that can be captured here.|
 |sku_capacity|integer|Capacity of the particular SKU.|
@@ -40,8 +40,8 @@ Database a database resource.
 |read_scale|text|The state of read-only routing|
 |high_availability_replica_count|integer|The number of secondary replicas associated with the database that are used to provide high availability.|
 |secondary_type|text|The secondary type of the database if it is a secondary|
-|current_sku_name|text|The name of the SKU, typically, a letter + Number code, eg P3|
-|current_sku_tier|text|The tier or edition of the particular SKU, eg Basic, Premium|
+|current_sku_name|text|The name of the SKU, typically, a letter + Number code, e.g|
+|current_sku_tier|text|The tier or edition of the particular SKU, e.g|
 |current_sku_size|text|Size of the particular SKU|
 |current_sku_family|text|If the service has different generations of hardware, for the same SKU, then that can be captured here.|
 |current_sku_capacity|integer|Capacity of the particular SKU.|
