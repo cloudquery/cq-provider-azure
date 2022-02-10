@@ -52,4 +52,6 @@ CREATE INDEX ON azure_compute_virtual_machine_network_interfaces (cq_fetch_date,
 SELECT setup_tsdb_child('azure_compute_virtual_machine_network_interfaces', 'virtual_machine_cq_id',
                         'azure_compute_virtual_machines', 'cq_id');
 
+DROP TABLE IF EXISTS azure_resources_links;
+
 DROP TABLE IF EXISTS azure_keyvault_managed_hsm;

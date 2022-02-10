@@ -38,6 +38,20 @@ ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
 --it was duplicated as a json column of virtual machine
 DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
 
+CREATE TABLE IF NOT EXISTS "azure_resources_links" (
+	"cq_id" uuid NOT NULL,
+	"cq_meta" jsonb,
+	"subscription_id" text,
+	"id" text,
+	"name" text,
+	"type" text,
+	"source_id" text,
+	"target_id" text,
+	"notes" text,
+	CONSTRAINT azure_resources_links_pk PRIMARY KEY(subscription_id,id),
+	UNIQUE(cq_id)
+);
+
 CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm" (
 	"cq_id" uuid NOT NULL,
 	"cq_meta" jsonb,
