@@ -48,3 +48,6 @@ CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_network_interfaces"
     UNIQUE (cq_id),
     FOREIGN KEY (virtual_machine_cq_id) REFERENCES azure_compute_virtual_machines (cq_id) ON DELETE CASCADE
 );
+
+--sql.servers
+DROP TABLE IF EXISTS azure_sql_database_db_vulnerability_assessment_scans;

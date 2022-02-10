@@ -70,33 +70,3 @@ CREATE TABLE IF NOT EXISTS "azure_sql_server_security_alert_policy"
     UNIQUE (cq_id),
     FOREIGN KEY (server_cq_id) REFERENCES azure_sql_servers (cq_id) ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
-(
-    "cq_id"                            uuid NOT NULL,
-    "cq_meta"                          jsonb,
-    "database_cq_id"                   uuid,
-    "scan_id"                          text,
-    "trigger_type"                     text,
-    "state"                            text,
-    "start_time"                       timestamp without time zone,
-    "end_time"                         timestamp without time zone,
-    "storage_container_path"           text,
-    "number_of_failed_security_checks" integer,
-    "id"                               text,
-    "name"                             text,
-    "type"                             text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_id),
-    UNIQUE (cq_id),
-    FOREIGN KEY (database_cq_id) REFERENCES azure_sql_databases (cq_id) ON DELETE CASCADE
-);
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scan_errors"
-(
-    "cq_id"                                           uuid NOT NULL,
-    "cq_meta"                                         jsonb,
-    "database_db_vulnerability_assessment_scan_cq_id" uuid,
-    "code"                                            text,
-    "message"                                         text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scan_errors_pk PRIMARY KEY (cq_id),
-    UNIQUE (cq_id),
-    FOREIGN KEY (database_db_vulnerability_assessment_scan_cq_id) REFERENCES azure_sql_database_db_vulnerability_assessment_scans (cq_id) ON DELETE CASCADE
-);

@@ -36,4 +36,26 @@ ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     ADD COLUMN "instance_view" jsonb;
 
 --it was duplicated as a json column of virtual machine
-DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces"
+DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
+
+--sql.servers
+CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
+(
+    "cq_id"                            uuid NOT NULL,
+    "cq_meta"                          jsonb,
+    "database_cq_id"                   uuid,
+    "scan_id"                          text,
+    "trigger_type"                     text,
+    "state"                            text,
+    "start_time"                       timestamp without time zone,
+    "end_time"                         timestamp without time zone,
+    "storage_container_path"           text,
+    "number_of_failed_security_checks" integer,
+    "id"                               text,
+    "errors"                           jsonb,
+    "name"                             text,
+    "type"                             text,
+    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (database_cq_id) REFERENCES azure_sql_databases (cq_id) ON DELETE CASCADE
+);

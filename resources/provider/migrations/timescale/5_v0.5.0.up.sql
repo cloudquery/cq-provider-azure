@@ -77,40 +77,5 @@ CREATE TABLE IF NOT EXISTS "azure_sql_server_security_alert_policy"
 );
 CREATE INDEX ON azure_sql_server_security_alert_policy (cq_fetch_date, server_cq_id);
 SELECT setup_tsdb_child('azure_sql_server_security_alert_policy', 'server_cq_id', 'azure_sql_servers', 'cq_id');
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
-(
-    "cq_id"                            uuid                        NOT NULL,
-    "cq_meta"                          jsonb,
-    "cq_fetch_date"                    timestamp without time zone NOT NULL,
-    "database_cq_id"                   uuid,
-    "scan_id"                          text,
-    "trigger_type"                     text,
-    "state"                            text,
-    "start_time"                       timestamp without time zone,
-    "end_time"                         timestamp without time zone,
-    "storage_container_path"           text,
-    "number_of_failed_security_checks" integer,
-    "id"                               text,
-    "name"                             text,
-    "type"                             text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_fetch_date, cq_id),
-    UNIQUE (cq_fetch_date, cq_id)
-);
-CREATE INDEX ON azure_sql_database_db_vulnerability_assessment_scans (cq_fetch_date, database_cq_id);
-SELECT setup_tsdb_child('azure_sql_database_db_vulnerability_assessment_scans', 'database_cq_id', 'azure_sql_databases',
-                        'cq_id');
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scan_errors"
-(
-    "cq_id"                                           uuid                        NOT NULL,
-    "cq_meta"                                         jsonb,
-    "cq_fetch_date"                                   timestamp without time zone NOT NULL,
-    "database_db_vulnerability_assessment_scan_cq_id" uuid,
-    "code"                                            text,
-    "message"                                         text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scan_errors_pk PRIMARY KEY (cq_fetch_date, cq_id),
-    UNIQUE (cq_fetch_date, cq_id)
-);
-CREATE INDEX ON azure_sql_database_db_vulnerability_assessment_scan_errors (cq_fetch_date, database_db_vulnerability_assessment_scan_cq_id);
-SELECT setup_tsdb_child('azure_sql_database_db_vulnerability_assessment_scan_errors',
-                        'database_db_vulnerability_assessment_scan_cq_id',
-                        'azure_sql_database_db_vulnerability_assessment_scans', 'cq_id');
+
+
