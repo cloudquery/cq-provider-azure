@@ -36,7 +36,7 @@ ALTER TABLE IF EXISTS azure_compute_virtual_machine_resources
     ADD COLUMN "instance_view" jsonb;
 
 --it was duplicated as a json column of virtual machine
-DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces"
+DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
 
 CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm" (
 	"cq_id" uuid NOT NULL,
