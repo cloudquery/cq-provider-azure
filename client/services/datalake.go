@@ -1,8 +1,9 @@
-//go:generate mockgen -destination=./mocks/datalake.go -package=mocks . DataLakeStorageAccountsClient,
+//go:generate mockgen -destination=./mocks/datalake.go -package=mocks . DataLakeStorageAccountsClient
 package services
 
 import (
 	"context"
+
 	storeAccount "github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/store/mgmt/account"
 	"github.com/Azure/go-autorest/autorest"
 )
