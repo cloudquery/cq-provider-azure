@@ -2,6 +2,7 @@ package provider
 
 import (
 	"embed"
+	"github.com/cloudquery/cq-provider-azure/resources/services/datalake"
 
 	"github.com/cloudquery/cq-provider-sdk/provider"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -43,6 +44,8 @@ func Provider() *provider.Provider {
 			"compute.disks":                  compute.ComputeDisks(),
 			"compute.virtual_machines":       compute.ComputeVirtualMachines(),
 			"container.managed_clusters":     container.ContainerManagedClusters(),
+			"datalake.storage_accounts":      datalake.DatalakeStorageAccounts(),
+			"datalake.analytics_accounts":    datalake.DatalakeStorageAccounts(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),

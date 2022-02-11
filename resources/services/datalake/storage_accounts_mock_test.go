@@ -44,6 +44,6 @@ func buildDatalakeStorageAccounts(t *testing.T, ctrl *gomock.Controller) service
 	}
 }
 
-func TestMonitorDiagnosticsSettings(t *testing.T) {
+func TestDatalakeStorageAccounts(t *testing.T) {
 	client.AzureMockTestHelper(t, DatalakeStorageAccounts(), buildDatalakeStorageAccounts, client.TestOptions{})
 }
