@@ -4,7 +4,6 @@ ManagedDatabase a managed database resource.
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|subscription_id|text|Azure subscription id|
 |collation|text|Collation of the managed database.|
 |status|text|Status of the database|
 |creation_date_time|timestamp without time zone||
@@ -16,7 +15,7 @@ ManagedDatabase a managed database resource.
 |storage_container_uri|text|Conditional|
 |source_database_id|text|The resource identifier of the source database associated with create operation of this database.|
 |restorable_dropped_database_id|text|The restorable dropped database resource id to restore when creating this database.|
-|storage_container_sas_token|text|Conditional|
+|storage_container_sas_token|text|SAS token used to access resources|
 |failover_group_id|text|Instance Failover Group resource identifier that this managed database belongs to.|
 |recoverable_database_id|text|The resource identifier of the recoverable database associated with create operation of this database.|
 |long_term_retention_backup_resource_id|text|The name of the Long Term Retention backup to be used for restore of this managed database.|

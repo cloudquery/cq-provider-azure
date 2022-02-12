@@ -11,18 +11,10 @@ import (
 
 func SqlManagedDatabases() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_sql_managed_databases",
-		Description:  "ManagedDatabase a managed database resource.",
-		Resolver:     fetchSqlManagedDatabases,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
+		Name:        "azure_sql_managed_databases",
+		Description: "ManagedDatabase a managed database resource.",
+		Resolver:    fetchSqlManagedDatabases,
 		Columns: []schema.Column{
-			{
-				Name:        "subscription_id",
-				Description: "Azure subscription id",
-				Type:        schema.TypeString,
-				Resolver:    client.ResolveAzureSubscription,
-			},
 			{
 				Name:        "collation",
 				Description: "Collation of the managed database.",
@@ -88,7 +80,7 @@ func SqlManagedDatabases() *schema.Table {
 			},
 			{
 				Name:        "storage_container_sas_token",
-				Description: "Conditional",
+				Description: "SAS token used to access resources",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedDatabaseProperties.StorageContainerSasToken"),
 			},
@@ -163,7 +155,7 @@ func SqlManagedDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "A blob storage container path to hold the scan results (e.g",
+						Description: "A blob storage container path to hold the scan results",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.StorageContainerPath"),
 					},

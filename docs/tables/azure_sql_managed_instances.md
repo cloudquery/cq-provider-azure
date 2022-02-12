@@ -8,13 +8,13 @@ ManagedInstance an Azure SQL managed instance.
 |identity_principal_id|uuid|The Azure Active Directory principal id.|
 |identity_type|text|The identity type|
 |identity_tenant_id|uuid|The Azure Active Directory tenant id.|
-|sku_name|text|The name of the SKU, typically, a letter + Number code, e.g|
-|sku_tier|text|The tier or edition of the particular SKU, e.g|
+|sku_name|text|The name of the SKU, typically, a letter + Number code|
+|sku_tier|text|The tier or edition of the particular SKU|
 |sku_size|text|Size of the particular SKU|
 |sku_family|text|If the service has different generations of hardware, for the same SKU, then that can be captured here.|
 |sku_capacity|integer|Capacity of the particular SKU.|
 |provisioning_state|text|Possible values include: 'ProvisioningState1Creating', 'ProvisioningState1Deleting', 'ProvisioningState1Updating', 'ProvisioningState1Unknown', 'ProvisioningState1Succeeded', 'ProvisioningState1Failed'|
-|managed_instance_create_mode|text|Specifies the mode of database creation.  Default: Regular instance creation.  Restore: Creates an instance by restoring a set of backups to specific point in time|
+|managed_instance_create_mode|text|Specifies the mode of database creation|
 |fully_qualified_domain_name|text|The fully qualified domain name of the managed instance.|
 |administrator_login|text|Administrator username for the managed instance|
 |administrator_login_password|text|The administrator login password (required for managed instance creation).|

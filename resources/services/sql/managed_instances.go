@@ -44,13 +44,13 @@ func SqlManagedInstances() *schema.Table {
 			},
 			{
 				Name:        "sku_name",
-				Description: "The name of the SKU, typically, a letter + Number code, e.g",
+				Description: "The name of the SKU, typically, a letter + Number code",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "The tier or edition of the particular SKU, e.g",
+				Description: "The tier or edition of the particular SKU",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
@@ -80,7 +80,7 @@ func SqlManagedInstances() *schema.Table {
 			},
 			{
 				Name:        "managed_instance_create_mode",
-				Description: "Specifies the mode of database creation.  Default: Regular instance creation.  Restore: Creates an instance by restoring a set of backups to specific point in time",
+				Description: "Specifies the mode of database creation",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ManagedInstanceProperties.ManagedInstanceCreateMode"),
 			},
@@ -300,7 +300,7 @@ func SqlManagedInstances() *schema.Table {
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "A blob storage container path to hold the scan results (e.g",
+						Description: "A blob storage container path to hold the scan results",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ManagedInstanceVulnerabilityAssessmentProperties.StorageContainerPath"),
 					},
