@@ -2,13 +2,14 @@ package compute
 
 import (
 	"context"
+	"testing"
+
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-03-01/compute"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
 	"github.com/cloudquery/faker/v3"
 	"github.com/golang/mock/gomock"
-	"testing"
 )
 
 func buildComputeVirtualMachineScaleSetsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
