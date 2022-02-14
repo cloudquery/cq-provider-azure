@@ -12,11 +12,10 @@ import (
 
 func SqlDatabases() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_sql_databases",
-		Description:   "Database a database resource.",
-		Resolver:      fetchSqlDatabases,
-		IgnoreInTests: true,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+		Name:        "azure_sql_databases",
+		Description: "Azure sql database",
+		Resolver:    fetchSqlDatabases,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "server_cq_id",
@@ -25,19 +24,20 @@ func SqlDatabases() *schema.Table {
 				Resolver:    schema.ParentIdResolver,
 			},
 			{
-				Name:     "transparent_data_encryption",
-				Type:     schema.TypeJSON,
-				Resolver: ResolveSqlDatabaseTransparentDataEncryption,
+				Name:        "transparent_data_encryption",
+				Description: "TransparentDataEncryption represents a database transparent data encryption configuration",
+				Type:        schema.TypeJSON,
+				Resolver:    ResolveSqlDatabaseTransparentDataEncryption,
 			},
 			{
 				Name:        "sku_name",
-				Description: "The name of the SKU, typically, a letter + Number code, eg P3",
+				Description: "The name of the SKU, typically, a letter + Number code, eg",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "The tier or edition of the particular SKU, eg Basic, Premium",
+				Description: "The tier or edition of the particular SKU, eg",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
@@ -49,13 +49,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "sku_family",
-				Description: "If the service has different generations of hardware, for the same SKU, then that can be captured here.",
+				Description: "If the service has different generations of hardware, for the same SKU, then that can be captured here",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Family"),
 			},
 			{
 				Name:        "sku_capacity",
-				Description: "Capacity of the particular SKU.",
+				Description: "Capacity of the particular SKU",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("Sku.Capacity"),
 			},
@@ -66,24 +66,24 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "managed_by",
-				Description: "Resource that manages the database.",
+				Description: "Resource that manages the database",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "create_mode",
-				Description: "Specifies the mode of database creation.  Default: regular database creation.  Copy: creates a database as a copy of an existing database",
+				Description: "Specifies the mode of database creation  Default: regular database creation  Copy: creates a database as a copy of an existing database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CreateMode"),
 			},
 			{
 				Name:        "collation",
-				Description: "The collation of the database.",
+				Description: "The collation of the database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.Collation"),
 			},
 			{
 				Name:        "max_size_bytes",
-				Description: "The max size of the database expressed in bytes.",
+				Description: "The max size of the database expressed in bytes",
 				Type:        schema.TypeBigInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.MaxSizeBytes"),
 			},
@@ -95,13 +95,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "elastic_pool_id",
-				Description: "The resource identifier of the elastic pool containing this database.",
+				Description: "The resource identifier of the elastic pool containing this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.ElasticPoolID"),
 			},
 			{
 				Name:        "source_database_id",
-				Description: "The resource identifier of the source database associated with create operation of this database.",
+				Description: "The resource identifier of the source database associated with create operation of this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.SourceDatabaseID"),
 			},
@@ -113,7 +113,7 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "database_id",
-				Description: "The ID of the database.",
+				Description: "The ID of the database",
 				Type:        schema.TypeUUID,
 				Resolver:    schema.PathResolver("DatabaseProperties.DatabaseID"),
 			},
@@ -124,25 +124,25 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "current_service_objective_name",
-				Description: "The current service level objective name of the database.",
+				Description: "The current service level objective name of the database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentServiceObjectiveName"),
 			},
 			{
 				Name:        "requested_service_objective_name",
-				Description: "The requested service level objective name of the database.",
+				Description: "The requested service level objective name of the database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.RequestedServiceObjectiveName"),
 			},
 			{
 				Name:        "default_secondary_location",
-				Description: "The default secondary region for this database.",
+				Description: "The default secondary region for this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.DefaultSecondaryLocation"),
 			},
 			{
 				Name:        "failover_group_id",
-				Description: "Failover Group resource identifier that this database belongs to.",
+				Description: "Failover Group resource identifier that this database belongs to",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.FailoverGroupID"),
 			},
@@ -158,25 +158,25 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "recovery_services_recovery_point_id",
-				Description: "The resource identifier of the recovery point associated with create operation of this database.",
+				Description: "The resource identifier of the recovery point associated with create operation of this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.RecoveryServicesRecoveryPointID"),
 			},
 			{
 				Name:        "long_term_retention_backup_resource_id",
-				Description: "The resource identifier of the long term retention backup associated with create operation of this database.",
+				Description: "The resource identifier of the long term retention backup associated with create operation of this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.LongTermRetentionBackupResourceID"),
 			},
 			{
 				Name:        "recoverable_database_id",
-				Description: "The resource identifier of the recoverable database associated with create operation of this database.",
+				Description: "The resource identifier of the recoverable database associated with create operation of this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.RecoverableDatabaseID"),
 			},
 			{
 				Name:        "restorable_dropped_database_id",
-				Description: "The resource identifier of the restorable dropped database associated with create operation of this database.",
+				Description: "The resource identifier of the restorable dropped database associated with create operation of this database",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.RestorableDroppedDatabaseID"),
 			},
@@ -188,7 +188,7 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "zone_redundant",
-				Description: "Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.",
+				Description: "Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("DatabaseProperties.ZoneRedundant"),
 			},
@@ -200,7 +200,7 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "max_log_size_bytes",
-				Description: "The max log size for this database.",
+				Description: "The max log size for this database",
 				Type:        schema.TypeBigInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.MaxLogSizeBytes"),
 			},
@@ -217,7 +217,7 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "high_availability_replica_count",
-				Description: "The number of secondary replicas associated with the database that are used to provide high availability.",
+				Description: "The number of secondary replicas associated with the database that are used to provide high availability",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.HighAvailabilityReplicaCount"),
 			},
@@ -229,13 +229,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "current_sku_name",
-				Description: "The name of the SKU, typically, a letter + Number code, eg P3",
+				Description: "The name of the SKU, typically, a letter + Number code, eg",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Name"),
 			},
 			{
 				Name:        "current_sku_tier",
-				Description: "The tier or edition of the particular SKU, eg Basic, Premium",
+				Description: "The tier or edition of the particular SKU, eg",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Tier"),
 			},
@@ -247,13 +247,13 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "current_sku_family",
-				Description: "If the service has different generations of hardware, for the same SKU, then that can be captured here.",
+				Description: "If the service has different generations of hardware, for the same SKU, then that can be captured here",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Family"),
 			},
 			{
 				Name:        "current_sku_capacity",
-				Description: "Capacity of the particular SKU.",
+				Description: "Capacity of the particular SKU",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("DatabaseProperties.CurrentSku.Capacity"),
 			},
@@ -293,35 +293,35 @@ func SqlDatabases() *schema.Table {
 			},
 			{
 				Name:        "location",
-				Description: "Resource location.",
+				Description: "Resource location",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "tags",
-				Description: "Resource tags.",
+				Description: "Resource tags",
 				Type:        schema.TypeJSON,
 			},
 			{
 				Name:        "id",
-				Description: "Resource ID.",
+				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
 				Name:        "name",
-				Description: "Resource name.",
+				Description: "Resource name",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "type",
-				Description: "Resource type.",
+				Description: "Resource type",
 				Type:        schema.TypeString,
 			},
 		},
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_sql_database_db_blob_auditing_policies",
-				Description: "DatabaseBlobAuditingPolicy a database blob auditing policy.",
+				Description: "DatabaseBlobAuditingPolicy a database blob auditing policy",
 				Resolver:    fetchSqlDatabaseDbBlobAuditingPolicies,
 				Columns: []schema.Column{
 					{
@@ -332,7 +332,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "kind",
-						Description: "Resource kind.",
+						Description: "Resource kind",
 						Type:        schema.TypeString,
 					},
 					{
@@ -343,73 +343,73 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint.",
+						Description: "Specifies the blob storage endpoint (eg",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageEndpoint"),
 					},
 					{
 						Name:        "storage_account_access_key",
-						Description: "Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1",
+						Description: "Specifies the identifier key of the auditing storage account If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage Prerequisites for using managed identity authentication: 1",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageAccountAccessKey"),
 					},
 					{
 						Name:        "retention_days",
-						Description: "Specifies the number of days to keep in the audit logs in the storage account.",
+						Description: "Specifies the number of days to keep in the audit logs in the storage account",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.RetentionDays"),
 					},
 					{
 						Name:        "audit_actions_and_groups",
-						Description: "this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:  BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP.  This above combination is also the set that is configured by default when enabling auditing from the Azure portal.  The supported action groups to audit are (note: choose only specific groups that cover your auditing needs",
+						Description: "this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:  BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP  This above combination is also the set that is configured by default when enabling auditing from the Azure portal  The supported action groups to audit are (note: choose only specific groups that cover your auditing needs",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.AuditActionsAndGroups"),
 					},
 					{
 						Name:        "storage_account_subscription_id",
-						Description: "Specifies the blob storage subscription Id.",
+						Description: "Specifies the blob storage subscription Id",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.StorageAccountSubscriptionID"),
 					},
 					{
 						Name:        "is_storage_secondary_key_in_use",
-						Description: "Specifies whether storageAccountAccessKey value is the storage's secondary key.",
+						Description: "Specifies whether storageAccountAccessKey value is the storage's secondary key",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.IsStorageSecondaryKeyInUse"),
 					},
 					{
 						Name:        "is_azure_monitor_target_enabled",
-						Description: "Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true.  When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created. Note that for server level audit you should use the 'master' database as {databaseName}.  Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)",
+						Description: "Specifies whether audit events are sent to Azure Monitor",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.IsAzureMonitorTargetEnabled"),
 					},
 					{
 						Name:        "queue_delay_ms",
-						Description: "Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second)",
+						Description: "Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed The default minimum value is 1000 (1 second)",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("DatabaseBlobAuditingPolicyProperties.QueueDelayMs"),
 					},
 					{
 						Name:        "id",
-						Description: "Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 				},
 			},
 			{
 				Name:        "azure_sql_database_db_vulnerability_assessments",
-				Description: "DatabaseVulnerabilityAssessment a database vulnerability assessment.",
+				Description: "DatabaseVulnerabilityAssessment a database vulnerability assessment",
 				Resolver:    fetchSqlDatabaseDbVulnerabilityAssessments,
 				Columns: []schema.Column{
 					{
@@ -420,7 +420,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "A blob storage container path to hold the scan results",
+						Description: "A blob storage container path to hold the scan results (eg",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.StorageContainerPath"),
 					},
@@ -438,43 +438,43 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "recurring_scans_is_enabled",
-						Description: "Recurring scans state.",
+						Description: "Recurring scans state",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.RecurringScans.IsEnabled"),
 					},
 					{
 						Name:        "recurring_scans_email_subscription_admins",
-						Description: "Specifies that the schedule scan notification will be is sent to the subscription administrators.",
+						Description: "Specifies that the schedule scan notification will be is sent to the subscription administrators",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.RecurringScans.EmailSubscriptionAdmins"),
 					},
 					{
 						Name:        "recurring_scans_emails",
-						Description: "Specifies an array of e-mail addresses to which the scan notification is sent.",
+						Description: "Specifies an array of e-mail addresses to which the scan notification is sent",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("DatabaseVulnerabilityAssessmentProperties.RecurringScans.Emails"),
 					},
 					{
 						Name:        "id",
-						Description: "Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 				},
 			},
 			{
 				Name:        "azure_sql_database_db_vulnerability_assessment_scans",
-				Description: "VulnerabilityAssessmentScanRecord a vulnerability assessment scan record.",
+				Description: "VulnerabilityAssessmentScanRecord a vulnerability assessment scan record",
 				Resolver:    fetchSqlDatabaseDbVulnerabilityAssessmentScans,
 				Columns: []schema.Column{
 					{
@@ -485,7 +485,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "scan_id",
-						Description: "The scan ID.",
+						Description: "The scan ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VulnerabilityAssessmentScanRecordProperties.ScanID"),
 					},
@@ -513,43 +513,43 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "errors",
-						Description: "The scan errors.",
+						Description: "The scan errors",
 						Type:        schema.TypeJSON,
 						Resolver:    resolveSqlDatabaseDbVulnerabilityAssessmentScansErrors,
 					},
 					{
 						Name:        "storage_container_path",
-						Description: "The scan results storage container path.",
+						Description: "The scan results storage container path",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VulnerabilityAssessmentScanRecordProperties.StorageContainerPath"),
 					},
 					{
 						Name:        "number_of_failed_security_checks",
-						Description: "The number of failed security checks.",
+						Description: "The number of failed security checks",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("VulnerabilityAssessmentScanRecordProperties.NumberOfFailedSecurityChecks"),
 					},
 					{
 						Name:        "id",
-						Description: "Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 				},
 			},
 			{
 				Name:        "azure_sql_database_db_threat_detection_policies",
-				Description: "DatabaseSecurityAlertPolicy contains information about a database Threat Detection policy.",
+				Description: "DatabaseSecurityAlertPolicy contains information about a database Threat Detection policy",
 				Resolver:    fetchSqlDatabaseDbThreatDetectionPolicies,
 				Columns: []schema.Column{
 					{
@@ -565,7 +565,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "kind",
-						Description: "Resource kind.",
+						Description: "Resource kind",
 						Type:        schema.TypeString,
 					},
 					{
@@ -582,7 +582,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "email_addresses",
-						Description: "Specifies the semicolon-separated list of e-mail addresses to which the alert is sent.",
+						Description: "Specifies the semicolon-separated list of e-mail addresses to which the alert is sent",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.EmailAddresses"),
 					},
@@ -594,7 +594,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "storage_endpoint",
-						Description: "Specifies the blob storage endpoint.",
+						Description: "Specifies the blob storage endpoint (eg",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.StorageEndpoint"),
 					},
@@ -606,7 +606,7 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "retention_days",
-						Description: "Specifies the number of days to keep in the Threat Detection audit logs.",
+						Description: "Specifies the number of days to keep in the Threat Detection audit logs",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("DatabaseSecurityAlertPolicyProperties.RetentionDays"),
 					},
@@ -618,18 +618,18 @@ func SqlDatabases() *schema.Table {
 					},
 					{
 						Name:        "id",
-						Description: "Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 				},
