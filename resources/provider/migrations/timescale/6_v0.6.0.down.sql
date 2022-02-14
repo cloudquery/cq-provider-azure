@@ -60,7 +60,7 @@ CREATE INDEX ON azure_compute_virtual_machine_network_interfaces (cq_fetch_date,
 SELECT setup_tsdb_child('azure_compute_virtual_machine_network_interfaces', 'virtual_machine_cq_id',
                         'azure_compute_virtual_machines', 'cq_id');
 
---sql.servers
+-- Resource: sql.servers
 DROP TABLE IF EXISTS azure_sql_database_db_vulnerability_assessment_scans;
 
 -- Resource: security.jit_network_access_policies
