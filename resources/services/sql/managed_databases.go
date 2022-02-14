@@ -9,7 +9,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func SqlManagedDatabases() *schema.Table {
+func sqlManagedDatabases() *schema.Table {
 	return &schema.Table{
 		Name:        "azure_sql_managed_databases",
 		Description: "ManagedDatabase a managed database resource.",
