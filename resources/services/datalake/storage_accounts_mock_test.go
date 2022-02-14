@@ -23,6 +23,7 @@ func buildDatalakeStorageAccounts(t *testing.T, ctrl *gomock.Controller) service
 	}
 	id := client.FakeResourceGroup
 	dataLakeStoreAccountBasic.ID = &id
+
 	accounts := account.NewDataLakeStoreAccountListResultPage(
 		account.DataLakeStoreAccountListResult{Value: &[]account.DataLakeStoreAccountBasic{dataLakeStoreAccountBasic}},
 		func(ctx context.Context, result account.DataLakeStoreAccountListResult) (account.DataLakeStoreAccountListResult, error) {
@@ -35,6 +36,10 @@ func buildDatalakeStorageAccounts(t *testing.T, ctrl *gomock.Controller) service
 	if err := faker.FakeData(&dataLakeStoreAccount); err != nil {
 		t.Fatal(err)
 	}
+
+	ip := faker.IPv4()
+	(*dataLakeStoreAccount.FirewallRules)[0].EndIPAddress = &ip
+	(*dataLakeStoreAccount.FirewallRules)[0].StartIPAddress = &ip
 	dataLakeStoreAccount.ID = &id
 
 	ds.EXPECT().Get(gomock.Any(), gomock.Any(), gomock.Any()).Return(dataLakeStoreAccount, nil)

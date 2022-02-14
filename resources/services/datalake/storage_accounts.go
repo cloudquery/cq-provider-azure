@@ -3,15 +3,16 @@ package datalake
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/store/mgmt/account"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	"net"
 )
 
 func DatalakeStorageAccounts() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_datalake_storage_accounts",
+		Description:  "Data Lake Store account",
 		Resolver:     fetchDatalakeStorageAccounts,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
@@ -184,14 +185,14 @@ func DatalakeStorageAccounts() *schema.Table {
 					{
 						Name:        "start_ip_address",
 						Description: "The start IP address for the firewall rule",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("FirewallRuleProperties.StartIPAddress"),
+						Type:        schema.TypeInet,
+						Resolver:    resolveDatalakeStorageAccountFirewallRulesStartIpAddress,
 					},
 					{
 						Name:        "end_ip_address",
 						Description: "The end IP address for the firewall rule",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
+						Type:        schema.TypeInet,
+						Resolver:    resolveDatalakeStorageAccountFirewallRulesEndIpAddress,
 					},
 					{
 						Name:        "id",
@@ -320,23 +321,44 @@ func fetchDatalakeStorageAccountFirewallRules(ctx context.Context, meta schema.C
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.FirewallRules == nil {
-		return nil
+	if p.FirewallRules != nil {
+		res <- *p.FirewallRules
 	}
 
-	res <- *p.FirewallRules
 	return nil
+}
+func resolveDatalakeStorageAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(account.FirewallRule)
+	if !ok {
+		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
+	}
+
+	i := net.ParseIP(*p.StartIPAddress)
+	if i == nil {
+		return fmt.Errorf("wrong format of IP: %s", *p.StartIPAddress)
+	}
+	return resource.Set(c.Name, i)
+}
+func resolveDatalakeStorageAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(account.FirewallRule)
+	if !ok {
+		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
+	}
+
+	i := net.ParseIP(*p.EndIPAddress)
+	if i == nil {
+		return fmt.Errorf("wrong format of IP: %s", *p.EndIPAddress)
+	}
+	return resource.Set(c.Name, i)
 }
 func fetchDatalakeStorageAccountVirtualNetworkRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	p, ok := parent.Item.(account.DataLakeStoreAccount)
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.VirtualNetworkRules == nil {
-		return nil
+	if p.VirtualNetworkRules != nil {
+		res <- *p.VirtualNetworkRules
 	}
-
-	res <- *p.VirtualNetworkRules
 	return nil
 }
 func fetchDatalakeStorageAccountTrustedIdProviders(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
@@ -344,10 +366,8 @@ func fetchDatalakeStorageAccountTrustedIdProviders(ctx context.Context, meta sch
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.TrustedIDProviders == nil {
-		return nil
+	if p.TrustedIDProviders != nil {
+		res <- *p.TrustedIDProviders
 	}
-
-	res <- *p.TrustedIDProviders
 	return nil
 }

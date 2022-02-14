@@ -31,13 +31,16 @@ func buildDatalakeAnalyticsAccounts(t *testing.T, ctrl *gomock.Controller) servi
 	)
 	ds.EXPECT().List(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(accounts, nil)
 
-	dataLakeStoreAccount := account.DataLakeAnalyticsAccount{}
-	if err := faker.FakeData(&dataLakeStoreAccount); err != nil {
+	lakeAnalyticsAccount := account.DataLakeAnalyticsAccount{}
+	if err := faker.FakeData(&lakeAnalyticsAccount); err != nil {
 		t.Fatal(err)
 	}
-	dataLakeStoreAccount.ID = &id
+	lakeAnalyticsAccount.ID = &id
+	ip := faker.IPv4()
+	(*lakeAnalyticsAccount.FirewallRules)[0].EndIPAddress = &ip
+	(*lakeAnalyticsAccount.FirewallRules)[0].StartIPAddress = &ip
 
-	ds.EXPECT().Get(gomock.Any(), gomock.Any(), gomock.Any()).Return(dataLakeStoreAccount, nil)
+	ds.EXPECT().Get(gomock.Any(), gomock.Any(), gomock.Any()).Return(lakeAnalyticsAccount, nil)
 
 	return services.Services{
 		DataLake: services.DataLakeClient{DataLakeAnalyticsAccounts: ds},

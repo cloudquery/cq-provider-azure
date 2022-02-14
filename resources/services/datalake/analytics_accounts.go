@@ -3,15 +3,16 @@ package datalake
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/analytics/mgmt/account"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	"net"
 )
 
 func DatalakeAnalyticsAccounts() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_datalake_analytics_accounts",
+		Description:  "Data Lake Analytics account",
 		Resolver:     fetchDatalakeAnalyticsAccounts,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
@@ -289,14 +290,14 @@ func DatalakeAnalyticsAccounts() *schema.Table {
 					{
 						Name:        "start_ip_address",
 						Description: "The start IP address for the firewall rule",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("FirewallRuleProperties.StartIPAddress"),
+						Type:        schema.TypeInet,
+						Resolver:    resolveDatalakeAnalyticsAccountFirewallRulesStartIpAddress,
 					},
 					{
 						Name:        "end_ip_address",
 						Description: "The end IP address for the firewall rule",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("FirewallRuleProperties.EndIPAddress"),
+						Type:        schema.TypeInet,
+						Resolver:    resolveDatalakeAnalyticsAccountFirewallRulesEndIpAddress,
 					},
 					{
 						Name:        "id",
@@ -355,11 +356,10 @@ func fetchDatalakeAnalyticsAccountDataLakeStoreAccounts(ctx context.Context, met
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.DataLakeStoreAccounts == nil {
-		return nil
+	if p.DataLakeStoreAccounts != nil {
+		res <- *p.DataLakeStoreAccounts
 	}
 
-	res <- *p.DataLakeStoreAccounts
 	return nil
 }
 func fetchDatalakeAnalyticsAccountStorageAccounts(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
@@ -367,11 +367,10 @@ func fetchDatalakeAnalyticsAccountStorageAccounts(ctx context.Context, meta sche
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.StorageAccounts == nil {
-		return nil
+	if p.StorageAccounts != nil {
+		res <- *p.StorageAccounts
 	}
 
-	res <- *p.StorageAccounts
 	return nil
 }
 func fetchDatalakeAnalyticsAccountComputePolicies(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
@@ -379,11 +378,10 @@ func fetchDatalakeAnalyticsAccountComputePolicies(ctx context.Context, meta sche
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.ComputePolicies == nil {
-		return nil
+	if p.ComputePolicies != nil {
+		res <- *p.ComputePolicies
 	}
 
-	res <- *p.ComputePolicies
 	return nil
 }
 func fetchDatalakeAnalyticsAccountFirewallRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
@@ -391,10 +389,33 @@ func fetchDatalakeAnalyticsAccountFirewallRules(ctx context.Context, meta schema
 	if !ok {
 		return fmt.Errorf("not a account.DataLakeStoreAccount instance: %T", parent.Item)
 	}
-	if p.FirewallRules == nil {
-		return nil
+	if p.FirewallRules != nil {
+		res <- *p.FirewallRules
 	}
 
-	res <- *p.FirewallRules
 	return nil
+}
+func resolveDatalakeAnalyticsAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(account.FirewallRule)
+	if !ok {
+		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
+	}
+
+	i := net.ParseIP(*p.StartIPAddress)
+	if i == nil {
+		return fmt.Errorf("wrong format of IP: %s", *p.StartIPAddress)
+	}
+	return resource.Set(c.Name, i)
+}
+func resolveDatalakeAnalyticsAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(account.FirewallRule)
+	if !ok {
+		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
+	}
+
+	i := net.ParseIP(*p.EndIPAddress)
+	if i == nil {
+		return fmt.Errorf("wrong format of IP: %s", *p.EndIPAddress)
+	}
+	return resource.Set(c.Name, i)
 }
