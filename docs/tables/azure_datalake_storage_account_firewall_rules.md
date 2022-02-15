@@ -5,8 +5,8 @@ FirewallRule data Lake Store firewall rule information
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |storage_account_cq_id|uuid|Unique CloudQuery ID of azure_datalake_storage_accounts table (FK)|
-|start_ip_address|text|The start IP address for the firewall rule|
-|end_ip_address|text|The end IP address for the firewall rule|
+|start_ip_address|inet|The start IP address for the firewall rule|
+|end_ip_address|inet|The end IP address for the firewall rule|
 |id|text|The resource identifier|
 |name|text|The resource name|
 |type|text|The resource type|

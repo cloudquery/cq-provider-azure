@@ -1,6 +1,6 @@
 
 # Table: azure_datalake_storage_accounts
-
+Data Lake Store account
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
@@ -26,8 +26,8 @@
 |creation_time|timestamp without time zone||
 |last_modified_time|timestamp without time zone||
 |endpoint|text|The full CName endpoint for this account|
-|id|text||
-|name|text||
-|type|text||
-|location|text||
-|tags|jsonb||
+|id|text|The resource identifier|
+|name|text|The resource name|
+|type|text|The resource type|
+|location|text|The resource location|
+|tags|jsonb|The resource tags|

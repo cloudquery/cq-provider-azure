@@ -3,10 +3,11 @@ package datalake
 import (
 	"context"
 	"fmt"
+	"net"
+
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/store/mgmt/account"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
-	"net"
 )
 
 func DatalakeStorageAccounts() *schema.Table {
@@ -149,25 +150,30 @@ func DatalakeStorageAccounts() *schema.Table {
 				Resolver:    schema.PathResolver("DataLakeStoreAccountProperties.Endpoint"),
 			},
 			{
-				Name:     "id",
-				Type:     schema.TypeString,
-				Resolver: schema.PathResolver("ID"),
+				Name:        "id",
+				Description: "The resource identifier",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ID"),
 			},
 			{
-				Name: "name",
-				Type: schema.TypeString,
+				Name:        "name",
+				Description: "The resource name",
+				Type:        schema.TypeString,
 			},
 			{
-				Name: "type",
-				Type: schema.TypeString,
+				Name:        "type",
+				Description: "The resource type",
+				Type:        schema.TypeString,
 			},
 			{
-				Name: "location",
-				Type: schema.TypeString,
+				Name:        "location",
+				Description: "The resource location",
+				Type:        schema.TypeString,
 			},
 			{
-				Name: "tags",
-				Type: schema.TypeJSON,
+				Name:        "tags",
+				Description: "The resource tags",
+				Type:        schema.TypeJSON,
 			},
 		},
 		Relations: []*schema.Table{
