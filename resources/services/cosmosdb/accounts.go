@@ -3,6 +3,7 @@ package cosmosdb
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2020-04-01-preview/documentdb"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -464,7 +465,10 @@ func fetchCosmosdbAccounts(ctx context.Context, meta schema.ClientMeta, _ *schem
 	return nil
 }
 func resolveCosmosdbAccountsIpRules(_ context.Context, _ schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	account := resource.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := resource.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", resource.Item)
+	}
 	if account.IPRules == nil {
 		return nil
 	}
@@ -475,7 +479,10 @@ func resolveCosmosdbAccountsIpRules(_ context.Context, _ schema.ClientMeta, reso
 	return resource.Set(c.Name, ipRules)
 }
 func resolveCosmosdbAccountsVirtualNetworkRules(_ context.Context, _ schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	account := resource.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := resource.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", resource.Item)
+	}
 	if account.VirtualNetworkRules == nil {
 		return nil
 	}
@@ -486,7 +493,10 @@ func resolveCosmosdbAccountsVirtualNetworkRules(_ context.Context, _ schema.Clie
 	return resource.Set(c.Name, b)
 }
 func fetchCosmosdbAccountCapabilities(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.Capabilities == nil {
 		return nil
 	}
@@ -494,7 +504,10 @@ func fetchCosmosdbAccountCapabilities(_ context.Context, _ schema.ClientMeta, pa
 	return nil
 }
 func fetchCosmosdbAccountWriteLocations(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.WriteLocations == nil {
 		return nil
 	}
@@ -502,7 +515,10 @@ func fetchCosmosdbAccountWriteLocations(_ context.Context, _ schema.ClientMeta, 
 	return nil
 }
 func fetchCosmosdbAccountReadLocations(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.ReadLocations == nil {
 		return nil
 	}
@@ -510,7 +526,10 @@ func fetchCosmosdbAccountReadLocations(_ context.Context, _ schema.ClientMeta, p
 	return nil
 }
 func fetchCosmosdbAccountLocations(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.Locations == nil {
 		return nil
 	}
@@ -518,7 +537,10 @@ func fetchCosmosdbAccountLocations(_ context.Context, _ schema.ClientMeta, paren
 	return nil
 }
 func fetchCosmosdbAccountFailoverPolicies(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.FailoverPolicies == nil {
 		return nil
 	}
@@ -526,7 +548,10 @@ func fetchCosmosdbAccountFailoverPolicies(_ context.Context, _ schema.ClientMeta
 	return nil
 }
 func fetchCosmosdbAccountPrivateEndpointConnections(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.PrivateEndpointConnections == nil {
 		return nil
 	}
@@ -534,7 +559,10 @@ func fetchCosmosdbAccountPrivateEndpointConnections(_ context.Context, _ schema.
 	return nil
 }
 func fetchCosmosdbAccountCors(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account := parent.Item.(documentdb.DatabaseAccountGetResults)
+	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+	if !ok {
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+	}
 	if account.Cors == nil {
 		return nil
 	}
