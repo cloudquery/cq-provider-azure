@@ -366,11 +366,13 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 						Name:        "type",
 						Description: "The type of the resource",
 						Type:        schema.TypeString,
+						Resolver:    ResolveComputeVirtualMachineScaleSetExtensionType,
 					},
 					{
 						Name:        "extension_type",
 						Description: "The type of the extension",
 						Type:        schema.TypeString,
+						Resolver:    ResolveComputeVirtualMachineScaleSetExtensionExtensionType,
 					},
 					{
 						Name:        "name",
@@ -626,6 +628,27 @@ func fetchComputeVirtualMachineScaleSetExtensions(ctx context.Context, meta sche
 
 	res <- *p.VirtualMachineScaleSetProperties.VirtualMachineProfile.ExtensionProfile.Extensions
 	return nil
+}
+func ResolveComputeVirtualMachineScaleSetExtensionType(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(compute.VirtualMachineScaleSetExtension)
+	if !ok {
+		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
+	}
+	if p.VirtualMachineScaleSetExtensionProperties == nil ||
+		p.VirtualMachineScaleSetExtensionProperties.Type == nil {
+		return nil
+	}
+	return resource.Set(c.Name, p.VirtualMachineScaleSetExtensionProperties.Type)
+}
+func ResolveComputeVirtualMachineScaleSetExtensionExtensionType(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(compute.VirtualMachineScaleSetExtension)
+	if !ok {
+		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
+	}
+	if p.Type == nil {
+		return nil
+	}
+	return resource.Set(c.Name, p.Type)
 }
 func resolveComputeVirtualMachineScaleSetExtensionsSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSetExtension)

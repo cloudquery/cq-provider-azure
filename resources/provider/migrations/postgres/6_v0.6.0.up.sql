@@ -2,8 +2,10 @@
 -- CHANGEME: Verify or edit this file before proceeding
 
 -- Resource: network.virtual_networks
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
+    ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
+    ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
 
 ALTER TABLE IF EXISTS azure_compute_virtual_machines
     ADD COLUMN "windows_configuration_patch_settings_assessment_mode" text;
@@ -88,133 +90,44 @@ CREATE TABLE IF NOT EXISTS "azure_security_jit_network_access_policy_requests"
 
 DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
 
-CREATE TABLE IF NOT EXISTS "azure_resources_links" (
-	"cq_id" uuid NOT NULL,
-	"cq_meta" jsonb,
-	"subscription_id" text,
-	"id" text,
-	"name" text,
-	"type" text,
-	"source_id" text,
-	"target_id" text,
-	"notes" text,
-	CONSTRAINT azure_resources_links_pk PRIMARY KEY(subscription_id,id),
-	UNIQUE(cq_id)
+CREATE TABLE IF NOT EXISTS "azure_resources_links"
+(
+    "cq_id"           uuid NOT NULL,
+    "cq_meta"         jsonb,
+    "subscription_id" text,
+    "id"              text,
+    "name"            text,
+    "type"            text,
+    "source_id"       text,
+    "target_id"       text,
+    "notes"           text,
+    CONSTRAINT azure_resources_links_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
 );
 
-CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm" (
-	"cq_id" uuid NOT NULL,
-	"cq_meta" jsonb,
-	"subscription_id" text,
-	"tenant_id" uuid,
-	"initial_admin_object_ids" text[],
-	"hsm_uri" text,
-	"enable_soft_delete" boolean,
-	"soft_delete_retention_in_days" integer,
-	"enable_purge_protection" boolean,
-	"create_mode" text,
-	"status_message" text,
-	"provisioning_state" text,
-	"id" text,
-	"name" text,
-	"type" text,
-	"location" text,
-	"sku_family" text,
-	"sku_name" text,
-	"tags" jsonb,
-	CONSTRAINT azure_keyvault_managed_hsm_pk PRIMARY KEY(subscription_id,id),
-	UNIQUE(cq_id)
+CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
+(
+    "cq_id"                         uuid NOT NULL,
+    "cq_meta"                       jsonb,
+    "subscription_id"               text,
+    "tenant_id"                     uuid,
+    "initial_admin_object_ids"      text[],
+    "hsm_uri"                       text,
+    "enable_soft_delete"            boolean,
+    "soft_delete_retention_in_days" integer,
+    "enable_purge_protection"       boolean,
+    "create_mode"                   text,
+    "status_message"                text,
+    "provisioning_state"            text,
+    "id"                            text,
+    "name"                          text,
+    "type"                          text,
+    "location"                      text,
+    "sku_family"                    text,
+    "sku_name"                      text,
+    "tags"                          jsonb,
+    CONSTRAINT azure_keyvault_managed_hsm_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
 );
 
-
--- Resource: compute.virtual_machine_scale_sets
-CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_sets" (
-                                                                          "cq_id" uuid NOT NULL,
-                                                                          "cq_meta" jsonb,
-                                                                          "subscription_id" text,
-                                                                          "sku_name" text,
-                                                                          "sku_tier" text,
-                                                                          "sku_capacity" bigint,
-                                                                          "plan_name" text,
-                                                                          "plan_publisher" text,
-                                                                          "plan_product" text,
-                                                                          "plan_promotion_code" text,
-                                                                          "upgrade_policy" jsonb,
-                                                                          "automatic_repairs_policy_enabled" boolean,
-                                                                          "automatic_repairs_policy_grace_period" text,
-                                                                          "os_profile_computer_name_prefix" text,
-                                                                          "os_profile_admin_username" text,
-                                                                          "os_profile_admin_password" text,
-                                                                          "os_profile_custom_data" text,
-                                                                          "os_profile_windows_configuration" jsonb,
-                                                                          "os_profile_linux_configuration" jsonb,
-                                                                          "storage_profile" jsonb,
-                                                                          "network_profile" jsonb,
-                                                                          "security_profile" jsonb,
-                                                                          "diagnostics_profile" jsonb,
-                                                                          "extension_profile_extensions_time_budget" text,
-                                                                          "license_type" text,
-                                                                          "priority" text,
-                                                                          "eviction_policy" text,
-                                                                          "billing_profile_max_price" float,
-                                                                          "scheduled_events_profile" jsonb,
-                                                                          "user_data" text,
-                                                                          "provisioning_state" text,
-                                                                          "overprovision" boolean,
-                                                                          "do_not_run_extensions_on_overprovisioned_vm_s" boolean,
-                                                                          "unique_id" text,
-                                                                          "single_placement_group" boolean,
-                                                                          "zone_balance" boolean,
-                                                                          "platform_fault_domain_count" integer,
-                                                                          "proximity_placement_group_id" text,
-                                                                          "host_group_id" text,
-                                                                          "additional_capabilities_ultra_s_s_d_enabled" boolean,
-                                                                          "scale_in_policy_rules" text[],
-                                                                          "orchestration_mode" text,
-                                                                          "identity_principal_id" text,
-                                                                          "identity_tenant_id" text,
-                                                                          "identity_type" text,
-                                                                          "identity_user_assigned_identities" jsonb,
-                                                                          "zones" text[],
-                                                                          "extended_location_name" text,
-                                                                          "extended_location_type" text,
-                                                                          "id" text,
-                                                                          "name" text,
-                                                                          "type" text,
-                                                                          "location" text,
-                                                                          "tags" jsonb,
-                                                                          CONSTRAINT azure_compute_virtual_machine_scale_sets_pk PRIMARY KEY(subscription_id,id),
-                                                                          UNIQUE(cq_id)
-);
-CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_set_os_profile_secrets" (
-                                                                                            "cq_id" uuid NOT NULL,
-                                                                                            "cq_meta" jsonb,
-                                                                                            "virtual_machine_scale_set_cq_id" uuid,
-                                                                                            "source_vault_id" text,
-                                                                                            "vault_certificates" jsonb,
-                                                                                            CONSTRAINT azure_compute_virtual_machine_scale_set_os_profile_secrets_pk PRIMARY KEY(cq_id),
-                                                                                            UNIQUE(cq_id),
-                                                                                            FOREIGN KEY (virtual_machine_scale_set_cq_id) REFERENCES azure_compute_virtual_machine_scale_sets(cq_id) ON DELETE CASCADE
-);
-CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_set_extensions" (
-                                                                                    "cq_id" uuid NOT NULL,
-                                                                                    "cq_meta" jsonb,
-                                                                                    "virtual_machine_scale_set_cq_id" uuid,
-                                                                                    "type" text,
-                                                                                    "extension_type" text,
-                                                                                    "name" text,
-                                                                                    "force_update_tag" text,
-                                                                                    "publisher" text,
-                                                                                    "type_handler_version" text,
-                                                                                    "auto_upgrade_minor_version" boolean,
-                                                                                    "enable_automatic_upgrade" boolean,
-                                                                                    "settings" jsonb,
-                                                                                    "protected_settings" jsonb,
-                                                                                    "provisioning_state" text,
-                                                                                    "provision_after_extensions" text[],
-                                                                                    "id" text,
-                                                                                    CONSTRAINT azure_compute_virtual_machine_scale_set_extensions_pk PRIMARY KEY(cq_id),
-                                                                                    UNIQUE(cq_id),
-                                                                                    FOREIGN KEY (virtual_machine_scale_set_cq_id) REFERENCES azure_compute_virtual_machine_scale_sets(cq_id) ON DELETE CASCADE
-);
 

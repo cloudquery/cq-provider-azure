@@ -66,8 +66,4 @@ DROP TABLE IF EXISTS azure_resources_links;
 
 DROP TABLE IF EXISTS azure_keyvault_managed_hsm;
 
--- Resource: compute.virtual_machine_scale_sets
-DROP TABLE IF EXISTS azure_compute_virtual_machine_scale_set_os_profile_secrets;
-DROP TABLE IF EXISTS azure_compute_virtual_machine_scale_set_extensions;
-DROP TABLE IF EXISTS azure_compute_virtual_machine_scale_sets;
 
