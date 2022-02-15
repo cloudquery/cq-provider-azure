@@ -13,7 +13,7 @@ import (
 func ComputeVirtualMachineScaleSets() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_compute_virtual_machine_scale_sets",
-		Description:  "VirtualMachineScaleSet describes a Virtual Machine Scale Set.",
+		Description:  "VirtualMachineScaleSet describes a Virtual Machine Scale Set",
 		Resolver:     fetchComputeVirtualMachineScaleSets,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
@@ -27,31 +27,31 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "sku_name",
-				Description: "The sku name.",
+				Description: "The sku name",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Name"),
 			},
 			{
 				Name:        "sku_tier",
-				Description: "Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**",
+				Description: "Specifies the tier of virtual machines in a scale set<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Tier"),
 			},
 			{
 				Name:        "sku_capacity",
-				Description: "Specifies the number of virtual machines in the scale set.",
+				Description: "Specifies the number of virtual machines in the scale set",
 				Type:        schema.TypeBigInt,
 				Resolver:    schema.PathResolver("Sku.Capacity"),
 			},
 			{
 				Name:        "plan_name",
-				Description: "The plan ID.",
+				Description: "The plan ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Plan.Name"),
 			},
 			{
 				Name:        "plan_publisher",
-				Description: "The publisher ID.",
+				Description: "The publisher ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Plan.Publisher"),
 			},
@@ -63,13 +63,13 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "plan_promotion_code",
-				Description: "The promotion code.",
+				Description: "The promotion code",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Plan.PromotionCode"),
 			},
 			{
 				Name:        "upgrade_policy",
-				Description: "The upgrade policy.",
+				Description: "The upgrade policy",
 				Type:        schema.TypeJSON,
 			},
 			{
@@ -110,7 +110,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "os_profile_windows_configuration",
-				Description: "Specifies Windows operating system settings on the virtual machine.",
+				Description: "Specifies Windows operating system settings on the virtual machine",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveComputeVirtualMachineScaleSetsOsProfileWindowsConfiguration,
 			},
@@ -122,19 +122,19 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "storage_profile",
-				Description: "Specifies the storage settings for the virtual machine disks.",
+				Description: "Specifies the storage settings for the virtual machine disks",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveComputeVirtualMachineScaleSetsStorageProfile,
 			},
 			{
 				Name:        "network_profile",
-				Description: "Specifies properties of the network interfaces of the virtual machines in the scale set.",
+				Description: "Specifies properties of the network interfaces of the virtual machines in the scale set",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveComputeVirtualMachineScaleSetsNetworkProfile,
 			},
 			{
 				Name:        "security_profile",
-				Description: "Specifies the Security related profile settings for the virtual machines in the scale set.",
+				Description: "Specifies the Security related profile settings for the virtual machines in the scale set",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveComputeVirtualMachineScaleSetsSecurityProfile,
 			},
@@ -176,7 +176,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "scheduled_events_profile",
-				Description: "Specifies Scheduled Event related configurations.",
+				Description: "Specifies Scheduled Event related configurations",
 				Type:        schema.TypeJSON,
 				Resolver:    resolveComputeVirtualMachineScaleSetsScheduledEventsProfile,
 			},
@@ -188,13 +188,13 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "provisioning_state",
-				Description: "The provisioning state, which only appears in the response.",
+				Description: "The provisioning state, which only appears in the response",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.ProvisioningState"),
 			},
 			{
 				Name:        "overprovision",
-				Description: "Specifies whether the Virtual Machine Scale Set should be overprovisioned.",
+				Description: "Specifies whether the Virtual Machine Scale Set should be overprovisioned",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.Overprovision"),
 			},
@@ -206,7 +206,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "unique_id",
-				Description: "Specifies the ID which uniquely identifies a Virtual Machine Scale Set.",
+				Description: "Specifies the ID which uniquely identifies a Virtual Machine Scale Set",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.UniqueID"),
 			},
@@ -218,13 +218,13 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "zone_balance",
-				Description: "Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.",
+				Description: "Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.ZoneBalance"),
 			},
 			{
 				Name:        "platform_fault_domain_count",
-				Description: "Fault Domain count for each placement group.",
+				Description: "Fault Domain count for each placement group",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.PlatformFaultDomainCount"),
 			},
@@ -289,7 +289,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "extended_location_name",
-				Description: "The name of the extended location.",
+				Description: "The name of the extended location",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ExtendedLocation.Name"),
 			},
@@ -329,7 +329,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_compute_virtual_machine_scale_set_os_profile_secrets",
-				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault.",
+				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault",
 				Resolver:    fetchComputeVirtualMachineScaleSetOsProfileSecrets,
 				Columns: []schema.Column{
 					{
@@ -346,14 +346,14 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 					},
 					{
 						Name:        "vault_certificates",
-						Description: "The list of key vault references in SourceVault which contain certificates.",
+						Description: "The list of key vault references in SourceVault which contain certificates",
 						Type:        schema.TypeJSON,
 					},
 				},
 			},
 			{
 				Name:        "azure_compute_virtual_machine_scale_set_extensions",
-				Description: "VirtualMachineScaleSetExtension describes a Virtual Machine Scale Set Extension.",
+				Description: "VirtualMachineScaleSetExtension describes a Virtual Machine Scale Set Extension",
 				Resolver:    fetchComputeVirtualMachineScaleSetExtensions,
 				Columns: []schema.Column{
 					{
@@ -363,35 +363,35 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:     "type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("Type"),
+						Name:        "type",
+						Description: "The type of the resource",
+						Type:        schema.TypeString,
 					},
 					{
-						Name:     "extension_type",
-						Type:     schema.TypeString,
-						Resolver: schema.PathResolver("VirtualMachineScaleSetExtensionProperties.Type"),
+						Name:        "extension_type",
+						Description: "The type of the extension",
+						Type:        schema.TypeString,
 					},
 					{
 						Name:        "name",
-						Description: "The name of the extension.",
+						Description: "The name of the extension",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "force_update_tag",
-						Description: "If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.",
+						Description: "If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.ForceUpdateTag"),
 					},
 					{
 						Name:        "publisher",
-						Description: "The name of the extension handler publisher.",
+						Description: "The name of the extension handler publisher",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.Publisher"),
 					},
 					{
 						Name:        "type_handler_version",
-						Description: "Specifies the version of the script handler.",
+						Description: "Specifies the version of the script handler",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.TypeHandlerVersion"),
 					},
@@ -403,31 +403,31 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 					},
 					{
 						Name:        "enable_automatic_upgrade",
-						Description: "Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.",
+						Description: "Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available",
 						Type:        schema.TypeBool,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.EnableAutomaticUpgrade"),
 					},
 					{
 						Name:        "settings",
-						Description: "Json formatted public settings for the extension.",
+						Description: "Json formatted public settings for the extension",
 						Type:        schema.TypeJSON,
 						Resolver:    resolveComputeVirtualMachineScaleSetExtensionsSettings,
 					},
 					{
 						Name:        "protected_settings",
-						Description: "The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.",
+						Description: "The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all",
 						Type:        schema.TypeJSON,
 						Resolver:    resolveComputeVirtualMachineScaleSetExtensionsProtectedSettings,
 					},
 					{
 						Name:        "provisioning_state",
-						Description: "The provisioning state, which only appears in the response.",
+						Description: "The provisioning state, which only appears in the response",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.ProvisioningState"),
 					},
 					{
 						Name:        "provision_after_extensions",
-						Description: "Collection of extension names after which this extension needs to be provisioned.",
+						Description: "Collection of extension names after which this extension needs to be provisioned",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("VirtualMachineScaleSetExtensionProperties.ProvisionAfterExtensions"),
 					},
