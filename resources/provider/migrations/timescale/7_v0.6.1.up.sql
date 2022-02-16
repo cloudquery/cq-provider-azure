@@ -256,7 +256,6 @@ CREATE TABLE IF NOT EXISTS "azure_sql_managed_instances"
     "managed_instance_create_mode" text,
     "fully_qualified_domain_name"  text,
     "administrator_login"          text,
-    "administrator_login_password" text,
     "subnet_id"                    text,
     "state"                        text,
     "license_type"                 text,
