@@ -15,4 +15,4 @@ Azure Cosmos DB MongoDB database.
 |name|text|The name of the ARM resource.|
 |type|text|The type of Azure resource.|
 |location|text|The location of the resource group to which the resource belongs.|
-|tags|jsonb||
+|tags|jsonb|Resource tags.|

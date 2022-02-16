@@ -80,8 +80,9 @@ func CosmosDBMongoDBDatabases() *schema.Table {
 				Type:        schema.TypeString,
 			},
 			{
-				Name: "tags",
-				Type: schema.TypeJSON,
+				Name:        "tags",
+				Description: "Resource tags.",
+				Type:        schema.TypeJSON,
 			},
 		},
 	}

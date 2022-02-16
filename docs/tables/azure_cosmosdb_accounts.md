@@ -9,6 +9,7 @@ Azure Cosmos DB database account.
 |document_endpoint|text|The connection endpoint for the Cosmos DB database account.|
 |database_account_offer_type|text|The offer type for the Cosmos DB database account|
 |ip_rules|text[]|List of IpRules.|
+|capabilities|text[]|Capability cosmos DB capability object|
 |is_virtual_network_filter_enabled|boolean|Flag to indicate whether to enable/disable Virtual Network ACL rules.|
 |enable_automatic_failover|boolean|Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage|
 |consistency_policy_default_consistency_level|text|The default consistency level and configuration settings of the Cosmos DB account|
@@ -28,4 +29,4 @@ Azure Cosmos DB database account.
 |name|text|The name of the ARM resource.|
 |type|text|The type of Azure resource.|
 |location|text|The location of the resource group to which the resource belongs.|
-|tags|jsonb||
+|tags|jsonb|Resource tags.|

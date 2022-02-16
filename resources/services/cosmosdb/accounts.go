@@ -49,6 +49,12 @@ func CosmosDBAccounts() *schema.Table {
 				Resolver:    resolveCosmosdbAccountsIpRules,
 			},
 			{
+				Name:        "capabilities",
+				Description: "Capability cosmos DB capability object",
+				Type:        schema.TypeStringArray,
+				Resolver:    resolveCosmosdbAccountsCapabilities,
+			},
+			{
 				Name:        "is_virtual_network_filter_enabled",
 				Description: "Flag to indicate whether to enable/disable Virtual Network ACL rules.",
 				Type:        schema.TypeBool,
@@ -160,29 +166,12 @@ func CosmosDBAccounts() *schema.Table {
 				Type:        schema.TypeString,
 			},
 			{
-				Name: "tags",
-				Type: schema.TypeJSON,
+				Name:        "tags",
+				Description: "Resource tags.",
+				Type:        schema.TypeJSON,
 			},
 		},
 		Relations: []*schema.Table{
-			{
-				Name:        "azure_cosmosdb_account_capabilities",
-				Description: "Capability cosmos DB capability object",
-				Resolver:    fetchCosmosdbAccountCapabilities,
-				Columns: []schema.Column{
-					{
-						Name:        "account_cq_id",
-						Description: "Unique CloudQuery ID of azure_cosmosdb_accounts table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "name",
-						Description: "Name of the Cosmos DB capability",
-						Type:        schema.TypeString,
-					},
-				},
-			},
 			{
 				Name:        "azure_cosmosdb_account_write_locations",
 				Description: "Location a region in which the Azure Cosmos DB database account is deployed.",
@@ -359,19 +348,19 @@ func CosmosDBAccounts() *schema.Table {
 						Resolver:    schema.PathResolver("PrivateEndpointConnectionProperties.PrivateEndpoint.ID"),
 					},
 					{
-						Name:        "private_link_service_connection_state_status",
+						Name:        "status",
 						Description: "The private link service connection status.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("PrivateEndpointConnectionProperties.PrivateLinkServiceConnectionState.Status"),
 					},
 					{
-						Name:        "private_link_service_connection_state_actions_required",
+						Name:        "actions_required",
 						Description: "Any action that is required beyond basic workflow (approve/ reject/ disconnect)",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("PrivateEndpointConnectionProperties.PrivateLinkServiceConnectionState.ActionsRequired"),
 					},
 					{
-						Name:        "private_link_service_connection_state_description",
+						Name:        "description",
 						Description: "The private link service connection description.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("PrivateEndpointConnectionProperties.PrivateLinkServiceConnectionState.Description"),
@@ -492,16 +481,19 @@ func resolveCosmosdbAccountsVirtualNetworkRules(_ context.Context, _ schema.Clie
 	}
 	return resource.Set(c.Name, b)
 }
-func fetchCosmosdbAccountCapabilities(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)
+func resolveCosmosdbAccountsCapabilities(_ context.Context, _ schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	account, ok := resource.Item.(documentdb.DatabaseAccountGetResults)
 	if !ok {
-		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", parent.Item)
+		return fmt.Errorf("expected to have documentdb.DatabaseAccountGetResults but got %T", resource.Item)
 	}
 	if account.Capabilities == nil {
 		return nil
 	}
-	res <- *account.Capabilities
-	return nil
+	capabilities := make([]string, len(*account.Capabilities))
+	for _, capability := range *account.Capabilities {
+		capabilities = append(capabilities, *capability.Name)
+	}
+	return resource.Set(c.Name, capabilities)
 }
 func fetchCosmosdbAccountWriteLocations(_ context.Context, _ schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	account, ok := parent.Item.(documentdb.DatabaseAccountGetResults)

@@ -6,9 +6,9 @@ PrivateEndpointConnection a private endpoint connection
 | ------------- | ------------- | -----  |
 |account_cq_id|uuid|Unique CloudQuery ID of azure_cosmosdb_accounts table (FK)|
 |private_endpoint_id|text|Resource id of the private endpoint.|
-|private_link_service_connection_state_status|text|The private link service connection status.|
-|private_link_service_connection_state_actions_required|text|Any action that is required beyond basic workflow (approve/ reject/ disconnect)|
-|private_link_service_connection_state_description|text|The private link service connection description.|
+|status|text|The private link service connection status.|
+|actions_required|text|Any action that is required beyond basic workflow (approve/ reject/ disconnect)|
+|description|text|The private link service connection description.|
 |group_id|text|Group id of the private endpoint.|
 |provisioning_state|text|Provisioning state of the private endpoint.|
 |id|text|Fully qualified resource ID for the resource|
