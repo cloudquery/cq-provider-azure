@@ -17,7 +17,6 @@ ManagedInstance an Azure SQL managed instance
 |managed_instance_create_mode|text|Specifies the mode of database creation|
 |fully_qualified_domain_name|text|The fully qualified domain name of the managed instance|
 |administrator_login|text|Administrator username for the managed instance|
-|administrator_login_password|text|The administrator login password (required for managed instance creation)|
 |subnet_id|text|Subnet resource ID for the managed instance|
 |state|text|The state of the managed instance|
 |license_type|text|The license type|

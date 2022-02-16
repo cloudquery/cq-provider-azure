@@ -97,12 +97,6 @@ func SqlManagedInstances() *schema.Table {
 				Resolver:    schema.PathResolver("ManagedInstanceProperties.AdministratorLogin"),
 			},
 			{
-				Name:        "administrator_login_password",
-				Description: "The administrator login password (required for managed instance creation)",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ManagedInstanceProperties.AdministratorLoginPassword"),
-			},
-			{
 				Name:        "subnet_id",
 				Description: "Subnet resource ID for the managed instance",
 				Type:        schema.TypeString,
