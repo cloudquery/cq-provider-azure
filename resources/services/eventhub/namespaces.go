@@ -11,12 +11,13 @@ import (
 
 func EventHubNamespaces() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_eventhub_namespaces",
-		Description:  "Azure EventHub namespace",
-		Resolver:     fetchEventhubNamespaces,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:          "azure_eventhub_namespaces",
+		Description:   "Azure EventHub namespace",
+		Resolver:      fetchEventhubNamespaces,
+		Multiplex:     client.SubscriptionMultiplex,
+		DeleteFilter:  client.DeleteSubscriptionFilter,
+		IgnoreInTests: true,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -208,7 +209,7 @@ func fetchEventhubNamespaceEncryptionKeyVaultProperties(_ context.Context, _ sch
 	if !ok {
 		return fmt.Errorf("expected to have eventhub.EHNamespace but got %T", parent.Item)
 	}
-	if namespace.Encryption.KeyVaultProperties == nil {
+	if namespace.Encryption == nil || namespace.Encryption.KeyVaultProperties == nil {
 		return nil
 	}
 	res <- *namespace.Encryption.KeyVaultProperties
