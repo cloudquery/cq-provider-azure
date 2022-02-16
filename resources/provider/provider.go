@@ -44,7 +44,7 @@ func Provider() *provider.Provider {
 			"compute.virtual_machines":       compute.ComputeVirtualMachines(),
 			"container.managed_clusters":     container.ContainerManagedClusters(),
 			"datalake.storage_accounts":      datalake.DatalakeStorageAccounts(),
-			"datalake.analytics_accounts":    datalake.DatalakeStorageAccounts(),
+			"datalake.analytics_accounts":    datalake.AnalyticsAccounts(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),

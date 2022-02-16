@@ -10,7 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func DatalakeAnalyticsAccounts() *schema.Table {
+func AnalyticsAccounts() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_datalake_analytics_accounts",
 		Description:  "Data Lake Analytics account",
@@ -92,7 +92,7 @@ func DatalakeAnalyticsAccounts() *schema.Table {
 				Resolver:    schema.PathResolver("DataLakeAnalyticsAccountProperties.MinPriorityPerJob"),
 			},
 			{
-				Name:        "query_e_retention",
+				Name:        "query_store_retention",
 				Description: "The number of days that job metadata is retained",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("DataLakeAnalyticsAccountProperties.QueryStoreRetention"),
@@ -297,13 +297,13 @@ func DatalakeAnalyticsAccounts() *schema.Table {
 						Name:        "start_ip_address",
 						Description: "The start IP address for the firewall rule",
 						Type:        schema.TypeInet,
-						Resolver:    resolveDatalakeAnalyticsAccountFirewallRulesStartIpAddress,
+						Resolver:    resolveAnalyticsAccountFirewallRulesStartIpAddress,
 					},
 					{
 						Name:        "end_ip_address",
 						Description: "The end IP address for the firewall rule",
 						Type:        schema.TypeInet,
-						Resolver:    resolveDatalakeAnalyticsAccountFirewallRulesEndIpAddress,
+						Resolver:    resolveAnalyticsAccountFirewallRulesEndIpAddress,
 					},
 					{
 						Name:        "id",
@@ -401,7 +401,7 @@ func fetchDatalakeAnalyticsAccountFirewallRules(ctx context.Context, meta schema
 
 	return nil
 }
-func resolveDatalakeAnalyticsAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveAnalyticsAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(account.FirewallRule)
 	if !ok {
 		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
@@ -413,7 +413,7 @@ func resolveDatalakeAnalyticsAccountFirewallRulesStartIpAddress(ctx context.Cont
 	}
 	return resource.Set(c.Name, i)
 }
-func resolveDatalakeAnalyticsAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveAnalyticsAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(account.FirewallRule)
 	if !ok {
 		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
