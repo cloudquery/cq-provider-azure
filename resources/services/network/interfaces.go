@@ -281,7 +281,7 @@ func NetworkInterfaces() *schema.Table {
 					},
 					{
 						Name:        "provisioning_state",
-						Description: "READ-ONLY; The provisioning state of the network interface IP configuration.",
+						Description: "The provisioning state of the network interface IP configuration.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.ProvisioningState"),
 					},
@@ -332,7 +332,9 @@ func fetchNetworkInterfaceIPConfigurations(ctx context.Context, meta schema.Clie
 	if !ok {
 		return fmt.Errorf("expected to have network.Interface but got %T", parent.Item)
 	}
-	res <- *ni.IPConfigurations
+	if ni.IPConfigurations != nil {
+		res <- *ni.IPConfigurations
+	}
 	return nil
 }
 func resolveNetworkInterfaceNetworkSecurityGroup(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {

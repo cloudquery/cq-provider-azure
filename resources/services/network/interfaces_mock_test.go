@@ -31,7 +31,8 @@ func fakeInterfaceIPConfiguration(t *testing.T) network.InterfaceIPConfiguration
 		"Subnet",
 		"PublicIPAddress",
 		"ApplicationSecurityGroups",
-		"PrivateLinkConnectionProperties"}); err != nil {
+		"PrivateLinkConnectionProperties",
+		"ProvisioningState"}); err != nil {
 		t.Fatal(err)
 	}
 	return sb
