@@ -11,6 +11,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
 	"github.com/cloudquery/cq-provider-azure/resources/services/container"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
+	"github.com/cloudquery/cq-provider-azure/resources/services/mariadb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mysql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/network"
@@ -47,6 +48,7 @@ func Provider() *provider.Provider {
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),
 			"keyvault.managed_hsm": keyvault.KeyvaultManagedHSM(),
+			"mariadb.servers":      mariadb.MariadbServers(),
 			"monitor.log_profiles": monitor.MonitorLogProfiles(),
 			// This resource is currently not working
 			"monitor.diagnostic_settings":          monitor.MonitorDiagnosticSettings(),
