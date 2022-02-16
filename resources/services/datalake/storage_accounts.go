@@ -10,7 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func DatalakeStorageAccounts() *schema.Table {
+func StorageAccounts() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_datalake_storage_accounts",
 		Description:  "Data Lake Store account",
@@ -192,13 +192,13 @@ func DatalakeStorageAccounts() *schema.Table {
 						Name:        "start_ip_address",
 						Description: "The start IP address for the firewall rule",
 						Type:        schema.TypeInet,
-						Resolver:    resolveDatalakeStorageAccountFirewallRulesStartIpAddress,
+						Resolver:    resolveStorageAccountFirewallRulesStartIpAddress,
 					},
 					{
 						Name:        "end_ip_address",
 						Description: "The end IP address for the firewall rule",
 						Type:        schema.TypeInet,
-						Resolver:    resolveDatalakeStorageAccountFirewallRulesEndIpAddress,
+						Resolver:    resolveStorageAccountFirewallRulesEndIpAddress,
 					},
 					{
 						Name:        "id",
@@ -333,7 +333,7 @@ func fetchDatalakeStorageAccountFirewallRules(ctx context.Context, meta schema.C
 
 	return nil
 }
-func resolveDatalakeStorageAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveStorageAccountFirewallRulesStartIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(account.FirewallRule)
 	if !ok {
 		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
@@ -345,7 +345,7 @@ func resolveDatalakeStorageAccountFirewallRulesStartIpAddress(ctx context.Contex
 	}
 	return resource.Set(c.Name, i)
 }
-func resolveDatalakeStorageAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveStorageAccountFirewallRulesEndIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(account.FirewallRule)
 	if !ok {
 		return fmt.Errorf("not a account.FirewallRule instance: %T", resource.Item)
