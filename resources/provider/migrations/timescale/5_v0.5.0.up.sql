@@ -78,4 +78,3 @@ CREATE TABLE IF NOT EXISTS "azure_sql_server_security_alert_policy"
 CREATE INDEX ON azure_sql_server_security_alert_policy (cq_fetch_date, server_cq_id);
 SELECT setup_tsdb_child('azure_sql_server_security_alert_policy', 'server_cq_id', 'azure_sql_servers', 'cq_id');
 
-

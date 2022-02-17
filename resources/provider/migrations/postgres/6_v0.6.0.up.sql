@@ -2,10 +2,8 @@
 -- CHANGEME: Verify or edit this file before proceeding
 
 -- Resource: network.virtual_networks
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
-    ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
-    ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
 
 ALTER TABLE IF EXISTS azure_compute_virtual_machines
     ADD COLUMN "windows_configuration_patch_settings_assessment_mode" text;
@@ -88,20 +86,22 @@ CREATE TABLE IF NOT EXISTS "azure_security_jit_network_access_policy_requests"
     FOREIGN KEY (jit_network_access_policy_cq_id) REFERENCES azure_security_jit_network_access_policies (cq_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "azure_resources_links"
-(
-    "cq_id"           uuid NOT NULL,
-    "cq_meta"         jsonb,
-    "subscription_id" text,
-    "id"              text,
-    "name"            text,
-    "type"            text,
-    "source_id"       text,
-    "target_id"       text,
-    "notes"           text,
-    CONSTRAINT azure_resources_links_pk PRIMARY KEY (subscription_id, id),
-    UNIQUE (cq_id)
+DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
+
+CREATE TABLE IF NOT EXISTS "azure_resources_links" (
+	"cq_id" uuid NOT NULL,
+	"cq_meta" jsonb,
+	"subscription_id" text,
+	"id" text,
+	"name" text,
+	"type" text,
+	"source_id" text,
+	"target_id" text,
+	"notes" text,
+	CONSTRAINT azure_resources_links_pk PRIMARY KEY(subscription_id,id),
+	UNIQUE(cq_id)
 );
+
 
 CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
 (
@@ -126,29 +126,4 @@ CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
     "tags"                          jsonb,
     CONSTRAINT azure_keyvault_managed_hsm_pk PRIMARY KEY (subscription_id, id),
     UNIQUE (cq_id)
-);
-
-DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
-
-
--- Resource: sql.servers
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
-(
-    "cq_id"                            uuid NOT NULL,
-    "cq_meta"                          jsonb,
-    "database_cq_id"                   uuid,
-    "scan_id"                          text,
-    "trigger_type"                     text,
-    "state"                            text,
-    "start_time"                       timestamp without time zone,
-    "end_time"                         timestamp without time zone,
-    "errors"                           jsonb,
-    "storage_container_path"           text,
-    "number_of_failed_security_checks" integer,
-    "id"                               text,
-    "name"                             text,
-    "type"                             text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_id),
-    UNIQUE (cq_id),
-    FOREIGN KEY (database_cq_id) REFERENCES azure_sql_databases (cq_id) ON DELETE CASCADE
 );
