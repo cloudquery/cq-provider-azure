@@ -66,3 +66,4 @@ DROP TABLE IF EXISTS azure_resources_links;
 
 DROP TABLE IF EXISTS azure_keyvault_managed_hsm;
 
+
