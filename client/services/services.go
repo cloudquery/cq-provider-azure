@@ -18,6 +18,7 @@
 //go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionGetter
 //go:generate mockgen -destination=./mocks/web.go -package=mocks . AppsClient
 //go:generate mockgen -destination=./mocks/cosmosdb.go -package=mocks . CosmosDBAccountClient,CosmosDBSQLClient,CosmosDBMongoDBClient
+//go:generate mockgen -destination=./mocks/search.go -package=mocks . SearchServiceClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -36,6 +37,7 @@ type Services struct {
 	PostgreSQL    PostgreSQL
 	Redis         RedisClient
 	Resources     ResourcesClient
+	Search        SearchClient
 	Security      SecurityClient
 	SQL           SQLClient
 	Storage       StorageClient
@@ -58,6 +60,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		PostgreSQL:    NewPostgresClient(subscriptionId, auth),
 		Redis:         NewRedisClient(subscriptionId, auth),
 		Resources:     NewResourcesClient(subscriptionId, auth),
+		Search:        NewSearchClient(subscriptionId, auth),
 		Security:      NewSecurityClient(subscriptionId, auth),
 		SQL:           NewSQLClient(subscriptionId, auth),
 		Storage:       NewStorageClient(subscriptionId, auth),
