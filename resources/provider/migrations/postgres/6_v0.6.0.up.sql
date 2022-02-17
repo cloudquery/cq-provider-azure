@@ -2,10 +2,8 @@
 -- CHANGEME: Verify or edit this file before proceeding
 
 -- Resource: network.virtual_networks
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
-    ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
-ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets"
-    ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "ip_configurations" jsonb;
+ALTER TABLE IF EXISTS "azure_network_virtual_network_subnets" ADD COLUMN IF NOT EXISTS "private_endpoints" jsonb;
 
 ALTER TABLE IF EXISTS azure_compute_virtual_machines
     ADD COLUMN "windows_configuration_patch_settings_assessment_mode" text;
@@ -90,20 +88,20 @@ CREATE TABLE IF NOT EXISTS "azure_security_jit_network_access_policy_requests"
 
 DROP TABLE IF EXISTS "azure_compute_virtual_machine_network_interfaces";
 
-CREATE TABLE IF NOT EXISTS "azure_resources_links"
-(
-    "cq_id"           uuid NOT NULL,
-    "cq_meta"         jsonb,
-    "subscription_id" text,
-    "id"              text,
-    "name"            text,
-    "type"            text,
-    "source_id"       text,
-    "target_id"       text,
-    "notes"           text,
-    CONSTRAINT azure_resources_links_pk PRIMARY KEY (subscription_id, id),
-    UNIQUE (cq_id)
+CREATE TABLE IF NOT EXISTS "azure_resources_links" (
+	"cq_id" uuid NOT NULL,
+	"cq_meta" jsonb,
+	"subscription_id" text,
+	"id" text,
+	"name" text,
+	"type" text,
+	"source_id" text,
+	"target_id" text,
+	"notes" text,
+	CONSTRAINT azure_resources_links_pk PRIMARY KEY(subscription_id,id),
+	UNIQUE(cq_id)
 );
+
 
 CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
 (
@@ -129,5 +127,3 @@ CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
     CONSTRAINT azure_keyvault_managed_hsm_pk PRIMARY KEY (subscription_id, id),
     UNIQUE (cq_id)
 );
-
-
