@@ -66,5 +66,3 @@ DROP TABLE IF EXISTS azure_resources_links;
 
 DROP TABLE IF EXISTS azure_keyvault_managed_hsm;
 
--- Resource: sql.servers
-DROP TABLE IF EXISTS azure_sql_database_db_vulnerability_assessment_scans;

@@ -141,29 +141,3 @@ CREATE TABLE IF NOT EXISTS "azure_keyvault_managed_hsm"
     UNIQUE (cq_fetch_date, cq_id)
 );
 SELECT setup_tsdb_parent('azure_keyvault_managed_hsm');
-
-
--- Resource: sql.servers
-CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
-(
-    "cq_id"                            uuid                        NOT NULL,
-    "cq_meta"                          jsonb,
-    "cq_fetch_date"                    timestamp without time zone NOT NULL,
-    "database_cq_id"                   uuid,
-    "scan_id"                          text,
-    "trigger_type"                     text,
-    "state"                            text,
-    "start_time"                       timestamp without time zone,
-    "end_time"                         timestamp without time zone,
-    "errors"                           jsonb,
-    "storage_container_path"           text,
-    "number_of_failed_security_checks" integer,
-    "id"                               text,
-    "name"                             text,
-    "type"                             text,
-    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_fetch_date, cq_id),
-    UNIQUE (cq_fetch_date, cq_id)
-);
-CREATE INDEX ON azure_sql_database_db_vulnerability_assessment_scans (cq_fetch_date, database_cq_id);
-SELECT setup_tsdb_child('azure_sql_database_db_vulnerability_assessment_scans', 'database_cq_id', 'azure_sql_databases',
-                        'cq_id');
