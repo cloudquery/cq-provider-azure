@@ -132,7 +132,7 @@ func MariadbServers() *schema.Table {
 			},
 			{
 				Name:        "public_network_access",
-				Description: "PublicNetworkAccess - Whether or not public network access is allowed for this server",
+				Description: "Whether or not public network access is allowed for this server.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ServerProperties.PublicNetworkAccess"),
 			},

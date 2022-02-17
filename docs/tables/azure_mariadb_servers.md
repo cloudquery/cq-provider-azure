@@ -23,7 +23,7 @@ Server represents a server.
 |replication_role|text|The replication role of the server.|
 |master_server_id|text|The master server id of a replica server.|
 |replica_capacity|integer|The maximum number of replicas that a master server can have.|
-|public_network_access|text|PublicNetworkAccess - Whether or not public network access is allowed for this server|
+|public_network_access|text|Whether or not public network access is allowed for this server.|
 |tags|jsonb|Resource tags.|
 |location|text|The geo-location where the resource lives|
 |id|text|Fully qualified resource ID for the resource|
