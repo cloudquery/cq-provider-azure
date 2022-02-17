@@ -41,5 +41,5 @@ func buildComputeVirtualMachineScaleSetsMock(t *testing.T, ctrl *gomock.Controll
 }
 
 func TestComputeVirtualMachineScaleSets(t *testing.T) {
-	client.AzureMockTestHelper(t, ComputeVirtualMachineScaleSets(), buildComputeVirtualMachineScaleSetsMock, client.TestOptions{})
+	client.AzureMockTestHelper(t, VirtualMachineScaleSets(), buildComputeVirtualMachineScaleSetsMock, client.TestOptions{})
 }

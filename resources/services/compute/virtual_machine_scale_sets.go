@@ -10,7 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func ComputeVirtualMachineScaleSets() *schema.Table {
+func VirtualMachineScaleSets() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_compute_virtual_machine_scale_sets",
 		Description:  "VirtualMachineScaleSet describes a Virtual Machine Scale Set",
@@ -112,37 +112,37 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 				Name:        "os_profile_windows_configuration",
 				Description: "Specifies Windows operating system settings on the virtual machine",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsOsProfileWindowsConfiguration,
+				Resolver:    resolveVirtualMachineScaleSetsOsProfileWindowsConfiguration,
 			},
 			{
 				Name:        "os_profile_linux_configuration",
 				Description: "Specifies the Linux operating system settings on the virtual machine",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsOsProfileLinuxConfiguration,
+				Resolver:    resolveVirtualMachineScaleSetsOsProfileLinuxConfiguration,
 			},
 			{
 				Name:        "storage_profile",
 				Description: "Specifies the storage settings for the virtual machine disks",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsStorageProfile,
+				Resolver:    resolveVirtualMachineScaleSetsStorageProfile,
 			},
 			{
 				Name:        "network_profile",
 				Description: "Specifies properties of the network interfaces of the virtual machines in the scale set",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsNetworkProfile,
+				Resolver:    resolveVirtualMachineScaleSetsNetworkProfile,
 			},
 			{
 				Name:        "security_profile",
 				Description: "Specifies the Security related profile settings for the virtual machines in the scale set",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsSecurityProfile,
+				Resolver:    resolveVirtualMachineScaleSetsSecurityProfile,
 			},
 			{
 				Name:        "diagnostics_profile",
 				Description: "Specifies the boot diagnostic settings state",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsDiagnosticsProfile,
+				Resolver:    resolveVirtualMachineScaleSetsDiagnosticsProfile,
 			},
 			{
 				Name:        "extension_profile_extensions_time_budget",
@@ -178,7 +178,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 				Name:        "scheduled_events_profile",
 				Description: "Specifies Scheduled Event related configurations",
 				Type:        schema.TypeJSON,
-				Resolver:    resolveComputeVirtualMachineScaleSetsScheduledEventsProfile,
+				Resolver:    resolveVirtualMachineScaleSetsScheduledEventsProfile,
 			},
 			{
 				Name:        "user_data",
@@ -199,7 +199,7 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.Overprovision"),
 			},
 			{
-				Name:        "do_not_run_extensions_on_overprovisioned_vm_s",
+				Name:        "do_not_run_extensions_on_overprovisioned_vms",
 				Description: "When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.DoNotRunExtensionsOnOverprovisionedVMs"),
@@ -230,18 +230,18 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 			},
 			{
 				Name:        "proximity_placement_group_id",
-				Description: "Resource Id",
+				Description: "Proximity placement group resource id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.ProximityPlacementGroup.ID"),
 			},
 			{
 				Name:        "host_group_id",
-				Description: "Resource Id",
+				Description: "Host group resource id",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.HostGroup.ID"),
 			},
 			{
-				Name:        "additional_capabilities_ultra_s_s_d_enabled",
+				Name:        "additional_capabilities_ultra_ssd_enabled",
 				Description: "The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS",
 				Type:        schema.TypeBool,
 				Resolver:    schema.PathResolver("VirtualMachineScaleSetProperties.AdditionalCapabilities.UltraSSDEnabled"),
@@ -413,13 +413,13 @@ func ComputeVirtualMachineScaleSets() *schema.Table {
 						Name:        "settings",
 						Description: "Json formatted public settings for the extension",
 						Type:        schema.TypeJSON,
-						Resolver:    resolveComputeVirtualMachineScaleSetExtensionsSettings,
+						Resolver:    resolveVirtualMachineScaleSetExtensionsSettings,
 					},
 					{
 						Name:        "protected_settings",
 						Description: "The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all",
 						Type:        schema.TypeJSON,
-						Resolver:    resolveComputeVirtualMachineScaleSetExtensionsProtectedSettings,
+						Resolver:    resolveVirtualMachineScaleSetExtensionsProtectedSettings,
 					},
 					{
 						Name:        "provisioning_state",
@@ -463,7 +463,7 @@ func fetchComputeVirtualMachineScaleSets(ctx context.Context, meta schema.Client
 	}
 	return nil
 }
-func resolveComputeVirtualMachineScaleSetsOsProfileWindowsConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsOsProfileWindowsConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -483,7 +483,7 @@ func resolveComputeVirtualMachineScaleSetsOsProfileWindowsConfiguration(ctx cont
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsOsProfileLinuxConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsOsProfileLinuxConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -503,7 +503,7 @@ func resolveComputeVirtualMachineScaleSetsOsProfileLinuxConfiguration(ctx contex
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsStorageProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsStorageProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -522,7 +522,7 @@ func resolveComputeVirtualMachineScaleSetsStorageProfile(ctx context.Context, me
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsNetworkProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsNetworkProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -541,7 +541,7 @@ func resolveComputeVirtualMachineScaleSetsNetworkProfile(ctx context.Context, me
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsSecurityProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsSecurityProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -560,7 +560,7 @@ func resolveComputeVirtualMachineScaleSetsSecurityProfile(ctx context.Context, m
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsDiagnosticsProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsDiagnosticsProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -579,7 +579,7 @@ func resolveComputeVirtualMachineScaleSetsDiagnosticsProfile(ctx context.Context
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetsScheduledEventsProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetsScheduledEventsProfile(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSet)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -650,7 +650,7 @@ func ResolveComputeVirtualMachineScaleSetExtensionExtensionType(ctx context.Cont
 	}
 	return resource.Set(c.Name, p.Type)
 }
-func resolveComputeVirtualMachineScaleSetExtensionsSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetExtensionsSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSetExtension)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)
@@ -668,7 +668,7 @@ func resolveComputeVirtualMachineScaleSetExtensionsSettings(ctx context.Context,
 
 	return resource.Set(c.Name, data)
 }
-func resolveComputeVirtualMachineScaleSetExtensionsProtectedSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveVirtualMachineScaleSetExtensionsProtectedSettings(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	p, ok := resource.Item.(compute.VirtualMachineScaleSetExtension)
 	if !ok {
 		return fmt.Errorf("expected to have compute.VirtualMachineScaleSet but got %T", resource.Item)

@@ -34,14 +34,14 @@ VirtualMachineScaleSet describes a Virtual Machine Scale Set
 |user_data|text|UserData for the virtual machines in the scale set, which must be base-64 encoded|
 |provisioning_state|text|The provisioning state, which only appears in the response|
 |overprovision|boolean|Specifies whether the Virtual Machine Scale Set should be overprovisioned|
-|do_not_run_extensions_on_overprovisioned_vm_s|boolean|When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept|
+|do_not_run_extensions_on_overprovisioned_v_ms|boolean|When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept|
 |unique_id|text|Specifies the ID which uniquely identifies a Virtual Machine Scale Set|
 |single_placement_group|boolean|When true this limits the scale set to a single placement group, of max size 100 virtual machines|
 |zone_balance|boolean|Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage|
 |platform_fault_domain_count|integer|Fault Domain count for each placement group|
-|proximity_placement_group_id|text|Resource Id|
-|host_group_id|text|Resource Id|
-|additional_capabilities_ultra_s_s_d_enabled|boolean|The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS|
+|proximity_placement_group_id|text|Proximity placement group resource id|
+|host_group_id|text|Host group resource id|
+|additional_capabilities_ultra_ssd_enabled|boolean|The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS|
 |scale_in_policy_rules|text[]|The rules to be followed when scaling-in a virtual machine scale set|
 |orchestration_mode|text|Specifies the orchestration mode for the virtual machine scale set|
 |identity_principal_id|text|The principal id of virtual machine scale set identity|
