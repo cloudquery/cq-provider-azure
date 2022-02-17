@@ -34,7 +34,7 @@ VirtualMachineScaleSet describes a Virtual Machine Scale Set
 |user_data|text|UserData for the virtual machines in the scale set, which must be base-64 encoded|
 |provisioning_state|text|The provisioning state, which only appears in the response|
 |overprovision|boolean|Specifies whether the Virtual Machine Scale Set should be overprovisioned|
-|do_not_run_extensions_on_overprovisioned_v_ms|boolean|When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept|
+|do_not_run_extensions_on_overprovisioned_vms|boolean|When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept|
 |unique_id|text|Specifies the ID which uniquely identifies a Virtual Machine Scale Set|
 |single_placement_group|boolean|When true this limits the scale set to a single placement group, of max size 100 virtual machines|
 |zone_balance|boolean|Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage|
