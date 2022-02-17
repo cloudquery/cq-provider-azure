@@ -50,3 +50,10 @@ DROP TABLE IF EXISTS azure_datalake_storage_accounts;
 
 -- Resource: sql.servers
 DROP TABLE IF EXISTS azure_sql_database_db_vulnerability_assessment_scans;
+
+
+-- Resource: container.registies
+DROP TABLE IF EXISTS azure_container_registry_network_rule_set_virtual_network_rules;
+DROP TABLE IF EXISTS azure_container_registry_network_rule_set_ip_rules;
+DROP TABLE IF EXISTS azure_container_registry_replications;
+DROP TABLE IF EXISTS azure_container_registries;
