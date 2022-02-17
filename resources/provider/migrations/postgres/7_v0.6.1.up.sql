@@ -374,3 +374,27 @@ CREATE TABLE IF NOT EXISTS "azure_sql_managed_instance_encryption_protectors"
     FOREIGN KEY (managed_instance_cq_id) REFERENCES azure_sql_managed_instances (cq_id) ON DELETE CASCADE
 );
 
+
+-- Resource: sql.servers
+CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
+(
+    "cq_id"                            uuid NOT NULL,
+    "cq_meta"                          jsonb,
+    "database_cq_id"                   uuid,
+    "scan_id"                          text,
+    "trigger_type"                     text,
+    "state"                            text,
+    "start_time"                       timestamp without time zone,
+    "end_time"                         timestamp without time zone,
+    "errors"                           jsonb,
+    "storage_container_path"           text,
+    "number_of_failed_security_checks" integer,
+    "id"                               text,
+    "name"                             text,
+    "type"                             text,
+    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (database_cq_id) REFERENCES azure_sql_databases (cq_id) ON DELETE CASCADE
+);
+
+

@@ -23,7 +23,7 @@ func buildSQLServerMock(t *testing.T, ctrl *gomock.Controller) services.Services
 	databaseThreatsSvc := mocks.NewMockSQLDatabaseThreatDetectionPoliciesClient(ctrl)
 	serverVulnsSvc := mocks.NewMockSQLServerVulnerabilityAssessmentsClient(ctrl)
 	dbVulnsSvc := mocks.NewMockSQLDatabaseVulnerabilityAssessmentsClient(ctrl)
-	dbVulnsScansSvc := mocks.NewMockDatabaseVulnerabilityAssessmentScansClient(ctrl)
+	dbVulnsScansSvc := mocks.NewMockSQLDatabaseVulnerabilityAssessmentScansClient(ctrl)
 	encSvc := mocks.NewMockTransparentDataEncryptionsClient(ctrl)
 	epSvc := mocks.NewMockEncryptionProtectorsClient(ctrl)
 	vnrSvc := mocks.NewMockSQLVirtualNetworkRulesClient(ctrl)
