@@ -28,3 +28,8 @@ DROP TABLE IF EXISTS azure_sql_managed_instance_private_endpoint_connections;
 DROP TABLE IF EXISTS azure_sql_managed_instance_vulnerability_assessments;
 DROP TABLE IF EXISTS azure_sql_managed_instance_encryption_protectors;
 DROP TABLE IF EXISTS azure_sql_managed_instances;
+
+-- Resource: mariadb.servers
+DROP TABLE IF EXISTS azure_mariadb_server_private_endpoint_connections;
+DROP TABLE IF EXISTS azure_mariadb_server_configurations;
+DROP TABLE IF EXISTS azure_mariadb_servers;
