@@ -3,14 +3,12 @@ package provider
 import (
 	"embed"
 
-	"github.com/cloudquery/cq-provider-sdk/provider"
-	"github.com/cloudquery/cq-provider-sdk/provider/schema"
-
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
 	"github.com/cloudquery/cq-provider-azure/resources/services/container"
 	"github.com/cloudquery/cq-provider-azure/resources/services/cosmosdb"
+	"github.com/cloudquery/cq-provider-azure/resources/services/datalake"
 	"github.com/cloudquery/cq-provider-azure/resources/services/eventhub"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mariadb"
@@ -25,6 +23,8 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
+	"github.com/cloudquery/cq-provider-sdk/provider"
+	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 var (
@@ -41,15 +41,18 @@ func Provider() *provider.Provider {
 		ErrorClassifier: client.ErrorClassifier,
 		Migrations:      azureMigrations,
 		ResourceMap: map[string]*schema.Table{
-			"authorization.role_assignments": authorization.AuthorizationRoleAssignments(),
-			"authorization.role_definitions": authorization.AuthorizationRoleDefinitions(),
-			"compute.disks":                  compute.ComputeDisks(),
-			"compute.virtual_machines":       compute.ComputeVirtualMachines(),
-			"container.managed_clusters":     container.ContainerManagedClusters(),
-			"cosmosdb.accounts":              cosmosdb.CosmosDBAccounts(),
-			"cosmosdb.sql_databases":         cosmosdb.CosmosDBSqlDatabases(),
-			"cosmosdb.mongodb_databases":     cosmosdb.CosmosDBMongoDBDatabases(),
-			"eventhub.namespaces":            eventhub.EventHubNamespaces(),
+			"authorization.role_assignments":     authorization.AuthorizationRoleAssignments(),
+			"authorization.role_definitions":     authorization.AuthorizationRoleDefinitions(),
+			"compute.disks":                      compute.ComputeDisks(),
+			"compute.virtual_machines":           compute.ComputeVirtualMachines(),
+			"compute.virtual_machine_scale_sets": compute.VirtualMachineScaleSets(),
+			"container.managed_clusters":         container.ContainerManagedClusters(),
+			"cosmosdb.accounts":                  cosmosdb.CosmosDBAccounts(),
+			"cosmosdb.sql_databases":             cosmosdb.CosmosDBSqlDatabases(),
+			"cosmosdb.mongodb_databases":         cosmosdb.CosmosDBMongoDBDatabases(),
+			"datalake.storage_accounts":          datalake.StorageAccounts(),
+			"datalake.analytics_accounts":        datalake.AnalyticsAccounts(),
+			"eventhub.namespaces":                eventhub.EventHubNamespaces(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),

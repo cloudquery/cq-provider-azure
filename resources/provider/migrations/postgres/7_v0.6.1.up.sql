@@ -374,6 +374,288 @@ CREATE TABLE IF NOT EXISTS "azure_sql_managed_instance_encryption_protectors"
     FOREIGN KEY (managed_instance_cq_id) REFERENCES azure_sql_managed_instances (cq_id) ON DELETE CASCADE
 );
 
+-- Resource: datalake.analytics_accounts
+CREATE TABLE IF NOT EXISTS "azure_datalake_analytics_accounts"
+(
+    "cq_id"                             uuid NOT NULL,
+    "cq_meta"                           jsonb,
+    "subscription_id"                   text,
+    "default_data_lake_store_account"   text,
+    "firewall_state"                    text,
+    "firewall_allow_azure_ips"          text,
+    "new_tier"                          text,
+    "current_tier"                      text,
+    "max_job_count"                     integer,
+    "system_max_job_count"              integer,
+    "max_degree_of_parallelism"         integer,
+    "system_max_degree_of_parallelism"  integer,
+    "max_degree_of_parallelism_per_job" integer,
+    "min_priority_per_job"              integer,
+    "query_store_retention"             integer,
+    "account_id"                        uuid,
+    "provisioning_state"                text,
+    "state"                             text,
+    "creation_time"                     timestamp without time zone,
+    "last_modified_time"                timestamp without time zone,
+    "endpoint"                          text,
+    "id"                                text,
+    "name"                              text,
+    "type"                              text,
+    "location"                          text,
+    "tags"                              jsonb,
+    CONSTRAINT azure_datalake_analytics_accounts_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_analytics_account_data_lake_store_accounts"
+(
+    "cq_id"                   uuid NOT NULL,
+    "cq_meta"                 jsonb,
+    "analytics_account_cq_id" uuid,
+    "suffix"                  text,
+    "id"                      text,
+    "name"                    text,
+    "type"                    text,
+    CONSTRAINT azure_datalake_analytics_account_data_lake_store_accounts_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (analytics_account_cq_id) REFERENCES azure_datalake_analytics_accounts (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_analytics_account_storage_accounts"
+(
+    "cq_id"                   uuid NOT NULL,
+    "cq_meta"                 jsonb,
+    "analytics_account_cq_id" uuid,
+    "suffix"                  text,
+    "id"                      text,
+    "name"                    text,
+    "type"                    text,
+    CONSTRAINT azure_datalake_analytics_account_storage_accounts_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (analytics_account_cq_id) REFERENCES azure_datalake_analytics_accounts (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_analytics_account_compute_policies"
+(
+    "cq_id"                             uuid NOT NULL,
+    "cq_meta"                           jsonb,
+    "analytics_account_cq_id"           uuid,
+    "object_id"                         uuid,
+    "object_type"                       text,
+    "max_degree_of_parallelism_per_job" integer,
+    "min_priority_per_job"              integer,
+    "id"                                text,
+    "name"                              text,
+    "type"                              text,
+    CONSTRAINT azure_datalake_analytics_account_compute_policies_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (analytics_account_cq_id) REFERENCES azure_datalake_analytics_accounts (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_analytics_account_firewall_rules"
+(
+    "cq_id"                   uuid NOT NULL,
+    "cq_meta"                 jsonb,
+    "analytics_account_cq_id" uuid,
+    "start_ip_address"        inet,
+    "end_ip_address"          inet,
+    "id"                      text,
+    "name"                    text,
+    "type"                    text,
+    CONSTRAINT azure_datalake_analytics_account_firewall_rules_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (analytics_account_cq_id) REFERENCES azure_datalake_analytics_accounts (cq_id) ON DELETE CASCADE
+);
+
+-- Resource: datalake.storage_accounts
+CREATE TABLE IF NOT EXISTS "azure_datalake_storage_accounts"
+(
+    "cq_id"                                                        uuid NOT NULL,
+    "cq_meta"                                                      jsonb,
+    "subscription_id"                                              text,
+    "identity_type"                                                text,
+    "identity_principal_id"                                        uuid,
+    "identity_tenant_id"                                           uuid,
+    "default_group"                                                text,
+    "encryption_config_type"                                       text,
+    "encryption_config_key_vault_meta_info_key_vault_resource_id"  text,
+    "encryption_config_key_vault_meta_info_encryption_key_name"    text,
+    "encryption_config_key_vault_meta_info_encryption_key_version" text,
+    "encryption_state"                                             text,
+    "encryption_provisioning_state"                                text,
+    "firewall_state"                                               text,
+    "firewall_allow_azure_ips"                                     text,
+    "trusted_id_provider_state"                                    text,
+    "new_tier"                                                     text,
+    "current_tier"                                                 text,
+    "account_id"                                                   uuid,
+    "provisioning_state"                                           text,
+    "state"                                                        text,
+    "creation_time"                                                timestamp without time zone,
+    "last_modified_time"                                           timestamp without time zone,
+    "endpoint"                                                     text,
+    "id"                                                           text,
+    "name"                                                         text,
+    "type"                                                         text,
+    "location"                                                     text,
+    "tags"                                                         jsonb,
+    CONSTRAINT azure_datalake_storage_accounts_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_storage_account_firewall_rules"
+(
+    "cq_id"                 uuid NOT NULL,
+    "cq_meta"               jsonb,
+    "storage_account_cq_id" uuid,
+    "start_ip_address"      inet,
+    "end_ip_address"        inet,
+    "id"                    text,
+    "name"                  text,
+    "type"                  text,
+    CONSTRAINT azure_datalake_storage_account_firewall_rules_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (storage_account_cq_id) REFERENCES azure_datalake_storage_accounts (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_storage_account_virtual_network_rules"
+(
+    "cq_id"                 uuid NOT NULL,
+    "cq_meta"               jsonb,
+    "storage_account_cq_id" uuid,
+    "subnet_id"             text,
+    "id"                    text,
+    "name"                  text,
+    "type"                  text,
+    CONSTRAINT azure_datalake_storage_account_virtual_network_rules_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (storage_account_cq_id) REFERENCES azure_datalake_storage_accounts (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_datalake_storage_account_trusted_id_providers"
+(
+    "cq_id"                 uuid NOT NULL,
+    "cq_meta"               jsonb,
+    "storage_account_cq_id" uuid,
+    "id_provider"           text,
+    "id"                    text,
+    "name"                  text,
+    "type"                  text,
+    CONSTRAINT azure_datalake_storage_account_trusted_id_providers_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (storage_account_cq_id) REFERENCES azure_datalake_storage_accounts (cq_id) ON DELETE CASCADE
+);
+
+
+-- Resource: compute.virtual_machine_scale_sets
+CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_sets"
+(
+    "cq_id"                                         uuid NOT NULL,
+    "cq_meta"                                       jsonb,
+    "subscription_id"                               text,
+    "sku_name"                                      text,
+    "sku_tier"                                      text,
+    "sku_capacity"                                  bigint,
+    "plan_name"                                     text,
+    "plan_publisher"                                text,
+    "plan_product"                                  text,
+    "plan_promotion_code"                           text,
+    "upgrade_policy"                                jsonb,
+    "automatic_repairs_policy_enabled"              boolean,
+    "automatic_repairs_policy_grace_period"         text,
+    "os_profile_computer_name_prefix"               text,
+    "os_profile_admin_username"                     text,
+    "os_profile_admin_password"                     text,
+    "os_profile_custom_data"                        text,
+    "os_profile_windows_configuration"              jsonb,
+    "os_profile_linux_configuration"                jsonb,
+    "storage_profile"                               jsonb,
+    "network_profile"                               jsonb,
+    "security_profile"                              jsonb,
+    "diagnostics_profile"                           jsonb,
+    "extension_profile_extensions_time_budget"      text,
+    "license_type"                                  text,
+    "priority"                                      text,
+    "eviction_policy"                               text,
+    "billing_profile_max_price"                     float,
+    "scheduled_events_profile"                      jsonb,
+    "user_data"                                     text,
+    "provisioning_state"                            text,
+    "overprovision"                                 boolean,
+    "do_not_run_extensions_on_overprovisioned_vms" boolean,
+    "unique_id"                                     text,
+    "single_placement_group"                        boolean,
+    "zone_balance"                                  boolean,
+    "platform_fault_domain_count"                   integer,
+    "proximity_placement_group_id"                  text,
+    "host_group_id"                                 text,
+    "additional_capabilities_ultra_ssd_enabled"   boolean,
+    "scale_in_policy_rules"                         text[],
+    "orchestration_mode"                            text,
+    "identity_principal_id"                         text,
+    "identity_tenant_id"                            text,
+    "identity_type"                                 text,
+    "identity_user_assigned_identities"             jsonb,
+    "zones"                                         text[],
+    "extended_location_name"                        text,
+    "extended_location_type"                        text,
+    "id"                                            text,
+    "name"                                          text,
+    "type"                                          text,
+    "location"                                      text,
+    "tags"                                          jsonb,
+    CONSTRAINT azure_compute_virtual_machine_scale_sets_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
+);
+CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_set_os_profile_secrets"
+(
+    "cq_id"                           uuid NOT NULL,
+    "cq_meta"                         jsonb,
+    "virtual_machine_scale_set_cq_id" uuid,
+    "source_vault_id"                 text,
+    "vault_certificates"              jsonb,
+    CONSTRAINT azure_compute_virtual_machine_scale_set_os_profile_secrets_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (virtual_machine_scale_set_cq_id) REFERENCES azure_compute_virtual_machine_scale_sets (cq_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "azure_compute_virtual_machine_scale_set_extensions"
+(
+    "cq_id"                           uuid NOT NULL,
+    "cq_meta"                         jsonb,
+    "virtual_machine_scale_set_cq_id" uuid,
+    "type"                            text,
+    "extension_type"                  text,
+    "name"                            text,
+    "force_update_tag"                text,
+    "publisher"                       text,
+    "type_handler_version"            text,
+    "auto_upgrade_minor_version"      boolean,
+    "enable_automatic_upgrade"        boolean,
+    "settings"                        jsonb,
+    "protected_settings"              jsonb,
+    "provisioning_state"              text,
+    "provision_after_extensions"      text[],
+    "id"                              text,
+    CONSTRAINT azure_compute_virtual_machine_scale_set_extensions_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (virtual_machine_scale_set_cq_id) REFERENCES azure_compute_virtual_machine_scale_sets (cq_id) ON DELETE CASCADE
+);
+
+-- Resource: sql.servers
+CREATE TABLE IF NOT EXISTS "azure_sql_database_db_vulnerability_assessment_scans"
+(
+    "cq_id"                            uuid NOT NULL,
+    "cq_meta"                          jsonb,
+    "database_cq_id"                   uuid,
+    "scan_id"                          text,
+    "trigger_type"                     text,
+    "state"                            text,
+    "start_time"                       timestamp without time zone,
+    "end_time"                         timestamp without time zone,
+    "errors"                           jsonb,
+    "storage_container_path"           text,
+    "number_of_failed_security_checks" integer,
+    "id"                               text,
+    "name"                             text,
+    "type"                             text,
+    CONSTRAINT azure_sql_database_db_vulnerability_assessment_scans_pk PRIMARY KEY (cq_id),
+    UNIQUE (cq_id),
+    FOREIGN KEY (database_cq_id) REFERENCES azure_sql_databases (cq_id) ON DELETE CASCADE
+);
+
 -- Resource: mariadb.servers
 CREATE TABLE IF NOT EXISTS "azure_mariadb_servers" (
 	"cq_id" uuid NOT NULL,
