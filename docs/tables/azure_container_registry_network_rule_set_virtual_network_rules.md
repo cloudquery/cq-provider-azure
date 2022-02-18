@@ -6,4 +6,4 @@ VirtualNetworkRule virtual network rule
 | ------------- | ------------- | -----  |
 |registry_cq_id|uuid|Unique CloudQuery ID of azure_container_registries table (FK)|
 |action|text|The action of virtual network rule|
-|virtual_network_resource_id|text|Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftNetwork/virtualNetworks/{vnetName}/subnets/{subnetName}|
+|virtual_network_id|text|Resource ID of a subnet|

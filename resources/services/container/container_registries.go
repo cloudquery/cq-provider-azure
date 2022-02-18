@@ -3,11 +3,10 @@ package container
 import (
 	"context"
 	"fmt"
-	"net"
-
 	"github.com/Azure/azure-sdk-for-go/services/containerregistry/mgmt/2019-05-01/containerregistry"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+	"net"
 )
 
 func ContainerRegistries() *schema.Table {
@@ -171,8 +170,8 @@ func ContainerRegistries() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "virtual_network_resource_id",
-						Description: "Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftNetwork/virtualNetworks/{vnetName}/subnets/{subnetName}",
+						Name:        "virtual_network_id",
+						Description: "Resource ID of a subnet",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("VirtualNetworkResourceID"),
 					},

@@ -756,7 +756,7 @@ CREATE TABLE IF NOT EXISTS "azure_container_registry_network_rule_set_virtual_ne
     "cq_meta"                     jsonb,
     "registry_cq_id"              uuid,
     "action"                      text,
-    "virtual_network_resource_id" text,
+    "virtual_network_id" text,
     CONSTRAINT azure_container_registry_network_rule_set_virtual_network_ru_pk PRIMARY KEY (cq_id),
     UNIQUE (cq_id),
     FOREIGN KEY (registry_cq_id) REFERENCES azure_container_registries (cq_id) ON DELETE CASCADE

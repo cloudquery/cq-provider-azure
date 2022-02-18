@@ -846,7 +846,7 @@ CREATE TABLE IF NOT EXISTS "azure_container_registry_network_rule_set_virtual_ne
     "cq_fetch_date"               timestamp without time zone NOT NULL,
     "registry_cq_id"              uuid,
     "action"                      text,
-    "virtual_network_resource_id" text,
+    "virtual_network_id" text,
     CONSTRAINT azure_container_registry_network_rule_set_virtual_network_ru_pk PRIMARY KEY (cq_fetch_date, cq_id),
     UNIQUE (cq_fetch_date, cq_id)
 );
