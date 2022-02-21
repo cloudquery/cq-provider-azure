@@ -18,6 +18,7 @@
 //go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionGetter
 //go:generate mockgen -destination=./mocks/web.go -package=mocks . AppsClient
 //go:generate mockgen -destination=./mocks/cosmosdb.go -package=mocks . CosmosDBAccountClient,CosmosDBSQLClient,CosmosDBMongoDBClient
+//go:generate mockgen -destination=./mocks/batch.go -package=mocks . BatchAccountClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -25,6 +26,7 @@ import "github.com/Azure/go-autorest/autorest"
 type Services struct {
 	AD            AD
 	Authorization AuthorizationClient
+	Batch         BatchClient
 	Compute       ComputeClient
 	Container     ContainerServiceClient
 	CosmosDb      CosmosDbClient
@@ -49,6 +51,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 	return Services{
 		AD:            NewADClient(subscriptionId, auth),
 		Authorization: NewAuthorizationClient(subscriptionId, auth),
+		Batch:         NewBatchClient(subscriptionId, auth),
 		Compute:       NewComputeClient(subscriptionId, auth),
 		Container:     NewContainerServiceClient(subscriptionId, auth),
 		CosmosDb:      NewCosmosDbClient(subscriptionId, auth),
