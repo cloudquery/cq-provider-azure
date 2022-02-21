@@ -17,6 +17,7 @@ func ContainerRegistries() *schema.Table {
 		Resolver:     fetchContainerRegistries,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
