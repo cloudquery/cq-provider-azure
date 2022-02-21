@@ -276,8 +276,8 @@ func NetworkInterfaces() *schema.Table {
 					{
 						Name:        "private_link_connection_properties",
 						Description: "PrivateLinkConnection properties for the network interface.",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PrivateLinkConnectionProperties"),
+						Type:        schema.TypeJSON,
+						Resolver:    resolveInterfaceIPConfigurationPrivateLinkConnectionProperties,
 					},
 					{
 						Name:        "provisioning_state",
@@ -288,8 +288,8 @@ func NetworkInterfaces() *schema.Table {
 					{
 						Name:        "public_ip_address",
 						Description: "Public IP address bound to the IP configuration.",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PublicIPAddress"),
+						Type:        schema.TypeJSON,
+						Resolver:    resolvePublicIPAddress,
 					},
 					{
 						Name:        "subnet_id",
@@ -400,6 +400,38 @@ func resolveNetworkInterfaceTapConfigurations(ctx context.Context, meta schema.C
 	}
 
 	out, err := json.Marshal(p.InterfacePropertiesFormat.TapConfigurations)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, out)
+}
+
+func resolveInterfaceIPConfigurationPrivateLinkConnectionProperties(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(network.InterfaceIPConfiguration)
+	if !ok {
+		return fmt.Errorf("expected to have network.InterfaceIPConfiguration but got %T", resource.Item)
+	}
+	if p.PrivateLinkConnectionProperties == nil {
+		return nil
+	}
+
+	out, err := json.Marshal(p.PrivateLinkConnectionProperties)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, out)
+}
+
+func resolvePublicIPAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	p, ok := resource.Item.(network.InterfaceIPConfiguration)
+	if !ok {
+		return fmt.Errorf("expected to have network.InterfaceIPConfiguration but got %T", resource.Item)
+	}
+	if p.PublicIPAddress == nil {
+		return nil
+	}
+
+	out, err := json.Marshal(p.PublicIPAddress)
 	if err != nil {
 		return err
 	}
