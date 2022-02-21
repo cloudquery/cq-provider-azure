@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS "azure_network_interface_ip_configurations" (
 	"private_ip_allocation_method" text,
 	"private_link_connection_properties" jsonb,
 	"provisioning_state" text,
-	"public_ip_address" jsonb,
+	"public_ip_address" text,
 	"subnet_id" text,
 	"virtual_network_taps" jsonb,
 	CONSTRAINT azure_network_interface_ip_configurations_pk PRIMARY KEY(interface_cq_id,id),

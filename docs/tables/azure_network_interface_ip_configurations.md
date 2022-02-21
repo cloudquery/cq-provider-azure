@@ -19,6 +19,6 @@ NetworkInterface IP Configurations.
 |private_ip_allocation_method|text|Private IP address allocation method.|
 |private_link_connection_properties|jsonb|PrivateLinkConnection properties for the network interface.|
 |provisioning_state|text|The provisioning state of the network interface IP configuration.|
-|public_ip_address|jsonb|Public IP address bound to the IP configuration.|
+|public_ip_address|text|Public IP address bound to the IP configuration.|
 |subnet_id|text|subnet ID of network interface ip configuration|
 |virtual_network_taps|jsonb|The reference to Virtual Network Taps.|

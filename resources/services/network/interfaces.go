@@ -288,8 +288,8 @@ func NetworkInterfaces() *schema.Table {
 					{
 						Name:        "public_ip_address",
 						Description: "Public IP address bound to the IP configuration.",
-						Type:        schema.TypeJSON,
-						Resolver:    resolvePublicIPAddress,
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PublicIPAddress.ID"),
 					},
 					{
 						Name:        "subnet_id",
@@ -416,22 +416,6 @@ func resolveInterfaceIPConfigurationPrivateLinkConnectionProperties(ctx context.
 	}
 
 	out, err := json.Marshal(p.PrivateLinkConnectionProperties)
-	if err != nil {
-		return err
-	}
-	return resource.Set(c.Name, out)
-}
-
-func resolvePublicIPAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	p, ok := resource.Item.(network.InterfaceIPConfiguration)
-	if !ok {
-		return fmt.Errorf("expected to have network.InterfaceIPConfiguration but got %T", resource.Item)
-	}
-	if p.PublicIPAddress == nil {
-		return nil
-	}
-
-	out, err := json.Marshal(p.PublicIPAddress)
 	if err != nil {
 		return err
 	}
