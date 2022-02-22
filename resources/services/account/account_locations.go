@@ -2,6 +2,7 @@ package account
 
 import (
 	"context"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -56,9 +57,8 @@ func AccountLocations() *schema.Table {
 // ====================================================================================================================
 
 func fetchAccountLocations(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	cli := meta.(*client.Client)
-	svc := cli.Services().Subscriptions.Subscriptions
-	response, err := svc.ListLocations(ctx, cli.SubscriptionId)
+	svc := meta.(*client.Client).Services().Subscriptions
+	response, err := svc.Subscriptions.ListLocations(ctx, svc.SubscriptionID)
 	if err != nil {
 		return err
 	}

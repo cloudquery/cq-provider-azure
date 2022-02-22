@@ -793,3 +793,18 @@ CREATE TABLE IF NOT EXISTS "azure_container_registry_replications"
     UNIQUE (cq_id),
     FOREIGN KEY (registry_cq_id) REFERENCES azure_container_registries (cq_id) ON DELETE CASCADE
 );
+
+-- Resource: account.locations
+CREATE TABLE IF NOT EXISTS "azure_account_locations"
+(
+    "cq_id"           uuid NOT NULL,
+    "cq_meta"         jsonb,
+    "id"              text,
+    "subscription_id" text,
+    "name"            text,
+    "display_name"    text,
+    "latitude"        text,
+    "longitude"       text,
+    CONSTRAINT azure_account_locations_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
+);

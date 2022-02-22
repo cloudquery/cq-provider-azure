@@ -61,3 +61,6 @@ DROP TABLE IF EXISTS azure_container_registry_network_rule_set_virtual_network_r
 DROP TABLE IF EXISTS azure_container_registry_network_rule_set_ip_rules;
 DROP TABLE IF EXISTS azure_container_registry_replications;
 DROP TABLE IF EXISTS azure_container_registries;
+
+-- Resource: account.locations
+DROP TABLE IF EXISTS azure_account_locations;

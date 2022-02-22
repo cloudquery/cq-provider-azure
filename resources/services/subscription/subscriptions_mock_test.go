@@ -12,7 +12,7 @@ import (
 )
 
 func buildSubscriptionSubscriptionsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
-	m := mocks.NewMockSubscriptionGetter(ctrl)
+	m := mocks.NewMockSubscriptionsClient(ctrl)
 
 	var subscriptionID string
 	if err := faker.FakeData(&subscriptionID); err != nil {
