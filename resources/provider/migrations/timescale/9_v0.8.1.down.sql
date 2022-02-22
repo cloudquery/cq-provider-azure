@@ -12,3 +12,6 @@ DROP TABLE IF EXISTS azure_iothub_hub_routing_endpoints_event_hubs;
 DROP TABLE IF EXISTS azure_iothub_hub_routing_endpoints_storage_containers;
 DROP TABLE IF EXISTS azure_iothub_hub_routing_routes;
 DROP TABLE IF EXISTS azure_iothub_hubs;
+
+-- Resource: streamanalytics.jobs
+DROP TABLE IF EXISTS azure_streamanalytics_jobs;
