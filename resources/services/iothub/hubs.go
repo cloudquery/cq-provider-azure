@@ -813,7 +813,7 @@ func resolveIothubHubsLocations(_ context.Context, _ schema.ClientMeta, resource
 	if !ok {
 		return fmt.Errorf("expected to have devices.IotHubDescription but got %T", resource.Item)
 	}
-	if iothub.Properties == nil || iothub.Properties.Routing == nil || iothub.Properties.Locations == nil {
+	if iothub.Properties == nil || iothub.Properties.Locations == nil {
 		return nil
 	}
 	b, err := json.Marshal(iothub.Properties.Locations)
