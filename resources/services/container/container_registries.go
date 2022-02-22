@@ -328,6 +328,10 @@ func fetchContainerRegistryReplications(ctx context.Context, meta schema.ClientM
 	if !ok {
 		return fmt.Errorf("not a containerregistry.Registry instance: %T", parent.Item)
 	}
+	if r.ID == nil || r.Name == nil {
+		return nil
+	}
+
 	svc := meta.(*client.Client).Services().ContainerRegistry.Replications
 	resource, err := client.ParseResourceID(*r.ID)
 	if err != nil {
