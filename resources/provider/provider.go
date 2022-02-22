@@ -10,6 +10,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/cosmosdb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/datalake"
 	"github.com/cloudquery/cq-provider-azure/resources/services/eventhub"
+	"github.com/cloudquery/cq-provider-azure/resources/services/iothub"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mariadb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
@@ -19,6 +20,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/redis"
 	resources2 "github.com/cloudquery/cq-provider-azure/resources/services/resources"
 	"github.com/cloudquery/cq-provider-azure/resources/services/security"
+	"github.com/cloudquery/cq-provider-azure/resources/services/servicebus"
 	"github.com/cloudquery/cq-provider-azure/resources/services/sql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
@@ -54,6 +56,7 @@ func Provider() *provider.Provider {
 			"datalake.storage_accounts":          datalake.StorageAccounts(),
 			"datalake.analytics_accounts":        datalake.AnalyticsAccounts(),
 			"eventhub.namespaces":                eventhub.EventHubNamespaces(),
+			"iothub.hubs":                        iothub.IothubHubs(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),
@@ -65,6 +68,7 @@ func Provider() *provider.Provider {
 			"monitor.activity_logs":                monitor.MonitorActivityLogs(),
 			"monitor.activity_log_alerts":          monitor.MonitorActivityLogAlerts(),
 			"mysql.servers":                        mysql.MySQLServers(),
+			"network.interfaces":                   network.NetworkInterfaces(),
 			"network.virtual_networks":             network.NetworkVirtualNetworks(),
 			"network.security_groups":              network.NetworkSecurityGroups(),
 			"network.public_ip_addresses":          network.NetworkPublicIPAddresses(),
@@ -79,6 +83,7 @@ func Provider() *provider.Provider {
 			"security.pricings":                    security.SecurityPricings(),
 			"security.settings":                    security.SecuritySettings(),
 			"security.jit_network_access_policies": security.SecurityJitNetworkAccessPolicies(),
+			"servicebus.namespaces":                servicebus.ServicebusNamespaces(),
 			"sql.servers":                          sql.SQLServers(),
 			"sql.managed_instances":                sql.SqlManagedInstances(),
 			"storage.accounts":                     storage.StorageAccounts(),
