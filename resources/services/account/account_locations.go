@@ -2,7 +2,6 @@ package account
 
 import (
 	"context"
-
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -17,16 +16,16 @@ func AccountLocations() *schema.Table {
 		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
+				Name:        "subscription_id",
+				Description: "Azure subscription id",
+				Type:        schema.TypeString,
+				Resolver:    client.ResolveAzureSubscription,
+			},
+			{
 				Name:        "id",
 				Description: "The fully qualified ID of the location",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
-			},
-			{
-				Name:        "subscription_id",
-				Description: "The subscription ID",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("SubscriptionID"),
 			},
 			{
 				Name:        "name",
