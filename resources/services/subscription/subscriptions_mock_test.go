@@ -28,7 +28,7 @@ func buildSubscriptionSubscriptionsMock(t *testing.T, ctrl *gomock.Controller) s
 	m.EXPECT().Get(gomock.Any(), subscriptionID).Return(model, nil)
 
 	return services.Services{
-		Subscriptions: services.SubscriptionsClient{
+		Subscriptions: services.Subscriptions{
 			SubscriptionID: subscriptionID,
 			Subscriptions:  m,
 		},
