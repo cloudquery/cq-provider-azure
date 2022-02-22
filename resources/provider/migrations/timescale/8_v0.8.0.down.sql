@@ -4,3 +4,6 @@
 -- Resource: network.interfaces
 DROP TABLE IF EXISTS azure_network_interface_ip_configurations;
 DROP TABLE IF EXISTS azure_network_interfaces;
+
+-- Resource: security.assessments
+DROP TABLE IF EXISTS azure_security_assessments;
