@@ -3,7 +3,6 @@ package sql
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -375,16 +374,18 @@ func SqlManagedInstances() *schema.Table {
 						Resolver:    schema.PathResolver("ManagedInstanceEncryptionProtectorProperties.ServerKeyType"),
 					},
 					{
-						Name:        "uri",
-						Description: "The URI of the server key",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ManagedInstanceEncryptionProtectorProperties.URI"),
+						Name:          "uri",
+						Description:   "The URI of the server key",
+						Type:          schema.TypeString,
+						IgnoreInTests: true,
+						Resolver:      schema.PathResolver("ManagedInstanceEncryptionProtectorProperties.URI"),
 					},
 					{
-						Name:        "thumbprint",
-						Description: "Thumbprint of the server key",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ManagedInstanceEncryptionProtectorProperties.Thumbprint"),
+						Name:          "thumbprint",
+						Description:   "Thumbprint of the server key",
+						Type:          schema.TypeString,
+						IgnoreInTests: true,
+						Resolver:      schema.PathResolver("ManagedInstanceEncryptionProtectorProperties.Thumbprint"),
 					},
 					{
 						Name:        "id",
