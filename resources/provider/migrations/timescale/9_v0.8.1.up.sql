@@ -213,3 +213,21 @@ CREATE TABLE IF NOT EXISTS "azure_iothub_hub_routing_routes" (
 );
 CREATE INDEX ON azure_iothub_hub_routing_routes (cq_fetch_date, hub_cq_id);
 SELECT setup_tsdb_child('azure_iothub_hub_routing_routes', 'hub_cq_id', 'azure_iothub_hubs', 'cq_id');
+
+-- Resource: account.locations
+CREATE TABLE IF NOT EXISTS "azure_account_locations"
+(
+    "cq_id"           uuid                        NOT NULL,
+    "cq_meta"         jsonb,
+    "cq_fetch_date"   timestamp without time zone NOT NULL,
+    "id"              text,
+    "subscription_id" text,
+    "name"            text,
+    "display_name"    text,
+    "latitude"        text,
+    "longitude"       text,
+    CONSTRAINT azure_account_locations_pk PRIMARY KEY (cq_fetch_date, subscription_id, id),
+    UNIQUE (cq_fetch_date, cq_id)
+);
+SELECT setup_tsdb_parent('azure_account_locations');
+

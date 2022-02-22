@@ -193,3 +193,19 @@ CREATE TABLE IF NOT EXISTS "azure_iothub_hub_routing_routes" (
 	UNIQUE(cq_id),
 	FOREIGN KEY (hub_cq_id) REFERENCES azure_iothub_hubs(cq_id) ON DELETE CASCADE
 );
+
+
+-- Resource: account.locations
+CREATE TABLE IF NOT EXISTS "azure_account_locations"
+(
+    "cq_id"           uuid NOT NULL,
+    "cq_meta"         jsonb,
+    "id"              text,
+    "subscription_id" text,
+    "name"            text,
+    "display_name"    text,
+    "latitude"        text,
+    "longitude"       text,
+    CONSTRAINT azure_account_locations_pk PRIMARY KEY (subscription_id, id),
+    UNIQUE (cq_id)
+);
