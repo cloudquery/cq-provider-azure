@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS "azure_security_assessments" (
 	"id" text,
 	"name" text,
 	"type" text,
+	"resource_details" jsonb,
 	CONSTRAINT azure_security_assessments_pk PRIMARY KEY(subscription_id,id),
 	UNIQUE(cq_id)
 );
