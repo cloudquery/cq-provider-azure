@@ -18,6 +18,7 @@ func buildSecurityAssessments(t *testing.T, ctrl *gomock.Controller) services.Se
 	if err := faker.FakeDataSkipFields(&p, []string{"ResourceDetails"}); err != nil {
 		t.Fatal(err)
 	}
+	p.ResourceDetails = security.ResourceDetails{Source: security.SourceResourceDetails}
 	var a security.Assessment
 	if err := faker.FakeDataSkipFields(&a, []string{"AssessmentProperties"}); err != nil {
 		t.Fatal(err)
