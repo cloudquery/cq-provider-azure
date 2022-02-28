@@ -2,8 +2,10 @@ package security
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
+	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v3.0/security"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -157,6 +159,12 @@ func SecurityAssessments() *schema.Table {
 				Description: "Resource type.",
 				Type:        schema.TypeString,
 			},
+			{
+				Name:        "resource_details",
+				Description: "Assessed resource details.",
+				Type:        schema.TypeJSON,
+				Resolver:    resolveSecurityAssessmentResourceDetails,
+			},
 		},
 	}
 }
@@ -179,4 +187,16 @@ func fetchSecurityAssessments(ctx context.Context, meta schema.ClientMeta, paren
 		}
 	}
 	return nil
+}
+
+func resolveSecurityAssessmentResourceDetails(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	a := resource.Item.(security.Assessment)
+	if a.AssessmentProperties == nil {
+		return nil
+	}
+	b, err := json.Marshal(a.AssessmentProperties.ResourceDetails)
+	if err != nil {
+		return err
+	}
+	return resource.Set(c.Name, b)
 }

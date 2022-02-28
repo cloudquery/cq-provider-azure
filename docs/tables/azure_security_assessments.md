@@ -28,3 +28,4 @@ Assessment security assessment on a resource
 |id|text|Resource Id.|
 |name|text|Resource name.|
 |type|text|Resource type.|
+|resource_details|jsonb|Assessed resource details.|
