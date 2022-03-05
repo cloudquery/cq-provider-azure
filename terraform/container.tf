@@ -40,6 +40,7 @@ resource "azurerm_kubernetes_cluster" "managed_clusters_cluster" {
   }
 }
 
+
 resource "azurerm_container_registry" "managed_clusters_registry" {
   name                = "acrcqinttest"
   resource_group_name = azurerm_resource_group.cq_int_tests.name
