@@ -4,6 +4,7 @@ import (
 	"embed"
 
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-azure/resources/services/account"
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
 	"github.com/cloudquery/cq-provider-azure/resources/services/container"
@@ -24,6 +25,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/servicebus"
 	"github.com/cloudquery/cq-provider-azure/resources/services/sql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
+	"github.com/cloudquery/cq-provider-azure/resources/services/streamanalytics"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
 	"github.com/cloudquery/cq-provider-sdk/provider"
@@ -44,6 +46,7 @@ func Provider() *provider.Provider {
 		ErrorClassifier: client.ErrorClassifier,
 		Migrations:      azureMigrations,
 		ResourceMap: map[string]*schema.Table{
+			"account.locations":                  account.AccountLocations(),
 			"authorization.role_assignments":     authorization.AuthorizationRoleAssignments(),
 			"authorization.role_definitions":     authorization.AuthorizationRoleDefinitions(),
 			"compute.disks":                      compute.ComputeDisks(),
@@ -79,6 +82,7 @@ func Provider() *provider.Provider {
 			"resources.groups":                     resources2.ResourcesGroups(),
 			"resources.policy_assignments":         resources2.ResourcesPolicyAssignments(),
 			"resources.links":                      resources2.ResourcesLinks(),
+			"security.assessments":                 security.SecurityAssessments(),
 			"search.services":                      search.SearchServices(),
 			"security.auto_provisioning_settings":  security.SecurityAutoProvisioningSettings(),
 			"security.contacts":                    security.SecurityContacts(),
@@ -89,6 +93,7 @@ func Provider() *provider.Provider {
 			"sql.servers":                          sql.SQLServers(),
 			"sql.managed_instances":                sql.SqlManagedInstances(),
 			"storage.accounts":                     storage.StorageAccounts(),
+			"streamanalytics.jobs":                 streamanalytics.StreamanalyticsJobs(),
 			"subscription.subscriptions":           subscription.SubscriptionSubscriptions(),
 			"web.apps":                             web.WebApps(),
 		},
