@@ -4,6 +4,7 @@ import (
 	"embed"
 
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-azure/resources/services/account"
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
 	"github.com/cloudquery/cq-provider-azure/resources/services/batch"
 	"github.com/cloudquery/cq-provider-azure/resources/services/compute"
@@ -11,6 +12,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/cosmosdb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/datalake"
 	"github.com/cloudquery/cq-provider-azure/resources/services/eventhub"
+	"github.com/cloudquery/cq-provider-azure/resources/services/iothub"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mariadb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
@@ -20,8 +22,10 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/redis"
 	resources2 "github.com/cloudquery/cq-provider-azure/resources/services/resources"
 	"github.com/cloudquery/cq-provider-azure/resources/services/security"
+	"github.com/cloudquery/cq-provider-azure/resources/services/servicebus"
 	"github.com/cloudquery/cq-provider-azure/resources/services/sql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/storage"
+	"github.com/cloudquery/cq-provider-azure/resources/services/streamanalytics"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
 	"github.com/cloudquery/cq-provider-sdk/provider"
@@ -42,6 +46,7 @@ func Provider() *provider.Provider {
 		ErrorClassifier: client.ErrorClassifier,
 		Migrations:      azureMigrations,
 		ResourceMap: map[string]*schema.Table{
+			"account.locations":                  account.AccountLocations(),
 			"authorization.role_assignments":     authorization.AuthorizationRoleAssignments(),
 			"authorization.role_definitions":     authorization.AuthorizationRoleDefinitions(),
 			"batch.accounts":                     batch.BatchAccounts(),
@@ -49,12 +54,14 @@ func Provider() *provider.Provider {
 			"compute.virtual_machines":           compute.ComputeVirtualMachines(),
 			"compute.virtual_machine_scale_sets": compute.VirtualMachineScaleSets(),
 			"container.managed_clusters":         container.ContainerManagedClusters(),
+			"container.registries":               container.ContainerRegistries(),
 			"cosmosdb.accounts":                  cosmosdb.CosmosDBAccounts(),
 			"cosmosdb.sql_databases":             cosmosdb.CosmosDBSqlDatabases(),
 			"cosmosdb.mongodb_databases":         cosmosdb.CosmosDBMongoDBDatabases(),
 			"datalake.storage_accounts":          datalake.StorageAccounts(),
 			"datalake.analytics_accounts":        datalake.AnalyticsAccounts(),
 			"eventhub.namespaces":                eventhub.EventHubNamespaces(),
+			"iothub.hubs":                        iothub.IothubHubs(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),
@@ -76,14 +83,17 @@ func Provider() *provider.Provider {
 			"resources.groups":                     resources2.ResourcesGroups(),
 			"resources.policy_assignments":         resources2.ResourcesPolicyAssignments(),
 			"resources.links":                      resources2.ResourcesLinks(),
+			"security.assessments":                 security.SecurityAssessments(),
 			"security.auto_provisioning_settings":  security.SecurityAutoProvisioningSettings(),
 			"security.contacts":                    security.SecurityContacts(),
 			"security.pricings":                    security.SecurityPricings(),
 			"security.settings":                    security.SecuritySettings(),
 			"security.jit_network_access_policies": security.SecurityJitNetworkAccessPolicies(),
+			"servicebus.namespaces":                servicebus.ServicebusNamespaces(),
 			"sql.servers":                          sql.SQLServers(),
 			"sql.managed_instances":                sql.SqlManagedInstances(),
 			"storage.accounts":                     storage.StorageAccounts(),
+			"streamanalytics.jobs":                 streamanalytics.StreamanalyticsJobs(),
 			"subscription.subscriptions":           subscription.SubscriptionSubscriptions(),
 			"web.apps":                             web.WebApps(),
 		},
