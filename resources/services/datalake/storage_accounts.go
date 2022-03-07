@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/store/mgmt/account"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -205,6 +206,9 @@ func StorageAccounts() *schema.Table {
 						Description: "The resource identifier",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
+						// This looks like a deprecated field, always returns nil
+						// we might want to delete it in the future
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "name",
@@ -215,6 +219,9 @@ func StorageAccounts() *schema.Table {
 						Name:        "type",
 						Description: "The resource type",
 						Type:        schema.TypeString,
+						// This looks like a deprecated field, always returns nil
+						// we might want to delete it in the future
+						IgnoreInTests: true,
 					},
 				},
 			},
@@ -275,6 +282,9 @@ func StorageAccounts() *schema.Table {
 						Description: "The resource identifier",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
+						// This looks like a deprecated field, always returns nil
+						// we might want to delete it in the future
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "name",
@@ -285,6 +295,9 @@ func StorageAccounts() *schema.Table {
 						Name:        "type",
 						Description: "The resource type",
 						Type:        schema.TypeString,
+						// This looks like a deprecated field, always returns nil
+						// we might want to delete it in the future
+						IgnoreInTests: true,
 					},
 				},
 			},
@@ -300,24 +313,24 @@ func fetchDatalakeStorageAccounts(ctx context.Context, meta schema.ClientMeta, p
 	svc := meta.(*client.Client).Services().DataLake.DataLakeStorageAccounts
 	result, err := svc.List(ctx, "", nil, nil, "", "", nil)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for result.NotDone() {
 		accounts := result.Values()
 		for _, a := range accounts {
 			resourceDetails, err := client.ParseResourceID(*a.ID)
 			if err != nil {
-				return err
+				return helpers.WrapError(err)
 			}
 			result, err := svc.Get(ctx, resourceDetails.ResourceGroup, *a.Name)
 			if err != nil {
-				return err
+				return helpers.WrapError(err)
 			}
 			res <- result
 		}
 
 		if err := result.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil

@@ -5,18 +5,18 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-03-01/compute"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 func ComputeDisks() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_compute_disks",
-		Description:   "Azure compute disk",
-		Resolver:      fetchComputeDisks,
-		Multiplex:     client.SubscriptionMultiplex,
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
-		IgnoreInTests: true,
+		Name:         "azure_compute_disks",
+		Description:  "Azure compute disk",
+		Resolver:     fetchComputeDisks,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -326,12 +326,12 @@ func fetchComputeDisks(ctx context.Context, meta schema.ClientMeta, _ *schema.Re
 	svc := meta.(*client.Client).Services().Compute.Disks
 	response, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil

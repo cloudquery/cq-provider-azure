@@ -55,11 +55,16 @@ func (c Client) withSubscription(subscriptionId string) *Client {
 func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, error) {
 	providerConfig := config.(*Config)
 
-	azureAuth, err := auth.NewAuthorizerFromEnvironment()
-
+	logger.Info("Trying to authenticate via CLI")
+	azureAuth, err := auth.NewAuthorizerFromCLI()
 	if err != nil {
-		return nil, err
+		logger.Info("Trying to authenticate via environment variables")
+		azureAuth, err = auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return nil, err
+		}
 	}
+
 	client := NewAzureClient(logger, providerConfig.Subscriptions)
 
 	if len(providerConfig.Subscriptions) == 0 {

@@ -4,18 +4,18 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 func MonitorLogProfiles() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_monitor_log_profiles",
-		Description:   "LogProfileResource the log profile resource",
-		Resolver:      fetchMonitorLogProfiles,
-		Multiplex:     client.SubscriptionMultiplex,
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
-		IgnoreInTests: true,
+		Name:         "azure_monitor_log_profiles",
+		Description:  "LogProfileResource the log profile resource",
+		Resolver:     fetchMonitorLogProfiles,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -99,7 +99,7 @@ func fetchMonitorLogProfiles(ctx context.Context, meta schema.ClientMeta, parent
 	svc := meta.(*client.Client).Services().Monitor.LogProfiles
 	result, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if result.Value == nil {
 		return nil

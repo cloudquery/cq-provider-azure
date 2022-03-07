@@ -6,6 +6,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-12-01/web"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -324,7 +325,7 @@ func fetchWebAppAuthSettings(ctx context.Context, meta schema.ClientMeta, parent
 	svc := meta.(*client.Client).Services().Web.Apps
 	response, err := svc.GetAuthSettings(ctx, *p.ResourceGroup, *p.Name)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	res <- response
 	return nil

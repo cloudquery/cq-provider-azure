@@ -6,6 +6,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -232,12 +233,12 @@ func fetchServicebusNamespaces(ctx context.Context, meta schema.ClientMeta, pare
 	svc := meta.(*client.Client).Services().Servicebus.Namespaces
 	r, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for r.NotDone() {
 		res <- r.Values()
 		if err := r.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil

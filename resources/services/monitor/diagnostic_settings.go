@@ -8,6 +8,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
@@ -15,13 +16,12 @@ import (
 
 func MonitorDiagnosticSettings() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_monitor_diagnostic_settings",
-		Description:   "DiagnosticSettingsResource the diagnostic setting resource",
-		Resolver:      fetchMonitorDiagnosticSettings,
-		Multiplex:     client.SubscriptionMultiplex,
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
-		IgnoreInTests: true,
+		Name:         "azure_monitor_diagnostic_settings",
+		Description:  "DiagnosticSettingsResource the diagnostic setting resource",
+		Resolver:     fetchMonitorDiagnosticSettings,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -204,7 +204,7 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 	monSvc := cl.Services().Monitor.DiagnosticSettings
 	resResponse, err := resSvc.List(ctx, "", "", nil)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	rs := resResponse.Values()
 	ids := make([]string, 0, len(rs))
@@ -227,7 +227,7 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 				if isResourceTypeNotSupported(err) {
 					return nil
 				}
-				return err
+				return helpers.WrapError(err)
 			}
 			if response.Value == nil {
 				return nil

@@ -1,33 +1,43 @@
-module "postgresql" {
-  source = "Azure/postgresql/azurerm"
+resource "random_password" "postgresql" {
+  length           = 16
+  special          = true
+}
 
-  resource_group_name = azurerm_resource_group.cq_int_tests.name
-  location            = azurerm_resource_group.cq_int_tests.location
+resource "azurerm_resource_group" "postgresql" {
+  name     = "postgresql"
+  location = "East US"
+}
 
-  server_name                  = "cq-provider-azure-pgsql"
-  sku_name                     = "GP_Gen5_2"
+resource "azurerm_postgresql_server" "test" {
+  name                = "cq-provider-azure-postgresql"
+  location            = azurerm_resource_group.postgresql.location
+  resource_group_name = azurerm_resource_group.postgresql.name
+
+  sku_name = "B_Gen5_2"
+
   storage_mb                   = 5120
   backup_retention_days        = 7
   geo_redundant_backup_enabled = false
-  administrator_login          = "psqladminun"
-  administrator_password       = random_password.password.result
-  server_version               = "11"
+  auto_grow_enabled            = true
+
+  administrator_login          = "psqladmin"
+  administrator_login_password = random_password.postgresql.result
+  version                      = "9.5"
   ssl_enforcement_enabled      = true
-  db_names                     = ["my_db1", "my_db2"]
-  db_charset                   = "UTF8"
-  db_collation                 = "English_United States.1252"
+}
 
-  firewall_rule_prefix = "firewall-"
-  firewall_rules = [
-    { name = "test1", start_ip = "10.0.0.5", end_ip = "10.0.0.8" },
-    { start_ip = "127.0.0.0", end_ip = "127.0.1.0" },
-  ]
+resource "azurerm_postgresql_database" "test" {
+  name                = "db"
+  resource_group_name = azurerm_resource_group.postgresql.name
+  server_name         = azurerm_postgresql_server.test.name
+  charset             = "UTF8"
+  collation           = "English_United States.1252"
+}
 
-  tags = {
-    Environment = "Production",
-  }
-
-  postgresql_configurations = {
-    backslash_quote = "on",
-  }
+resource "azurerm_postgresql_firewall_rule" "example" {
+  name                = "pgfirewallrule"
+  resource_group_name = azurerm_resource_group.postgresql.name
+  server_name         = azurerm_postgresql_server.test.name
+  start_ip_address    = "10.0.0.0"
+  end_ip_address      = "10.0.0.0"
 }

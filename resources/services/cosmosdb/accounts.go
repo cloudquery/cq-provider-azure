@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2020-04-01-preview/documentdb"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -445,7 +446,7 @@ func fetchCosmosdbAccounts(ctx context.Context, meta schema.ClientMeta, _ *schem
 	svc := meta.(*client.Client).Services().CosmosDb.Accounts
 	response, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if response.Value == nil {
 		return nil
@@ -477,7 +478,7 @@ func resolveCosmosdbAccountsVirtualNetworkRules(_ context.Context, _ schema.Clie
 	}
 	b, err := json.Marshal(account.VirtualNetworkRules)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, b)
 }

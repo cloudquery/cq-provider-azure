@@ -1,7 +1,12 @@
+resource "azurerm_resource_group" "redis" {
+  name     = "redis"
+  location = "East US"
+}
+
 resource "azurerm_redis_cache" "redis_service" {
-  name                = "redis-cq-int-tests"
-  location            = azurerm_resource_group.cq_int_tests.location
-  resource_group_name = azurerm_resource_group.cq_int_tests.name
+  name                = "cq-provider-azure-redis"
+  location            = azurerm_resource_group.redis.location
+  resource_group_name = azurerm_resource_group.redis.name
   capacity            = 1
   family              = "C"
   sku_name            = "Standard"
@@ -11,4 +16,5 @@ resource "azurerm_redis_cache" "redis_service" {
 
   redis_configuration {
   }
+  tags = var.tags
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -272,7 +273,7 @@ func fetchMariadbServers(ctx context.Context, meta schema.ClientMeta, parent *sc
 	svc := meta.(*client.Client).Services().MariaDB.Servers
 	r, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if r.Value == nil {
 		return nil
@@ -295,11 +296,11 @@ func resolveMariadbServerConfigurations(ctx context.Context, meta schema.ClientM
 	svc := meta.(*client.Client).Services().MariaDB.Configurations
 	resourceDetails, err := client.ParseResourceID(*s.ID)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	r, err := svc.ListByServer(ctx, resourceDetails.ResourceGroup, *s.Name)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if r.Value == nil {
 		return nil

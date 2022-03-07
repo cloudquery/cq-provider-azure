@@ -7,18 +7,18 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 func EventHubNamespaces() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_eventhub_namespaces",
-		Description:   "Azure EventHub namespace",
-		Resolver:      fetchEventhubNamespaces,
-		Multiplex:     client.SubscriptionMultiplex,
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		IgnoreInTests: true,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:         "azure_eventhub_namespaces",
+		Description:  "Azure EventHub namespace",
+		Resolver:     fetchEventhubNamespaces,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -201,12 +201,12 @@ func fetchEventhubNamespaces(ctx context.Context, meta schema.ClientMeta, _ *sch
 	svc := meta.(*client.Client).Services().EventHub
 	response, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -228,15 +228,15 @@ func resolveNamespaceNetworkRuleSet(ctx context.Context, meta schema.ClientMeta,
 	namespace := resource.Item.(eventhub.EHNamespace)
 	details, err := client.ParseResourceID(*namespace.ID)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	rs, err := svc.GetNetworkRuleSet(ctx, details.ResourceGroup, *namespace.Name)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	b, err := json.Marshal(rs)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, b)
 }

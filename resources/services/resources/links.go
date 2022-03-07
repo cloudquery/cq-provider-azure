@@ -6,6 +6,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2016-09-01/links"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -67,12 +68,12 @@ func fetchResourcesLinks(ctx context.Context, meta schema.ClientMeta, _ *schema.
 	svc := meta.(*client.Client).Services().Resources.Links
 	response, err := svc.ListAtSubscription(ctx, "")
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil

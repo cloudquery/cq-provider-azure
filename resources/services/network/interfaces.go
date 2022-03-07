@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -192,11 +193,10 @@ func NetworkInterfaces() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:          "azure_network_interface_ip_configurations",
-				Description:   "NetworkInterface IP Configurations. ",
-				Resolver:      fetchNetworkInterfaceIPConfigurations,
-				Options:       schema.TableCreationOptions{PrimaryKeys: []string{"interface_cq_id", "id"}},
-				IgnoreInTests: true,
+				Name:        "azure_network_interface_ip_configurations",
+				Description: "NetworkInterface IP Configurations. ",
+				Resolver:    fetchNetworkInterfaceIPConfigurations,
+				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"interface_cq_id", "id"}},
 				Columns: []schema.Column{
 					{
 						Name:        "interface_cq_id",
@@ -317,12 +317,12 @@ func fetchNetworkInterfaces(ctx context.Context, meta schema.ClientMeta, _ *sche
 	svc := meta.(*client.Client).Services().Network.Interfaces
 	response, err := svc.ListAll(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -350,7 +350,7 @@ func resolveNetworkInterfacePrivateLinkService(ctx context.Context, meta schema.
 
 	out, err := json.Marshal(p.InterfacePropertiesFormat.PrivateLinkService)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -367,7 +367,7 @@ func resolveNetworkInterfaceTapConfigurations(ctx context.Context, meta schema.C
 
 	out, err := json.Marshal(p.InterfacePropertiesFormat.TapConfigurations)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }

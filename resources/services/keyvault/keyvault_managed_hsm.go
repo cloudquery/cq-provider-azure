@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -127,12 +128,12 @@ func fetchKeyvaultManagedHSM(ctx context.Context, meta schema.ClientMeta, parent
 	maxResults := int32(100)
 	response, err := svc.ListBySubscription(ctx, &maxResults)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil

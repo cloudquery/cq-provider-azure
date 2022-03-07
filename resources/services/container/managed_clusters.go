@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-03-01/containerservice"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -887,12 +888,12 @@ func fetchContainerManagedClusters(ctx context.Context, meta schema.ClientMeta, 
 	svc := meta.(*client.Client).Services().ContainerService.ManagedClusters
 	result, err := svc.List(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for result.NotDone() {
 		res <- result.Values()
 		if err := result.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -1004,7 +1005,7 @@ func resolveContainerManagedClusterAgentPoolProfileLinuxOsConfig(ctx context.Con
 	}
 	out, err := json.Marshal(a.LinuxOSConfig)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }

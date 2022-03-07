@@ -1,16 +1,21 @@
 
-resource "random_password" "mysqlpass" {
+resource "random_password" "mysql" {
   length           = 16
-  special          = false
+  special          = true
 }
 
-resource "azurerm_mysql_server" "mysql_server_1" {
-  name                = "cq-provider-azure-mysql"
-  location            = azurerm_resource_group.cq_int_tests.location
-  resource_group_name = azurerm_resource_group.cq_int_tests.name
+resource "azurerm_resource_group" "mysql" {
+  name     = "mysql"
+  location = "East US"
+}
+
+resource "azurerm_mysql_server" "test" {
+  name                = "cq-provider-azure-mysql-server"
+  location            = azurerm_resource_group.mysql.location
+  resource_group_name = azurerm_resource_group.mysql.name
 
   administrator_login          = "mysqladminun"
-  administrator_login_password = random_password.mysqlpass.result
+  administrator_login_password = random_password.mysql.result
 
   sku_name   = "GP_Gen5_2"
   storage_mb = 5120
@@ -19,29 +24,31 @@ resource "azurerm_mysql_server" "mysql_server_1" {
   auto_grow_enabled                 = false
   backup_retention_days             = 7
   geo_redundant_backup_enabled      = false
-  infrastructure_encryption_enabled = false
+  infrastructure_encryption_enabled = true
   public_network_access_enabled     = false
   ssl_enforcement_enabled           = true
   ssl_minimal_tls_version_enforced  = "TLS1_2"
+  tags = var.tags
 }
 
-resource "azurerm_mysql_configuration" "mysql-config-1" {
-  name                = "interactive_timeout"
-  resource_group_name = azurerm_resource_group.cq_int_tests.name
-  server_name         = azurerm_mysql_server.mysql_server_1.name
-  value               = "600"
+resource "azurerm_mysql_database" "db" {
+  name                = "db"
+  resource_group_name = azurerm_resource_group.mysql.name
+  server_name         = azurerm_mysql_server.test.name
+  charset             = "utf8"
+  collation           = "utf8_unicode_ci"
 }
 
-resource "azurerm_private_endpoint" "pe_mysql_1" {
-  name                = "pe-mysql-cq-int-tests"
-  location            = azurerm_resource_group.cq_int_tests.location
-  resource_group_name = azurerm_resource_group.cq_int_tests.name
-  subnet_id           = module.test_vnet.vnet_subnets[0]
+resource "azurerm_private_endpoint" "example" {
+  name                = "mysql_private_endpoint"
+  location            = azurerm_resource_group.mysql.location
+  resource_group_name = azurerm_resource_group.mysql.name
+  subnet_id           = azurerm_subnet.endpoint.id
 
   private_service_connection {
-    name                           = "psc-cq-int-tests"
-    private_connection_resource_id = azurerm_mysql_server.mysql_server_1.id
-    subresource_names              = ["mysqlServer"]
+    name                           = "tfex-mysql-connection"
     is_manual_connection           = false
+    private_connection_resource_id = azurerm_mysql_server.test.id
+    subresource_names              = ["mysqlServer"]
   }
 }

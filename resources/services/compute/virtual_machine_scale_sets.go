@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-03-01/compute"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -453,12 +454,12 @@ func fetchComputeVirtualMachineScaleSets(ctx context.Context, meta schema.Client
 	svc := meta.(*client.Client).Services().Compute.VirtualMachineScaleSets
 	response, err := svc.ListAll(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -478,7 +479,7 @@ func resolveVirtualMachineScaleSetsOsProfileWindowsConfiguration(ctx context.Con
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.OsProfile.WindowsConfiguration)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -498,7 +499,7 @@ func resolveVirtualMachineScaleSetsOsProfileLinuxConfiguration(ctx context.Conte
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.OsProfile.LinuxConfiguration)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -517,7 +518,7 @@ func resolveVirtualMachineScaleSetsStorageProfile(ctx context.Context, meta sche
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.StorageProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -536,7 +537,7 @@ func resolveVirtualMachineScaleSetsNetworkProfile(ctx context.Context, meta sche
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.NetworkProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -555,7 +556,7 @@ func resolveVirtualMachineScaleSetsSecurityProfile(ctx context.Context, meta sch
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.SecurityProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -574,7 +575,7 @@ func resolveVirtualMachineScaleSetsDiagnosticsProfile(ctx context.Context, meta 
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.DiagnosticsProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -593,7 +594,7 @@ func resolveVirtualMachineScaleSetsScheduledEventsProfile(ctx context.Context, m
 
 	data, err := json.Marshal(*p.VirtualMachineScaleSetProperties.VirtualMachineProfile.ScheduledEventsProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -663,7 +664,7 @@ func resolveVirtualMachineScaleSetExtensionsSettings(ctx context.Context, meta s
 
 	data, err := json.Marshal(p.VirtualMachineScaleSetExtensionProperties.Settings)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -681,7 +682,7 @@ func resolveVirtualMachineScaleSetExtensionsProtectedSettings(ctx context.Contex
 
 	data, err := json.Marshal(p.VirtualMachineScaleSetExtensionProperties.ProtectedSettings)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)

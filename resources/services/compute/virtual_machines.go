@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-03-01/compute"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -636,12 +637,12 @@ func fetchComputeVirtualMachines(ctx context.Context, meta schema.ClientMeta, pa
 	svc := meta.(*client.Client).Services().Compute.VirtualMachines
 	response, err := svc.ListAll(ctx, "false")
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -654,7 +655,7 @@ func resolveComputeVirtualMachinesStorageProfile(ctx context.Context, meta schem
 
 	data, err := json.Marshal(p.StorageProfile)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -674,7 +675,7 @@ func resolveComputeVirtualMachinesWindowsConfigurationAdditionalUnattendContent(
 
 	data, err := json.Marshal(p.VirtualMachineProperties.OsProfile.WindowsConfiguration.AdditionalUnattendContent)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -694,7 +695,7 @@ func resolveComputeVirtualMachinesLinuxConfigurationSshPublicKeys(ctx context.Co
 
 	data, err := json.Marshal(p.VirtualMachineProperties.OsProfile.LinuxConfiguration.SSH.PublicKeys)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -711,7 +712,7 @@ func resolveComputeVirtualMachinesNetworkProfileNetworkInterfaces(ctx context.Co
 
 	data, err := json.Marshal(p.NetworkProfile.NetworkInterfaces)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -728,7 +729,7 @@ func resolveComputeVirtualMachinesNetworkProfileNetworkInterfaceConfigurations(c
 
 	data, err := json.Marshal(p.NetworkProfile.NetworkInterfaceConfigurations)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -741,7 +742,7 @@ func resolveComputeVirtualMachinesInstanceView(ctx context.Context, meta schema.
 	}
 	details, err := client.ParseResourceID(*p.ID)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	response, err := svc.InstanceView(ctx, details.ResourceGroup, *p.Name)
 	if err != nil {
@@ -820,11 +821,11 @@ func fetchComputeVirtualMachineResources(ctx context.Context, meta schema.Client
 	}
 	details, err := client.ParseResourceID(*p.ID)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	response, err := svc.List(ctx, details.ResourceGroup, *p.Name, "")
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if response.Value == nil {
 		return nil
@@ -840,7 +841,7 @@ func resolveComputeVirtualMachineResourcesSettings(ctx context.Context, meta sch
 
 	data, err := json.Marshal(p.Settings)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -853,7 +854,7 @@ func resolveComputeVirtualMachineResourcesProtectedSettings(ctx context.Context,
 
 	data, err := json.Marshal(p.ProtectedSettings)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)
@@ -866,7 +867,7 @@ func resolveComputeVirtualMachineResourcesInstanceView(ctx context.Context, meta
 
 	data, err := json.Marshal(p.InstanceView)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 
 	return resource.Set(c.Name, data)

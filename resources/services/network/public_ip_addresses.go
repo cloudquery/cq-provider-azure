@@ -8,18 +8,18 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 func NetworkPublicIPAddresses() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_network_public_ip_addresses",
-		Description:   "PublicIPAddress public IP address resource.",
-		Resolver:      fetchNetworkPublicIpAddresses,
-		Multiplex:     client.SubscriptionMultiplex,
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
-		IgnoreInTests: true,
+		Name:         "azure_network_public_ip_addresses",
+		Description:  "PublicIPAddress public IP address resource.",
+		Resolver:     fetchNetworkPublicIpAddresses,
+		Multiplex:    client.SubscriptionMultiplex,
+		DeleteFilter: client.DeleteSubscriptionFilter,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -223,12 +223,12 @@ func fetchNetworkPublicIpAddresses(ctx context.Context, meta schema.ClientMeta, 
 	svc := meta.(*client.Client).Services().Network.PublicIPAddresses
 	response, err := svc.ListAll(ctx)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return err
+			return helpers.WrapError(err)
 		}
 	}
 	return nil
@@ -246,7 +246,7 @@ func resolveNetworkPublicIPAddressesIpConfiguration(ctx context.Context, meta sc
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.IPConfiguration)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -291,7 +291,7 @@ func resolveNetworkPublicIPAddressesServicePublicIpAddress(ctx context.Context, 
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.ServicePublicIPAddress)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -308,7 +308,7 @@ func resolveNetworkPublicIPAddressesNatGateway(ctx context.Context, meta schema.
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.NatGateway)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -325,7 +325,7 @@ func resolveNetworkPublicIPAddressesLinkedPublicIpAddress(ctx context.Context, m
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.LinkedPublicIPAddress)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }

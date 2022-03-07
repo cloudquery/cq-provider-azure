@@ -6,6 +6,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2021-01-01/storage"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/helpers"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -223,11 +224,11 @@ func fetchStorageBlobServices(ctx context.Context, meta schema.ClientMeta, paren
 	}
 	resource, err := client.ParseResourceID(*account.ID)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	result, err := svc.List(ctx, resource.ResourceGroup, *account.Name)
 	if err != nil {
-		return err
+		return helpers.WrapError(err)
 	}
 	if result.Value == nil {
 		return nil
