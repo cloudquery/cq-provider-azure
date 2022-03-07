@@ -18,7 +18,14 @@ func buildSearchServices(t *testing.T, ctrl *gomock.Controller) services.Service
 	if err := faker.FakeData(&searchService); err != nil {
 		t.Fatal(err)
 	}
-
+	ip := "8.8.8.8"
+	searchService.NetworkRuleSet = &search.NetworkRuleSet{
+		IPRules: &[]search.IPRule{
+			{
+				Value: &ip,
+			},
+		},
+	}
 	m.EXPECT().ListBySubscription(gomock.Any(), nil).Return(
 		search.NewServiceListResultPage(
 			search.ServiceListResult{Value: &[]search.Service{searchService}},

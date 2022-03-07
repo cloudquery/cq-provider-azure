@@ -3,6 +3,7 @@ package search
 import (
 	"context"
 	"fmt"
+	"net"
 
 	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2020-08-01/search"
 	"github.com/cloudquery/cq-provider-azure/client"
@@ -272,9 +273,16 @@ func resolveSearchServicesNetworkRuleSetIpRules(_ context.Context, _ schema.Clie
 	if service.NetworkRuleSet == nil || service.NetworkRuleSet.IPRules == nil {
 		return nil
 	}
-	ipRules := make([]string, len(*service.NetworkRuleSet.IPRules))
+	ipRules := make([]net.IP, len(*service.NetworkRuleSet.IPRules))
 	for _, ipRule := range *service.NetworkRuleSet.IPRules {
-		ipRules = append(ipRules, *ipRule.Value)
+		ipStr := *ipRule.Value
+		ip := net.ParseIP(ipStr)
+		if ipStr != "" && ip == nil {
+			return fmt.Errorf("failed to parse IP from %s", ipStr)
+		}
+		if ip.To4() != nil {
+			ipRules = append(ipRules, ip.To4())
+		}
 	}
 	return resource.Set(c.Name, ipRules)
 }
