@@ -6,10 +6,10 @@ PrivateEndpointConnection contains information about a private link resource
 | ------------- | ------------- | -----  |
 |account_cq_id|uuid|Unique CloudQuery ID of azure_batch_accounts table (FK)|
 |provisioning_state|text|Possible values include: 'PrivateEndpointConnectionProvisioningStateSucceeded', 'PrivateEndpointConnectionProvisioningStateUpdating', 'PrivateEndpointConnectionProvisioningStateFailed'|
-|private_endpoint_id|text|READ-ONLY|
-|private_link_service_connection_state_status|text|Possible values include: 'PrivateLinkServiceConnectionStatusApproved', 'PrivateLinkServiceConnectionStatusPending', 'PrivateLinkServiceConnectionStatusRejected', 'PrivateLinkServiceConnectionStatusDisconnected'|
-|private_link_service_connection_state_description|text|READ-ONLY|
-|private_link_service_connection_state_action_required|text|READ-ONLY|
+|private_endpoint_id|text|The resource id of the private endpoint resource from Microsoft.Network provider.|
+|private_link_connection_status|text|Possible values include: 'PrivateLinkServiceConnectionStatusApproved', 'PrivateLinkServiceConnectionStatusPending', 'PrivateLinkServiceConnectionStatusRejected', 'PrivateLinkServiceConnectionStatusDisconnected'|
+|private_link_connection_description|text|The description for the private link service connection state.|
+|private_link_connection_action_required|text|A description of any extra actions that may be required.|
 |id|text|The ID of the resource|
 |name|text|The name of the resource|
 |type|text|The type of the resource|

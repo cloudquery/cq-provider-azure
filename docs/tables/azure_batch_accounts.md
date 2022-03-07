@@ -21,8 +21,8 @@ Account contains information about an Azure Batch account
 |low_priority_core_quota|integer|For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned|
 |dedicated_core_quota_per_vm_family|jsonb|A list of the dedicated core quota per Virtual Machine family for the Batch account|
 |dedicated_core_quota_per_vm_family_enforced|boolean|Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family|
-|pool_quota|integer|READ-ONLY|
-|active_job_and_job_schedule_quota|integer|READ-ONLY|
+|pool_quota|integer|The pool quota for the Batch account.|
+|active_job_and_job_schedule_quota|integer|The active job and job schedule quota for the Batch account.|
 |allowed_authentication_modes|text[]|List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane|
 |identity_principal_id|text|The principal id of the Batch account|
 |identity_tenant_id|text|The tenant id associated with the Batch account|
