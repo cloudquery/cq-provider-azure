@@ -4,8 +4,8 @@ Azure location information
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
+|subscription_id|text|Azure subscription id|
 |id|text|The fully qualified ID of the location|
-|subscription_id|text|The subscription ID|
 |name|text|The location name|
 |display_name|text|The display name of the location|
 |latitude|text|The latitude of the location|
