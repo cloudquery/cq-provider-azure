@@ -69,7 +69,7 @@ func SearchServices() *schema.Table {
 			{
 				Name:        "network_rule_set_ip_rules",
 				Description: "A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint",
-				Type:        schema.TypeStringArray,
+				Type:        schema.TypeInetArray,
 				Resolver:    resolveSearchServicesNetworkRuleSetIpRules,
 			},
 			{
@@ -142,19 +142,19 @@ func SearchServices() *schema.Table {
 						Resolver:    schema.PathResolver("Properties.PrivateEndpoint.ID"),
 					},
 					{
-						Name:        "private_link_service_connection_state_status",
+						Name:        "private_link_connection_status",
 						Description: "Status of the the private link service connection",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.Status"),
 					},
 					{
-						Name:        "private_link_service_connection_state_description",
+						Name:        "private_link_connection_description",
 						Description: "The description for the private link service connection state.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.Description"),
 					},
 					{
-						Name:        "private_link_service_connection_state_actions_required",
+						Name:        "private_link_connection_actions_required",
 						Description: "A description of any extra actions that may be required.",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("Properties.PrivateLinkServiceConnectionState.ActionsRequired"),
