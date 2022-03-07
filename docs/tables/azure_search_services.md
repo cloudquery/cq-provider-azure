@@ -12,7 +12,7 @@ Service describes an Azure Cognitive Search service and its current state.
 |status|text|The status of the search service|
 |status_details|text|The details of the search service status.|
 |provisioning_state|text|The state of the last provisioning operation performed on the search service|
-|network_rule_set_ip_rules|text[]|A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint|
+|network_rule_set_ip_rules|inet[]|A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint|
 |sku_name|text|The SKU of the search service|
 |identity_principal_id|text|The principal ID of resource identity.|
 |identity_tenant_id|text|The tenant ID of resource.|
