@@ -13,7 +13,6 @@ import (
 type KeyVaultClient struct {
 	KeyVault71 KeyVault71Client
 	Vaults     VaultClient
-	Keys       KeysClient
 	ManagedHSM KeyVaultManagedHSMClient
 }
 
@@ -33,16 +32,12 @@ func NewKeyVaultClient(subscriptionId string, auth autorest.Authorizer) (KeyVaul
 	vaultSvc := keyvault.NewVaultsClient(subscriptionId)
 	vaultSvc.Authorizer = auth
 
-	keysClient := keyvault.NewKeysClient(subscriptionId)
-	keysClient.Authorizer = auth
-
 	vhsm := hsm.NewManagedHsmsClient(subscriptionId)
 	vhsm.Authorizer = auth
 
 	return KeyVaultClient{
 		Vaults:     vaultSvc,
 		KeyVault71: kv71,
-		Keys:       keysClient,
 		ManagedHSM: vhsm,
 	}, nil
 }
