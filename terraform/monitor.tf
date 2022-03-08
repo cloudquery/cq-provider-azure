@@ -52,12 +52,20 @@ resource "azurerm_storage_account" "monitor_diagnostic" {
 }
 
 
+resource "azurerm_log_analytics_workspace" "example" {
+  name                = "cq-provider-azure-log-workspace"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
 # azure_monitor_diagnostic_settings
 resource "azurerm_monitor_diagnostic_setting" "example" {
   name               = "cqproviderdiagnostic"
   target_resource_id = azurerm_key_vault.test.id
   storage_account_id = azurerm_storage_account.monitor_diagnostic.id
-
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.example.id
   log {
     category = "AuditEvent"
     enabled  = false

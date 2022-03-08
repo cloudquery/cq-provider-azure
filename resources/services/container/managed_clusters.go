@@ -90,10 +90,11 @@ func ContainerManagedClusters() *schema.Table {
 				IgnoreInTests: true,
 			},
 			{
-				Name:        "windows_profile_admin_username",
-				Description: "Specifies the name of the administrator account.",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.AdminUsername"),
+				Name:          "windows_profile_admin_username",
+				Description:   "Specifies the name of the administrator account.",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("ManagedClusterProperties.WindowsProfile.AdminUsername"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:          "windows_profile_admin_password",
@@ -109,10 +110,11 @@ func ContainerManagedClusters() *schema.Table {
 				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.LicenseType"),
 			},
 			{
-				Name:        "windows_profile_enable_csi_proxy",
-				Description: "Whether to enable CSI proxy",
-				Type:        schema.TypeBool,
-				Resolver:    schema.PathResolver("ManagedClusterProperties.WindowsProfile.EnableCSIProxy"),
+				Name:          "windows_profile_enable_csi_proxy",
+				Description:   "Whether to enable CSI proxy",
+				Type:          schema.TypeBool,
+				Resolver:      schema.PathResolver("ManagedClusterProperties.WindowsProfile.EnableCSIProxy"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "service_principal_profile_client_id",
@@ -128,10 +130,11 @@ func ContainerManagedClusters() *schema.Table {
 				IgnoreInTests: true,
 			},
 			{
-				Name:        "addon_profiles",
-				Description: "Profile of managed cluster add-on",
-				Type:        schema.TypeJSON,
-				Resolver:    schema.PathResolver("ManagedClusterProperties.AddonProfiles"),
+				Name:          "addon_profiles",
+				Description:   "Profile of managed cluster add-on",
+				Type:          schema.TypeJSON,
+				Resolver:      schema.PathResolver("ManagedClusterProperties.AddonProfiles"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:          "pod_identity_profile_enabled",
@@ -583,10 +586,11 @@ func ContainerManagedClusters() *schema.Table {
 						Type:        schema.TypeString,
 					},
 					{
-						Name:        "vnet_subnet_id",
-						Description: "VNet SubnetID specifies the VNet's subnet identifier for nodes and maybe pods",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("VnetSubnetID"),
+						Name:          "vnet_subnet_id",
+						Description:   "VNet SubnetID specifies the VNet's subnet identifier for nodes and maybe pods",
+						Type:          schema.TypeString,
+						Resolver:      schema.PathResolver("VnetSubnetID"),
+						IgnoreInTests: true,
 					},
 					{
 						Name:          "pod_subnet_id",

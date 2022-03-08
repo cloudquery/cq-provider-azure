@@ -202,9 +202,10 @@ func AnalyticsAccounts() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_datalake_analytics_account_storage_accounts",
-				Description: "StorageAccountInformation azure Storage account information",
-				Resolver:    fetchDatalakeAnalyticsAccountStorageAccounts,
+				Name:          "azure_datalake_analytics_account_storage_accounts",
+				Description:   "StorageAccountInformation azure Storage account information",
+				Resolver:      fetchDatalakeAnalyticsAccountStorageAccounts,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "analytics_account_cq_id",
@@ -216,7 +217,6 @@ func AnalyticsAccounts() *schema.Table {
 						Name:        "suffix",
 						Description: "The optional suffix for the storage account",
 						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("StorageAccountInformationProperties.Suffix"),
 					},
 					{
 						Name:        "id",
@@ -240,6 +240,9 @@ func AnalyticsAccounts() *schema.Table {
 				Name:        "azure_datalake_analytics_account_compute_policies",
 				Description: "ComputePolicy data Lake Analytics compute policy information",
 				Resolver:    fetchDatalakeAnalyticsAccountComputePolicies,
+				// Not sure if it's possible to create those via terraform
+				// https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_lake_analytics_account
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "analytics_account_cq_id",

@@ -18,7 +18,6 @@ resource "azurerm_mariadb_server" "example" {
   administrator_login_password = random_password.mariadb.result
   version                      = "10.2"
   ssl_enforcement_enabled      = true
-  create_mode = "Replica"
 }
 
 resource "azurerm_mariadb_database" "example" {

@@ -12,12 +12,13 @@ import (
 
 func ResourcesLinks() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_resources_links",
-		Description:  "Azure resource links",
-		Resolver:     fetchResourcesLinks,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:          "azure_resources_links",
+		Description:   "Azure resource links",
+		Resolver:      fetchResourcesLinks,
+		Multiplex:     client.SubscriptionMultiplex,
+		DeleteFilter:  client.DeleteSubscriptionFilter,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

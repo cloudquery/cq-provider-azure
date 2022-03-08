@@ -45,10 +45,11 @@ func ResourcesPolicyAssignments() *schema.Table {
 				Resolver:    schema.PathResolver("AssignmentProperties.Scope"),
 			},
 			{
-				Name:        "not_scopes",
-				Description: "The policy's excluded scopes",
-				Type:        schema.TypeStringArray,
-				Resolver:    schema.PathResolver("AssignmentProperties.NotScopes"),
+				Name:          "not_scopes",
+				Description:   "The policy's excluded scopes",
+				Type:          schema.TypeStringArray,
+				Resolver:      schema.PathResolver("AssignmentProperties.NotScopes"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "parameters",

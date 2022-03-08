@@ -160,9 +160,10 @@ func ContainerRegistries() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_container_registry_network_rule_set_virtual_network_rules",
-				Description: "VirtualNetworkRule virtual network rule",
-				Resolver:    fetchContainerRegistryNetworkRuleSetVirtualNetworkRules,
+				Name:          "azure_container_registry_network_rule_set_virtual_network_rules",
+				Description:   "VirtualNetworkRule virtual network rule",
+				Resolver:      fetchContainerRegistryNetworkRuleSetVirtualNetworkRules,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "registry_cq_id",
@@ -184,9 +185,10 @@ func ContainerRegistries() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_container_registry_network_rule_set_ip_rules",
-				Description: "IPRule IP rule with specific IP or IP range in CIDR format",
-				Resolver:    fetchContainerRegistryNetworkRuleSetIpRules,
+				Name:          "azure_container_registry_network_rule_set_ip_rules",
+				Description:   "IPRule IP rule with specific IP or IP range in CIDR format",
+				Resolver:      fetchContainerRegistryNetworkRuleSetIpRules,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "registry_cq_id",
@@ -208,9 +210,10 @@ func ContainerRegistries() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_container_registry_replications",
-				Description: "Replication an object that represents a replication for a container registry",
-				Resolver:    fetchContainerRegistryReplications,
+				Name:          "azure_container_registry_replications",
+				Description:   "Replication an object that represents a replication for a container registry",
+				Resolver:      fetchContainerRegistryReplications,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "registry_cq_id",

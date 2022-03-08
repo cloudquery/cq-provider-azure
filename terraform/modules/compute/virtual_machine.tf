@@ -3,29 +3,24 @@ resource "random_password" "compute" {
   special          = true
 }
 
-resource "azurerm_resource_group" "compute" {
-  name     = "compute"
-  location = "East US 2"
-}
-
 resource "azurerm_virtual_network" "compute" {
   name                = "compute-network"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.compute.location
-  resource_group_name = azurerm_resource_group.compute.name
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 }
 
 resource "azurerm_subnet" "compute" {
   name                 = "compute-internal"
-  resource_group_name  = azurerm_resource_group.compute.name
+  resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.compute.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_interface" "compute" {
   name                = "compute-nic"
-  location            = azurerm_resource_group.compute.location
-  resource_group_name = azurerm_resource_group.compute.name
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -36,8 +31,8 @@ resource "azurerm_network_interface" "compute" {
 
 resource "azurerm_virtual_machine" "main" {
   name                  = "compute-vm"
-  location              = azurerm_resource_group.compute.location
-  resource_group_name   = azurerm_resource_group.compute.name
+  location              = azurerm_resource_group.example.location
+  resource_group_name   = azurerm_resource_group.example.name
   network_interface_ids = [azurerm_network_interface.compute.id]
   vm_size               = "Standard_DS1_v2"
 
@@ -74,21 +69,21 @@ resource "azurerm_virtual_machine" "main" {
 resource "azurerm_virtual_network" "win-network" {
   name                = "win-network"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 }
 
 resource "azurerm_subnet" "win-subnet" {
   name                 = "internal"
-  resource_group_name  = azurerm_resource_group.test.name
+  resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.win-network.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_interface" "windows-nic" {
   name                = "windows-nic"
-  location            = azurerm_resource_group.test.location
-  resource_group_name = azurerm_resource_group.test.name
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 
   ip_configuration {
     name                          = "internal"
@@ -99,8 +94,8 @@ resource "azurerm_network_interface" "windows-nic" {
 
 resource "azurerm_windows_virtual_machine" "example" {
   name                = "windows-machine"
-  resource_group_name = azurerm_resource_group.test.name
-  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
   admin_password      = random_password.compute.result
@@ -137,38 +132,4 @@ SETTINGS
     {}
 SETTINGS
   tags = var.tags
-}
-
-
-resource "azurerm_windows_virtual_machine_scale_set" "example" {
-  name                = "win-scale"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  sku                 = "Standard_F2"
-  instances           = 1
-  admin_password      = random_password.compute.result
-  admin_username      = "adminuser"
-
-  source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter-Server-Core"
-    version   = "latest"
-  }
-
-  os_disk {
-    storage_account_type = "Standard_LRS"
-    caching              = "ReadWrite"
-  }
-
-  network_interface {
-    name    = "example"
-    primary = true
-
-    ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = azurerm_subnet.win-subnet.id
-    }
-  }
 }

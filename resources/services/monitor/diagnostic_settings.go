@@ -16,12 +16,13 @@ import (
 
 func MonitorDiagnosticSettings() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_monitor_diagnostic_settings",
-		Description:  "DiagnosticSettingsResource the diagnostic setting resource",
-		Resolver:     fetchMonitorDiagnosticSettings,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:          "azure_monitor_diagnostic_settings",
+		Description:   "DiagnosticSettingsResource the diagnostic setting resource",
+		Resolver:      fetchMonitorDiagnosticSettings,
+		Multiplex:     client.SubscriptionMultiplex,
+		DeleteFilter:  client.DeleteSubscriptionFilter,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
@@ -42,16 +43,18 @@ func MonitorDiagnosticSettings() *schema.Table {
 				Resolver:    schema.PathResolver("DiagnosticSettings.ServiceBusRuleID"),
 			},
 			{
-				Name:        "event_hub_authorization_rule_id",
-				Description: "The resource Id for the event hub authorization rule",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("DiagnosticSettings.EventHubAuthorizationRuleID"),
+				Name:          "event_hub_authorization_rule_id",
+				Description:   "The resource Id for the event hub authorization rule",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("DiagnosticSettings.EventHubAuthorizationRuleID"),
+				IgnoreInTests: true,
 			},
 			{
-				Name:        "event_hub_name",
-				Description: "The name of the event hub If none is specified, the default event hub will be selected",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("DiagnosticSettings.EventHubName"),
+				Name:          "event_hub_name",
+				Description:   "The name of the event hub If none is specified, the default event hub will be selected",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("DiagnosticSettings.EventHubName"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "workspace_id",
@@ -60,10 +63,11 @@ func MonitorDiagnosticSettings() *schema.Table {
 				Resolver:    schema.PathResolver("DiagnosticSettings.WorkspaceID"),
 			},
 			{
-				Name:        "log_analytics_destination_type",
-				Description: "A string indicating whether the export to Log Analytics should use the default destination type, ie AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name> Possible values are: Dedicated and null (null is default)",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("DiagnosticSettings.LogAnalyticsDestinationType"),
+				Name:          "log_analytics_destination_type",
+				Description:   "A string indicating whether the export to Log Analytics should use the default destination type, ie AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name> Possible values are: Dedicated and null (null is default)",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("DiagnosticSettings.LogAnalyticsDestinationType"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "id",

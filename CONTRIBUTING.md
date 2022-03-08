@@ -4,6 +4,10 @@
 
 ## Getting Started
 
+## Architecture and SDK Overview
+
+## Adding a resource
+
 ## Running Tests
 
 To Run Integration tests please run
@@ -29,8 +33,16 @@ go test -run="TestIntegration/azure_sql_managed_instances" -tags=integration ./.
 
 There a few good rule of thumb to follow when creating new terraform resources that will be served as testing infrastructure:
 * For every resource create it's own resource_group.
-* Use `location = "East US 2"`.
+* Use `location = "East US"`.
 * If possible make all resources private.
 * Make sure to replace built-in plain text passwords with `random_password` generator
 * For every compute/db try to use the smallest size to keep the cost low
 * If autoscaling option is present, always turn it off
+
+If you want to apply the terraform locally first before pushing it to CI and applying there use:
+
+```
+cd terraform/local
+terraform apply -var="name" -target="myspecific resource"
+go test -run="TestIntegration/ROOT_TABLE_NAME" -tags=integration ./...
+```

@@ -83,10 +83,11 @@ func SQLServers() *schema.Table {
 				Resolver:    schema.PathResolver("ServerProperties.FullyQualifiedDomainName"),
 			},
 			{
-				Name:        "minimal_tls_version",
-				Description: "Minimal TLS version Allowed values: '10', '11', '12'",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.MinimalTLSVersion"),
+				Name:          "minimal_tls_version",
+				Description:   "Minimal TLS version Allowed values: '10', '11', '12'",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("ServerProperties.MinimalTLSVersion"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "public_network_access",
@@ -125,10 +126,11 @@ func SQLServers() *schema.Table {
 			SqlDatabases(),
 			SQLServerEncryptionProtectors(),
 			{
-				Name:        "azure_sql_server_private_endpoint_connections",
-				Description: "List of private endpoint connections on a server",
-				Resolver:    fetchSqlServerPrivateEndpointConnections,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+				Name:          "azure_sql_server_private_endpoint_connections",
+				Description:   "List of private endpoint connections on a server",
+				Resolver:      fetchSqlServerPrivateEndpointConnections,
+				Options:       schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "server_cq_id",
@@ -544,10 +546,11 @@ func SQLServers() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_sql_server_virtual_network_rules",
-				Description: "List of virtual network for a server",
-				Resolver:    fetchSqlServerVirtualNetworkRules,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+				Name:          "azure_sql_server_virtual_network_rules",
+				Description:   "List of virtual network for a server",
+				Resolver:      fetchSqlServerVirtualNetworkRules,
+				Options:       schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "server_cq_id",

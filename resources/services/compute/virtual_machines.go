@@ -465,10 +465,11 @@ func ComputeVirtualMachines() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_compute_virtual_machine_secrets",
-				Description: "VaultSecretGroup describes a set of certificates which are all in the same Key Vault.",
-				Resolver:    fetchComputeVirtualMachineSecrets,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_cq_id", "source_vault_id"}},
+				Name:          "azure_compute_virtual_machine_secrets",
+				Description:   "VaultSecretGroup describes a set of certificates which are all in the same Key Vault.",
+				Resolver:      fetchComputeVirtualMachineSecrets,
+				Options:       schema.TableCreationOptions{PrimaryKeys: []string{"virtual_machine_cq_id", "source_vault_id"}},
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "virtual_machine_cq_id",
@@ -537,10 +538,11 @@ func ComputeVirtualMachines() *schema.Table {
 						Resolver:    schema.ParentResourceFieldResolver("id"),
 					},
 					{
-						Name:        "force_update_tag",
-						Description: "How the extension handler should be forced to update even if the extension configuration has not changed.",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("VirtualMachineExtensionProperties.ForceUpdateTag"),
+						Name:          "force_update_tag",
+						Description:   "How the extension handler should be forced to update even if the extension configuration has not changed.",
+						Type:          schema.TypeString,
+						Resolver:      schema.PathResolver("VirtualMachineExtensionProperties.ForceUpdateTag"),
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "publisher",
@@ -573,10 +575,11 @@ func ComputeVirtualMachines() *schema.Table {
 						Resolver:    resolveComputeVirtualMachineResourcesSettings,
 					},
 					{
-						Name:        "protected_settings",
-						Description: "The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveComputeVirtualMachineResourcesProtectedSettings,
+						Name:          "protected_settings",
+						Description:   "The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.",
+						Type:          schema.TypeJSON,
+						Resolver:      resolveComputeVirtualMachineResourcesProtectedSettings,
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "extension_type",
@@ -591,10 +594,11 @@ func ComputeVirtualMachines() *schema.Table {
 						Resolver:    schema.PathResolver("VirtualMachineExtensionProperties.ProvisioningState"),
 					},
 					{
-						Name:        "instance_view",
-						Description: "The virtual machine extension instance view.",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveComputeVirtualMachineResourcesInstanceView,
+						Name:          "instance_view",
+						Description:   "The virtual machine extension instance view.",
+						Type:          schema.TypeJSON,
+						Resolver:      resolveComputeVirtualMachineResourcesInstanceView,
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "id",

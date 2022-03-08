@@ -13,10 +13,11 @@ import (
 
 func SqlDatabases() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_sql_databases",
-		Description: "Azure sql database",
-		Resolver:    fetchSqlDatabases,
-		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+		Name:          "azure_sql_databases",
+		Description:   "Azure sql database",
+		Resolver:      fetchSqlDatabases,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"server_cq_id", "id"}},
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "server_cq_id",

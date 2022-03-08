@@ -258,9 +258,11 @@ func fetchMonitorActivityLogs(ctx context.Context, meta schema.ClientMeta, paren
 			res <- v
 		}
 		// this seems to fail with the filter - https://github.com/Azure/azure-sdk-for-go/issues/15108
-		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
-		}
+		// TODO: follow this issue and change
+		break
+		// if err := response.NextWithContext(ctx); err != nil {
+		// 	return helpers.WrapError(err)
+		// }
 	}
 	return nil
 }

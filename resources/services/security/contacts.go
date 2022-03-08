@@ -10,12 +10,13 @@ import (
 
 func SecurityContacts() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_security_contacts",
-		Description:  "Contact contact details for security issues",
-		Resolver:     fetchSecurityContacts,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:          "azure_security_contacts",
+		Description:   "Contact contact details for security issues",
+		Resolver:      fetchSecurityContacts,
+		Multiplex:     client.SubscriptionMultiplex,
+		DeleteFilter:  client.DeleteSubscriptionFilter,
+		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

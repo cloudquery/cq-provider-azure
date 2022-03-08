@@ -21,6 +21,7 @@ resource "azurerm_data_lake_analytics_account" "example" {
   tags = var.tags
 }
 
+
 resource "azurerm_data_lake_analytics_firewall_rule" "example" {
   name                = "ip-range"
   account_name        = azurerm_data_lake_analytics_account.example.name

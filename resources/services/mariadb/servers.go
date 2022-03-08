@@ -47,6 +47,8 @@ func MariadbServers() *schema.Table {
 				Description: "The size code, to be interpreted by resource as appropriate.",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Sku.Size"),
+				// seems not possible to set with terraform (maybe deprecated)?
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "sku_family",
@@ -58,84 +60,86 @@ func MariadbServers() *schema.Table {
 				Name:        "administrator_login",
 				Description: "The administrator's login name of a server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.AdministratorLogin"),
+				Resolver:    schema.PathResolver("AdministratorLogin"),
 			},
 			{
 				Name:        "version",
 				Description: "Server version.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.Version"),
+				Resolver:    schema.PathResolver("Version"),
 			},
 			{
 				Name:        "ssl_enforcement",
 				Description: "Enable ssl enforcement or not when connect to server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.SslEnforcement"),
+				Resolver:    schema.PathResolver("SslEnforcement"),
 			},
 			{
 				Name:        "user_visible_state",
 				Description: "A state of a server that is visible to user.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.UserVisibleState"),
+				Resolver:    schema.PathResolver("UserVisibleState"),
 			},
 			{
 				Name:        "fully_qualified_domain_name",
 				Description: "The fully qualified domain name of a server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.FullyQualifiedDomainName"),
+				Resolver:    schema.PathResolver("FullyQualifiedDomainName"),
 			},
 			{
 				Name:     "earliest_restore_date_time",
 				Type:     schema.TypeTimestamp,
-				Resolver: schema.PathResolver("ServerProperties.EarliestRestoreDate.Time"),
+				Resolver: schema.PathResolver("EarliestRestoreDate.Time"),
 			},
 			{
 				Name:        "backup_retention_days",
 				Description: "Backup retention days for the server.",
 				Type:        schema.TypeInt,
-				Resolver:    schema.PathResolver("ServerProperties.StorageProfile.BackupRetentionDays"),
+				Resolver:    schema.PathResolver("StorageProfile.BackupRetentionDays"),
 			},
 			{
 				Name:        "geo_redundant_backup",
 				Description: "Enable Geo-redundant or not for server backup.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.StorageProfile.GeoRedundantBackup"),
+				Resolver:    schema.PathResolver("StorageProfile.GeoRedundantBackup"),
 			},
 			{
 				Name:        "storage_mb",
 				Description: "Max storage allowed for a server.",
 				Type:        schema.TypeInt,
-				Resolver:    schema.PathResolver("ServerProperties.StorageProfile.StorageMB"),
+				Resolver:    schema.PathResolver("StorageProfile.StorageMB"),
 			},
 			{
 				Name:        "storage_autogrow",
 				Description: "Enable Storage Auto Grow",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.StorageProfile.StorageAutogrow"),
+				Resolver:    schema.PathResolver("StorageProfile.StorageAutogrow"),
 			},
 			{
 				Name:        "replication_role",
 				Description: "The replication role of the server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.ReplicationRole"),
+				Resolver:    schema.PathResolver("ReplicationRole"),
 			},
 			{
 				Name:        "master_server_id",
 				Description: "The master server id of a replica server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.MasterServerID"),
+				Resolver:    schema.PathResolver("MasterServerID"),
 			},
 			{
 				Name:        "replica_capacity",
 				Description: "The maximum number of replicas that a master server can have.",
 				Type:        schema.TypeInt,
-				Resolver:    schema.PathResolver("ServerProperties.ReplicaCapacity"),
+				Resolver:    schema.PathResolver("ReplicaCapacity"),
+				// Seems not possible to set with terraform
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "public_network_access",
 				Description: "Whether or not public network access is allowed for this server.",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ServerProperties.PublicNetworkAccess"),
+				Resolver:    schema.PathResolver("PublicNetworkAccess"),
 			},
 			{
 				Name:        "tags",
@@ -284,7 +288,7 @@ func fetchMariadbServers(ctx context.Context, meta schema.ClientMeta, parent *sc
 
 func resolveServerPrivateEndpointConnections(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	s := parent.Item.(mariadb.Server)
-	if s.ServerProperties == nil || s.ServerProperties.PrivateEndpointConnections == nil {
+	if s.PrivateEndpointConnections == nil {
 		return nil
 	}
 	res <- *s.ServerProperties.PrivateEndpointConnections

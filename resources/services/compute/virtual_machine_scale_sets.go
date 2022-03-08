@@ -19,6 +19,8 @@ func VirtualMachineScaleSets() *schema.Table {
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
 		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		// This table is in bad shape and need terraforms and test to verify that it works.
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

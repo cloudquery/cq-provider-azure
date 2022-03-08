@@ -30,10 +30,11 @@ func MonitorLogProfiles() *schema.Table {
 				Resolver:    schema.PathResolver("LogProfileProperties.StorageAccountID"),
 			},
 			{
-				Name:        "service_bus_rule_id",
-				Description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("LogProfileProperties.ServiceBusRuleID"),
+				Name:          "service_bus_rule_id",
+				Description:   "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("LogProfileProperties.ServiceBusRuleID"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "locations",

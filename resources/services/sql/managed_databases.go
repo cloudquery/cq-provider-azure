@@ -12,9 +12,10 @@ import (
 
 func sqlManagedDatabases() *schema.Table {
 	return &schema.Table{
-		Name:        "azure_sql_managed_databases",
-		Description: "ManagedDatabase a managed database resource.",
-		Resolver:    fetchSqlManagedDatabases,
+		Name:          "azure_sql_managed_databases",
+		Description:   "ManagedDatabase a managed database resource.",
+		Resolver:      fetchSqlManagedDatabases,
+		IgnoreInTests: true,
 		Columns: []schema.Column{
 			{
 				Name:        "collation",

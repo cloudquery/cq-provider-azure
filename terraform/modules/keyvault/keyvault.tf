@@ -20,39 +20,14 @@ resource "azurerm_key_vault" "test" {
 
     certificate_permissions = [
       "create",
-      "List",
-      "Get",
     ]
 
     key_permissions = [
       "purge",
-      "List",
-      "Create",
-      "Get",
     ]
 
     secret_permissions = [
       "delete",
-      "List",
-      "Set",
-      "Get",
     ]
   }
-}
-
-
-resource "azurerm_key_vault_key" "generated" {
-  name         = "cqkeyvaultkey"
-  key_vault_id = azurerm_key_vault.test.id
-  key_type     = "RSA"
-  key_size     = 2048
-
-  key_opts = [
-    "decrypt",
-    "encrypt",
-    "sign",
-    "unwrapKey",
-    "verify",
-    "wrapKey",
-  ]
 }

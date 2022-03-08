@@ -45,16 +45,18 @@ func EventHubNamespaces() *schema.Table {
 				Resolver:    schema.PathResolver("Sku.Capacity"),
 			},
 			{
-				Name:        "identity_principal_id",
-				Description: "ObjectId from the KeyVault",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("Identity.PrincipalID"),
+				Name:          "identity_principal_id",
+				Description:   "ObjectId from the KeyVault",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("Identity.PrincipalID"),
+				IgnoreInTests: true,
 			},
 			{
-				Name:        "identity_tenant_id",
-				Description: "TenantId from the KeyVault",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("Identity.TenantID"),
+				Name:          "identity_tenant_id",
+				Description:   "TenantId from the KeyVault",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("Identity.TenantID"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "identity_type",
@@ -85,10 +87,11 @@ func EventHubNamespaces() *schema.Table {
 				Resolver:    schema.PathResolver("EHNamespaceProperties.ServiceBusEndpoint"),
 			},
 			{
-				Name:        "cluster_arm_id",
-				Description: "Cluster ARM ID of the Namespace.",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("EHNamespaceProperties.ClusterArmID"),
+				Name:          "cluster_arm_id",
+				Description:   "Cluster ARM ID of the Namespace.",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("EHNamespaceProperties.ClusterArmID"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "metric_id",
@@ -161,9 +164,10 @@ func EventHubNamespaces() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_eventhub_namespace_encryption_key_vault_properties",
-				Description: "KeyVaultProperties properties to configure keyVault Properties",
-				Resolver:    fetchEventhubNamespaceEncryptionKeyVaultProperties,
+				Name:          "azure_eventhub_namespace_encryption_key_vault_properties",
+				Description:   "KeyVaultProperties properties to configure keyVault Properties",
+				Resolver:      fetchEventhubNamespaceEncryptionKeyVaultProperties,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "namespace_cq_id",

@@ -192,10 +192,11 @@ func NetworkSecurityGroups() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_network_security_group_flow_logs",
-				Description: "FlowLog a flow log resource",
-				Resolver:    fetchNetworkSecurityGroupFlowLogs,
-				Options:     schema.TableCreationOptions{PrimaryKeys: []string{"security_group_cq_id", "id"}},
+				Name:          "azure_network_security_group_flow_logs",
+				Description:   "FlowLog a flow log resource",
+				Resolver:      fetchNetworkSecurityGroupFlowLogs,
+				Options:       schema.TableCreationOptions{PrimaryKeys: []string{"security_group_cq_id", "id"}},
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "security_group_cq_id",
