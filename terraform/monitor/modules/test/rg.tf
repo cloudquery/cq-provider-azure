@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "monitor" {
-  name     = "monitor"
+  name     = "${var.prefix}-monitor"
   location = "East US"
 }

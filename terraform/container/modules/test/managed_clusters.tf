@@ -1,6 +1,6 @@
 
 resource "azurerm_resource_group" "container" {
-  name     = "container"
+  name     = "${var.prefix}-container"
   location = "East US"
 }
 

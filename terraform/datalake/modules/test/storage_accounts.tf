@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "data_lake" {
-  name     = "data_lake"
+  name     = "${var.prefix}-data-lake"
   location = "East US 2"
 }
 

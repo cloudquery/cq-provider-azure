@@ -5,7 +5,7 @@ resource "random_password" "mysql" {
 }
 
 resource "azurerm_resource_group" "mysql" {
-  name     = "mysql"
+  name     = "${var.prefix}-mysql"
   location = "East US"
 }
 

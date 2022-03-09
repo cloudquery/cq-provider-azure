@@ -1,6 +1,6 @@
 
 resource "azurerm_resource_group" "mongodb" {
-  name     = "mongodb"
+  name     = "${var.prefix}-mongodb"
   location = "East US"
 }
 

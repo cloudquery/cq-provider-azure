@@ -4,7 +4,7 @@ resource "random_password" "mariadb" {
 }
 
 resource "azurerm_resource_group" "mariadb" {
-  name     = "mariadb"
+  name     = "${var.prefix}-mariadb"
   location = "East US"
 }
 

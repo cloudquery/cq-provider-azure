@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "redis" {
-  name     = "redis"
+  name     = "${var.prefix}-redis"
   location = "East US"
 }
 

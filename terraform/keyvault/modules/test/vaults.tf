@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "keyvault" {
-  name     = "keyvault"
+  name     = "${var.prefix}-keyvault"
   location = "East US"
 }
 

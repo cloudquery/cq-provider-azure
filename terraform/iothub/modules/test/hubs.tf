@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "iot" {
-  name     = "iot"
+  name     = "${var.prefix}-iot"
   location = "East US"
 }
 
