@@ -18,4 +18,7 @@ generate-mocks:
 # Mainly used in CI
 .PHONY: terraform-apply-change-only
 terraform-apply-change-only:
-
+	for d in terraform/* ; \
+	do \
+		echo $d ; \
+	done;
