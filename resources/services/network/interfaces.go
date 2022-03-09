@@ -267,10 +267,11 @@ func NetworkInterfaces() *schema.Table {
 						IgnoreInTests: true,
 					},
 					{
-						Name:        "private_ip_address",
-						Description: "Private IP address of the IP configuration.",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress"),
+						Name:          "private_ip_address",
+						Description:   "Private IP address of the IP configuration.",
+						Type:          schema.TypeString,
+						Resolver:      schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PrivateIPAddress"),
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "private_ip_address_version",
@@ -285,10 +286,11 @@ func NetworkInterfaces() *schema.Table {
 						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.PrivateIPAllocationMethod"),
 					},
 					{
-						Name:        "private_link_connection_properties",
-						Description: "PrivateLinkConnection properties for the network interface.",
-						Type:        schema.TypeJSON,
-						Resolver:    resolveInterfaceIPConfigurationPrivateLinkConnectionProperties,
+						Name:          "private_link_connection_properties",
+						Description:   "PrivateLinkConnection properties for the network interface.",
+						Type:          schema.TypeJSON,
+						Resolver:      resolveInterfaceIPConfigurationPrivateLinkConnectionProperties,
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "provisioning_state",
@@ -304,10 +306,11 @@ func NetworkInterfaces() *schema.Table {
 						IgnoreInTests: true,
 					},
 					{
-						Name:        "subnet_id",
-						Description: "subnet ID of network interface ip configuration",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.Subnet.ID"),
+						Name:          "subnet_id",
+						Description:   "subnet ID of network interface ip configuration",
+						Type:          schema.TypeString,
+						Resolver:      schema.PathResolver("InterfaceIPConfigurationPropertiesFormat.Subnet.ID"),
+						IgnoreInTests: true,
 					},
 					{
 						Name:          "virtual_network_taps",
