@@ -31,6 +31,7 @@ func NewKeyVaultClient(subscriptionId string, auth autorest.Authorizer) (KeyVaul
 
 	vaultSvc := keyvault.NewVaultsClient(subscriptionId)
 	vaultSvc.Authorizer = auth
+	vaultSvc.List()
 
 	vhsm := hsm.NewManagedHsmsClient(subscriptionId)
 	vhsm.Authorizer = auth
