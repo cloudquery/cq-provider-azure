@@ -7,6 +7,7 @@
 //go:generate mockgen -destination=./mocks/eventhub.go -package=mocks . EventHubClient
 //go:generate mockgen -destination=./mocks/keyvault.go -package=mocks . KeyVault71Client,VaultClient,KeyVaultManagedHSMClient
 //go:generate mockgen -destination=./mocks/monitor.go -package=mocks . ActivityLogAlertsClient,LogProfilesClient,DiagnosticSettingsClient,ActivityLogClient
+//go:generate mockgen -destination=./mocks/logic.go -package=mocks . MonitorDiagnosticSettingsClient,WorkflowsClient
 //go:generate mockgen -destination=./mocks/mariadb.go -package=mocks . MariaDBConfigurationsClient,MariaDBServersClient
 //go:generate mockgen -destination=./mocks/my_sql.go -package=mocks . MySQLServerClient,MySQLConfigurationClient
 //go:generate mockgen -destination=./mocks/network.go -package=mocks . InterfacesClient,VirtualNetworksClient,SecurityGroupsClient,WatchersClient,PublicIPAddressesClient
@@ -22,6 +23,7 @@
 //go:generate mockgen -destination=./mocks/cosmosdb.go -package=mocks . CosmosDBAccountClient,CosmosDBSQLClient,CosmosDBMongoDBClient
 //go:generate mockgen -destination=./mocks/iothub.go -package=mocks . IotHubClient
 //go:generate mockgen -destination=./mocks/batch.go -package=mocks . BatchAccountClient
+//go:generate mockgen -destination=./mocks/search.go -package=mocks . SearchServiceClient
 package services
 
 import "github.com/Azure/go-autorest/autorest"
@@ -38,6 +40,7 @@ type Services struct {
 	EventHub          EventHubClient
 	IotHub            IotHubClient
 	KeyVault          KeyVaultClient
+	Logic             LogicClient
 	MariaDB           MariaDB
 	Monitor           MonitorClient
 	MySQL             MySQL
@@ -45,6 +48,7 @@ type Services struct {
 	PostgreSQL        PostgreSQL
 	Redis             RedisClient
 	Resources         ResourcesClient
+	Search            SearchClient
 	Servicebus        ServicebusClient
 	Security          SecurityClient
 	SQL               SQLClient
@@ -67,6 +71,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		EventHub:          NewEventHubClient(subscriptionId, auth),
 		IotHub:            NewIotHubClient(subscriptionId, auth),
 		KeyVault:          NewKeyVaultClient(subscriptionId, auth),
+		Logic:             NewLogicClient(subscriptionId, auth),
 		MariaDB:           NewMariaDBClient(subscriptionId, auth),
 		Monitor:           NewMonitorClient(subscriptionId, auth),
 		MySQL:             NewMySQLClient(subscriptionId, auth),
@@ -74,6 +79,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) Services {
 		PostgreSQL:        NewPostgresClient(subscriptionId, auth),
 		Redis:             NewRedisClient(subscriptionId, auth),
 		Resources:         NewResourcesClient(subscriptionId, auth),
+		Search:            NewSearchClient(subscriptionId, auth),
 		Security:          NewSecurityClient(subscriptionId, auth),
 		Servicebus:        NewServicebusClient(subscriptionId, auth),
 		SQL:               NewSQLClient(subscriptionId, auth),

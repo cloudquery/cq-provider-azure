@@ -14,6 +14,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/eventhub"
 	"github.com/cloudquery/cq-provider-azure/resources/services/iothub"
 	"github.com/cloudquery/cq-provider-azure/resources/services/keyvault"
+	"github.com/cloudquery/cq-provider-azure/resources/services/logic"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mariadb"
 	"github.com/cloudquery/cq-provider-azure/resources/services/monitor"
 	"github.com/cloudquery/cq-provider-azure/resources/services/mysql"
@@ -21,6 +22,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/postgresql"
 	"github.com/cloudquery/cq-provider-azure/resources/services/redis"
 	resources2 "github.com/cloudquery/cq-provider-azure/resources/services/resources"
+	"github.com/cloudquery/cq-provider-azure/resources/services/search"
 	"github.com/cloudquery/cq-provider-azure/resources/services/security"
 	"github.com/cloudquery/cq-provider-azure/resources/services/servicebus"
 	"github.com/cloudquery/cq-provider-azure/resources/services/sql"
@@ -28,6 +30,7 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/streamanalytics"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
+
 	"github.com/cloudquery/cq-provider-sdk/provider"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -66,6 +69,7 @@ func Provider() *provider.Provider {
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
 			"keyvault.vaults":      keyvault.KeyvaultVaults(),
 			"keyvault.managed_hsm": keyvault.KeyvaultManagedHSM(),
+			"logic.app_workflows":  logic.LogicAppWorkflows(),
 			"mariadb.servers":      mariadb.MariadbServers(),
 			"monitor.log_profiles": monitor.MonitorLogProfiles(),
 			// This resource is currently not working
@@ -84,6 +88,7 @@ func Provider() *provider.Provider {
 			"resources.policy_assignments":         resources2.ResourcesPolicyAssignments(),
 			"resources.links":                      resources2.ResourcesLinks(),
 			"security.assessments":                 security.SecurityAssessments(),
+			"search.services":                      search.SearchServices(),
 			"security.auto_provisioning_settings":  security.SecurityAutoProvisioningSettings(),
 			"security.contacts":                    security.SecurityContacts(),
 			"security.pricings":                    security.SecurityPricings(),
