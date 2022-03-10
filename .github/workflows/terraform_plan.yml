@@ -43,21 +43,14 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: terraform fmt -check
+        run: ./scripts/terraform-fmt-change-only.sh
         continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: ./scripts/terraform-validate-change-only.sh
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -lock=false -no-color -out tfplan.binary
-      
-      - name: Terraform show
-        run: terraform show -json tfplan.binary > plan.json
+        run: ./scripts/terraform-plan-change-only.sh
 
