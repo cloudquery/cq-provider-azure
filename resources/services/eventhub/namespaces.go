@@ -7,7 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -205,12 +205,12 @@ func fetchEventhubNamespaces(ctx context.Context, meta schema.ClientMeta, _ *sch
 	svc := meta.(*client.Client).Services().EventHub
 	response, err := svc.List(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -232,15 +232,15 @@ func resolveNamespaceNetworkRuleSet(ctx context.Context, meta schema.ClientMeta,
 	namespace := resource.Item.(eventhub.EHNamespace)
 	details, err := client.ParseResourceID(*namespace.ID)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	rs, err := svc.GetNetworkRuleSet(ctx, details.ResourceGroup, *namespace.Name)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	b, err := json.Marshal(rs)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, b)
 }

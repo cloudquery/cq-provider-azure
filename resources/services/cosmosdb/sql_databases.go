@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -113,7 +113,7 @@ func fetchCosmosdbSqlDatabases(ctx context.Context, meta schema.ClientMeta, _ *s
 
 	response, err := accSvc.List(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	if response.Value == nil {
 		return nil
@@ -132,7 +132,7 @@ func fetchCosmosdbSqlDatabases(ctx context.Context, meta schema.ClientMeta, _ *s
 
 		response, err := sqlSvc.ListSQLDatabases(ctx, details.ResourceGroup, *account.Name)
 		if err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 		if response.Value == nil {
 			continue

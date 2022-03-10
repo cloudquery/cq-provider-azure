@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -245,7 +245,7 @@ func fetchMonitorActivityLogs(ctx context.Context, meta schema.ClientMeta, paren
 	filter := fmt.Sprintf("eventTimestamp ge '%s' and eventTimestamp le '%s'", past.Format(time.RFC3339Nano), now.Format(time.RFC3339Nano))
 	response, err := svc.List(ctx, filter, "")
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	// azure returns same events sometimes so we have to filter out the duplicates
 	seen := make(map[string]struct{})
@@ -261,7 +261,7 @@ func fetchMonitorActivityLogs(ctx context.Context, meta schema.ClientMeta, paren
 		// TODO: follow this issue and change
 		break
 		// if err := response.NextWithContext(ctx); err != nil {
-		// 	return helpers.WrapError(err)
+		// 	return diag.WrapError(err)
 		// }
 	}
 	return nil

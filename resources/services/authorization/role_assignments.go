@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -68,12 +68,12 @@ func fetchAuthorizationRoleAssignments(ctx context.Context, meta schema.ClientMe
 	svc := meta.(*client.Client).Services().Authorization
 	result, err := svc.RoleAssignments.List(ctx, "")
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for result.NotDone() {
 		res <- result.Values()
 		if err := result.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil

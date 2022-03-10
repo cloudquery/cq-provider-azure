@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -71,7 +71,7 @@ func fetchResourcesGroups(ctx context.Context, meta schema.ClientMeta, _ *schema
 	svc := meta.(*client.Client).Services().Resources.Groups
 	response, err := svc.List(ctx, "", nil)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()

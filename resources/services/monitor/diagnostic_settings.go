@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
@@ -208,7 +208,7 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 	monSvc := cl.Services().Monitor.DiagnosticSettings
 	resResponse, err := resSvc.List(ctx, "", "", nil)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	rs := resResponse.Values()
 	ids := make([]string, 0, len(rs))
@@ -231,7 +231,7 @@ func fetchMonitorDiagnosticSettings(ctx context.Context, meta schema.ClientMeta,
 				if isResourceTypeNotSupported(err) {
 					return nil
 				}
-				return helpers.WrapError(err)
+				return diag.WrapError(err)
 			}
 			if response.Value == nil {
 				return nil

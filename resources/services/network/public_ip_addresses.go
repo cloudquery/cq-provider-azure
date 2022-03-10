@@ -8,7 +8,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -225,12 +225,12 @@ func fetchNetworkPublicIpAddresses(ctx context.Context, meta schema.ClientMeta, 
 	svc := meta.(*client.Client).Services().Network.PublicIPAddresses
 	response, err := svc.ListAll(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -248,7 +248,7 @@ func resolveNetworkPublicIPAddressesIpConfiguration(ctx context.Context, meta sc
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.IPConfiguration)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -293,7 +293,7 @@ func resolveNetworkPublicIPAddressesServicePublicIpAddress(ctx context.Context, 
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.ServicePublicIPAddress)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -310,7 +310,7 @@ func resolveNetworkPublicIPAddressesNatGateway(ctx context.Context, meta schema.
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.NatGateway)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }
@@ -327,7 +327,7 @@ func resolveNetworkPublicIPAddressesLinkedPublicIpAddress(ctx context.Context, m
 
 	out, err := json.Marshal(p.PublicIPAddressPropertiesFormat.LinkedPublicIPAddress)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, out)
 }

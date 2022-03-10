@@ -7,7 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-11-01/network"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -455,12 +455,12 @@ func fetchNetworkSecurityGroups(ctx context.Context, meta schema.ClientMeta, par
 	svc := meta.(*client.Client).Services().Network.SecurityGroups
 	response, err := svc.ListAll(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -497,7 +497,7 @@ func fetchNetworkSecurityGroupFlowLogs(ctx context.Context, meta schema.ClientMe
 		//there is no API to get network.FlowLog directly so we fetch network.FlowLogInformation and fill network.FlowLog structure
 		result, err := svc.GetFlowLogStatus(ctx, resourceGroup, networkWatcherName, network.FlowLogStatusParameters{TargetResourceID: p.ID})
 		if err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 		client, ok := svc.(network.WatchersClient)
 		if !ok {
@@ -505,7 +505,7 @@ func fetchNetworkSecurityGroupFlowLogs(ctx context.Context, meta schema.ClientMe
 		}
 		properties, err := result.Result(client)
 		if err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 
 		fl.Name = &name

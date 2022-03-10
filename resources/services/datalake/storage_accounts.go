@@ -7,7 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/datalake/store/mgmt/account"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -315,24 +315,24 @@ func fetchDatalakeStorageAccounts(ctx context.Context, meta schema.ClientMeta, p
 	svc := meta.(*client.Client).Services().DataLake.DataLakeStorageAccounts
 	result, err := svc.List(ctx, "", nil, nil, "", "", nil)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for result.NotDone() {
 		accounts := result.Values()
 		for _, a := range accounts {
 			resourceDetails, err := client.ParseResourceID(*a.ID)
 			if err != nil {
-				return helpers.WrapError(err)
+				return diag.WrapError(err)
 			}
 			result, err := svc.Get(ctx, resourceDetails.ResourceGroup, *a.Name)
 			if err != nil {
-				return helpers.WrapError(err)
+				return diag.WrapError(err)
 			}
 			res <- result
 		}
 
 		if err := result.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil

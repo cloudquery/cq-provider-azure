@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -100,7 +100,7 @@ func fetchMonitorLogProfiles(ctx context.Context, meta schema.ClientMeta, parent
 	svc := meta.(*client.Client).Services().Monitor.LogProfiles
 	result, err := svc.List(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	if result.Value == nil {
 		return nil

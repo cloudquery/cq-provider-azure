@@ -411,12 +411,12 @@ func fetchKeyvaultVaults(ctx context.Context, meta schema.ClientMeta, parent *sc
 	maxResults := int32(1000)
 	response, err := svc.ListBySubscription(ctx, &maxResults)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -465,12 +465,12 @@ func fetchKeyvaultVaultKeys(ctx context.Context, meta schema.ClientMeta, parent 
 	resourceGroup := strings.Split(*vault.ID, "/")[4]
 	response, err := svc.List(ctx, resourceGroup, *vault.Name)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -518,12 +518,12 @@ func fetchKeyvaultVaultSecrets(ctx context.Context, meta schema.ClientMeta, pare
 	maxResults := int32(25)
 	result, err := svc.GetSecrets(ctx, *vault.Properties.VaultURI, &maxResults)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for result.NotDone() {
 		res <- result.Values()
 		if err := result.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil

@@ -6,7 +6,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -430,12 +430,12 @@ func fetchSqlManagedInstances(ctx context.Context, meta schema.ClientMeta, paren
 	svc := meta.(*client.Client).Services().SQL.ManagedInstances
 	servers, err := svc.List(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for servers.NotDone() {
 		res <- servers.Values()
 		if err := servers.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -458,16 +458,16 @@ func fetchSqlManagedInstanceVulnerabilityAssessments(ctx context.Context, meta s
 	}
 	details, err := client.ParseResourceID(*s.ID)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	result, err := svc.ListByInstance(ctx, details.ResourceGroup, *s.Name)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for result.NotDone() {
 		res <- result.Values()
 		if err := result.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -480,16 +480,16 @@ func fetchSqlManagedInstanceEncryptionProtectors(ctx context.Context, meta schem
 	}
 	details, err := client.ParseResourceID(*s.ID)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	result, err := svc.ListByInstance(ctx, details.ResourceGroup, *s.Name)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for result.NotDone() {
 		res <- result.Values()
 		if err := result.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil

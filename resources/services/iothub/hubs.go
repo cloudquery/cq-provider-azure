@@ -7,7 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/iothub/mgmt/2021-07-02/devices"
 	"github.com/cloudquery/cq-provider-azure/client"
-	"github.com/cloudquery/cq-provider-sdk/helpers"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -786,12 +786,12 @@ func fetchIothubHubs(ctx context.Context, meta schema.ClientMeta, _ *schema.Reso
 	svc := meta.(*client.Client).Services().IotHub
 	response, err := svc.ListBySubscription(ctx)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	for response.NotDone() {
 		res <- response.Values()
 		if err := response.NextWithContext(ctx); err != nil {
-			return helpers.WrapError(err)
+			return diag.WrapError(err)
 		}
 	}
 	return nil
@@ -806,7 +806,7 @@ func resolveIothubHubsRoutingEnrichments(_ context.Context, _ schema.ClientMeta,
 	}
 	b, err := json.Marshal(iothub.Properties.Routing.Enrichments)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, b)
 }
@@ -820,7 +820,7 @@ func resolveIothubHubsLocations(_ context.Context, _ schema.ClientMeta, resource
 	}
 	b, err := json.Marshal(iothub.Properties.Locations)
 	if err != nil {
-		return helpers.WrapError(err)
+		return diag.WrapError(err)
 	}
 	return resource.Set(c.Name, b)
 }

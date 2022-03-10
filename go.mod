@@ -16,7 +16,6 @@ require (
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 )
 
-replace github.com/cloudquery/cq-provider-sdk => ../cq-provider-sdk
 
 require (
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
