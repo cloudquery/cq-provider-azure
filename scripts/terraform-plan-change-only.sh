@@ -12,10 +12,10 @@ for f in terraform/*; do
         # if there are any changes run terraform apply
         if [ "$CHANGES" != "" ]; then
             echo "detected changes in $f. Running terraform plan..."
-            terraform plan -chdir="${f}/prod" -lock=false -no-color -out tfplan.binary
+            terraform -chdir="${f}/prod" plan -lock=false -no-color -out tfplan.binary
             
             echo "Running terraform show in $f"
-            terraform show -chdir="${f}/prod" -json tfplan.binary > "${f}/prod/plan.json"
+            terraform -chdir="${f}/prod" show -json tfplan.binary > "${f}/prod/plan.json"
             plans=(${plans[@]} "${f}/prod/tfplan.binary")
             planjsons=(${planjsons[@]} "${f}/prod/plan.json")
         fi
