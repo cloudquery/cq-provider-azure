@@ -22,7 +22,7 @@ for f in terraform/*; do
     fi
 done
 
-echo -e "version: 0.1\n\nprojects:\n" > /tmp/infracost-generated.yml
+echo -e "version: 0.1\n\nprojects:\n" > /tmp/infracost.yml
 for planjson in "${planjsons[@]}"; do
-  echo -e "  - path: $planjson" >> /tmp/infracost-generated.yml
+  echo -e "  - path: $planjson" >> /tmp/infracost.yml
 done
