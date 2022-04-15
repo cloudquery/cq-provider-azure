@@ -15,13 +15,12 @@ import (
 
 func WebApps() *schema.Table {
 	return &schema.Table{
-		Name:          "azure_web_apps",
-		Description:   "Site a web app, a mobile app backend, or an API app",
-		Resolver:      fetchWebApps,
-		Multiplex:     client.SubscriptionMultiplex,
-		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
-		DeleteFilter:  client.DeleteSubscriptionFilter,
-		IgnoreInTests: true,
+		Name:         "azure_web_apps",
+		Description:  "Site a web app, a mobile app backend, or an API app",
+		Resolver:     fetchWebApps,
+		Multiplex:    client.SubscriptionMultiplex,
+		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",

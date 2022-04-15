@@ -7,6 +7,8 @@
 CloudQuery Azure Provider ![BuildStatus](https://img.shields.io/github/workflow/status/cloudquery/cq-provider-azure/test?style=flat-square) ![License](https://img.shields.io/github/license/cloudquery/cloudquery?style=flat-square)
 ==================================
 
+EXAMPLEEXAMPLEEXAMPLE
+
 This [CloudQuery](https://github.com/cloudquery/cloudquery)
 provider transforms Azure resources to a relational database.
 
