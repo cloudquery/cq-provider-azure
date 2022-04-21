@@ -27,12 +27,9 @@ func ErrorClassifier(meta schema.ClientMeta, resourceName string, err error) dia
 		reqError      azure.RequestError
 	)
 	if errors.As(err, &detailedError) {
-		if errors.As(detailedError.Original, &reqError) && reqError.ServiceError != nil {
-			switch reqError.ServiceError.Code {
-			case "DisallowedOperation":
-				return diag.Diagnostics{
-					RedactError(client.SubscriptionId, diag.NewBaseError(err, diag.ACCESS, diag.WithType(diag.ACCESS), diag.WithSeverity(diag.WARNING), diag.WithResourceName(resourceName), ParseSummaryMessage(client.SubscriptionId, err, detailedError), diag.WithDetails("%s", errorCodeDescriptions[detailedError.StatusCode]))),
-				}
+		if errors.As(detailedError.Original, &reqError) && reqError.ServiceError != nil && reqError.ServiceError.Code == "DisallowedOperation" {
+			return diag.Diagnostics{
+				RedactError(client.SubscriptionId, diag.NewBaseError(err, diag.ACCESS, diag.WithType(diag.ACCESS), diag.WithSeverity(diag.WARNING), diag.WithResourceName(resourceName), ParseSummaryMessage(client.SubscriptionId, err, detailedError), diag.WithDetails("%s", errorCodeDescriptions[detailedError.StatusCode]))),
 			}
 		}
 
