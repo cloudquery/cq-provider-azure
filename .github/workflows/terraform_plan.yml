@@ -1,3 +1,4 @@
+{{=<% %>=}}
 # DONT EDIT. This file is synced from https://github.com/cloudquery/.github/.github
 name: terraform_plan
 on:
@@ -28,13 +29,7 @@ jobs:
             echo "and paste the output in the PR"
 
   terrafrom_plan:
-    # In this scenario we are not using OIDC yet because we are waiting for
-    # https://github.com/hashicorp/go-azure-helpers/issues/91
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    <%> env %>
 
     needs: is_organization_member
     if: github.event_name != 'pull_request_target' || needs.is_organization_member.outputs.status == 'true'
@@ -65,6 +60,7 @@ jobs:
           repository: ${{github.event.pull_request.head.repo.full_name}}
           fetch-depth: 0
 
+      <%> auth_step %>
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
