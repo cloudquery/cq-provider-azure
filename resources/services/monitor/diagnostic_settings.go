@@ -21,6 +21,7 @@ func MonitorDiagnosticSettings() *schema.Table {
 		Resolver:      fetchMonitorDiagnosticSettings,
 		Multiplex:     client.SubscriptionMultiplex,
 		DeleteFilter:  client.DeleteSubscriptionFilter,
+		IgnoreError:   client.IgnoreSubscriptionNotRegistered,
 		Options:       schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
 		IgnoreInTests: true,
 		Columns: []schema.Column{
