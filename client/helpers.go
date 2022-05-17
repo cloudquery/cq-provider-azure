@@ -65,6 +65,9 @@ func IgnoreAccessDenied(err error) bool {
 }
 
 func IgnoreSubscriptionNotRegistered(err error) bool {
-	var reqError azure.RequestError
-	return errors.As(err, &reqError) && reqError.ServiceError != nil && reqError.ServiceError.Code == "SubscriptionNotRegistered"
+	var azureErr *azure.RequestError
+	if errors.As(err, &azureErr) {
+		return azureErr.ServiceError != nil && azureErr.ServiceError.Code == "SubscriptionNotRegistered"
+	}
+	return false
 }
