@@ -73,9 +73,9 @@ func fetchSecuritySettings(ctx context.Context, meta schema.ClientMeta, parent *
 				res <- v
 			} else if v, ok := item.AsAlertSyncSettings(); ok {
 				res <- v
+			} else {
+				return fmt.Errorf("unexpected BasicSetting: %#v", item)
 			}
-
-			return fmt.Errorf("unexpected BasicSetting: %#v", item)
 		}
 		if err := response.NextWithContext(ctx); err != nil {
 			return diag.WrapError(err)
