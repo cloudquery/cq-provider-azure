@@ -71,7 +71,7 @@ func fetchSecuritySettings(ctx context.Context, meta schema.ClientMeta, parent *
 				res <- v
 			} else if v, ok := item.AsDataExportSettings(); ok {
 				res <- v
-			} else if v, ok := item.AsAlertSyncSettings(); ok {
+			} else if v, ok := item.AsAlertSyncSettings(); ok { // nolint:revive
 				res <- v
 			} else {
 				return fmt.Errorf("unexpected BasicSetting: %#v", item)
@@ -80,7 +80,6 @@ func fetchSecuritySettings(ctx context.Context, meta schema.ClientMeta, parent *
 		if err := response.NextWithContext(ctx); err != nil {
 			return diag.WrapError(err)
 		}
-
 	}
 	return nil
 }
