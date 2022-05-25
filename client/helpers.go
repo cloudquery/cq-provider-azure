@@ -7,8 +7,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest/azure"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
@@ -62,12 +60,4 @@ func IgnoreAccessDenied(err error) bool {
 	var detailedError autorest.DetailedError
 
 	return errors.As(err, &detailedError) && detailedError.StatusCode == http.StatusForbidden
-}
-
-func IgnoreSubscriptionNotRegistered(err error) bool {
-	var azureErr *azure.RequestError
-	if errors.As(err, &azureErr) {
-		return azureErr.ServiceError != nil && azureErr.ServiceError.Code == "SubscriptionNotRegistered"
-	}
-	return false
 }
