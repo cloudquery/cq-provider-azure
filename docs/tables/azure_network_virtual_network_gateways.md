@@ -18,12 +18,12 @@ Azure virtual network gateway
 |sku_name|text|Gateway SKU name.|
 |sku_tier|text|Gateway SKU tier.|
 |sku_capacity|integer|READ-ONLY; The capacity.|
-|vpn_client_configuration_vpn_client_address_pool|text[]|The reference to the address space resource which represents Address space for P2S VpnClient.|
-|vpn_client_configuration_vpn_client_root_certificates|jsonb|VpnClientRootCertificate for virtual network gateway.|
-|vpn_client_configuration_vpn_client_revoked_certificates|jsonb|VpnClientRevokedCertificate for Virtual network gateway.|
-|vpn_client_configuration_vpn_client_protocols|text[]|VpnClientProtocols for Virtual network gateway.|
-|vpn_client_configuration_vpn_authentication_types|text[]|VPN authentication types for the virtual network gateway.|
-|vpn_client_configuration_vpn_client_ipsec_policies|jsonb|VpnClientIpsecPolicies for virtual network gateway P2S client.|
+|vpn_client_configuration_address_pool|text[]|The reference to the address space resource which represents Address space for P2S VpnClient.|
+|vpn_client_configuration_root_certificates|jsonb|VpnClientRootCertificate for virtual network gateway.|
+|vpn_client_configuration_revoked_certificates|jsonb|VpnClientRevokedCertificate for Virtual network gateway.|
+|vpn_client_configuration_protocols|text[]|VpnClientProtocols for Virtual network gateway.|
+|vpn_client_configuration_authentication_types|text[]|VPN authentication types for the virtual network gateway.|
+|vpn_client_configuration_ipsec_policies|jsonb|VpnClientIpsecPolicies for virtual network gateway P2S client.|
 |vpn_client_configuration_radius_server_address|text|The radius server address property of the VirtualNetworkGateway resource for vpn client connection.|
 |vpn_client_configuration_radius_server_secret|text|The radius secret property of the VirtualNetworkGateway resource for vpn client connection.|
 |vpn_client_configuration_radius_servers|jsonb|The radiusServers property for multiple radius server configuration.|
