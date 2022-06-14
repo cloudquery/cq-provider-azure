@@ -86,7 +86,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 						Name:        "public_ip_address",
 						Description: "Public IP address of the Azure Firewall that is linked to this policy, if applicable",
 						Type:        schema.TypeInet,
-						Resolver:    resolveSecurityJitNetworkAccessPolicyVirtualMachinesPublicIpAddress,
+						Resolver:    schema.IPAddressesResolver("security.JitNetworkAccessPolicyVirtualMachine.PublicIPAddress")
 					},
 				},
 			},
@@ -154,14 +154,7 @@ func fetchSecurityJitNetworkAccessPolicyVirtualMachines(ctx context.Context, met
 	res <- *policy.VirtualMachines
 	return nil
 }
-func resolveSecurityJitNetworkAccessPolicyVirtualMachinesPublicIpAddress(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	p := resource.Item.(security.JitNetworkAccessPolicyVirtualMachine)
-	if p.PublicIPAddress == nil {
-		return nil
-	}
-	ip := net.ParseIP(*p.PublicIPAddress)
-	return diag.WrapError(resource.Set(c.Name, ip))
-}
+
 func fetchSecurityJitNetworkAccessPolicyRequests(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	policy := parent.Item.(security.JitNetworkAccessPolicy)
 	if policy.Requests == nil {
