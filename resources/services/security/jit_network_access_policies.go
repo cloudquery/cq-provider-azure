@@ -175,7 +175,6 @@ func resolveSecurityJitNetworkAccessPolicyRequestsVirtualMachines(ctx context.Co
 	if vm.VirtualMachines == nil {
 		return nil
 	}
-
 	result := make([]string, 0, len(*vm.VirtualMachines))
 	for _, v := range *vm.VirtualMachines {
 		result = append(result, *v.ID)
