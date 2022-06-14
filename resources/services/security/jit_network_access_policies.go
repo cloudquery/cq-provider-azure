@@ -85,7 +85,7 @@ func SecurityJitNetworkAccessPolicies() *schema.Table {
 						Name:        "public_ip_address",
 						Description: "Public IP address of the Azure Firewall that is linked to this policy, if applicable",
 						Type:        schema.TypeInet,
-						Resolver:    schema.IPAddressesResolver("PublicIPAddress"),
+						Resolver:    schema.IPAddressResolver("PublicIPAddress"),
 					},
 				},
 			},
