@@ -18,6 +18,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -->
 
+## [0.11.16](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.15...v0.11.16) (2022-06-27)
+
+
+### Bug Fixes
+
+* **deps:** fix(deps): Update module github.com/cloudquery/cq-provider-sdk to v0.12.5 ([#368](https://github.com/cloudquery/cq-provider-azure/issues/368)) ([b80323a](https://github.com/cloudquery/cq-provider-azure/commit/b80323a9b2f7baf0ff464d6151e8c625f8c6c9c2))
+
+## [0.11.15](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.14...v0.11.15) (2022-06-27)
+
+
+### Bug Fixes
+
+* **deps:** fix(deps): Update module github.com/cloudquery/cq-provider-sdk to v0.12.4 ([#366](https://github.com/cloudquery/cq-provider-azure/issues/366)) ([1d0ccea](https://github.com/cloudquery/cq-provider-azure/commit/1d0ccea3018fc793800ba5e9798755d473fc049f))
+
+## [0.11.14](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.13...v0.11.14) (2022-06-26)
+
+
+### Bug Fixes
+
+* **deps:** Update module github.com/cloudquery/cq-provider-sdk to v0.12.3 ([#361](https://github.com/cloudquery/cq-provider-azure/issues/361)) ([8ff9ead](https://github.com/cloudquery/cq-provider-azure/commit/8ff9ead6f60a1204b373d532071b168fef107dd8))
+
+## [0.11.13](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.12...v0.11.13) (2022-06-26)
+
+
+### Bug Fixes
+
+* **deps:** Update module github.com/cloudquery/cq-provider-sdk to v0.12.2 ([#352](https://github.com/cloudquery/cq-provider-azure/issues/352)) ([f3f36ad](https://github.com/cloudquery/cq-provider-azure/commit/f3f36adeeb481a189009377956b4b1feac911d64))
+
+## [0.11.12](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.11...v0.11.12) (2022-06-23)
+
+
+### Bug Fixes
+
+* Use errgroup SetLimit ([#351](https://github.com/cloudquery/cq-provider-azure/issues/351)) ([7932589](https://github.com/cloudquery/cq-provider-azure/commit/79325899aca72dfc3b31b3248bb0608e38ac0fbe))
+
+## [0.11.11](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.10...v0.11.11) (2022-06-22)
+
+
+### Features
+
+* YAML config support ([#353](https://github.com/cloudquery/cq-provider-azure/issues/353)) ([045e92f](https://github.com/cloudquery/cq-provider-azure/commit/045e92fbe9110d9511ed9c5784406431aeea4b10))
+
 ## [0.11.10](https://github.com/cloudquery/cq-provider-azure/compare/v0.11.9...v0.11.10) (2022-06-20)
 
 
