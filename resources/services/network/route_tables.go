@@ -31,6 +31,12 @@ func NetworkRouteTables() *schema.Table {
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
+				Name:        "route_table_subnets",
+				Description: "A collection of references to subnets.",
+				Type:        schema.TypeStringArray,
+				Resolver:    resolveNetworkRouteTableSubnets,
+			},
+			{
 				Name:        "disable_bgp_route_propagation",
 				Description: "Whether to disable the routes learned by BGP on that route table.",
 				Type:        schema.TypeBool,
@@ -139,25 +145,6 @@ func NetworkRouteTables() *schema.Table {
 					},
 				},
 			},
-			{
-				Name:        "azure_network_route_table_subnets",
-				Description: "Azure route table subnet",
-				Resolver:    fetchNetworkRouteTableSubnets,
-				Columns: []schema.Column{
-					{
-						Name:        "route_table_cq_id",
-						Description: "Unique CloudQuery ID of azure_network_route_tables table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "id",
-						Description: "Resource ID.",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("ID"),
-					},
-				},
-			},
 		},
 	}
 }
@@ -179,19 +166,22 @@ func fetchNetworkRouteTables(ctx context.Context, meta schema.ClientMeta, _ *sch
 	}
 	return nil
 }
+func resolveNetworkRouteTableSubnets(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	rt := resource.Item.(network.RouteTable)
+	if rt.Subnets == nil {
+		return nil
+	}
+	subnets := make([]string, 0, len(*rt.Subnets))
+	for _, sn := range *rt.Subnets {
+		subnets = append(subnets, *sn.ID)
+	}
+	return diag.WrapError(resource.Set(c.Name, subnets))
+}
 func fetchNetworkRouteTableRoutes(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	rt := parent.Item.(network.RouteTable)
 	if rt.Routes == nil {
 		return nil
 	}
 	res <- *rt.Routes
-	return nil
-}
-func fetchNetworkRouteTableSubnets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	rt := parent.Item.(network.RouteTable)
-	if rt.Subnets == nil {
-		return nil
-	}
-	res <- *rt.Subnets
 	return nil
 }

@@ -6,6 +6,7 @@ Azure route table
 | ------------- | ------------- | -----  |
 |subscription_id|text|Azure subscription id|
 |id|text|Resource ID.|
+|route_table_subnets|text[]|A collection of references to subnets.|
 |disable_bgp_route_propagation|boolean|Whether to disable the routes learned by BGP on that route table.|
 |provisioning_state|text|The provisioning state of the route table resource.|
 |resource_guid|text|The resource GUID property of the route table.|
