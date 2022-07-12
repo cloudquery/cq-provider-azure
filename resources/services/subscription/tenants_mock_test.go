@@ -39,7 +39,7 @@ func buildTenantsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	)
 
 	return services.Services{
-		Tenants: services.Subscriptions{
+		Subscriptions: services.Subscriptions{
 			SubscriptionID: subscriptionID,
 			Tenants:        m,
 		},

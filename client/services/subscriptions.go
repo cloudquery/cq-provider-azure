@@ -1,4 +1,4 @@
-//go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionsClient
+//go:generate mockgen -destination=./mocks/subscriptions.go -package=mocks . SubscriptionsClient,TenantsClient
 package services
 
 import (
