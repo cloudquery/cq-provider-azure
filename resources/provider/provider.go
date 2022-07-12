@@ -1,6 +1,10 @@
 package provider
 
 import (
+	"github.com/cloudquery/cq-provider-sdk/cqproto"
+	"github.com/cloudquery/cq-provider-sdk/provider"
+	"github.com/cloudquery/cq-provider-sdk/provider/schema"
+
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/resources/services/account"
 	"github.com/cloudquery/cq-provider-azure/resources/services/authorization"
@@ -28,9 +32,6 @@ import (
 	"github.com/cloudquery/cq-provider-azure/resources/services/streamanalytics"
 	"github.com/cloudquery/cq-provider-azure/resources/services/subscription"
 	"github.com/cloudquery/cq-provider-azure/resources/services/web"
-	"github.com/cloudquery/cq-provider-sdk/cqproto"
-	"github.com/cloudquery/cq-provider-sdk/provider"
-	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 var (
@@ -100,6 +101,7 @@ func Provider() *provider.Provider {
 			"storage.accounts":                     storage.StorageAccounts(),
 			"streamanalytics.jobs":                 streamanalytics.StreamanalyticsJobs(),
 			"subscription.subscriptions":           subscription.SubscriptionSubscriptions(),
+			"subscription.tenants":                 subscription.Tenants(),
 			"web.apps":                             web.WebApps(),
 		},
 		Config: func(f cqproto.ConfigFormat) provider.Config {

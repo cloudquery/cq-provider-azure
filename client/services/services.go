@@ -29,7 +29,6 @@ type Services struct {
 	Storage           StorageClient
 	StreamAnalytics   StreamAnalyticsClient
 	Subscriptions     Subscriptions
-	Tenants           Tenants
 	Web               WebClient
 }
 
@@ -65,7 +64,6 @@ func InitServices(subscriptionId string, auth autorest.Authorizer) (Services, er
 		Storage:           NewStorageClient(subscriptionId, auth),
 		StreamAnalytics:   NewStreamAnalyticsClient(subscriptionId, auth),
 		Subscriptions:     NewSubscriptionsClient(subscriptionId, auth),
-		Tenants:           NewTenantsClient(subscriptionId, auth),
 		Web:               NewWebClient(subscriptionId, auth),
 	}, nil
 }

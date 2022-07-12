@@ -11,6 +11,7 @@ import (
 type Subscriptions struct {
 	SubscriptionID string
 	Subscriptions  SubscriptionsClient
+	Tenants        TenantsClient
 }
 
 type SubscriptionsClient interface {
@@ -18,11 +19,20 @@ type SubscriptionsClient interface {
 	ListLocations(ctx context.Context, subscriptionID string) (result subscription.LocationListResult, err error)
 }
 
+type TenantsClient interface {
+	ListComplete(ctx context.Context) (result subscription.TenantListResultIterator, err error)
+}
+
 func NewSubscriptionsClient(subscriptionId string, auth autorest.Authorizer) Subscriptions {
 	s := subscription.NewSubscriptionsClient()
 	s.Authorizer = auth
+
+	t := subscription.NewTenantsClient()
+	t.Authorizer = auth
+
 	return Subscriptions{
 		SubscriptionID: subscriptionId,
 		Subscriptions:  s,
+		Tenants:        t,
 	}
 }
