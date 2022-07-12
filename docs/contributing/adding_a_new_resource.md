@@ -10,7 +10,7 @@ As a prerequisite, ensure that API calls to list/describe the desired resource a
 
 ## Setting up the service
 
-If the service to which the resource belongs has not been used before in cq-provider-aws, there are a few steps that need to be done to configure it.
+If the service to which the resource belongs has not been used before in cq-provider-azure, there are a few steps that need to be done to configure it.
 
 1. Create the service interface in [client/services/services.go](./client/services/services.go)
    * Don't forget to add the new service interface name to the go:generate comment.
@@ -45,7 +45,7 @@ For complex fields or fields that require further API calls, you can defined you
 
 #### Implementing Resolver Functions
 
-A few important things to note when adding functions that call the AWS API:
+A few important things to note when adding functions that call the Azure API:
 
 - If possible, always use an API call that allows you to fetch many resources at once
 - Take pagination into account. Ensure you fetch **all** of the resources
