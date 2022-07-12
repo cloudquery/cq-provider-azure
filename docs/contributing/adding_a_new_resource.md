@@ -2,9 +2,10 @@
 
 Some information can be found in the [docs for developing a new provider](https://docs.cloudquery.io/developers/developing-new-provider).
 
-As a prerequisite, in [google.golang.org/api](https://pkg.go.dev/go-autorest/autorest) ensure API calls exist to list/describe the desired resource, and make note of:
+As a prerequisite, ensure that API calls to list/describe the desired resource are present in
+[github.com/Azure/go-autorest/autorest](https://pkg.go.dev/github.com/Azure/go-autorest/autorest), and make note of:
 
-   - to which aws service the resource belongs
+   - to which Azure service the resource belongs
    - the schema of the returned object(s)
 
 ## Setting up the service
