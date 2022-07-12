@@ -2,11 +2,10 @@ package subscription
 
 import (
 	"context"
-	"github.com/cloudquery/cq-provider-sdk/provider/diag"
-
-	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
+	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
 //go:generate cq-gen --resource tenants --config resources/services/subscription/gen.hcl --output .

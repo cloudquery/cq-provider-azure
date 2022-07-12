@@ -5,12 +5,11 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription"
-	"github.com/cloudquery/faker/v3"
-	"github.com/golang/mock/gomock"
-
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
+	"github.com/cloudquery/faker/v3"
+	"github.com/golang/mock/gomock"
 )
 
 func buildTenantsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
