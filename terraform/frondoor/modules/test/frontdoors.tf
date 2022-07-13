@@ -9,6 +9,8 @@ resource "azurerm_frontdoor" "test" {
   location            = azurerm_resource_group.frontdoor.location
   resource_group_name = azurerm_resource_group.frontdoor.name
 
+  enforce_backend_pools_certificate_name_check = false
+
   routing_rule {
     name               = "exampleRoutingRule1"
     accepted_protocols = ["Http", "Https"]
@@ -26,10 +28,6 @@ resource "azurerm_frontdoor" "test" {
 
   backend_pool_health_probe {
     name = "exampleHealthProbeSetting1"
-  }
-
-  backend_pool_settings {
-    enforce_backend_pools_certificate_name_check = false
   }
 
   backend_pool {
