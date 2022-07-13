@@ -28,6 +28,10 @@ resource "azurerm_frontdoor" "test" {
     name = "exampleHealthProbeSetting1"
   }
 
+  backend_pool_settings {
+    enforce_backend_pools_certificate_name_check = false
+  }
+
   backend_pool {
     name = "exampleBackendBing"
     backend {
