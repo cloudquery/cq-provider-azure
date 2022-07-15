@@ -9,7 +9,7 @@ WITH logging_enabled AS (
     AND (s.storage_account_id IS NOT NULL OR s.storage_account_id IS DISTINCT FROM '')
     AND retention_policy_enabled = TRUE
 )
-insert into policy_result
+insert into azure_policy_results
 SELECT
   :'execution_time'
   :'framework',

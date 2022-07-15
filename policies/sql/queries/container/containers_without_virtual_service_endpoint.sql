@@ -1,4 +1,4 @@
-insert into policy_result
+insert into azure_policy_results
 SELECT
   :'execution_time',
   :'framework',
