@@ -3,8 +3,8 @@ SELECT :'execution_time'                                                        
        :'framework'                                                                             AS framework,
        :'check_id'                                                                              AS check_id,
        'Ensure that Register with Azure Active Directory is enabled on App Service (Automated)' AS title,
-       awa.subscription_id                                                                      AS subscription_id,
-       awa.id                                                                                   AS resource_id,
+       subscription_id                                                                      AS subscription_id,
+       id                                                                                   AS resource_id,
        CASE
            WHEN identity_principal_id IS NULL OR identity_principal_id = ''
                THEN 'fail'

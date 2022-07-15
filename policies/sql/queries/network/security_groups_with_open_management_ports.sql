@@ -35,8 +35,8 @@ SELECT :'execution_time'                                            AS execution
        :'framework'                                                 AS framework,
        :'check_id'                                                  AS check_id,
        'Management ports should be closed on your virtual machines' AS title,
-       awa.subscription_id                                          AS subscription_id,
-       awa.id                                                       AS resource_id,
+       subscription_id                                          AS subscription_id,
+       id                                                       AS resource_id,
        CASE
            WHEN source_address_prefix in ('0.0.0.0', '0.0.0.0/0', 'any', 'internet', '<nw>/0', '/0', '*')
                AND ((single_port = '3389' OR 3389 BETWEEN range_start AND range_end) or
