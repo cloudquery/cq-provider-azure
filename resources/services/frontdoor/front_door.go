@@ -489,7 +489,7 @@ func FrontDoors() *schema.Table {
 			},
 			{
 				Name:        "azure_front_door_backend_pools",
-				Description: "BackendPool a backend pool is a collection of backends that can be routed to.",
+				Description: "Backend pools available to routing rules",
 				Resolver:    fetchFrontdoorFrontDoorBackendPools,
 				Columns: []schema.Column{
 					{
@@ -500,35 +500,35 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "backend_pool_properties_resource_state",
-						Description: "ResourceState - Resource status",
+						Description: "Resource status",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("BackendPoolProperties.ResourceState"),
 					},
 					{
-						Name:        "backend_pool_properties_load_balancing_settings_id",
-						Description: "ID - Resource ID.",
+						Name:        "load_balancing_settings_id",
+						Description: "Load balancing settings ID for the backend pool",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("BackendPoolProperties.LoadBalancingSettings.ID"),
 					},
 					{
-						Name:        "backend_pool_properties_health_probe_settings_id",
-						Description: "ID - Resource ID.",
+						Name:        "health_probe_settings_id",
+						Description: "L7 health probe settings ID for the backend pool",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("BackendPoolProperties.HealthProbeSettings.ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Name - Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Type - READ-ONLY; Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "id",
-						Description: "ID - Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
@@ -536,7 +536,7 @@ func FrontDoors() *schema.Table {
 				Relations: []*schema.Table{
 					{
 						Name:        "azure_front_door_backend_pool_backends",
-						Description: "Backend backend address of a frontDoor load balancer.",
+						Description: "The set of backends for the backend pool",
 						Resolver:    fetchFrontdoorFrontDoorBackendPoolBackends,
 						Columns: []schema.Column{
 							{
@@ -547,66 +547,67 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "address",
-								Description: "Address - Location of the backend (IP address or FQDN)",
+								Description: "Location of the backend (IP address or FQDN)",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "private_link_alias",
-								Description: "PrivateLinkAlias - The Alias of the Private Link resource",
+								Description: "The Alias of the Private Link resource",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "private_link_resource_id",
-								Description: "PrivateLinkResourceID - The Resource Id of the Private Link resource",
+								Description: "The Resource ID of the Private Link resource",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("PrivateLinkResourceID"),
 							},
 							{
 								Name:        "private_link_location",
-								Description: "PrivateLinkLocation - The location of the Private Link resource",
+								Description: "The location of the Private Link resource",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "private_endpoint_status",
-								Description: "PrivateEndpointStatus - READ-ONLY; The Approval status for the connection to the Private Link",
+								Description: "The Approval status for the connection to the Private Link",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "private_link_approval_message",
-								Description: "PrivateLinkApprovalMessage - A custom message to be included in the approval request to connect to the Private Link",
+								Description: "A custom message to be included in the approval request to connect to the Private Link",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "http_port",
-								Description: "HTTPPort - The HTTP TCP port number",
+								Description: "The HTTP TCP port number",
 								Type:        schema.TypeInt,
 								Resolver:    schema.PathResolver("HTTPPort"),
 							},
 							{
 								Name:        "https_port",
-								Description: "HTTPSPort - The HTTPS TCP port number",
+								Description: "The HTTPS TCP port number",
 								Type:        schema.TypeInt,
 								Resolver:    schema.PathResolver("HTTPSPort"),
 							},
 							{
 								Name:        "enabled_state",
-								Description: "EnabledState - Whether to enable use of this backend",
+								Description: "Whether the use of the backend is enabled",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "priority",
-								Description: "Priority - Priority to use for load balancing",
+								Description: "Priority to use for load balancing",
 								Type:        schema.TypeInt,
 							},
 							{
 								Name:        "weight",
-								Description: "Weight - Weight of this endpoint for load balancing purposes.",
+								Description: "Weight of the endpoint for load balancing purposes",
 								Type:        schema.TypeInt,
 							},
 							{
-								Name:        "backend_host_header",
-								Description: "BackendHostHeader - The value to use as the host header sent to the backend",
+								Name:        "host_header",
+								Description: "The value to use as the host header sent to the backend",
 								Type:        schema.TypeString,
+								Resolver:    schema.PathResolver("BackendHostHeader"),
 							},
 						},
 					},

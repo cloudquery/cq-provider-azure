@@ -346,10 +346,87 @@ resource "azure" "" "front_door" {
 
   relation "azure" "frontdoor" "properties_backend_pools" {
     rename      = "backend_pools"
-    skip_prefix = true
+    description = "Backend pools available to routing rules"
+
+    column "backend_pool_properties_resource_state" {
+      rename      = "backend_pool_properties_resource_state"
+      description = "Resource status"
+    }
+
+    column "backend_pool_properties_load_balancing_settings_id" {
+      rename      = "load_balancing_settings_id"
+      description = "Load balancing settings ID for the backend pool"
+    }
+
+    column "backend_pool_properties_health_probe_settings_id" {
+      rename      = "health_probe_settings_id"
+      description = "L7 health probe settings ID for the backend pool"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
+    }
+
     relation "azure" "frontdoor" "backend_pool_properties_backends" {
       rename      = "backends"
-      skip_prefix = true
+      description = "The set of backends for the backend pool"
+
+      column "address" {
+        description = "Location of the backend (IP address or FQDN)"
+      }
+
+      column "private_link_alias" {
+        description = "The Alias of the Private Link resource"
+      }
+
+      column "private_link_resource_id" {
+        description = "The Resource ID of the Private Link resource"
+      }
+
+      column "private_link_location" {
+        description = "The location of the Private Link resource"
+      }
+
+      column "private_endpoint_status" {
+        description = "The Approval status for the connection to the Private Link"
+      }
+
+      column "private_link_approval_message" {
+        description = "A custom message to be included in the approval request to connect to the Private Link"
+      }
+
+      column "http_port" {
+        description = "The HTTP TCP port number"
+      }
+
+      column "https_port" {
+        description = "The HTTPS TCP port number"
+      }
+
+      column "enabled_state" {
+        description = "Whether the use of the backend is enabled"
+      }
+
+      column "priority" {
+        description = "Priority to use for load balancing"
+      }
+
+      column "weight" {
+        description = "Weight of the endpoint for load balancing purposes"
+      }
+
+      column "backend_host_header" {
+        rename      = "host_header"
+        description = "The value to use as the host header sent to the backend"
+      }
     }
   }
 
