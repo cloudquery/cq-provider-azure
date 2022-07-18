@@ -251,7 +251,7 @@ resource "azure" "" "front_door" {
     }
 
     relation "azure" "frontdoor" "routing_rule_properties_frontend_endpoints" {
-      rename = "frontend_endpoints"
+      rename      = "frontend_endpoints"
       description = "Frontend endpoints associated with the rule."
 
       column "id" {
@@ -262,9 +262,38 @@ resource "azure" "" "front_door" {
 
   relation "azure" "frontdoor" "properties_load_balancing_settings" {
     rename      = "load_balancing_settings"
-    skip_prefix = true
+    description = "Load balancing settings for a backend pool associated with the Front Door instance"
+
+    column "load_balancing_settings_properties_resource_state" {
+      rename      = "resource_state"
+      description = "Resource status"
+    }
+
+    column "load_balancing_settings_properties_sample_size" {
+      rename      = "sample_size"
+      description = "The number of samples to consider for load balancing decisions"
+    }
+
+    column "load_balancing_settings_properties_successful_samples_required" {
+      rename      = "successful_samples_required"
+      description = "The number of samples within the sample period that must succeed"
+    }
+
     column "load_balancing_settings_properties_additional_latency_milliseconds" {
-      rename = "additional_latency_milliseconds"
+      rename      = "additional_latency_milliseconds"
+      description = "The additional latency in milliseconds for probes to fall into the lowest latency bucket"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
     }
   }
 

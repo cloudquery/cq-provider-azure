@@ -371,7 +371,7 @@ func FrontDoors() *schema.Table {
 			},
 			{
 				Name:        "azure_front_door_load_balancing_settings",
-				Description: "LoadBalancingSettingsModel load balancing settings for a backend pool",
+				Description: "Load balancing settings for a backend pool associated with the Front Door instance",
 				Resolver:    fetchFrontdoorFrontDoorLoadBalancingSettings,
 				Columns: []schema.Column{
 					{
@@ -381,42 +381,42 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "load_balancing_settings_properties_resource_state",
-						Description: "ResourceState - Resource status",
+						Name:        "resource_state",
+						Description: "Resource status",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("LoadBalancingSettingsProperties.ResourceState"),
 					},
 					{
-						Name:        "load_balancing_settings_properties_sample_size",
-						Description: "SampleSize - The number of samples to consider for load balancing decisions",
+						Name:        "sample_size",
+						Description: "The number of samples to consider for load balancing decisions",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("LoadBalancingSettingsProperties.SampleSize"),
 					},
 					{
-						Name:        "load_balancing_settings_properties_successful_samples_required",
-						Description: "SuccessfulSamplesRequired - The number of samples within the sample period that must succeed",
+						Name:        "successful_samples_required",
+						Description: "The number of samples within the sample period that must succeed",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("LoadBalancingSettingsProperties.SuccessfulSamplesRequired"),
 					},
 					{
 						Name:        "additional_latency_milliseconds",
-						Description: "AdditionalLatencyMilliseconds - The additional latency in milliseconds for probes to fall into the lowest latency bucket",
+						Description: "The additional latency in milliseconds for probes to fall into the lowest latency bucket",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("LoadBalancingSettingsProperties.AdditionalLatencyMilliseconds"),
 					},
 					{
 						Name:        "name",
-						Description: "Name - Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Type - READ-ONLY; Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "id",
-						Description: "ID - Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
