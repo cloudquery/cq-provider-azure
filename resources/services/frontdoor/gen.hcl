@@ -299,7 +299,49 @@ resource "azure" "" "front_door" {
 
   relation "azure" "frontdoor" "properties_health_probe_settings" {
     rename      = "health_probe_settings"
-    skip_prefix = true
+    description = "Health probe settings for a backend pool associated with this Front Door instance"
+
+    column "health_probe_settings_properties_resource_state" {
+      rename      = "resource_state"
+      description = "Resource status"
+    }
+
+    column "health_probe_settings_properties_path" {
+      rename      = "path"
+      description = "The path to use for the health probe"
+    }
+
+    column "protocol" {
+      rename      = "protocol"
+      description = "Protocol scheme to use for the health probe"
+    }
+
+    column "health_probe_settings_properties_interval_in_seconds" {
+      rename      = "interval_in_seconds"
+      description = "The number of seconds between health probes"
+    }
+
+    column "health_probe_settings_properties_health_probe_method" {
+      rename      = "health_probe_method"
+      description = "Which HTTP method is used to perform the health probe"
+    }
+
+    column "health_probe_settings_properties_enabled_state" {
+      rename      = "enabled_state"
+      description = "Whether the health probe is enabled"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
+    }
   }
 
   relation "azure" "frontdoor" "properties_backend_pools" {

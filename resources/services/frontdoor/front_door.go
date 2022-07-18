@@ -424,7 +424,7 @@ func FrontDoors() *schema.Table {
 			},
 			{
 				Name:        "azure_front_door_health_probe_settings",
-				Description: "HealthProbeSettingsModel load balancing settings for a backend pool",
+				Description: "Health probe settings for a backend pool associated with this Front Door instance",
 				Resolver:    fetchFrontdoorFrontDoorHealthProbeSettings,
 				Columns: []schema.Column{
 					{
@@ -434,14 +434,14 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "health_probe_settings_properties_resource_state",
-						Description: "ResourceState - Resource status",
+						Name:        "resource_state",
+						Description: "Resource status",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.ResourceState"),
 					},
 					{
-						Name:        "health_probe_settings_properties_path",
-						Description: "Path - The path to use for the health probe",
+						Name:        "path",
+						Description: "The path to use for the health probe",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.Path"),
 					},
@@ -452,36 +452,36 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.Protocol"),
 					},
 					{
-						Name:        "health_probe_settings_properties_interval_in_seconds",
-						Description: "IntervalInSeconds - The number of seconds between health probes.",
+						Name:        "interval_in_seconds",
+						Description: "The number of seconds between health probes",
 						Type:        schema.TypeInt,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.IntervalInSeconds"),
 					},
 					{
-						Name:        "health_probe_settings_properties_health_probe_method",
-						Description: "HealthProbeMethod - Configures which HTTP method to use to probe the backends defined under backendPools",
+						Name:        "health_probe_method",
+						Description: "Which HTTP method is used to perform the health probe",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.HealthProbeMethod"),
 					},
 					{
-						Name:        "health_probe_settings_properties_enabled_state",
-						Description: "EnabledState - Whether to enable health probes to be made against backends defined under backendPools",
+						Name:        "enabled_state",
+						Description: "Whether the health probe is enabled",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.EnabledState"),
 					},
 					{
 						Name:        "name",
-						Description: "Name - Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Type - READ-ONLY; Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "id",
-						Description: "ID - Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
