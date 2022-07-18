@@ -59,7 +59,7 @@ func Provider() *provider.Provider {
 			"datalake.storage_accounts":          datalake.StorageAccounts(),
 			"datalake.analytics_accounts":        datalake.AnalyticsAccounts(),
 			"eventhub.namespaces":                eventhub.EventHubNamespaces(),
-			"frontdoor.front_doors":              frontdoor.FrontDoors(),
+			"frontdoor.frontdoors":               frontdoor.Frontdoors(),
 			"iothub.hubs":                        iothub.IothubHubs(),
 			// This resource is currently not working
 			// https://github.com/cloudquery/cq-provider-azure/issues/107
