@@ -1,18 +1,18 @@
 \echo "Executing CIS V1.3.0 Section 9"
 \set check_id "9.1"
 \echo "Executing check 9.1"
-\i sql/queries/web/app_auth_unset.sql
+\i queries/web/app_auth_unset.sql
 \echo "Executing check 9.2"
-\i sql/queries/web/app_allow_http.sql
+\i queries/web/app_allow_http.sql
 \set check_id "9.3"
 \echo "Executing check 9.3"
-\i sql/queries/web/app_allow_http.sql
+\i queries/web/app_allow_http.sql
 \set check_id "9.4"
 \echo "Executing check 9.4"
-\i sql/queries/web/app_client_cert_disabled.sql
+\i queries/web/app_client_cert_disabled.sql
 \set check_id "9.5"
 \echo "Executing check 9.5"
-\i sql/queries/web/app_register_with_ad_disabled.sql
+\i queries/web/app_register_with_ad_disabled.sql
 \set check_id "9.6"
 \echo "Executing check 9.6"
 \echo "Check must be done manually"
@@ -27,7 +27,7 @@
 \echo "Check must be done manually"
 \set check_id "9.10"
 \echo "Executing check 9.10"
-\i sql/queries/web/app_ftp_deployment_enabled.sql
+\i queries/web/app_ftp_deployment_enabled.sql
 \set check_id "9.11"
 \echo "Executing check 9.11"
 \echo "Check must be done manually"
