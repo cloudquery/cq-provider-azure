@@ -432,46 +432,102 @@ resource "azure" "" "front_door" {
 
   relation "azure" "frontdoor" "properties_frontend_endpoints" {
     rename      = "frontend_endpoints"
-    skip_prefix = true
+    description = "Frontend endpoints available to routing rules"
+
+    column "frontend_endpoint_properties_resource_state" {
+      rename      = "resource_state"
+      description = "Resource status"
+    }
+
+    column "frontend_endpoint_properties_custom_https_provisioning_state" {
+      rename      = "custom_https_provisioning_state"
+      description = "Provisioning status of custom https of the frontend endpoint"
+    }
+
+    column "frontend_endpoint_properties_custom_https_provisioning_substate" {
+      rename      = "custom_https_provisioning_substate"
+      description = "Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step"
+    }
+
     column "frontend_endpoint_properties_custom_https_configuration_certificate_source" {
-      skip_prefix = true
       rename      = "certificate_source"
+      description = "Defines the source of the SSL certificate"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_protocol_type" {
-      skip_prefix = true
       rename      = "protocol_type"
+      description = "Defines the TLS extension protocol that is used for secure delivery"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_minimum_tls_version" {
-      skip_prefix = true
       rename      = "minimum_tls_version"
+      description = "The minimum TLS version required from the clients to establish an SSL handshake with Front Door"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_key_vault_certificate_source_parameters" {
-      skip_prefix = true
       rename      = "key_vault_certificate_source_parameters"
+      skip_prefix = true
     }
     column "frontend_endpoint_properties_custom_https_configuration_vault_id" {
-      skip_prefix = true
-      rename      = "key_vault_certificate_source_vault_id"
+      rename      = "vault_id"
+      description = "The Key Vault containing the SSL certificate"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_secret_name" {
-      skip_prefix = true
-      rename      = "key_vault_certificate_source_secret_name"
+      rename      = "secret_name"
+      description = "The name of the Key Vault secret representing the full certificate PFX"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_secret_version" {
-      skip_prefix = true
-      rename      = "key_vault_certificate_source_secret_version"
+      rename      = "secret_version"
+      description = "The version of the Key Vault secret representing the full certificate PFX"
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_certificate_source_parameters" {
-      skip_prefix = true
       rename      = "certificate_source_parameters"
+      skip_prefix = true
     }
+
     column "frontend_endpoint_properties_custom_https_configuration_certificate_type" {
-      skip_prefix = true
       rename      = "certificate_type"
+      description = "The type of the certificate used for secure connections to the frontend endpoint"
     }
+
+    column "frontend_endpoint_properties_host_name" {
+      rename      = "host_name"
+      description = "The host name of the frontend endpoint"
+    }
+
+    column "frontend_endpoint_properties_session_affinity_enabled_state" {
+      rename      = "session_affinity_enabled_state"
+      description = "Whether session affinity is allowed on the host"
+    }
+
+    column "frontend_endpoint_properties_session_affinity_ttl_seconds" {
+      rename      = "session_affinity_ttl_seconds"
+      description = "The TTL to use in seconds for session affinity, if applicable"
+    }
+
     column "frontend_endpoint_properties_web_application_firewall_policy_link" {
-      skip_prefix = true
       rename      = "web_application_firewall_policy_link"
+      skip_prefix = true
+    }
+
+    column "frontend_endpoint_properties_id" {
+      rename      = "web_application_firewall_policy_link_id"
+      description = "Defines the Web Application Firewall policy for each host (if applicable)"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
     }
   }
 }
