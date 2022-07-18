@@ -146,12 +146,12 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "name",
-								Description: "A name to refer to this specific rule",
+								Description: "A name to refer to the rule",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "priority",
-								Description: "A priority assigned to this rule",
+								Description: "A priority assigned to the rule",
 								Type:        schema.TypeInt,
 							},
 							{
@@ -162,7 +162,7 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "match_processing_behavior",
-								Description: "If this rule is a match should the rules engine continue running the remaining rules or stop",
+								Description: "If the rule is a match should the rules engine continue running the remaining rules or stop",
 								Type:        schema.TypeString,
 							},
 						},
@@ -186,7 +186,7 @@ func FrontDoors() *schema.Table {
 									},
 									{
 										Name:        "name",
-										Description: "The name of the header this action will apply to",
+										Description: "The name of the header the action will apply to",
 										Type:        schema.TypeString,
 										Resolver:    schema.PathResolver("HeaderName"),
 									},
@@ -216,7 +216,7 @@ func FrontDoors() *schema.Table {
 									},
 									{
 										Name:        "name",
-										Description: "The name of the header this action will apply to",
+										Description: "The name of the header the action will apply to",
 										Type:        schema.TypeString,
 										Resolver:    schema.PathResolver("HeaderName"),
 									},
@@ -229,7 +229,7 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "azure_front_door_rules_engine_rule_match_conditions",
-								Description: "A list of header actions to apply from the response from AFD to the client.",
+								Description: "A list of match conditions that must meet in order for the actions of the rule to run. Having no match conditions means the actions will always run.",
 								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions,
 								Columns: []schema.Column{
 									{
@@ -279,7 +279,7 @@ func FrontDoors() *schema.Table {
 			},
 			{
 				Name:        "azure_front_door_routing_rules",
-				Description: "RoutingRule a routing rule represents a specification for traffic to treat and where to send it, along with health probe information.",
+				Description: "Routing rules represent specifications for traffic to treat and where to send it, along with health probe information.",
 				Resolver:    fetchFrontdoorFrontDoorRoutingRules,
 				Columns: []schema.Column{
 					{
@@ -289,69 +289,69 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "routing_rule_properties_resource_state",
-						Description: "ResourceState - Resource status",
+						Name:        "resource_state",
+						Description: "Resource status",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.ResourceState"),
 					},
 					{
-						Name:        "routing_rule_properties_accepted_protocols",
-						Description: "AcceptedProtocols - Protocol schemes to match for this rule",
+						Name:        "accepted_protocols",
+						Description: "Protocol schemes to match for the rule",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.AcceptedProtocols"),
 					},
 					{
-						Name:        "routing_rule_properties_patterns_to_match",
-						Description: "PatternsToMatch - The route patterns of the rule.",
+						Name:        "patterns_to_match",
+						Description: "The route patterns of the rule",
 						Type:        schema.TypeStringArray,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.PatternsToMatch"),
 					},
 					{
-						Name:        "routing_rule_properties_enabled_state",
-						Description: "EnabledState - Whether to enable use of this rule",
+						Name:        "enabled_state",
+						Description: "Whether the rule is enabled",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.EnabledState"),
 					},
 					{
-						Name:        "routing_rule_properties_route_configuration",
-						Description: "RouteConfiguration - A reference to the routing configuration.",
+						Name:        "route_configuration",
+						Description: "A reference to the routing configuration",
 						Type:        schema.TypeJSON,
-						Resolver:    resolveFrontDoorRoutingRulesRoutingRulePropertiesRouteConfiguration,
+						Resolver:    resolveFrontDoorRoutingRulesRouteConfiguration,
 					},
 					{
-						Name:        "routing_rule_properties_rules_engine_id",
-						Description: "ID - Resource ID.",
+						Name:        "rules_engine_id",
+						Description: "ID of a specific Rules Engine Configuration to apply to the route",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.RulesEngine.ID"),
 					},
 					{
-						Name:        "routing_rule_properties_web_application_firewall_policy_link_id",
-						Description: "ID - Resource ID.",
+						Name:        "web_application_firewall_policy_link_id",
+						Description: "ID of the Web Application Firewall policy for each routing rule (if applicable)",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.WebApplicationFirewallPolicyLink.ID"),
 					},
 					{
 						Name:        "name",
-						Description: "Name - Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Type - READ-ONLY; Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "id",
-						Description: "ID - Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
 				},
 				Relations: []*schema.Table{
 					{
-						Name:        "azure_front_door_routing_rule_routing_rule_properties_frontend_endpoints",
-						Description: "SubResource reference to another subresource.",
-						Resolver:    fetchFrontdoorFrontDoorRoutingRuleRoutingRulePropertiesFrontendEndpoints,
+						Name:        "azure_front_door_routing_rule_frontend_endpoints",
+						Description: "Frontend endpoints associated with the rule.",
+						Resolver:    fetchFrontdoorFrontDoorRoutingRuleFrontendEndpoints,
 						Columns: []schema.Column{
 							{
 								Name:        "front_door_routing_rule_cq_id",
@@ -361,7 +361,7 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "id",
-								Description: "ID - Resource ID.",
+								Description: "Resource ID",
 								Type:        schema.TypeString,
 								Resolver:    schema.PathResolver("ID"),
 							},
@@ -757,10 +757,10 @@ func fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, 
 func fetchFrontdoorFrontDoorRoutingRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func resolveFrontDoorRoutingRulesRoutingRulePropertiesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveFrontDoorRoutingRulesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRoutingRuleRoutingRulePropertiesFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRoutingRuleFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
 func fetchFrontdoorFrontDoorLoadBalancingSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {

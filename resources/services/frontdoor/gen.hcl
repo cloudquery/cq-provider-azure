@@ -108,15 +108,15 @@ resource "azure" "" "front_door" {
       description = "A list of rules that define a particular Rules Engine Configuration."
 
       column "name" {
-        description = "A name to refer to this specific rule"
+        description = "A name to refer to the rule"
       }
 
       column "priority" {
-        description = "A priority assigned to this rule"
+        description = "A priority assigned to the rule"
       }
 
       column "match_processing_behavior" {
-        description = "If this rule is a match should the rules engine continue running the remaining rules or stop"
+        description = "If the rule is a match should the rules engine continue running the remaining rules or stop"
       }
 
       column "action_route_configuration_override" {
@@ -137,7 +137,7 @@ resource "azure" "" "front_door" {
 
         column "header_name" {
           rename      = "name"
-          description = "The name of the header this action will apply to"
+          description = "The name of the header the action will apply to"
         }
 
         column "value" {
@@ -156,7 +156,7 @@ resource "azure" "" "front_door" {
 
         column "header_name" {
           rename      = "name"
-          description = "The name of the header this action will apply to"
+          description = "The name of the header the action will apply to"
         }
 
         column "value" {
@@ -165,7 +165,7 @@ resource "azure" "" "front_door" {
       }
 
       relation "azure" "front_door" "match_conditions" {
-        description = "A list of header actions to apply from the response from AFD to the client."
+        description = "A list of match conditions that must meet in order for the actions of the rule to run. Having no match conditions means the actions will always run."
 
         column "rules_engine_match_variable" {
           rename      = "match_variable"
@@ -199,10 +199,64 @@ resource "azure" "" "front_door" {
 
   relation "azure" "frontdoor" "properties_routing_rules" {
     rename      = "routing_rules"
-    skip_prefix = true
+    description = "Routing rules represent specifications for traffic to treat and where to send it, along with health probe information."
+
+    column "routing_rule_properties_resource_state" {
+      rename      = "resource_state"
+      description = "Resource status"
+    }
+
+    column "routing_rule_properties_accepted_protocols" {
+      rename      = "accepted_protocols"
+      description = "Protocol schemes to match for the rule"
+    }
+
+    column "routing_rule_properties_patterns_to_match" {
+      rename      = "patterns_to_match"
+      description = "The route patterns of the rule"
+    }
+
+    column "routing_rule_properties_enabled_state" {
+      rename      = "enabled_state"
+      description = "Whether the rule is enabled"
+    }
+
     column "routing_rule_properties_route_configuration" {
+      rename            = "route_configuration"
+      description       = "A reference to the routing configuration"
       type              = "json"
       generate_resolver = true
+    }
+
+    column "routing_rule_properties_rules_engine_id" {
+      rename      = "rules_engine_id"
+      description = "ID of a specific Rules Engine Configuration to apply to the route"
+    }
+
+    column "routing_rule_properties_web_application_firewall_policy_link_id" {
+      rename      = "web_application_firewall_policy_link_id"
+      description = "ID of the Web Application Firewall policy for each routing rule (if applicable)"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
+    }
+
+    relation "azure" "frontdoor" "routing_rule_properties_frontend_endpoints" {
+      rename = "frontend_endpoints"
+      description = "Frontend endpoints associated with the rule."
+
+      column "id" {
+        description = "Resource ID"
+      }
     }
   }
 
