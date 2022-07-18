@@ -82,15 +82,117 @@ resource "azure" "" "front_door" {
     description = "Operational status of the Front Door load balancer"
   }
 
-  relation "azure" "frontdoor" "properties_rules_engines" {
+  relation "azure" "front_door" "properties_rules_engines" {
     rename      = "rules_engines"
-    skip_prefix = true
-    relation "azure" "frontdoor" "rules_engine_properties_rules" {
+    description = "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response."
+
+    column "rules_engine_properties_resource_state" {
+      rename      = "resource_state"
+      description = "Resource status"
+    }
+
+    column "id" {
+      description = "Resource ID"
+    }
+
+    column "name" {
+      description = "Resource name"
+    }
+
+    column "type" {
+      description = "Resource type"
+    }
+
+    relation "azure" "front_door" "rules_engine_properties_rules" {
       rename      = "rules"
-      skip_prefix = true
+      description = "A list of rules that define a particular Rules Engine Configuration."
+
+      column "name" {
+        description = "A name to refer to this specific rule"
+      }
+
+      column "priority" {
+        description = "A priority assigned to this rule"
+      }
+
+      column "match_processing_behavior" {
+        description = "If this rule is a match should the rules engine continue running the remaining rules or stop"
+      }
+
       column "action_route_configuration_override" {
+        rename            = "route_configuration_override"
+        description       = "Override the route configuration"
         type              = "json"
         generate_resolver = true
+      }
+
+      relation "azure" "front_door" "action_request_header_actions" {
+        rename      = "request_header_actions"
+        description = "A list of header actions to apply from the request from AFD to the origin."
+
+        column "header_action_type" {
+          rename      = "action_type"
+          description = "Which type of manipulation to apply to the header"
+        }
+
+        column "header_name" {
+          rename      = "name"
+          description = "The name of the header this action will apply to"
+        }
+
+        column "value" {
+          description = "The value to update the given header name with"
+        }
+      }
+
+      relation "azure" "front_door" "action_response_header_actions" {
+        rename      = "response_header_actions"
+        description = "A list of header actions to apply from the response from AFD to the client."
+
+        column "header_action_type" {
+          rename      = "action_type"
+          description = "Which type of manipulation to apply to the header"
+        }
+
+        column "header_name" {
+          rename      = "name"
+          description = "The name of the header this action will apply to"
+        }
+
+        column "value" {
+          description = "The value to update the given header name with"
+        }
+      }
+
+      relation "azure" "front_door" "match_conditions" {
+        description = "A list of header actions to apply from the response from AFD to the client."
+
+        column "rules_engine_match_variable" {
+          rename      = "match_variable"
+          description = "Match variable"
+        }
+
+        column "selector" {
+          description = "Name of selector in request header or request body to be matched"
+        }
+
+        column "rules_engine_operator" {
+          rename      = "operator"
+          description = "Describes operator to apply to the match condition"
+        }
+
+        column "negate_condition" {
+          description = "Describes if this is negate condition or not"
+        }
+
+        column "rules_engine_match_value" {
+          rename      = "match_value"
+          description = "Match values to match against"
+        }
+
+        column "transforms" {
+          description = "List of transforms"
+        }
       }
     }
   }

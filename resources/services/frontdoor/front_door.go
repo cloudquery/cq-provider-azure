@@ -100,8 +100,8 @@ func FrontDoors() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:        "azure_front_door_rules_engines",
-				Description: "RulesEngine a rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.",
-				Resolver:    fetchFrontdoorFrontDoorRulesEngines,
+				Description: "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.",
+				Resolver:    fetchFrontDoorFrontDoorRulesEngines,
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
@@ -110,24 +110,24 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "rules_engine_properties_resource_state",
-						Description: "ResourceState - Resource status",
+						Name:        "resource_state",
+						Description: "Resource status",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RulesEngineProperties.ResourceState"),
 					},
 					{
 						Name:        "name",
-						Description: "Name - READ-ONLY; Resource name.",
+						Description: "Resource name",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "type",
-						Description: "Type - READ-ONLY; Resource type.",
+						Description: "Resource type",
 						Type:        schema.TypeString,
 					},
 					{
 						Name:        "id",
-						Description: "ID - READ-ONLY; Resource ID.",
+						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
 					},
@@ -135,8 +135,8 @@ func FrontDoors() *schema.Table {
 				Relations: []*schema.Table{
 					{
 						Name:        "azure_front_door_rules_engine_rules",
-						Description: "RulesEngineRule contains a list of match conditions, and an action on how to modify the request/response",
-						Resolver:    fetchFrontdoorFrontDoorRulesEngineRules,
+						Description: "A list of rules that define a particular Rules Engine Configuration.",
+						Resolver:    fetchFrontDoorFrontDoorRulesEngineRules,
 						Columns: []schema.Column{
 							{
 								Name:        "front_door_rules_engine_cq_id",
@@ -146,31 +146,31 @@ func FrontDoors() *schema.Table {
 							},
 							{
 								Name:        "name",
-								Description: "Name - A name to refer to this specific rule.",
+								Description: "A name to refer to this specific rule",
 								Type:        schema.TypeString,
 							},
 							{
 								Name:        "priority",
-								Description: "Priority - A priority assigned to this rule.",
+								Description: "A priority assigned to this rule",
 								Type:        schema.TypeInt,
 							},
 							{
-								Name:        "action_route_configuration_override",
-								Description: "RouteConfigurationOverride - Override the route configuration.",
+								Name:        "route_configuration_override",
+								Description: "Override the route configuration",
 								Type:        schema.TypeJSON,
-								Resolver:    resolveFrontDoorRulesEngineRulesActionRouteConfigurationOverride,
+								Resolver:    resolveFrontDoorRulesEngineRulesRouteConfigurationOverride,
 							},
 							{
 								Name:        "match_processing_behavior",
-								Description: "MatchProcessingBehavior - If this rule is a match should the rules engine continue running the remaining rules or stop",
+								Description: "If this rule is a match should the rules engine continue running the remaining rules or stop",
 								Type:        schema.TypeString,
 							},
 						},
 						Relations: []*schema.Table{
 							{
-								Name:        "azure_front_door_rules_engine_rule_action_request_header_actions",
-								Description: "HeaderAction an action that can manipulate an http header.",
-								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleActionRequestHeaderActions,
+								Name:        "azure_front_door_rules_engine_rule_request_header_actions",
+								Description: "A list of header actions to apply from the request from AFD to the origin.",
+								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleRequestHeaderActions,
 								Columns: []schema.Column{
 									{
 										Name:        "front_door_rules_engine_rule_cq_id",
@@ -179,26 +179,28 @@ func FrontDoors() *schema.Table {
 										Resolver:    schema.ParentIdResolver,
 									},
 									{
-										Name:        "header_action_type",
-										Description: "HeaderActionType - Which type of manipulation to apply to the header",
+										Name:        "action_type",
+										Description: "Which type of manipulation to apply to the header",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("HeaderActionType"),
 									},
 									{
-										Name:        "header_name",
-										Description: "HeaderName - The name of the header this action will apply to.",
+										Name:        "name",
+										Description: "The name of the header this action will apply to",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("HeaderName"),
 									},
 									{
 										Name:        "value",
-										Description: "Value - The value to update the given header name with",
+										Description: "The value to update the given header name with",
 										Type:        schema.TypeString,
 									},
 								},
 							},
 							{
-								Name:        "azure_front_door_rules_engine_rule_action_response_header_actions",
-								Description: "HeaderAction an action that can manipulate an http header.",
-								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleActionResponseHeaderActions,
+								Name:        "azure_front_door_rules_engine_rule_response_header_actions",
+								Description: "A list of header actions to apply from the response from AFD to the client.",
+								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleResponseHeaderActions,
 								Columns: []schema.Column{
 									{
 										Name:        "front_door_rules_engine_rule_cq_id",
@@ -207,26 +209,28 @@ func FrontDoors() *schema.Table {
 										Resolver:    schema.ParentIdResolver,
 									},
 									{
-										Name:        "header_action_type",
-										Description: "HeaderActionType - Which type of manipulation to apply to the header",
+										Name:        "action_type",
+										Description: "Which type of manipulation to apply to the header",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("HeaderActionType"),
 									},
 									{
-										Name:        "header_name",
-										Description: "HeaderName - The name of the header this action will apply to.",
+										Name:        "name",
+										Description: "The name of the header this action will apply to",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("HeaderName"),
 									},
 									{
 										Name:        "value",
-										Description: "Value - The value to update the given header name with",
+										Description: "The value to update the given header name with",
 										Type:        schema.TypeString,
 									},
 								},
 							},
 							{
 								Name:        "azure_front_door_rules_engine_rule_match_conditions",
-								Description: "RulesEngineMatchCondition define a match condition",
-								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleMatchConditions,
+								Description: "A list of header actions to apply from the response from AFD to the client.",
+								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions,
 								Columns: []schema.Column{
 									{
 										Name:        "front_door_rules_engine_rule_cq_id",
@@ -235,33 +239,36 @@ func FrontDoors() *schema.Table {
 										Resolver:    schema.ParentIdResolver,
 									},
 									{
-										Name:        "rules_engine_match_variable",
-										Description: "RulesEngineMatchVariable - Match Variable",
+										Name:        "match_variable",
+										Description: "Match variable",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("RulesEngineMatchVariable"),
 									},
 									{
 										Name:        "selector",
-										Description: "Selector - Name of selector in RequestHeader or RequestBody to be matched",
+										Description: "Name of selector in request header or request body to be matched",
 										Type:        schema.TypeString,
 									},
 									{
-										Name:        "rules_engine_operator",
-										Description: "RulesEngineOperator - Describes operator to apply to the match condition",
+										Name:        "operator",
+										Description: "Describes operator to apply to the match condition",
 										Type:        schema.TypeString,
+										Resolver:    schema.PathResolver("RulesEngineOperator"),
 									},
 									{
 										Name:        "negate_condition",
-										Description: "NegateCondition - Describes if this is negate condition or not",
+										Description: "Describes if this is negate condition or not",
 										Type:        schema.TypeBool,
 									},
 									{
-										Name:        "rules_engine_match_value",
-										Description: "RulesEngineMatchValue - Match values to match against",
+										Name:        "match_value",
+										Description: "Match values to match against",
 										Type:        schema.TypeStringArray,
+										Resolver:    schema.PathResolver("RulesEngineMatchValue"),
 									},
 									{
 										Name:        "transforms",
-										Description: "Transforms - List of transforms",
+										Description: "List of transforms",
 										Type:        schema.TypeStringArray,
 									},
 								},
@@ -729,22 +736,22 @@ func FrontDoors() *schema.Table {
 func fetchFrontDoors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRulesEngines(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoorFrontDoorRulesEngines(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRulesEngineRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoorFrontDoorRulesEngineRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func resolveFrontDoorRulesEngineRulesActionRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveFrontDoorRulesEngineRulesRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRulesEngineRuleActionRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoorFrontDoorRulesEngineRuleRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRulesEngineRuleActionResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoorFrontDoorRulesEngineRuleResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
 func fetchFrontdoorFrontDoorRoutingRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
