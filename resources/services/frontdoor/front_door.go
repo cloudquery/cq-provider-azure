@@ -7,105 +7,105 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-//go:generate cq-gen --resource frontdoor --config gen.hcl --output .
-func Frontdoors() *schema.Table {
+//go:generate cq-gen --resource front_door --config gen.hcl --output .
+func FrontDoors() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_frontdoors_frontdoor",
-		Description:  "FrontDoor front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.",
-		Resolver:     fetchFrontdoorsFrontdoors,
+		Name:         "azure_front_door",
+		Description:  "Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.",
+		Resolver:     fetchFrontDoors,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
 		Columns: []schema.Column{
 			{
 				Name:        "subscription_id",
-				Description: "Azure subscription id",
+				Description: "Azure subscription ID",
 				Type:        schema.TypeString,
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:        "properties_resource_state",
-				Description: "ResourceState - Resource status of the Front Door",
+				Name:        "resource_state",
+				Description: "Resource status of the Front Door",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.ResourceState"),
 			},
 			{
-				Name:        "properties_provisioning_state",
-				Description: "ProvisioningState - READ-ONLY; Provisioning state of the Front Door.",
+				Name:        "provisioning_state",
+				Description: "Provisioning state of the Front Door",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.ProvisioningState"),
 			},
 			{
-				Name:        "properties_cname",
-				Description: "Cname - READ-ONLY; The host that each frontendEndpoint must CNAME to.",
+				Name:        "cname",
+				Description: "The host that each frontend endpoint must CNAME to",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.Cname"),
 			},
 			{
-				Name:        "properties_frontdoor_id",
-				Description: "FrontdoorID - READ-ONLY; The Id of the frontdoor.",
+				Name:        "frontdoor_id",
+				Description: "The ID of the Front Door",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.FrontdoorID"),
 			},
 			{
-				Name:        "properties_friendly_name",
-				Description: "FriendlyName - A friendly name for the frontDoor",
+				Name:        "friendly_name",
+				Description: "A friendly name for the Front Door",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.FriendlyName"),
 			},
 			{
-				Name:        "backend_pools_settings_enforce_certificate_name_checks",
-				Description: "EnforceCertificateNameCheck - Whether to enforce certificate name check on HTTPS requests to all backend pools",
+				Name:        "enforce_certificate_name_check",
+				Description: "Whether to enforce certificate name check on HTTPS requests to all backend pools",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.BackendPoolsSettings.EnforceCertificateNameCheck"),
 			},
 			{
-				Name:        "properties_backend_pools_settings_send_recv_timeout_seconds",
-				Description: "SendRecvTimeoutSeconds - Send and receive timeout on forwarding request to the backend",
+				Name:        "send_recv_timeout_seconds",
+				Description: "Send and receive timeout on forwarding request to the backend",
 				Type:        schema.TypeInt,
 				Resolver:    schema.PathResolver("Properties.BackendPoolsSettings.SendRecvTimeoutSeconds"),
 			},
 			{
-				Name:        "properties_enabled_state",
-				Description: "EnabledState - Operational status of the Front Door load balancer",
+				Name:        "enabled_state",
+				Description: "Operational status of the Front Door load balancer",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.EnabledState"),
 			},
 			{
 				Name:        "id",
-				Description: "ID - READ-ONLY; Resource ID.",
+				Description: "Resource ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
 				Name:        "name",
-				Description: "Name - READ-ONLY; Resource name.",
+				Description: "Resource name",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "type",
-				Description: "Type - READ-ONLY; Resource type.",
+				Description: "Resource type",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "location",
-				Description: "Location - Resource location.",
+				Description: "Resource location",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "tags",
-				Description: "Tags - Resource tags.",
+				Description: "Resource tags",
 				Type:        schema.TypeJSON,
 			},
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_frontdoors_frontdoor_rules_engines",
+				Name:        "azure_front_door_rules_engines",
 				Description: "RulesEngine a rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.",
-				Resolver:    fetchFrontdoorFrontdoorRulesEngines,
+				Resolver:    fetchFrontdoorFrontDoorRulesEngines,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -134,13 +134,13 @@ func Frontdoors() *schema.Table {
 				},
 				Relations: []*schema.Table{
 					{
-						Name:        "azure_frontdoors_frontdoor_rules_engine_rules",
+						Name:        "azure_front_door_rules_engine_rules",
 						Description: "RulesEngineRule contains a list of match conditions, and an action on how to modify the request/response",
-						Resolver:    fetchFrontdoorFrontdoorRulesEngineRules,
+						Resolver:    fetchFrontdoorFrontDoorRulesEngineRules,
 						Columns: []schema.Column{
 							{
-								Name:        "frontdoor_rules_engine_cq_id",
-								Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_rules_engines table (FK)",
+								Name:        "front_door_rules_engine_cq_id",
+								Description: "Unique CloudQuery ID of azure_front_door_rules_engines table (FK)",
 								Type:        schema.TypeUUID,
 								Resolver:    schema.ParentIdResolver,
 							},
@@ -158,7 +158,7 @@ func Frontdoors() *schema.Table {
 								Name:        "action_route_configuration_override",
 								Description: "RouteConfigurationOverride - Override the route configuration.",
 								Type:        schema.TypeJSON,
-								Resolver:    resolveFrontdoorRulesEngineRulesActionRouteConfigurationOverride,
+								Resolver:    resolveFrontDoorRulesEngineRulesActionRouteConfigurationOverride,
 							},
 							{
 								Name:        "match_processing_behavior",
@@ -168,13 +168,13 @@ func Frontdoors() *schema.Table {
 						},
 						Relations: []*schema.Table{
 							{
-								Name:        "azure_frontdoors_frontdoor_rules_engine_rule_action_request_header_actions",
+								Name:        "azure_front_door_rules_engine_rule_action_request_header_actions",
 								Description: "HeaderAction an action that can manipulate an http header.",
-								Resolver:    fetchFrontdoorFrontdoorRulesEngineRuleActionRequestHeaderActions,
+								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleActionRequestHeaderActions,
 								Columns: []schema.Column{
 									{
-										Name:        "frontdoor_rules_engine_rule_cq_id",
-										Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_rules_engine_rules table (FK)",
+										Name:        "front_door_rules_engine_rule_cq_id",
+										Description: "Unique CloudQuery ID of azure_front_door_rules_engine_rules table (FK)",
 										Type:        schema.TypeUUID,
 										Resolver:    schema.ParentIdResolver,
 									},
@@ -196,13 +196,13 @@ func Frontdoors() *schema.Table {
 								},
 							},
 							{
-								Name:        "azure_frontdoors_frontdoor_rules_engine_rule_action_response_header_actions",
+								Name:        "azure_front_door_rules_engine_rule_action_response_header_actions",
 								Description: "HeaderAction an action that can manipulate an http header.",
-								Resolver:    fetchFrontdoorFrontdoorRulesEngineRuleActionResponseHeaderActions,
+								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleActionResponseHeaderActions,
 								Columns: []schema.Column{
 									{
-										Name:        "frontdoor_rules_engine_rule_cq_id",
-										Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_rules_engine_rules table (FK)",
+										Name:        "front_door_rules_engine_rule_cq_id",
+										Description: "Unique CloudQuery ID of azure_front_door_rules_engine_rules table (FK)",
 										Type:        schema.TypeUUID,
 										Resolver:    schema.ParentIdResolver,
 									},
@@ -224,13 +224,13 @@ func Frontdoors() *schema.Table {
 								},
 							},
 							{
-								Name:        "azure_frontdoors_frontdoor_rules_engine_rule_match_conditions",
+								Name:        "azure_front_door_rules_engine_rule_match_conditions",
 								Description: "RulesEngineMatchCondition define a match condition",
-								Resolver:    fetchFrontdoorFrontdoorRulesEngineRuleMatchConditions,
+								Resolver:    fetchFrontdoorFrontDoorRulesEngineRuleMatchConditions,
 								Columns: []schema.Column{
 									{
-										Name:        "frontdoor_rules_engine_rule_cq_id",
-										Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_rules_engine_rules table (FK)",
+										Name:        "front_door_rules_engine_rule_cq_id",
+										Description: "Unique CloudQuery ID of azure_front_door_rules_engine_rules table (FK)",
 										Type:        schema.TypeUUID,
 										Resolver:    schema.ParentIdResolver,
 									},
@@ -271,13 +271,13 @@ func Frontdoors() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_frontdoors_frontdoor_routing_rules",
+				Name:        "azure_front_door_routing_rules",
 				Description: "RoutingRule a routing rule represents a specification for traffic to treat and where to send it, along with health probe information.",
-				Resolver:    fetchFrontdoorFrontdoorRoutingRules,
+				Resolver:    fetchFrontdoorFrontDoorRoutingRules,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -309,7 +309,7 @@ func Frontdoors() *schema.Table {
 						Name:        "routing_rule_properties_route_configuration",
 						Description: "RouteConfiguration - A reference to the routing configuration.",
 						Type:        schema.TypeJSON,
-						Resolver:    resolveFrontdoorRoutingRulesRoutingRulePropertiesRouteConfiguration,
+						Resolver:    resolveFrontDoorRoutingRulesRoutingRulePropertiesRouteConfiguration,
 					},
 					{
 						Name:        "routing_rule_properties_rules_engine_id",
@@ -342,13 +342,13 @@ func Frontdoors() *schema.Table {
 				},
 				Relations: []*schema.Table{
 					{
-						Name:        "azure_frontdoors_frontdoor_routing_rule_routing_rule_properties_frontend_endpoints",
+						Name:        "azure_front_door_routing_rule_routing_rule_properties_frontend_endpoints",
 						Description: "SubResource reference to another subresource.",
-						Resolver:    fetchFrontdoorFrontdoorRoutingRuleRoutingRulePropertiesFrontendEndpoints,
+						Resolver:    fetchFrontdoorFrontDoorRoutingRuleRoutingRulePropertiesFrontendEndpoints,
 						Columns: []schema.Column{
 							{
-								Name:        "frontdoor_routing_rule_cq_id",
-								Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_routing_rules table (FK)",
+								Name:        "front_door_routing_rule_cq_id",
+								Description: "Unique CloudQuery ID of azure_front_door_routing_rules table (FK)",
 								Type:        schema.TypeUUID,
 								Resolver:    schema.ParentIdResolver,
 							},
@@ -363,13 +363,13 @@ func Frontdoors() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_frontdoors_frontdoor_load_balancing_settings",
+				Name:        "azure_front_door_load_balancing_settings",
 				Description: "LoadBalancingSettingsModel load balancing settings for a backend pool",
-				Resolver:    fetchFrontdoorFrontdoorLoadBalancingSettings,
+				Resolver:    fetchFrontdoorFrontDoorLoadBalancingSettings,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -416,13 +416,13 @@ func Frontdoors() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_frontdoors_frontdoor_health_probe_settings",
+				Name:        "azure_front_door_health_probe_settings",
 				Description: "HealthProbeSettingsModel load balancing settings for a backend pool",
-				Resolver:    fetchFrontdoorFrontdoorHealthProbeSettings,
+				Resolver:    fetchFrontdoorFrontDoorHealthProbeSettings,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -481,13 +481,13 @@ func Frontdoors() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_frontdoors_frontdoor_backend_pools",
+				Name:        "azure_front_door_backend_pools",
 				Description: "BackendPool a backend pool is a collection of backends that can be routed to.",
-				Resolver:    fetchFrontdoorFrontdoorBackendPools,
+				Resolver:    fetchFrontdoorFrontDoorBackendPools,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -528,13 +528,13 @@ func Frontdoors() *schema.Table {
 				},
 				Relations: []*schema.Table{
 					{
-						Name:        "azure_frontdoors_frontdoor_backend_pool_backends",
+						Name:        "azure_front_door_backend_pool_backends",
 						Description: "Backend backend address of a frontDoor load balancer.",
-						Resolver:    fetchFrontdoorFrontdoorBackendPoolBackends,
+						Resolver:    fetchFrontdoorFrontDoorBackendPoolBackends,
 						Columns: []schema.Column{
 							{
-								Name:        "frontdoor_backend_pool_cq_id",
-								Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor_backend_pools table (FK)",
+								Name:        "front_door_backend_pool_cq_id",
+								Description: "Unique CloudQuery ID of azure_front_door_backend_pools table (FK)",
 								Type:        schema.TypeUUID,
 								Resolver:    schema.ParentIdResolver,
 							},
@@ -606,13 +606,13 @@ func Frontdoors() *schema.Table {
 				},
 			},
 			{
-				Name:        "azure_frontdoors_frontdoor_frontend_endpoints",
+				Name:        "azure_front_door_frontend_endpoints",
 				Description: "FrontendEndpoint a frontend endpoint used for routing.",
-				Resolver:    fetchFrontdoorFrontdoorFrontendEndpoints,
+				Resolver:    fetchFrontdoorFrontDoorFrontendEndpoints,
 				Columns: []schema.Column{
 					{
-						Name:        "frontdoor_cq_id",
-						Description: "Unique CloudQuery ID of azure_frontdoors_frontdoor table (FK)",
+						Name:        "front_door_cq_id",
+						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -726,48 +726,48 @@ func Frontdoors() *schema.Table {
 //                                               Table Resolver Functions
 // ====================================================================================================================
 
-func fetchFrontdoorsFrontdoors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontDoors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRulesEngines(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRulesEngines(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRulesEngineRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRulesEngineRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func resolveFrontdoorRulesEngineRulesActionRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveFrontDoorRulesEngineRulesActionRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRulesEngineRuleActionRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRulesEngineRuleActionRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRulesEngineRuleActionResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRulesEngineRuleActionResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRoutingRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRoutingRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func resolveFrontdoorRoutingRulesRoutingRulePropertiesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+func resolveFrontDoorRoutingRulesRoutingRulePropertiesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorRoutingRuleRoutingRulePropertiesFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorRoutingRuleRoutingRulePropertiesFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorLoadBalancingSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorLoadBalancingSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorHealthProbeSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorHealthProbeSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorBackendPools(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorBackendPools(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorBackendPoolBackends(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorBackendPoolBackends(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }
-func fetchFrontdoorFrontdoorFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+func fetchFrontdoorFrontDoorFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	panic("not implemented")
 }

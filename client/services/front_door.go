@@ -1,4 +1,4 @@
-//go:generate mockgen -destination=./mocks/frontdoor.go -package=mocks . FrontDoorClient
+//go:generate mockgen -destination=./mocks/front_door.go -package=mocks . FrontDoorClient
 package services
 
 import (

@@ -2,12 +2,13 @@ service          = "azure"
 output_directory = "."
 add_generate     = true
 
-resource "azure" "frontdoors" "frontdoor" {
-  path = "github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-11-01/frontdoor.FrontDoor"
+resource "azure" "" "front_door" {
+  path        = "github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-11-01/frontdoor.FrontDoor"
+  description = "Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there."
 
   userDefinedColumn "subscription_id" {
     type        = "string"
-    description = "Azure subscription id"
+    description = "Azure subscription ID"
     resolver "resolveAzureSubscription" {
       path = "github.com/cloudquery/cq-provider-azure/client.ResolveAzureSubscription"
     }
@@ -19,6 +20,66 @@ resource "azure" "frontdoors" "frontdoor" {
 
   deleteFilter "AzureSubscription" {
     path = "github.com/cloudquery/cq-provider-azure/client.DeleteSubscriptionFilter"
+  }
+
+  column "id" {
+    description = "Resource ID"
+  }
+
+  column "name" {
+    description = "Resource name"
+  }
+
+  column "type" {
+    description = "Resource type"
+  }
+
+  column "location" {
+    description = "Resource location"
+  }
+
+  column "tags" {
+    description = "Resource tags"
+  }
+
+  column "properties_resource_state" {
+    rename      = "resource_state"
+    description = "Resource status of the Front Door"
+  }
+
+  column "properties_provisioning_state" {
+    rename      = "provisioning_state"
+    description = "Provisioning state of the Front Door"
+  }
+
+  column "properties_cname" {
+    rename      = "cname"
+    description = "The host that each frontend endpoint must CNAME to"
+  }
+
+  column "properties_frontdoor_id" {
+    rename      = "frontdoor_id"
+    description = "The ID of the Front Door"
+  }
+
+  column "properties_friendly_name" {
+    rename      = "friendly_name"
+    description = "A friendly name for the Front Door"
+  }
+
+  column "properties_backend_pools_settings_enforce_certificate_name_check" {
+    rename      = "enforce_certificate_name_check"
+    description = "Whether to enforce certificate name check on HTTPS requests to all backend pools"
+  }
+
+  column "properties_backend_pools_settings_send_recv_timeout_seconds" {
+    rename      = "send_recv_timeout_seconds"
+    description = "Send and receive timeout on forwarding request to the backend"
+  }
+
+  column "properties_enabled_state" {
+    rename      = "enabled_state"
+    description = "Operational status of the Front Door load balancer"
   }
 
   relation "azure" "frontdoor" "properties_rules_engines" {
@@ -108,9 +169,5 @@ resource "azure" "frontdoors" "frontdoor" {
       skip_prefix = true
       rename      = "web_application_firewall_policy_link"
     }
-  }
-  column "properties_backend_pools_settings_enforce_certificate_name_check" {
-    skip_prefix = true
-    rename      = "backend_pools_settings_enforce_certificate_name_checks"
   }
 }
