@@ -65,7 +65,7 @@ func Namespaces() *schema.Table {
 				Resolver:    schema.PathResolver("Identity.Type"),
 			},
 			{
-				Name:          "identity_user_assigned_identities",
+				Name:          "user_assigned_identities",
 				Description:   "Properties for User Assigned Identities",
 				Type:          schema.TypeJSON,
 				Resolver:      schema.PathResolver("Identity.UserAssignedIdentities"),
@@ -208,38 +208,9 @@ func Namespaces() *schema.Table {
 						Resolver:    schema.PathResolver("PrivateEndpointConnectionProperties.ProvisioningState"),
 					},
 					{
-						Name:        "system_data_created_by",
-						Description: "The identity that created the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.CreatedBy"),
-					},
-					{
-						Name:        "system_data_created_by_type",
-						Description: "The type of identity that created the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.CreatedByType"),
-					},
-					{
-						Name:     "system_data_created_at_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("SystemData.CreatedAt.Time"),
-					},
-					{
-						Name:        "system_data_last_modified_by",
-						Description: "The identity that last modified the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.LastModifiedBy"),
-					},
-					{
-						Name:        "system_data_last_modified_by_type",
-						Description: "The type of identity that last modified the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.LastModifiedByType"),
-					},
-					{
-						Name:     "system_data_last_modified_at_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("SystemData.LastModifiedAt.Time"),
+						Name:        "system_data",
+						Description: "The system meta data relating to this resource",
+						Type:        schema.TypeJSON,
 					},
 					{
 						Name:        "id",

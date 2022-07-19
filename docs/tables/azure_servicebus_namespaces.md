@@ -11,7 +11,7 @@ SBNamespace description of a namespace resource
 |identity_principal_id|text|ObjectId from the KeyVault|
 |identity_tenant_id|text|TenantId from the KeyVault|
 |identity_type|text|Type of managed service identity|
-|identity_user_assigned_identities|jsonb|Properties for User Assigned Identities|
+|user_assigned_identities|jsonb|Properties for User Assigned Identities|
 |system_data|jsonb|The system meta data relating to this resource|
 |provisioning_state|text|Provisioning state of the namespace|
 |status|text|Status of the namespace|

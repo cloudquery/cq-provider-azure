@@ -48,6 +48,9 @@ resource "azure" "servicebus" "namespaces" {
     type = "json"
   }
 
+  column "identity_user_assigned_identities" {
+    rename = "user_assigned_identities"
+  }
 
   relation "azure" "servicebus" "private_endpoint_connections" {
     column "private_endpoint_connection_properties" {
@@ -58,10 +61,13 @@ resource "azure" "servicebus" "namespaces" {
       skip_prefix = true
     }
 
+    column "system_data" {
+      type = "json"
+    }
+
     column "description" {
       rename = "status_description"
     }
-
   }
 
   user_relation "azure" "servicebus" "topics" {
@@ -85,7 +91,7 @@ resource "azure" "servicebus" "namespaces" {
       }
 
       userDefinedColumn "access_keys" {
-        type = "json"
+        type              = "json"
         generate_resolver = true
       }
     }
