@@ -16,7 +16,7 @@ If the service to which the resource belongs has not been used before in cq-prov
    * Don't forget to add the new service interface name to the go:generate comment.
 1. Add the service to the `Services` struct in the [client/services/services.go](./client/services/services.go)
 1. Init the service in the `InitServices` function in [client/services/services.go](./client/services.go)
-1. Run `make generate` to create a mock for your new service. This will update [client/mocks/services.go](./client/mocks/services.go) automatically.
+1. Run `make generate-mocks` to create a mock for your new service. This will update [client/mocks/services.go](./client/mocks/services.go) automatically.
 
 ## Setting up the resource
 
