@@ -2,8 +2,11 @@ package frontdoor
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-11-01/frontdoor"
 	"github.com/cloudquery/cq-provider-azure/client"
+	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
@@ -735,47 +738,160 @@ func FrontDoors() *schema.Table {
 // ====================================================================================================================
 
 func fetchFrontDoors(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	svc := meta.(*client.Client).Services().FrontDoor
+	response, err := svc.List(ctx)
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	for response.NotDone() {
+		res <- response.Values()
+		if err := response.NextWithContext(ctx); err != nil {
+			return diag.WrapError(err)
+		}
+	}
+	return nil
 }
 func fetchFrontDoorFrontDoorRulesEngines(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.RulesEngines != nil {
+		res <- *frontDoor.RulesEngines
+	}
+	return nil
 }
 func fetchFrontDoorFrontDoorRulesEngineRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	rulesEngine := parent.Item.(frontdoor.RulesEngine)
+	if rulesEngine.Rules != nil {
+		res <- *rulesEngine.Rules
+	}
+	return nil
 }
 func resolveFrontDoorRulesEngineRulesRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	panic("not implemented")
+	rule := resource.Item.(frontdoor.RulesEngineRule)
+	if rule.Action == nil || rule.Action.RouteConfigurationOverride == nil {
+		return nil
+	}
+
+	data, err := marshalRouteConfiguration(rule.Action.RouteConfigurationOverride)
+	if err != nil {
+		return err
+	}
+
+	return diag.WrapError(resource.Set("route_configuration_override", data))
 }
 func fetchFrontDoorFrontDoorRulesEngineRuleRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	rule := parent.Item.(frontdoor.RulesEngineRule)
+	if rule.Action != nil && rule.Action.RequestHeaderActions != nil {
+		res <- *rule.Action.RequestHeaderActions
+	}
+	return nil
 }
 func fetchFrontDoorFrontDoorRulesEngineRuleResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	rule := parent.Item.(frontdoor.RulesEngineRule)
+	if rule.Action != nil && rule.Action.ResponseHeaderActions != nil {
+		res <- *rule.Action.ResponseHeaderActions
+	}
+	return nil
 }
 func fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	rule := parent.Item.(frontdoor.RulesEngineRule)
+	if rule.MatchConditions != nil {
+		res <- *rule.MatchConditions
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorRoutingRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.RoutingRules != nil {
+		res <- *frontDoor.RoutingRules
+	}
+	return nil
 }
 func resolveFrontDoorRoutingRulesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
-	panic("not implemented")
+	rule := resource.Item.(frontdoor.RoutingRule)
+	if rule.RouteConfiguration == nil {
+		return nil
+	}
+
+	data, err := marshalRouteConfiguration(rule.RouteConfiguration)
+	if err != nil {
+		return err
+	}
+
+	return diag.WrapError(resource.Set("route_configuration", data))
 }
 func fetchFrontdoorFrontDoorRoutingRuleFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	rule := parent.Item.(frontdoor.RoutingRule)
+	if rule.FrontendEndpoints != nil {
+		res <- *rule.FrontendEndpoints
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorLoadBalancingSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.LoadBalancingSettings != nil {
+		res <- *frontDoor.LoadBalancingSettings
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorHealthProbeSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.HealthProbeSettings != nil {
+		res <- *frontDoor.HealthProbeSettings
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorBackendPools(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.BackendPools != nil {
+		res <- *frontDoor.BackendPools
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorBackendPoolBackends(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	backendPool := parent.Item.(frontdoor.BackendPool)
+	if backendPool.Backends != nil {
+		res <- *backendPool.Backends
+	}
+	return nil
 }
 func fetchFrontdoorFrontDoorFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+	frontDoor := parent.Item.(frontdoor.FrontDoor)
+	if frontDoor.FrontendEndpoints != nil {
+		res <- *frontDoor.FrontendEndpoints
+	}
+	return nil
+}
+
+// ====================================================================================================================
+//                                                  User Defined Helpers
+// ====================================================================================================================
+
+func marshalRouteConfiguration(config frontdoor.BasicRouteConfiguration) (data []byte, err error) {
+	dataMessage := map[string]json.RawMessage{}
+	if route, ok := config.AsRouteConfiguration(); ok && route != nil {
+		data, err := route.MarshalJSON()
+		if err != nil {
+			return nil, diag.WrapError(err)
+		}
+		dataMessage["route_configuration"] = data
+	}
+
+	if forward, ok := config.AsForwardingConfiguration(); ok && forward != nil {
+		data, err := forward.MarshalJSON()
+		if err != nil {
+			return nil, diag.WrapError(err)
+		}
+		dataMessage["forwarding_configuration"] = data
+	}
+
+	if redirect, ok := config.AsRedirectConfiguration(); ok && redirect != nil {
+		data, err := redirect.MarshalJSON()
+		if err != nil {
+			return nil, diag.WrapError(err)
+		}
+		dataMessage["redirect_configuration"] = data
+	}
+
+	data, err = json.Marshal(dataMessage)
+	return data, diag.WrapError(err)
 }
