@@ -4,7 +4,7 @@ Frontend endpoints available to routing rules
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_door table (FK)|
+|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_doors table (FK)|
 |resource_state|text|Resource status|
 |custom_https_provisioning_state|text|Provisioning status of custom https of the frontend endpoint|
 |custom_https_provisioning_substate|text|Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step|

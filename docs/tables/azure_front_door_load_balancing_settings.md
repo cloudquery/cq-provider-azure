@@ -4,7 +4,7 @@ Load balancing settings for a backend pool associated with the Front Door instan
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_door table (FK)|
+|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_doors table (FK)|
 |resource_state|text|Resource status|
 |sample_size|integer|The number of samples to consider for load balancing decisions|
 |successful_samples_required|integer|The number of samples within the sample period that must succeed|

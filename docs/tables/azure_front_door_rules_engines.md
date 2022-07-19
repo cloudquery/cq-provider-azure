@@ -4,7 +4,7 @@ Rules engine configuration containing a list of rules that will run to modify th
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_door table (FK)|
+|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_doors table (FK)|
 |resource_state|text|Resource status|
 |name|text|Resource name|
 |type|text|Resource type|

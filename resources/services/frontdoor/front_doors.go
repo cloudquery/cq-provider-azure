@@ -10,10 +10,10 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-//go:generate cq-gen --resource front_door --config gen.hcl --output .
+//go:generate cq-gen --resource front_doors --config gen.hcl --output .
 func FrontDoors() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_front_door",
+		Name:         "azure_front_doors",
 		Description:  "Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.",
 		Resolver:     fetchFrontDoors,
 		Multiplex:    client.SubscriptionMultiplex,
@@ -108,7 +108,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -287,7 +287,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -379,7 +379,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -432,7 +432,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -497,7 +497,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},
@@ -623,7 +623,7 @@ func FrontDoors() *schema.Table {
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
-						Description: "Unique CloudQuery ID of azure_front_door table (FK)",
+						Description: "Unique CloudQuery ID of azure_front_doors table (FK)",
 						Type:        schema.TypeUUID,
 						Resolver:    schema.ParentIdResolver,
 					},

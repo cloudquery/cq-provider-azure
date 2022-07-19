@@ -4,7 +4,7 @@ Routing rules represent specifications for traffic to treat and where to send it
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_door table (FK)|
+|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_doors table (FK)|
 |resource_state|text|Resource status|
 |accepted_protocols|text[]|Protocol schemes to match for the rule|
 |patterns_to_match|text[]|The route patterns of the rule|

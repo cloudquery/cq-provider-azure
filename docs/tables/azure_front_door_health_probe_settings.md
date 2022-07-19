@@ -4,7 +4,7 @@ Health probe settings for a backend pool associated with this Front Door instanc
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
-|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_door table (FK)|
+|front_door_cq_id|uuid|Unique CloudQuery ID of azure_front_doors table (FK)|
 |resource_state|text|Resource status|
 |path|text|The path to use for the health probe|
 |health_probe_settings_properties_protocol|text|Protocol - Protocol scheme to use for this probe|

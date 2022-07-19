@@ -2,7 +2,7 @@ service          = "azure"
 output_directory = "."
 add_generate     = true
 
-resource "azure" "" "front_door" {
+resource "azure" "" "front_doors" {
   path        = "github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-11-01/frontdoor.FrontDoor"
   description = "Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there."
 
