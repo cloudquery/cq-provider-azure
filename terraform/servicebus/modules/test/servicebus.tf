@@ -12,30 +12,6 @@ resource "azurerm_servicebus_namespace" "example" {
   tags = var.tags
 }
 
-resource "azurerm_servicebus_namespace" "secondary" {
-  name                = "${var.prefix}-servicebus-secondary"
-  location            = azurerm_resource_group.servicebus.location
-  resource_group_name = azurerm_resource_group.servicebus.name
-  sku                 = "Premium"
-  capacity            = "1"
-}
-
-
-resource "azurerm_servicebus_queue" "azurerm_servicebus_queue" {
-  name         = "${var.prefix}-servicebus-queue"
-  namespace_id = azurerm_servicebus_namespace.example.id
-
-  enable_partitioning = true
-}
-
-resource "azurerm_servicebus_queue_authorization_rule" "example" {
-  name     = "examplerule"
-  queue_id = azurerm_servicebus_queue.azurerm_servicebus_queue.id
-
-  listen = true
-  send   = true
-  manage = false
-}
 
 resource "azurerm_servicebus_namespace_authorization_rule" "example" {
   name         = "${var.prefix}-servicebus-ar"
@@ -44,12 +20,6 @@ resource "azurerm_servicebus_namespace_authorization_rule" "example" {
   listen = true
   send   = true
   manage = false
-}
-
-resource "azurerm_servicebus_namespace_disaster_recovery_config" "example" {
-  name                 = "servicebus-alias-name"
-  primary_namespace_id = azurerm_servicebus_namespace.example.id
-  partner_namespace_id = azurerm_servicebus_namespace.secondary.id
 }
 
 
@@ -68,7 +38,7 @@ resource "azurerm_servicebus_subscription" "azurerm_servicebus_subscription" {
 
 
 resource "azurerm_servicebus_subscription_rule" "azurerm_servicebus_subscription_rule" {
-  name            = "tfex_servicebus_rule"
+  name            = "${var.prefix}_servicebus_rule"
   subscription_id = azurerm_servicebus_subscription.azurerm_servicebus_subscription.id
   filter_type     = "SqlFilter"
   sql_filter      = "colour = 'red'"
