@@ -9,12 +9,7 @@ PrivateEndpointConnection properties of the PrivateEndpointConnection
 |status|text|Status of the connection|
 |status_description|text|Description of the connection state|
 |provisioning_state|text|Provisioning state of the Private Endpoint Connection|
-|system_data_created_by|text|The identity that created the resource|
-|system_data_created_by_type|text|The type of identity that created the resource|
-|system_data_created_at_time|timestamp without time zone||
-|system_data_last_modified_by|text|The identity that last modified the resource|
-|system_data_last_modified_by_type|text|The type of identity that last modified the resource|
-|system_data_last_modified_at_time|timestamp without time zone||
+|system_data|jsonb|The system meta data relating to this resource|
 |id|text|Resource Id|
 |name|text|Resource name|
 |type|text|Resource type|
