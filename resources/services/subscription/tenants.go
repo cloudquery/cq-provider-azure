@@ -8,22 +8,15 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-//go:generate cq-gen --resource tenants --config resources/services/subscription/gen.hcl --output .
+//go:generate cq-gen --resource tenants --config gen.hcl --output .
 func Tenants() *schema.Table {
 	return &schema.Table{
-		Name:         "azure_subscription_tenants",
-		Description:  "Azure tenant information",
-		Resolver:     fetchSubscriptionTenants,
-		Multiplex:    client.SubscriptionMultiplex,
-		DeleteFilter: client.DeleteSubscriptionFilter,
-		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"subscription_id", "id"}},
+		Name:        "azure_subscription_tenants",
+		Description: "Azure tenant information",
+		Resolver:    fetchSubscriptionTenants,
+		Multiplex:   client.SingleSubscriptionMultiplex,
+		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"id"}},
 		Columns: []schema.Column{
-			{
-				Name:        "subscription_id",
-				Description: "Azure subscription id",
-				Type:        schema.TypeString,
-				Resolver:    client.ResolveAzureSubscription,
-			},
 			{
 				Name:        "id",
 				Description: "The fully qualified ID of the tenant",

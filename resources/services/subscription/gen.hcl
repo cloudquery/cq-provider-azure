@@ -2,9 +2,17 @@ service          = "azure"
 output_directory = "."
 add_generate     = true
 
-resource "azure" "subscription" "tenants" {
-  path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.TenantIDDescription"
-  description = "Azure tenant information"
+description_modifier "remove_read_only" {
+  words = ["READ-ONLY; "]
+}
+
+description_modifier "remove_field_name" {
+  regex = ".+- "
+}
+
+resource "azure" "subscription" "subscriptions" {
+  path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.Model"
+  description = "Azure subscription information"
 
   userDefinedColumn "subscription_id" {
     type        = "string"
@@ -18,7 +26,37 @@ resource "azure" "subscription" "tenants" {
   }
   options {
     primary_keys = [
-      "subscription_id",
+      "id"
+    ]
+  }
+
+  column "subscription_policies_location_placement_id" {
+    rename = "location_placement_id"
+  }
+
+  column "subscription_policies_quota_id" {
+    rename = "quota_id"
+  }
+
+  column "subscription_policies_spending_limit" {
+    rename = "spending_limit"
+  }
+
+  multiplex "AzureSubscription" {
+    path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
+  }
+
+  deleteFilter "AzureSubscription" {
+    path = "github.com/cloudquery/cq-provider-azure/client.DeleteSubscriptionFilter"
+  }
+}
+
+resource "azure" "subscription" "tenants" {
+  path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.TenantIDDescription"
+  description = "Azure tenant information"
+
+  options {
+    primary_keys = [
       "id"
     ]
   }
@@ -28,16 +66,7 @@ resource "azure" "subscription" "tenants" {
     description = "The fully qualified ID of the tenant"
   }
 
-  column "tenant_id" {
-    type = "string"
-    description = "The tenant ID"
-  }
-
-  multiplex "AzureSubscription" {
-    path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
-  }
-
-  deleteFilter "AzureSubscription" {
-    path = "github.com/cloudquery/cq-provider-azure/client.DeleteSubscriptionFilter"
+  multiplex "SingleSubscription" {
+    path = "github.com/cloudquery/cq-provider-azure/client.SingleSubscriptionMultiplex"
   }
 }

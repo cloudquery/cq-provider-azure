@@ -11,7 +11,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-func buildSubscriptionSubscriptionsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
+func buildSubscriptionsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 	m := mocks.NewMockSubscriptionsClient(ctrl)
 
 	var subscriptionID string
@@ -35,6 +35,6 @@ func buildSubscriptionSubscriptionsMock(t *testing.T, ctrl *gomock.Controller) s
 	}
 }
 
-func TestSubscriptionSubscriptions(t *testing.T) {
-	client.AzureMockTestHelper(t, SubscriptionSubscriptions(), buildSubscriptionSubscriptionsMock, client.TestOptions{})
+func TestSubscriptions(t *testing.T) {
+	client.AzureMockTestHelper(t, Subscriptions(), buildSubscriptionsMock, client.TestOptions{})
 }

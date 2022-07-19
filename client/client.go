@@ -95,7 +95,7 @@ func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, diag
 			}
 		}
 		client.subscriptions = subscriptions
-		logger.Info("No subscriptions specified going to using all available ones", "subscriptions", subscriptions)
+		logger.Info("No subscriptions specified, going to using all available ones", "subscriptions", subscriptions)
 	}
 
 	if len(client.subscriptions) == 0 {

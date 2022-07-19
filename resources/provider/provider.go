@@ -99,7 +99,7 @@ func Provider() *provider.Provider {
 			"sql.managed_instances":                sql.SqlManagedInstances(),
 			"storage.accounts":                     storage.StorageAccounts(),
 			"streamanalytics.jobs":                 streamanalytics.StreamanalyticsJobs(),
-			"subscription.subscriptions":           subscription.SubscriptionSubscriptions(),
+			"subscription.subscriptions":           subscription.Subscriptions(),
 			"subscription.tenants":                 subscription.Tenants(),
 			"web.apps":                             web.WebApps(),
 		},

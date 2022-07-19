@@ -8,26 +8,27 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 )
 
-func SubscriptionSubscriptions() *schema.Table {
+//go:generate cq-gen --resource subscriptions --config gen.hcl --output .
+func Subscriptions() *schema.Table {
 	return &schema.Table{
 		Name:         "azure_subscription_subscriptions",
-		Description:  "Model subscription information",
+		Description:  "Azure subscription information",
 		Resolver:     fetchSubscriptionSubscriptions,
 		Multiplex:    client.SubscriptionMultiplex,
 		DeleteFilter: client.DeleteSubscriptionFilter,
 		Options:      schema.TableCreationOptions{PrimaryKeys: []string{"id"}},
 		Columns: []schema.Column{
 			{
-				Name:        "id",
-				Description: "The fully qualified ID for the subscription For example, /subscriptions/00000000-0000-0000-0000-000000000000",
+				Name:        "subscription_id",
+				Description: "Azure subscription id",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ID"),
+				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:        "subscription_id",
-				Description: "The subscription ID",
+				Name:        "id",
+				Description: "The fully qualified ID for the subscription",
 				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("SubscriptionID"),
+				Resolver:    schema.PathResolver("ID"),
 			},
 			{
 				Name:        "display_name",
@@ -36,12 +37,12 @@ func SubscriptionSubscriptions() *schema.Table {
 			},
 			{
 				Name:        "state",
-				Description: "The subscription state Possible values are Enabled, Warned, PastDue, Disabled, and Deleted Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'",
+				Description: "The subscription state",
 				Type:        schema.TypeString,
 			},
 			{
 				Name:        "location_placement_id",
-				Description: "The subscription location placement ID The ID indicates which regions are visible for a subscription For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions",
+				Description: "The subscription location placement ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("SubscriptionPolicies.LocationPlacementID"),
 			},
@@ -53,13 +54,13 @@ func SubscriptionSubscriptions() *schema.Table {
 			},
 			{
 				Name:        "spending_limit",
-				Description: "The subscription spending limit Possible values include: 'On', 'Off', 'CurrentPeriodOff'",
+				Description: "The subscription spending limit",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("SubscriptionPolicies.SpendingLimit"),
 			},
 			{
 				Name:        "authorization_source",
-				Description: "The authorization source of the request Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management For example, 'Legacy, RoleBased'",
+				Description: "The authorization source of the request",
 				Type:        schema.TypeString,
 			},
 		},
@@ -69,6 +70,7 @@ func SubscriptionSubscriptions() *schema.Table {
 // ====================================================================================================================
 //                                               Table Resolver Functions
 // ====================================================================================================================
+
 func fetchSubscriptionSubscriptions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	svc := meta.(*client.Client).Services().Subscriptions
 	m, err := svc.Subscriptions.Get(ctx, svc.SubscriptionID)
