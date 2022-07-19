@@ -3,8 +3,8 @@ resource "azurerm_resource_group" "keyvault" {
   location = "East US"
 }
 
-resource "azurerm_key_vault" "test" {
-  name                        = "${var.prefix}vault"
+resource "azurerm_key_vault" "azurerm_key_vault" {
+  name                        = "${var.prefix}-vault"
   location                    = azurerm_resource_group.keyvault.location
   resource_group_name         = azurerm_resource_group.keyvault.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
@@ -21,7 +21,7 @@ resource "azurerm_key_vault" "test" {
 
 resource "azurerm_key_vault_key" "generated" {
   name         = "${var.prefix}key"
-  key_vault_id = azurerm_key_vault.test.id
+  key_vault_id = azurerm_key_vault.azurerm_key_vault.id
   key_type     = "RSA"
   key_size     = 2048
 
