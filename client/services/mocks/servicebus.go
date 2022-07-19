@@ -73,6 +73,21 @@ func (m *MockTopicsClient) EXPECT() *MockTopicsClientMockRecorder {
 	return m.recorder
 }
 
+// ListAuthorizationRules mocks base method.
+func (m *MockTopicsClient) ListAuthorizationRules(arg0 context.Context, arg1, arg2, arg3 string) (servicebus.SBAuthorizationRuleListResultPage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAuthorizationRules", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(servicebus.SBAuthorizationRuleListResultPage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAuthorizationRules indicates an expected call of ListAuthorizationRules.
+func (mr *MockTopicsClientMockRecorder) ListAuthorizationRules(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAuthorizationRules", reflect.TypeOf((*MockTopicsClient)(nil).ListAuthorizationRules), arg0, arg1, arg2, arg3)
+}
+
 // ListByNamespace mocks base method.
 func (m *MockTopicsClient) ListByNamespace(arg0 context.Context, arg1, arg2 string, arg3, arg4 *int32) (servicebus.SBTopicListResultPage, error) {
 	m.ctrl.T.Helper()
@@ -86,4 +101,19 @@ func (m *MockTopicsClient) ListByNamespace(arg0 context.Context, arg1, arg2 stri
 func (mr *MockTopicsClientMockRecorder) ListByNamespace(arg0, arg1, arg2, arg3, arg4 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByNamespace", reflect.TypeOf((*MockTopicsClient)(nil).ListByNamespace), arg0, arg1, arg2, arg3, arg4)
+}
+
+// ListKeys mocks base method.
+func (m *MockTopicsClient) ListKeys(arg0 context.Context, arg1, arg2, arg3, arg4 string) (servicebus.AccessKeys, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListKeys", arg0, arg1, arg2, arg3, arg4)
+	ret0, _ := ret[0].(servicebus.AccessKeys)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListKeys indicates an expected call of ListKeys.
+func (mr *MockTopicsClientMockRecorder) ListKeys(arg0, arg1, arg2, arg3, arg4 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListKeys", reflect.TypeOf((*MockTopicsClient)(nil).ListKeys), arg0, arg1, arg2, arg3, arg4)
 }

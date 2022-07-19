@@ -2,6 +2,7 @@ package servicebus
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/diag"
@@ -393,38 +394,10 @@ func Namespaces() *schema.Table {
 						Resolver:    schema.PathResolver("SBTopicProperties.EnableExpress"),
 					},
 					{
-						Name:        "system_data_created_by",
-						Description: "The identity that created the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.CreatedBy"),
-					},
-					{
-						Name:        "system_data_created_by_type",
-						Description: "The type of identity that created the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.CreatedByType"),
-					},
-					{
-						Name:     "system_data_created_at_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("SystemData.CreatedAt.Time"),
-					},
-					{
-						Name:        "system_data_last_modified_by",
-						Description: "The identity that last modified the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.LastModifiedBy"),
-					},
-					{
-						Name:        "system_data_last_modified_by_type",
-						Description: "The type of identity that last modified the resource",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("SystemData.LastModifiedByType"),
-					},
-					{
-						Name:     "system_data_last_modified_at_time",
-						Type:     schema.TypeTimestamp,
-						Resolver: schema.PathResolver("SystemData.LastModifiedAt.Time"),
+						Name:          "system_data",
+						Description:   "The system meta data relating to this resource",
+						Type:          schema.TypeJSON,
+						IgnoreInTests: true,
 					},
 					{
 						Name:        "id",
@@ -441,6 +414,54 @@ func Namespaces() *schema.Table {
 						Name:        "type",
 						Description: "Resource type",
 						Type:        schema.TypeString,
+					},
+				},
+				Relations: []*schema.Table{
+					{
+						Name:        "azure_servicebus_namespace_topic_authorization_rules",
+						Description: "SBAuthorizationRule description of a namespace authorization rule",
+						Resolver:    fetchServicebusNamespaceTopicAuthorizationRules,
+						Columns: []schema.Column{
+							{
+								Name:        "namespace_topic_cq_id",
+								Description: "Unique CloudQuery ID of azure_servicebus_namespace_topics table (FK)",
+								Type:        schema.TypeUUID,
+								Resolver:    schema.ParentIdResolver,
+							},
+							{
+								Name:     "access_keys",
+								Type:     schema.TypeJSON,
+								Resolver: ResolveServicebusNamespaceTopicAuthorizationRuleAccessKeys,
+							},
+							{
+								Name:        "rights",
+								Description: "The rights associated with the rule",
+								Type:        schema.TypeStringArray,
+								Resolver:    schema.PathResolver("SBAuthorizationRuleProperties.Rights"),
+							},
+							{
+								Name:          "system_data",
+								Description:   "The system meta data relating to this resource",
+								Type:          schema.TypeJSON,
+								IgnoreInTests: true,
+							},
+							{
+								Name:        "id",
+								Description: "Resource Id",
+								Type:        schema.TypeString,
+								Resolver:    schema.PathResolver("ID"),
+							},
+							{
+								Name:        "name",
+								Description: "Resource name",
+								Type:        schema.TypeString,
+							},
+							{
+								Name:        "type",
+								Description: "Resource type",
+								Type:        schema.TypeString,
+							},
+						},
 					},
 				},
 			},
@@ -482,7 +503,6 @@ func fetchServicebusNamespaceTopics(ctx context.Context, meta schema.ClientMeta,
 		return diag.WrapError(err)
 	}
 	r, err := svc.ListByNamespace(ctx, details.ResourceGroup, details.ResourceName, nil, nil)
-	//r, err := svc.ListByNamespace(ctx, details.ResourceGroup, details.ResourceName, to.Int32Ptr(0), to.Int32Ptr(0))
 	if err != nil {
 		return diag.WrapError(err)
 	}
@@ -493,4 +513,43 @@ func fetchServicebusNamespaceTopics(ctx context.Context, meta schema.ClientMeta,
 		}
 	}
 	return nil
+}
+func fetchServicebusNamespaceTopicAuthorizationRules(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+	svc := meta.(*client.Client).Services().Servicebus.Topics
+	n := parent.Parent.Item.(servicebus.SBNamespace)
+	t := parent.Item.(servicebus.SBTopic)
+	details, err := client.ParseResourceID(*t.ID)
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	r, err := svc.ListAuthorizationRules(ctx, details.ResourceGroup, *n.Name, details.ResourceName)
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	for r.NotDone() {
+		res <- r.Values()
+		if err := r.NextWithContext(ctx); err != nil {
+			return diag.WrapError(err)
+		}
+	}
+	return nil
+}
+func ResolveServicebusNamespaceTopicAuthorizationRuleAccessKeys(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	svc := meta.(*client.Client).Services().Servicebus.Topics
+	n := resource.Parent.Parent.Item.(servicebus.SBNamespace)
+	t := resource.Parent.Item.(servicebus.SBTopic)
+	a := resource.Item.(servicebus.SBAuthorizationRule)
+	details, err := client.ParseResourceID(*a.ID)
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	r, err := svc.ListKeys(ctx, details.ResourceGroup, *n.Name, *t.Name, details.ResourceName)
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	j, err := r.MarshalJSON()
+	if err != nil {
+		return diag.WrapError(err)
+	}
+	return diag.WrapError(resource.Set(c.Name, j))
 }

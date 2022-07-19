@@ -70,7 +70,26 @@ resource "azure" "servicebus" "namespaces" {
     column "s_b_topic_properties" {
       skip_prefix = true
     }
+    column "system_data" {
+      type = "json"
+    }
+    user_relation "azure" "servicebus" "authorization_rules" {
+      path = "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus.SBAuthorizationRule"
 
-    //todo check if auto_delete_on_idle can be timestamp
+      column "s_b_authorization_rule_properties" {
+        skip_prefix = true
+      }
+
+      column "system_data" {
+        type = "json"
+      }
+
+      userDefinedColumn "access_keys" {
+        type = "json"
+        generate_resolver = true
+      }
+    }
   }
+
+
 }

@@ -19,6 +19,8 @@ type NamespacesClient interface {
 
 type TopicsClient interface {
 	ListByNamespace(ctx context.Context, resourceGroupName string, namespaceName string, skip *int32, top *int32) (result servicebus.SBTopicListResultPage, err error)
+	ListAuthorizationRules(ctx context.Context, resourceGroupName string, namespaceName string, topicName string) (result servicebus.SBAuthorizationRuleListResultPage, err error)
+	ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, topicName string, authorizationRuleName string) (result servicebus.AccessKeys, err error)
 }
 
 func NewServicebusClient(subscriptionID string, auth autorest.Authorizer) ServicebusClient {
