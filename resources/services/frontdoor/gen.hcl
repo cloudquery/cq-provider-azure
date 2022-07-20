@@ -83,8 +83,9 @@ resource "azure" "" "front_doors" {
   }
 
   relation "azure" "front_door" "properties_rules_engines" {
-    rename      = "rules_engines"
-    description = "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response."
+    rename          = "rules_engines"
+    description     = "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response."
+    ignore_in_tests = true
 
     column "rules_engine_properties_resource_state" {
       rename      = "resource_state"

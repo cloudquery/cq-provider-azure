@@ -102,9 +102,10 @@ func FrontDoors() *schema.Table {
 		},
 		Relations: []*schema.Table{
 			{
-				Name:        "azure_front_door_rules_engines",
-				Description: "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.",
-				Resolver:    fetchFrontDoorFrontDoorRulesEngines,
+				Name:          "azure_front_door_rules_engines",
+				Description:   "Rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.",
+				Resolver:      fetchFrontDoorFrontDoorRulesEngines,
+				IgnoreInTests: true,
 				Columns: []schema.Column{
 					{
 						Name:        "front_door_cq_id",
