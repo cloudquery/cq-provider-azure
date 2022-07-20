@@ -134,42 +134,17 @@ resource "azure" "" "front_doors" {
         generate_resolver = true
       }
 
-      relation "azure" "front_door" "action_request_header_actions" {
-        rename      = "request_header_actions"
-        description = "A list of header actions to apply from the request from AFD to the origin."
-
-        column "header_action_type" {
-          rename      = "action_type"
-          description = "Which type of manipulation to apply to the header"
-        }
-
-        column "header_name" {
-          rename      = "name"
-          description = "The name of the header the action will apply to"
-        }
-
-        column "value" {
-          description = "The value to update the given header name with"
-        }
+      column "action_request_header_actions" {
+        rename            = "request_header_actions"
+        description       = "A list of header actions to apply from the request from AFD to the origin."
+        type              = "json"
+        generate_resolver = true
       }
-
-      relation "azure" "front_door" "action_response_header_actions" {
-        rename      = "response_header_actions"
-        description = "A list of header actions to apply from the response from AFD to the client."
-
-        column "header_action_type" {
-          rename      = "action_type"
-          description = "Which type of manipulation to apply to the header"
-        }
-
-        column "header_name" {
-          rename      = "name"
-          description = "The name of the header the action will apply to"
-        }
-
-        column "value" {
-          description = "The value to update the given header name with"
-        }
+      column "action_response_header_actions" {
+        rename            = "response_header_actions"
+        description       = "A list of header actions to apply from the response from AFD to the client."
+        type              = "json"
+        generate_resolver = true
       }
 
       relation "azure" "front_door" "match_conditions" {
@@ -251,6 +226,13 @@ resource "azure" "" "front_doors" {
       description = "ID of the Web Application Firewall policy for each routing rule (if applicable)"
     }
 
+    column "routing_rule_properties_frontend_endpoints" {
+      rename            = "frontend_endpoints"
+      description       = "Frontend endpoints associated with the rule"
+      type              = "StringArray"
+      generate_resolver = true
+    }
+
     column "id" {
       description = "Resource ID"
     }
@@ -263,14 +245,6 @@ resource "azure" "" "front_doors" {
       description = "Resource type"
     }
 
-    relation "azure" "frontdoor" "routing_rule_properties_frontend_endpoints" {
-      rename      = "frontend_endpoints"
-      description = "Frontend endpoints associated with the rule."
-
-      column "id" {
-        description = "Resource ID"
-      }
-    }
   }
 
   relation "azure" "frontdoor" "properties_load_balancing_settings" {

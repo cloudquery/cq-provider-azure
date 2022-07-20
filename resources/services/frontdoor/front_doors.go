@@ -160,6 +160,18 @@ func FrontDoors() *schema.Table {
 								Type:        schema.TypeInt,
 							},
 							{
+								Name:        "request_header_actions",
+								Description: "A list of header actions to apply from the request from AFD to the origin.",
+								Type:        schema.TypeJSON,
+								Resolver:    resolveFrontDoorRulesEngineRulesRequestHeaderActions,
+							},
+							{
+								Name:        "response_header_actions",
+								Description: "A list of header actions to apply from the response from AFD to the client.",
+								Type:        schema.TypeJSON,
+								Resolver:    resolveFrontDoorRulesEngineRulesResponseHeaderActions,
+							},
+							{
 								Name:        "route_configuration_override",
 								Description: "Override the route configuration",
 								Type:        schema.TypeJSON,
@@ -172,66 +184,6 @@ func FrontDoors() *schema.Table {
 							},
 						},
 						Relations: []*schema.Table{
-							{
-								Name:        "azure_front_door_rules_engine_rule_request_header_actions",
-								Description: "A list of header actions to apply from the request from AFD to the origin.",
-								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleRequestHeaderActions,
-								Columns: []schema.Column{
-									{
-										Name:        "front_door_rules_engine_rule_cq_id",
-										Description: "Unique CloudQuery ID of azure_front_door_rules_engine_rules table (FK)",
-										Type:        schema.TypeUUID,
-										Resolver:    schema.ParentIdResolver,
-									},
-									{
-										Name:        "action_type",
-										Description: "Which type of manipulation to apply to the header",
-										Type:        schema.TypeString,
-										Resolver:    schema.PathResolver("HeaderActionType"),
-									},
-									{
-										Name:        "name",
-										Description: "The name of the header the action will apply to",
-										Type:        schema.TypeString,
-										Resolver:    schema.PathResolver("HeaderName"),
-									},
-									{
-										Name:        "value",
-										Description: "The value to update the given header name with",
-										Type:        schema.TypeString,
-									},
-								},
-							},
-							{
-								Name:        "azure_front_door_rules_engine_rule_response_header_actions",
-								Description: "A list of header actions to apply from the response from AFD to the client.",
-								Resolver:    fetchFrontDoorFrontDoorRulesEngineRuleResponseHeaderActions,
-								Columns: []schema.Column{
-									{
-										Name:        "front_door_rules_engine_rule_cq_id",
-										Description: "Unique CloudQuery ID of azure_front_door_rules_engine_rules table (FK)",
-										Type:        schema.TypeUUID,
-										Resolver:    schema.ParentIdResolver,
-									},
-									{
-										Name:        "action_type",
-										Description: "Which type of manipulation to apply to the header",
-										Type:        schema.TypeString,
-										Resolver:    schema.PathResolver("HeaderActionType"),
-									},
-									{
-										Name:        "name",
-										Description: "The name of the header the action will apply to",
-										Type:        schema.TypeString,
-										Resolver:    schema.PathResolver("HeaderName"),
-									},
-									{
-										Name:        "value",
-										Description: "The value to update the given header name with",
-										Type:        schema.TypeString,
-									},
-								},
-							},
 							{
 								Name:        "azure_front_door_rules_engine_rule_match_conditions",
 								Description: "A list of match conditions that must meet in order for the actions of the rule to run. Having no match conditions means the actions will always run.",
@@ -300,6 +252,12 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.PathResolver("RoutingRuleProperties.ResourceState"),
 					},
 					{
+						Name:        "frontend_endpoints",
+						Description: "Frontend endpoints associated with the rule",
+						Type:        schema.TypeStringArray,
+						Resolver:    resolveFrontDoorRoutingRulesFrontendEndpoints,
+					},
+					{
 						Name:        "accepted_protocols",
 						Description: "Protocol schemes to match for the rule",
 						Type:        schema.TypeStringArray,
@@ -352,27 +310,6 @@ func FrontDoors() *schema.Table {
 						Description: "Resource ID",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("ID"),
-					},
-				},
-				Relations: []*schema.Table{
-					{
-						Name:        "azure_front_door_routing_rule_frontend_endpoints",
-						Description: "Frontend endpoints associated with the rule.",
-						Resolver:    fetchFrontdoorFrontDoorRoutingRuleFrontendEndpoints,
-						Columns: []schema.Column{
-							{
-								Name:        "front_door_routing_rule_cq_id",
-								Description: "Unique CloudQuery ID of azure_front_door_routing_rules table (FK)",
-								Type:        schema.TypeUUID,
-								Resolver:    schema.ParentIdResolver,
-							},
-							{
-								Name:        "id",
-								Description: "Resource ID",
-								Type:        schema.TypeString,
-								Resolver:    schema.PathResolver("ID"),
-							},
-						},
 					},
 				},
 			},
@@ -778,6 +715,31 @@ func fetchFrontDoorFrontDoorRulesEngineRules(ctx context.Context, meta schema.Cl
 	}
 	return nil
 }
+func resolveFrontDoorRulesEngineRulesRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	rule := resource.Item.(frontdoor.RulesEngineRule)
+	if rule.Action == nil || rule.Action.RequestHeaderActions == nil {
+		return nil
+	}
+
+	data, err := marshalHeaderActions(*rule.Action.RequestHeaderActions)
+	if err != nil {
+		return err
+	}
+	return diag.WrapError(resource.Set("request_header_actions", data))
+}
+func resolveFrontDoorRulesEngineRulesResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	rule := resource.Item.(frontdoor.RulesEngineRule)
+	if rule.Action == nil || rule.Action.ResponseHeaderActions == nil {
+		return nil
+	}
+
+	data, err := marshalHeaderActions(*rule.Action.ResponseHeaderActions)
+	if err != nil {
+		return err
+	}
+
+	return diag.WrapError(resource.Set("response_header_actions", data))
+}
 func resolveFrontDoorRulesEngineRulesRouteConfigurationOverride(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	rule := resource.Item.(frontdoor.RulesEngineRule)
 	if rule.Action == nil || rule.Action.RouteConfigurationOverride == nil {
@@ -790,20 +752,6 @@ func resolveFrontDoorRulesEngineRulesRouteConfigurationOverride(ctx context.Cont
 	}
 
 	return diag.WrapError(resource.Set("route_configuration_override", data))
-}
-func fetchFrontDoorFrontDoorRulesEngineRuleRequestHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	rule := parent.Item.(frontdoor.RulesEngineRule)
-	if rule.Action != nil && rule.Action.RequestHeaderActions != nil {
-		res <- *rule.Action.RequestHeaderActions
-	}
-	return nil
-}
-func fetchFrontDoorFrontDoorRulesEngineRuleResponseHeaderActions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	rule := parent.Item.(frontdoor.RulesEngineRule)
-	if rule.Action != nil && rule.Action.ResponseHeaderActions != nil {
-		res <- *rule.Action.ResponseHeaderActions
-	}
-	return nil
 }
 func fetchFrontDoorFrontDoorRulesEngineRuleMatchConditions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	rule := parent.Item.(frontdoor.RulesEngineRule)
@@ -819,6 +767,19 @@ func fetchFrontdoorFrontDoorRoutingRules(ctx context.Context, meta schema.Client
 	}
 	return nil
 }
+func resolveFrontDoorRoutingRulesFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	rule := resource.Item.(frontdoor.RoutingRule)
+	if rule.FrontendEndpoints == nil {
+		return nil
+	}
+	var endpoints []string
+	for _, ep := range *rule.FrontendEndpoints {
+		if ep.ID != nil {
+			endpoints = append(endpoints, *ep.ID)
+		}
+	}
+	return diag.WrapError(resource.Set("frontend_endpoints", endpoints))
+}
 func resolveFrontDoorRoutingRulesRouteConfiguration(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
 	rule := resource.Item.(frontdoor.RoutingRule)
 	if rule.RouteConfiguration == nil {
@@ -831,13 +792,6 @@ func resolveFrontDoorRoutingRulesRouteConfiguration(ctx context.Context, meta sc
 	}
 
 	return diag.WrapError(resource.Set("route_configuration", data))
-}
-func fetchFrontdoorFrontDoorRoutingRuleFrontendEndpoints(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	rule := parent.Item.(frontdoor.RoutingRule)
-	if rule.FrontendEndpoints != nil {
-		res <- *rule.FrontendEndpoints
-	}
-	return nil
 }
 func fetchFrontdoorFrontDoorLoadBalancingSettings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	frontDoor := parent.Item.(frontdoor.FrontDoor)
@@ -879,6 +833,30 @@ func fetchFrontdoorFrontDoorFrontendEndpoints(ctx context.Context, meta schema.C
 //                                                  User Defined Helpers
 // ====================================================================================================================
 
+func marshalHeaderActions(actions []frontdoor.HeaderAction) (data []byte, err error) {
+	type headerActionJSON struct {
+		ActionType frontdoor.HeaderActionType `json:"action_type"`
+		HeaderName *string                    `json:"header_name,omitempty"`
+		Value      *string                    `json:"value,omitempty"`
+	}
+
+	raw := make([]json.RawMessage, 0, len(actions))
+	for _, action := range actions {
+		actionJSON := headerActionJSON{
+			ActionType: action.HeaderActionType,
+			HeaderName: action.HeaderName,
+			Value:      action.Value,
+		}
+		data, err = json.Marshal(actionJSON)
+		if err != nil {
+			return nil, diag.WrapError(err)
+		}
+		raw = append(raw, data)
+	}
+
+	data, err = json.Marshal(raw)
+	return data, diag.WrapError(err)
+}
 func marshalRouteConfiguration(config frontdoor.BasicRouteConfiguration) (data []byte, err error) {
 	dataMessage := map[string]json.RawMessage{}
 	if route, ok := config.AsRouteConfiguration(); ok && route != nil {
