@@ -209,6 +209,11 @@ resource "azure" "" "front_doors" {
     rename      = "routing_rules"
     description = "Routing rules represent specifications for traffic to treat and where to send it, along with health probe information."
 
+    ignore_columns_in_tests = [
+      "routing_rule_properties_rules_engine_id",
+      "routing_rule_properties_web_application_firewall_policy_link_id",
+    ]
+
     column "routing_rule_properties_resource_state" {
       rename      = "resource_state"
       description = "Resource status"
@@ -387,6 +392,13 @@ resource "azure" "" "front_doors" {
       rename      = "backends"
       description = "The set of backends for the backend pool"
 
+      ignore_columns_in_tests = [
+        "private_link_alias",
+        "private_link_resource_id",
+        "private_link_location",
+        "private_link_approval_message",
+      ]
+
       column "address" {
         description = "Location of the backend (IP address or FQDN)"
       }
@@ -441,6 +453,14 @@ resource "azure" "" "front_doors" {
   relation "azure" "frontdoor" "properties_frontend_endpoints" {
     rename      = "frontend_endpoints"
     description = "Frontend endpoints available to routing rules"
+
+    ignore_columns_in_tests = [
+      "frontend_endpoint_properties_custom_https_configuration_protocol_type",
+      "frontend_endpoint_properties_id",
+      "frontend_endpoint_properties_custom_https_configuration_vault_id",
+      "frontend_endpoint_properties_custom_https_configuration_secret_name",
+      "frontend_endpoint_properties_custom_https_configuration_secret_version",
+    ]
 
     column "frontend_endpoint_properties_resource_state" {
       rename      = "resource_state"
