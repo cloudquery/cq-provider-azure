@@ -53,6 +53,7 @@ resource "azure" "servicebus" "namespaces" {
   }
 
   relation "azure" "servicebus" "private_endpoint_connections" {
+    description = "List of private endpoint connections"
     column "private_endpoint_connection_properties" {
       skip_prefix = true
     }
@@ -71,8 +72,8 @@ resource "azure" "servicebus" "namespaces" {
   }
 
   user_relation "azure" "servicebus" "topics" {
-    path = "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus.SBTopic"
-
+    path        = "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus.SBTopic"
+    description = "Description of servicebus namespace topic resource"
     column "s_b_topic_properties" {
       skip_prefix = true
     }
@@ -80,7 +81,8 @@ resource "azure" "servicebus" "namespaces" {
       type = "json"
     }
     user_relation "azure" "servicebus" "authorization_rules" {
-      path = "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus.SBAuthorizationRule"
+      path        = "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus.SBAuthorizationRule"
+      description = "Description of servicebus namespace topic authorization rules"
 
       column "s_b_authorization_rule_properties" {
         skip_prefix = true

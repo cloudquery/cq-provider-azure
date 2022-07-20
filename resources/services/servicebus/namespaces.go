@@ -173,7 +173,7 @@ func Namespaces() *schema.Table {
 		Relations: []*schema.Table{
 			{
 				Name:          "azure_servicebus_namespace_private_endpoint_connections",
-				Description:   "PrivateEndpointConnection properties of the PrivateEndpointConnection",
+				Description:   "List of private endpoint connections",
 				Resolver:      fetchServicebusNamespacePrivateEndpointConnections,
 				IgnoreInTests: true,
 				Columns: []schema.Column{
@@ -232,7 +232,7 @@ func Namespaces() *schema.Table {
 			},
 			{
 				Name:        "azure_servicebus_namespace_topics",
-				Description: "SBTopic description of topic resource",
+				Description: "Description of servicebus namespace topic resource",
 				Resolver:    fetchServicebusNamespaceTopics,
 				Columns: []schema.Column{
 					{
@@ -390,7 +390,7 @@ func Namespaces() *schema.Table {
 				Relations: []*schema.Table{
 					{
 						Name:        "azure_servicebus_namespace_topic_authorization_rules",
-						Description: "SBAuthorizationRule description of a namespace authorization rule",
+						Description: "Description of servicebus namespace topic authorization rules",
 						Resolver:    fetchServicebusNamespaceTopicAuthorizationRules,
 						Columns: []schema.Column{
 							{
