@@ -5,7 +5,7 @@ Front Door represents a collection of backend endpoints to route traffic to alon
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
 |subscription_id|text|Azure subscription ID|
-|resource_state|text|Resource status of the Front Door|
+|resource_state|text|Resource state of the Front Door|
 |provisioning_state|text|Provisioning state of the Front Door|
 |cname|text|The host that each frontend endpoint must CNAME to|
 |frontdoor_id|text|The ID of the Front Door|

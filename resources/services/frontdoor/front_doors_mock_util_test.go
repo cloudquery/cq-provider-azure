@@ -1,33 +1,52 @@
 package frontdoor
 
 import (
-	"math/rand"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-11-01/frontdoor"
 	"github.com/cloudquery/faker/v3"
 )
 
-func fakeBasicRouteConfiguration(t *testing.T) frontdoor.BasicRouteConfiguration {
-	switch rand.Int() % 3 {
-	case 1:
-		var config frontdoor.ForwardingConfiguration
-		if err := faker.FakeData(&config); err != nil {
-			t.Fatal(err)
-		}
-		return config
-	case 2:
-		var config frontdoor.RedirectConfiguration
-		if err := faker.FakeData(&config); err != nil {
-			t.Fatal(err)
-		}
-		return config
+type basicRouteConfigurationOption int
+
+const (
+	basicRoute basicRouteConfigurationOption = iota
+	basicForwarding
+	basicRedirect
+)
+
+func fakeRouteConfiguration(t *testing.T) frontdoor.RouteConfiguration {
+	var route frontdoor.RouteConfiguration
+	if err := faker.FakeData(&route); err != nil {
+		t.Fatal(err)
+	}
+	return route
+}
+
+func fakeForwardingConfiguration(t *testing.T) frontdoor.ForwardingConfiguration {
+	var forward frontdoor.ForwardingConfiguration
+	if err := faker.FakeData(&forward); err != nil {
+		t.Fatal(err)
+	}
+	return forward
+}
+
+func fakeRedirectConfiguration(t *testing.T) frontdoor.RedirectConfiguration {
+	var redirect frontdoor.RedirectConfiguration
+	if err := faker.FakeData(&redirect); err != nil {
+		t.Fatal(err)
+	}
+	return redirect
+}
+
+func fakeBasicRouteConfiguration(t *testing.T, option basicRouteConfigurationOption) frontdoor.BasicRouteConfiguration {
+	switch option {
+	case basicForwarding:
+		return fakeForwardingConfiguration(t)
+	case basicRedirect:
+		return fakeRedirectConfiguration(t)
 	default:
-		var config frontdoor.RouteConfiguration
-		if err := faker.FakeData(&config); err != nil {
-			t.Fatal(err)
-		}
-		return config
+		return fakeRouteConfiguration(t)
 	}
 }
 
@@ -55,7 +74,7 @@ func fakeRulesEngineMatchCondition(t *testing.T) frontdoor.RulesEngineMatchCondi
 	return condition
 }
 
-func fakeRulesEngineRule(t *testing.T) frontdoor.RulesEngineRule {
+func fakeRulesEngineRule(t *testing.T, option basicRouteConfigurationOption) frontdoor.RulesEngineRule {
 	var rule frontdoor.RulesEngineRule
 	if err := faker.FakeDataSkipFields(&rule,
 		[]string{"Action", "MatchConditions", "MatchProcessingBehavior"}); err != nil {
@@ -72,7 +91,7 @@ func fakeRulesEngineRule(t *testing.T) frontdoor.RulesEngineRule {
 			fakeHeaderAction(t),
 			fakeHeaderAction(t),
 		},
-		RouteConfigurationOverride: fakeBasicRouteConfiguration(t),
+		RouteConfigurationOverride: fakeBasicRouteConfiguration(t, option),
 	}
 	rule.MatchConditions = &[]frontdoor.RulesEngineMatchCondition{
 		fakeRulesEngineMatchCondition(t),
@@ -92,15 +111,15 @@ func fakeRulesEngine(t *testing.T) frontdoor.RulesEngine {
 	engine.RulesEngineProperties = &frontdoor.RulesEngineProperties{
 		ResourceState: frontdoor.ResourceStateEnabled,
 		Rules: &[]frontdoor.RulesEngineRule{
-			fakeRulesEngineRule(t),
-			fakeRulesEngineRule(t),
-			fakeRulesEngineRule(t),
+			fakeRulesEngineRule(t, basicRoute),
+			fakeRulesEngineRule(t, basicRedirect),
+			fakeRulesEngineRule(t, basicForwarding),
 		},
 	}
 	return engine
 }
 
-func fakeRoutingRule(t *testing.T) frontdoor.RoutingRule {
+func fakeRoutingRule(t *testing.T, option basicRouteConfigurationOption) frontdoor.RoutingRule {
 	var rule frontdoor.RoutingRule
 	if err := faker.FakeDataSkipFields(&rule, []string{"RoutingRuleProperties"}); err != nil {
 		t.Fatal(err)
@@ -120,7 +139,7 @@ func fakeRoutingRule(t *testing.T) frontdoor.RoutingRule {
 	properties.ResourceState = frontdoor.ResourceStateEnabling
 	properties.AcceptedProtocols = &[]frontdoor.Protocol{frontdoor.ProtocolHTTPS}
 	properties.EnabledState = frontdoor.RoutingRuleEnabledStateEnabled
-	properties.RouteConfiguration = fakeBasicRouteConfiguration(t)
+	properties.RouteConfiguration = fakeBasicRouteConfiguration(t, option)
 
 	rule.RoutingRuleProperties = &properties
 	return rule
@@ -253,9 +272,9 @@ func fakeFrontDoor(t *testing.T) frontdoor.FrontDoor {
 		fakeRulesEngine(t),
 	}
 	properties.RoutingRules = &[]frontdoor.RoutingRule{
-		fakeRoutingRule(t),
-		fakeRoutingRule(t),
-		fakeRoutingRule(t),
+		fakeRoutingRule(t, basicRoute),
+		fakeRoutingRule(t, basicRedirect),
+		fakeRoutingRule(t, basicForwarding),
 	}
 	properties.LoadBalancingSettings = &[]frontdoor.LoadBalancingSettingsModel{
 		fakeLoadBalancingSettingsModel(t),

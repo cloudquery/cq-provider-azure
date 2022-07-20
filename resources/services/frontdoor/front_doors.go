@@ -28,7 +28,7 @@ func FrontDoors() *schema.Table {
 			},
 			{
 				Name:        "resource_state",
-				Description: "Resource status of the Front Door",
+				Description: "Resource state of the Front Door",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("Properties.ResourceState"),
 			},
@@ -116,7 +116,7 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "resource_state",
-						Description: "Resource status",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RulesEngineProperties.ResourceState"),
 					},
@@ -295,7 +295,7 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "resource_state",
-						Description: "Resource status",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("RoutingRuleProperties.ResourceState"),
 					},
@@ -389,7 +389,7 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "resource_state",
-						Description: "Resource status",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("LoadBalancingSettingsProperties.ResourceState"),
 					},
@@ -442,7 +442,7 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "resource_state",
-						Description: "Resource status",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.ResourceState"),
 					},
@@ -453,8 +453,8 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.Path"),
 					},
 					{
-						Name:        "health_probe_settings_properties_protocol",
-						Description: "Protocol - Protocol scheme to use for this probe",
+						Name:        "protocol",
+						Description: "Protocol scheme to use for the health probe",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("HealthProbeSettingsProperties.Protocol"),
 					},
@@ -506,8 +506,8 @@ func FrontDoors() *schema.Table {
 						Resolver:    schema.ParentIdResolver,
 					},
 					{
-						Name:        "backend_pool_properties_resource_state",
-						Description: "Resource status",
+						Name:        "resource_state",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("BackendPoolProperties.ResourceState"),
 					},
@@ -637,7 +637,7 @@ func FrontDoors() *schema.Table {
 					},
 					{
 						Name:        "resource_state",
-						Description: "Resource status",
+						Description: "Resource state",
 						Type:        schema.TypeString,
 						Resolver:    schema.PathResolver("FrontendEndpointProperties.ResourceState"),
 					},
