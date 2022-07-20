@@ -51,7 +51,7 @@ resource "azure" "" "front_doors" {
 
   column "properties_resource_state" {
     rename      = "resource_state"
-    description = "Resource status of the Front Door"
+    description = "Resource state of the Front Door"
   }
 
   column "properties_provisioning_state" {
@@ -96,7 +96,7 @@ resource "azure" "" "front_doors" {
 
     column "rules_engine_properties_resource_state" {
       rename      = "resource_state"
-      description = "Resource status"
+      description = "Resource state"
     }
 
     column "id" {
@@ -216,7 +216,7 @@ resource "azure" "" "front_doors" {
 
     column "routing_rule_properties_resource_state" {
       rename      = "resource_state"
-      description = "Resource status"
+      description = "Resource state"
     }
 
     column "routing_rule_properties_accepted_protocols" {
@@ -279,7 +279,7 @@ resource "azure" "" "front_doors" {
 
     column "load_balancing_settings_properties_resource_state" {
       rename      = "resource_state"
-      description = "Resource status"
+      description = "Resource state"
     }
 
     column "load_balancing_settings_properties_sample_size" {
@@ -316,7 +316,7 @@ resource "azure" "" "front_doors" {
 
     column "health_probe_settings_properties_resource_state" {
       rename      = "resource_state"
-      description = "Resource status"
+      description = "Resource state"
     }
 
     column "health_probe_settings_properties_path" {
@@ -324,7 +324,7 @@ resource "azure" "" "front_doors" {
       description = "The path to use for the health probe"
     }
 
-    column "protocol" {
+    column "health_probe_settings_properties_protocol" {
       rename      = "protocol"
       description = "Protocol scheme to use for the health probe"
     }
@@ -362,8 +362,8 @@ resource "azure" "" "front_doors" {
     description = "Backend pools available to routing rules"
 
     column "backend_pool_properties_resource_state" {
-      rename      = "backend_pool_properties_resource_state"
-      description = "Resource status"
+      rename      = "resource_state"
+      description = "Resource state"
     }
 
     column "backend_pool_properties_load_balancing_settings_id" {
@@ -464,7 +464,7 @@ resource "azure" "" "front_doors" {
 
     column "frontend_endpoint_properties_resource_state" {
       rename      = "resource_state"
-      description = "Resource status"
+      description = "Resource state"
     }
 
     column "frontend_endpoint_properties_custom_https_provisioning_state" {
