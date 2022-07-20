@@ -14,6 +14,13 @@ resource "azure" "" "front_doors" {
     }
   }
 
+  options {
+    primary_keys = [
+      "subscription_id",
+      "id"
+    ]
+  }
+
   multiplex "AzureSubscription" {
     path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
   }
