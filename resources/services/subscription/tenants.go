@@ -18,16 +18,57 @@ func Tenants() *schema.Table {
 		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"id"}},
 		Columns: []schema.Column{
 			{
+				Name:        "country",
+				Description: "Country/region name of the address for the tenant",
+				Type:        schema.TypeString,
+			},
+			{
+				Name:        "country_code",
+				Description: "Country/region abbreviation for the tenant",
+				Type:        schema.TypeString,
+			},
+			{
+				Name:        "default_domain",
+				Description: "The default domain for the tenant",
+				Type:        schema.TypeString,
+			},
+			{
+				Name:        "display_name",
+				Description: "The display name of the tenant",
+				Type:        schema.TypeString,
+			},
+			{
+				Name:        "domains",
+				Description: "The list of domains for the tenant",
+				Type:        schema.TypeStringArray,
+			},
+			{
 				Name:        "id",
 				Description: "The fully qualified ID of the tenant",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("ID"),
 			},
 			{
+				Name:        "tenant_branding_logo_url",
+				Description: "The tenant's branding logo URL",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("TenantBrandingLogoURL"),
+			},
+			{
+				Name:        "tenant_category",
+				Description: "Category of the tenant",
+				Type:        schema.TypeString,
+			},
+			{
 				Name:        "tenant_id",
 				Description: "The tenant ID",
 				Type:        schema.TypeString,
 				Resolver:    schema.PathResolver("TenantID"),
+			},
+			{
+				Name:        "tenant_type",
+				Description: "The tenant type",
+				Type:        schema.TypeString,
 			},
 		},
 	}
@@ -39,15 +80,14 @@ func Tenants() *schema.Table {
 
 func fetchSubscriptionTenants(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	svc := meta.(*client.Client).Services().Subscriptions
-	m, err := svc.Tenants.ListComplete(ctx)
-	if err != nil {
-		return diag.WrapError(err)
-	}
-	for m.NotDone() {
-		res <- m.Value()
-		err = m.NextWithContext(ctx)
+	pager := svc.Tenants.NewListPager(nil)
+	for pager.More() {
+		nextResult, err := pager.NextPage(ctx)
 		if err != nil {
 			return diag.WrapError(err)
+		}
+		for _, v := range nextResult.Value {
+			res <- v
 		}
 	}
 	return nil

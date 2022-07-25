@@ -10,6 +10,7 @@ description_modifier "remove_field_name" {
   regex = ".+- "
 }
 
+// /zz_generated_models.go
 resource "azure" "subscription" "subscriptions" {
   path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.Model"
   description = "Azure subscription information"
@@ -52,7 +53,7 @@ resource "azure" "subscription" "subscriptions" {
 }
 
 resource "azure" "subscription" "tenants" {
-  path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.TenantIDDescription"
+  path = "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions.TenantIDDescription"
   description = "Azure tenant information"
 
   options {
