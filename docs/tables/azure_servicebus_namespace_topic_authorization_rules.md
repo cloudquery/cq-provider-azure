@@ -1,6 +1,6 @@
 
 # Table: azure_servicebus_namespace_topic_authorization_rules
-SBAuthorizationRule description of a namespace authorization rule
+Description of servicebus namespace topic authorization rules
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

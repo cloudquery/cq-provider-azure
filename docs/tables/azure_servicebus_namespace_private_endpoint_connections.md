@@ -1,6 +1,6 @@
 
 # Table: azure_servicebus_namespace_private_endpoint_connections
-PrivateEndpointConnection properties of the PrivateEndpointConnection
+List of private endpoint connections
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |

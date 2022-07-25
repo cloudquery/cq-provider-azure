@@ -1,6 +1,6 @@
 
 # Table: azure_servicebus_namespace_topics
-SBTopic description of topic resource
+Description of servicebus namespace topic resource
 ## Columns
 | Name        | Type           | Description  |
 | ------------- | ------------- | -----  |
