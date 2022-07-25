@@ -15,6 +15,7 @@ type Services struct {
 	CosmosDb          CosmosDbClient
 	DataLake          DataLakeClient
 	EventHub          EventHubClient
+	FrontDoor         FrontDoorClient
 	IotHub            IotHubClient
 	KeyVault          KeyVaultClient
 	Logic             LogicClient
@@ -56,6 +57,7 @@ func InitServices(subscriptionId string, auth autorest.Authorizer, azCred azcore
 		CosmosDb:          NewCosmosDbClient(subscriptionId, auth),
 		DataLake:          NewDataLakeClient(subscriptionId, auth),
 		EventHub:          NewEventHubClient(subscriptionId, auth),
+		FrontDoor:         NewFrontDoorClient(subscriptionId, auth),
 		IotHub:            NewIotHubClient(subscriptionId, auth),
 		Logic:             NewLogicClient(subscriptionId, auth),
 		KeyVault:          keyVault,

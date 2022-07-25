@@ -2,9 +2,10 @@
 
 Some information can be found in the [docs for developing a new provider](https://docs.cloudquery.io/developers/developing-new-provider).
 
-As a prerequisite, in [google.golang.org/api](https://pkg.go.dev/go-autorest/autorest) ensure API calls exist to list/describe the desired resource, and make note of:
+As a prerequisite, ensure that API calls to list/describe the desired resource are present in
+[github.com/Azure/go-autorest/autorest](https://pkg.go.dev/github.com/Azure/go-autorest/autorest), and make note of:
 
-   - to which service the resource belongs
+   - to which Azure service the resource belongs
    - the schema of the returned object(s)
 
 ## Setting up the service
@@ -15,7 +16,7 @@ If the service to which the resource belongs has not been used before in cq-prov
 2. Add the new service interface name to the go:generate comment in [client/services/services.go](../../client/services/services.go).
 3. Add the service to the `Services` struct in [client/services/services.go](../../client/services/services.go)
 4. Init the service in the `InitServices` function in [client/services/services.go](../../client/services/services.go)
-5. Run `make generate` to create a mock for your new service. This will update [client/services/mocks](../../client/services/mocks) automatically.
+5. Run `make generate-mocks` to create a mock for your new service. This will update [client/services/mocks](../../client/services/mocks) automatically.
 
 ## Setting up the resource
 
@@ -44,7 +45,7 @@ For complex fields or fields that require further API calls, you can defined you
 
 #### Implementing Resolver Functions
 
-A few important things to note when adding functions that call the AWS API:
+A few important things to note when adding functions that call the Azure API:
 
 - If possible, always use an API call that allows you to fetch many resources at once
 - Take pagination into account. Ensure you fetch **all** of the resources
