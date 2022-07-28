@@ -8,6 +8,8 @@ import (
 	context "context"
 	reflect "reflect"
 
+	runtime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	armsubscriptions "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions"
 	subscription "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription"
 	gomock "github.com/golang/mock/gomock"
 )
@@ -88,17 +90,16 @@ func (m *MockTenantsClient) EXPECT() *MockTenantsClientMockRecorder {
 	return m.recorder
 }
 
-// ListComplete mocks base method.
-func (m *MockTenantsClient) ListComplete(arg0 context.Context) (subscription.TenantListResultIterator, error) {
+// NewListPager mocks base method.
+func (m *MockTenantsClient) NewListPager(arg0 *armsubscriptions.TenantsClientListOptions) *runtime.Pager[armsubscriptions.TenantsClientListResponse] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListComplete", arg0)
-	ret0, _ := ret[0].(subscription.TenantListResultIterator)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "NewListPager", arg0)
+	ret0, _ := ret[0].(*runtime.Pager[armsubscriptions.TenantsClientListResponse])
+	return ret0
 }
 
-// ListComplete indicates an expected call of ListComplete.
-func (mr *MockTenantsClientMockRecorder) ListComplete(arg0 interface{}) *gomock.Call {
+// NewListPager indicates an expected call of NewListPager.
+func (mr *MockTenantsClientMockRecorder) NewListPager(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListComplete", reflect.TypeOf((*MockTenantsClient)(nil).ListComplete), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewListPager", reflect.TypeOf((*MockTenantsClient)(nil).NewListPager), arg0)
 }

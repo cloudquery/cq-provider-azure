@@ -2,9 +2,10 @@ package subscription
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
@@ -20,21 +21,25 @@ func buildTenantsMock(t *testing.T, ctrl *gomock.Controller) services.Services {
 		t.Fatal(err)
 	}
 
-	var model subscription.TenantIDDescription
+	var model armsubscriptions.TenantIDDescription
 	if err := faker.FakeData(&model); err != nil {
 		t.Fatal(err)
 	}
-	m.EXPECT().ListComplete(gomock.Any()).Return(
-		subscription.NewTenantListResultIterator(
-			subscription.NewTenantListResultPage(subscription.TenantListResult{Value: &[]subscription.TenantIDDescription{
-				model,
-			}},
-				func(c context.Context, lr subscription.TenantListResult) (subscription.TenantListResult, error) {
-					return subscription.TenantListResult{}, nil
+	pager := runtime.NewPager[armsubscriptions.TenantsClientListResponse](runtime.PagingHandler[armsubscriptions.TenantsClientListResponse]{
+		More: func(page armsubscriptions.TenantsClientListResponse) bool {
+			return page.NextLink != nil && len(*page.NextLink) > 0
+		},
+		Fetcher: func(ctx context.Context, page *armsubscriptions.TenantsClientListResponse) (armsubscriptions.TenantsClientListResponse, error) {
+			return armsubscriptions.TenantsClientListResponse{
+				TenantListResult: armsubscriptions.TenantListResult{
+					NextLink: nil,
+					Value:    []*armsubscriptions.TenantIDDescription{&model},
 				},
-			),
-		),
-		nil,
+			}, nil
+		},
+	})
+	m.EXPECT().NewListPager(gomock.Any()).Return(
+		pager,
 	)
 
 	return services.Services{

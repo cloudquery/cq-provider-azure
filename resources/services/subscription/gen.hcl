@@ -12,7 +12,7 @@ description_modifier "remove_field_name" {
 
 // /zz_generated_models.go
 resource "azure" "subscription" "subscriptions" {
-  path = "github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription.Model"
+  path = "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions.Subscription"
   description = "Azure subscription information"
 
   userDefinedColumn "subscription_id" {
@@ -68,6 +68,6 @@ resource "azure" "subscription" "tenants" {
   }
 
   multiplex "SingleSubscription" {
-    path = "github.com/cloudquery/cq-provider-azure/client.SingleSubscriptionMultiplex"
+    path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
   }
 }

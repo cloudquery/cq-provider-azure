@@ -25,19 +25,8 @@ func Subscriptions() *schema.Table {
 				Resolver:    client.ResolveAzureSubscription,
 			},
 			{
-				Name:        "id",
-				Description: "The fully qualified ID for the subscription",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("ID"),
-			},
-			{
-				Name:        "display_name",
-				Description: "The subscription display name",
-				Type:        schema.TypeString,
-			},
-			{
-				Name:        "state",
-				Description: "The subscription state",
+				Name:        "authorization_source",
+				Description: "The authorization source of the request",
 				Type:        schema.TypeString,
 			},
 			{
@@ -59,9 +48,52 @@ func Subscriptions() *schema.Table {
 				Resolver:    schema.PathResolver("SubscriptionPolicies.SpendingLimit"),
 			},
 			{
-				Name:        "authorization_source",
-				Description: "The authorization source of the request",
+				Name:        "tags",
+				Description: "The tags attached to the subscription",
+				Type:        schema.TypeJSON,
+			},
+			{
+				Name:        "display_name",
+				Description: "The subscription display name",
 				Type:        schema.TypeString,
+			},
+			{
+				Name:        "id",
+				Description: "The fully qualified ID for the subscription",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("ID"),
+			},
+			{
+				Name:        "state",
+				Description: "The subscription state",
+				Type:        schema.TypeString,
+			},
+			{
+				Name:        "tenant_id",
+				Description: "The subscription tenant ID",
+				Type:        schema.TypeString,
+				Resolver:    schema.PathResolver("TenantID"),
+			},
+		},
+		Relations: []*schema.Table{
+			{
+				Name:        "azure_subscription_subscription_managed_by_tenants",
+				Description: "Information about a tenant managing the subscription",
+				Resolver:    fetchSubscriptionSubscriptionManagedByTenants,
+				Columns: []schema.Column{
+					{
+						Name:        "subscription_cq_id",
+						Description: "Unique CloudQuery ID of azure_subscription_subscriptions table (FK)",
+						Type:        schema.TypeUUID,
+						Resolver:    schema.ParentIdResolver,
+					},
+					{
+						Name:        "tenant_id",
+						Description: "The tenant ID of the managing tenant",
+						Type:        schema.TypeString,
+						Resolver:    schema.PathResolver("TenantID"),
+					},
+				},
 			},
 		},
 	}
@@ -73,10 +105,18 @@ func Subscriptions() *schema.Table {
 
 func fetchSubscriptionSubscriptions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
 	svc := meta.(*client.Client).Services().Subscriptions
-	m, err := svc.Subscriptions.Get(ctx, svc.SubscriptionID)
-	if err != nil {
-		return diag.WrapError(err)
+	pager := svc.Subscriptions.NewListPager(nil)
+	for pager.More() {
+		nextResult, err := pager.NextPage(ctx)
+		if err != nil {
+			return diag.WrapError(err)
+		}
+		for _, v := range nextResult.Value {
+			res <- v
+		}
 	}
-	res <- m
 	return nil
+}
+func fetchSubscriptionSubscriptionManagedByTenants(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
+	panic("not implemented")
 }

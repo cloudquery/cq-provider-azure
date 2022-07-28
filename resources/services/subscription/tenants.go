@@ -14,7 +14,7 @@ func Tenants() *schema.Table {
 		Name:        "azure_subscription_tenants",
 		Description: "Azure tenant information",
 		Resolver:    fetchSubscriptionTenants,
-		Multiplex:   client.SingleSubscriptionMultiplex,
+		Multiplex:   client.SubscriptionMultiplex,
 		Options:     schema.TableCreationOptions{PrimaryKeys: []string{"id"}},
 		Columns: []schema.Column{
 			{
