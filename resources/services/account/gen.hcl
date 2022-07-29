@@ -34,6 +34,8 @@ resource "azure" "account" "locations" {
     skip_prefix = true
   }
 
+  ignore_columns_in_tests = ["home_location"]
+
   relation "azure" "account" "paired_region" {
     column "subscription_id" {
       skip = true

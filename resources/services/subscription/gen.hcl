@@ -71,6 +71,8 @@ resource "azure" "subscription" "tenants" {
     description = "The fully qualified ID of the tenant"
   }
 
+  ignore_columns_in_tests = ["country","country_code","display_name","tenant_branding_logo_url","default_domain","domains","tenant_type"]
+
   multiplex "SingleSubscription" {
     path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
   }
