@@ -33,10 +33,11 @@ func Locations() *schema.Table {
 				Resolver:    schema.PathResolver("Metadata.GeographyGroup"),
 			},
 			{
-				Name:        "home_location",
-				Description: "The home location of an edge zone",
-				Type:        schema.TypeString,
-				Resolver:    schema.PathResolver("Metadata.HomeLocation"),
+				Name:          "home_location",
+				Description:   "The home location of an edge zone",
+				Type:          schema.TypeString,
+				Resolver:      schema.PathResolver("Metadata.HomeLocation"),
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "latitude",
