@@ -10,7 +10,6 @@ description_modifier "remove_field_name" {
   regex = ".+- "
 }
 
-// /zz_generated_models.go
 resource "azure" "subscription" "subscriptions" {
   path = "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions.Subscription"
   description = "Azure subscription information"
@@ -41,6 +40,11 @@ resource "azure" "subscription" "subscriptions" {
 
   column "subscription_policies_spending_limit" {
     rename = "spending_limit"
+  }
+
+  column "managed_by_tenants" {
+    type = "stringArray"
+    generate_resolver = true
   }
 
   multiplex "AzureSubscription" {

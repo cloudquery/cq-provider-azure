@@ -3,6 +3,7 @@ package subscription
 import (
 	"context"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
@@ -28,6 +29,12 @@ func Subscriptions() *schema.Table {
 				Name:        "authorization_source",
 				Description: "The authorization source of the request",
 				Type:        schema.TypeString,
+			},
+			{
+				Name:        "managed_by_tenants",
+				Description: "An array containing the tenants managing the subscription",
+				Type:        schema.TypeStringArray,
+				Resolver:    resolveSubscriptionsManagedByTenants,
 			},
 			{
 				Name:        "location_placement_id",
@@ -75,27 +82,6 @@ func Subscriptions() *schema.Table {
 				Resolver:    schema.PathResolver("TenantID"),
 			},
 		},
-		Relations: []*schema.Table{
-			{
-				Name:        "azure_subscription_subscription_managed_by_tenants",
-				Description: "Information about a tenant managing the subscription",
-				Resolver:    fetchSubscriptionSubscriptionManagedByTenants,
-				Columns: []schema.Column{
-					{
-						Name:        "subscription_cq_id",
-						Description: "Unique CloudQuery ID of azure_subscription_subscriptions table (FK)",
-						Type:        schema.TypeUUID,
-						Resolver:    schema.ParentIdResolver,
-					},
-					{
-						Name:        "tenant_id",
-						Description: "The tenant ID of the managing tenant",
-						Type:        schema.TypeString,
-						Resolver:    schema.PathResolver("TenantID"),
-					},
-				},
-			},
-		},
 	}
 }
 
@@ -117,6 +103,11 @@ func fetchSubscriptionSubscriptions(ctx context.Context, meta schema.ClientMeta,
 	}
 	return nil
 }
-func fetchSubscriptionSubscriptionManagedByTenants(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	panic("not implemented")
+func resolveSubscriptionsManagedByTenants(ctx context.Context, meta schema.ClientMeta, resource *schema.Resource, c schema.Column) error {
+	item := resource.Item.(*armsubscriptions.Subscription)
+	v := make([]*string, len(item.ManagedByTenants))
+	for i, m := range item.ManagedByTenants {
+		v[i] = m.TenantID
+	}
+	return diag.WrapError(resource.Set(c.Name, v))
 }
