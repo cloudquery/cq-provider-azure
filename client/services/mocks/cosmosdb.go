@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	documentdb "github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2020-04-01-preview/documentdb"
+	documentdb "github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
 	gomock "github.com/golang/mock/gomock"
 )
 

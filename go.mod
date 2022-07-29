@@ -3,7 +3,7 @@ module github.com/cloudquery/cq-provider-azure
 go 1.18
 
 require (
-	github.com/Azure/azure-sdk-for-go v66.0.0+incompaitble
+	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.11.27
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.11
 	github.com/cloudquery/cq-gen v0.0.6

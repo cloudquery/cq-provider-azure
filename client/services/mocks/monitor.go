@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	insights "github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2019-11-01-preview/insights"
+	insights "github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2019-06-01/insights"
 	insights0 "github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-07-01-preview/insights"
 	gomock "github.com/golang/mock/gomock"
 )

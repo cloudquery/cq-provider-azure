@@ -3,7 +3,7 @@ package cosmosdb
 import (
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2020-04-01-preview/documentdb"
+	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
 	"github.com/cloudquery/cq-provider-azure/client"
 	"github.com/cloudquery/cq-provider-azure/client/services"
 	"github.com/cloudquery/cq-provider-azure/client/services/mocks"
@@ -37,7 +37,8 @@ func buildCosmosDBSQLDatabasesMock(t *testing.T, ctrl *gomock.Controller) servic
 
 	resource := documentdb.SQLDatabaseGetPropertiesResource{}
 	err = faker.FakeDataSkipFields(&resource, []string{"Ts"})
-	resource.Ts = float64(1)
+	one := float64(1)
+	resource.Ts = &one
 	if err != nil {
 		t.Errorf("failed building mock %s", err)
 	}
