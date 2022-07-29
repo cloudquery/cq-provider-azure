@@ -47,6 +47,8 @@ resource "azure" "subscription" "subscriptions" {
     generate_resolver = true
   }
 
+  ignore_columns_in_tests = ["tags"]
+
   multiplex "AzureSubscription" {
     path = "github.com/cloudquery/cq-provider-azure/client.SubscriptionMultiplex"
   }

@@ -55,9 +55,10 @@ func Subscriptions() *schema.Table {
 				Resolver:    schema.PathResolver("SubscriptionPolicies.SpendingLimit"),
 			},
 			{
-				Name:        "tags",
-				Description: "The tags attached to the subscription",
-				Type:        schema.TypeJSON,
+				Name:          "tags",
+				Description:   "The tags attached to the subscription",
+				Type:          schema.TypeJSON,
+				IgnoreInTests: true,
 			},
 			{
 				Name:        "display_name",
