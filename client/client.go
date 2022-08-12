@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 	"errors"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/services/subscription/mgmt/2020-09-01/subscription"
 	// Import all autorest modules
@@ -72,6 +72,10 @@ func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, diag
 	logger.Info("Trying to authenticate via CLI (azidentity)")
 	var azCred azcore.TokenCredential
 	azCred, err = azidentity.NewAzureCLICredential(nil)
+	if err == nil {
+		// check token generation
+		_, err = azCred.GetToken(context.Background(), policy.TokenRequestOptions{Scopes: []string{"https://management.core.windows.net//.default"}})
+	}
 	if err != nil {
 		logger.Info("Trying to authenticate via environment variables (azidentity)")
 		azCred, err = azidentity.NewEnvironmentCredential(nil)
