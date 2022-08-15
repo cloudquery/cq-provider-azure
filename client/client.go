@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"errors"
+	"regexp"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -14,6 +15,10 @@ import (
 	"github.com/cloudquery/cq-provider-sdk/provider/diag"
 	"github.com/cloudquery/cq-provider-sdk/provider/schema"
 	"github.com/hashicorp/go-hclog"
+)
+
+var (
+	SubscriptionIdRegex = regexp.MustCompile(`^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$`)
 )
 
 type Client struct {
@@ -111,6 +116,14 @@ func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, diag
 		logger.Info("No subscriptions specified, going to using all available ones", "subscriptions", subscriptions)
 	}
 
+	// validate subscriptions
+	for i, subscriptionId := range client.subscriptions {
+		if !validateSubscriptionId(subscriptionId) {
+			logger.Error("Invalid subscription id", "subscription_id", subscriptionId)
+			client.subscriptions = append(client.subscriptions[:i], client.subscriptions[i+1:]...)
+		}
+	}
+
 	if len(client.subscriptions) == 0 {
 		return nil, diag.FromError(errors.New("could not find any subscription"), diag.USER)
 	}
@@ -125,4 +138,8 @@ func Configure(logger hclog.Logger, config interface{}) (schema.ClientMeta, diag
 
 	// Return the initialized client and it will be passed to your resources
 	return client, nil
+}
+
+func validateSubscriptionId(subscriptionId string) bool {
+	return SubscriptionIdRegex.MatchString(subscriptionId)
 }
